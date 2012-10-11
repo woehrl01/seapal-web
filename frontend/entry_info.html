@@ -1,0 +1,138 @@
+﻿<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Entry Info</title>
+	</head>
+	<body>
+		<form method="post" action="entry_info_submit.php">
+			<table>
+				<tr>
+					<td>
+						<label for="entry_name">Name</label>
+					</td>
+					<td colspan="2">
+						<input type="text" name="entry_name" style="width:100%;" tabindex="1" />
+					</td>
+					<td>
+					</td>
+					<td>
+					</td>
+					<td>
+					</td>
+					<td>
+					</td>
+					<td>
+					</td>
+					<td>
+					</td>
+				</tr>
+				
+				<tr>
+					<td>
+						<label for="north_degree">Position</label>
+					</td>
+					<td>
+						<input type="text" name="north_degree" size="3" tabindex="2" />°
+						<input type="text" name="north_minutes" size="2" tabindex="3" />'
+						<input type="text" name="north_seconds" size="2" tabindex="4" />''N
+					</td>
+					<td colspan="2">
+						<input type="text" name="east_degree" size="3" tabindex="5" />°
+						<input type="text" name="east_minutes" size="2" tabindex="6" />'
+						<input type="text" name="east_seconds" size="2" tabindex="7" />''E
+					</td>
+					<td>
+						<label for="cog">COG</label>
+					</td>
+					<td>
+						<input type="text" name="cog" tabindex="10" />
+					</td>
+					<td>
+						<label for="sog">SOG</label>
+					</td>
+					<td>
+						<input type="text" name="sog" tabindex="18" />
+					</td>
+					<td>
+						<label for="timestamp">um</label>
+					</td>
+					<td>
+						<input type="text" name="timestamp" tabindex="18" />
+					</td>
+				</tr>
+				
+				<tr>
+					<td>
+						<label for="btm">BTM</label>
+					</td>
+					<td>
+						<input type="text" name="btm" tabindex="3" />
+					</td>
+					<td>
+						<label for="dtm">DTM</label>
+					</td>
+					<td>
+						<input type="text" name="dtm" tabindex="11" />
+					</td>
+					<td>
+						
+					</td>
+					<td>
+					</td>
+					<td>
+						<label for="trip_to">Fahrt nach</label>
+					</td>
+					<td colspan="2">
+						<select name="trip_to" size="1" style="width:100%;">
+							<option>Mark 1</option>
+							<option>Mark 2</option>
+							<option>Mark 3</option>
+							<option>Mark 4</option>
+						</select>
+					</td>
+				</tr>
+				
+				<tr>
+					<td>
+						<label for="maneuver">Manöver</label>
+					</td>
+					<td colspan="2">
+						<select name="maneuver" size="1" style="width:100%;">
+							<option>-</option>
+							<option>Track</option>
+							<option>Jibe</option>
+							<option>Lay to</option>
+						</select>
+					</td>
+					<td>
+						<label for="headsail">Vorsegel</label>
+					</td>
+					<td colspan="2">
+						<select name="headsail" size="1" style="width:100%;">
+							<option>-</option>
+							<option>Genua1</option>
+							<option>Genua2</option>
+							<option>Genua3</option>
+						</select>
+					</td>
+					<td>
+						<label for="mainsail">Großsegel</label>
+					</td>
+					<td colspan="2">
+						<select name="mainsail" size="1" style="width:100%;">
+							<option>-</option>
+							<option>full</option>
+							<option>reef 1</option>
+							<option>reef 2</option>
+						</select>
+					</td>
+				</tr>
+			
+			</table>
+			
+			<input type="submit" value="Absenden" />
+		
+		</form>
+
+	</body>
+</html>
