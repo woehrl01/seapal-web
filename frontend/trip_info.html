@@ -1,0 +1,94 @@
+﻿<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Trip Info</title>
+	</head>
+	<body>
+		<form method="post" action="trip_info_submit.php">
+			<table>
+				<tr>
+					<td>
+						<label for="trip_title">Trip Titel</label>
+					</td>
+					<td colspan="4">
+						<input type="text" name="trip_title" tabindex="1" style="width: 100%;" />
+					</td>
+					<td>
+					</td>
+					<td>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="from">Von</label>
+					</td>
+					<td>
+						<input type="text" name="from" tabindex="1" />
+					</td>
+					<td rowspan="3">
+						<label for="crew">Crew</label>
+					</td>
+					<td rowspan="3">
+						<textarea name="crew" cols="20" rows="4" tabindex="9" >
+						</textarea>
+					</td>
+					<td>
+						<label for="start_time">Start</label>
+					</td>
+					<td>
+						<input type="text" name="start_time" tabindex="17" />
+					</td>
+					<td>
+					</td>
+					<td>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="to">Nach</label>
+					</td>
+					<td>
+						<input type="text" name="to" tabindex="1" />
+					</td>
+					<td>
+						<label for="end_time">Ende</label>
+					</td>
+					<td>
+						<input type="text" name="start_time" tabindex="17" />
+					</td>
+					<td>
+						<label for="engine_runtime">Motor(min)</label>
+					</td>
+					<td>
+						<input type="text" name="engine_runtime" tabindex="17" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="skipper">Skipper</label>
+					</td>
+					<td>
+						<input type="text" name="skipper" tabindex="1" />
+					</td>
+					<td>
+						<label for="timespan">Dauer</label>
+					</td>
+					<td>
+						<input type="text" name="timespan" tabindex="17" />
+					</td>
+					<td>
+						<label for="tank_filled">Tank gefüllt</label>
+					</td>
+					<td>
+						<input type="checkbox" name="tank_filled" tabindex="17" />
+					</td>
+				</tr>
+
+			</table>
+			
+			<input type="submit" value="Absenden" />
+		
+		</form>
+
+	</body>
+</html>
