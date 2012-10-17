@@ -24,12 +24,12 @@
 					
 					<li>
 						<label for="start_time">Start</label>
-						<input type="datetime" name="start_time" tabindex="6" />
+						<input type="text" name="start_time" tabindex="6" />
 					</li>
 					
 					<li>
 						<label for="end_time">Ende</label>
-						<input type="datetime" name="end_time" tabindex="7" />
+						<input type="text" name="end_time" tabindex="7" />
 					</li>
 					
 					<li>
@@ -47,7 +47,7 @@
 					</li>
 					<li>
 						<label for="timespan">Dauer</label>
-						<input type="number" name="timespan" tabindex="8" />
+						<input type="text" name="timespan" tabindex="8" />
 					</li>
 					<li>
 						<label for="tank_filled">Tank gefüllt</label>
