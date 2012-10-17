@@ -1,0 +1,23 @@
+@charset "utf8";
+
+fieldset ul {
+	list-style:none;
+}
+
+fieldset ul {
+	-moz-column-count: 3;
+	-moz-column-gap: 20px;
+	-webkit-column-count: 3;
+	-webkit-column-gap: 20px;
+	column-count: 3;
+	column-gap: 20px;
+}
+
+@media (max-width:500px) {
+	fieldset ul {
+		-moz-column-count: 1;
+		-webkit-column-count: 1;
+		column-count: 1;
+	}
+}
+

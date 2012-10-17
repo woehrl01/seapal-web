@@ -2,9 +2,6 @@
 <html>
 	<head>
 		<title>Boat Info</title>
-		
-		<!-- Default stylesheet document -->
-		<link href="css/default.css" rel="stylesheet" type="text/css" media="all" />
 	</head>
 	<body>
 		<form method="post" action="boat_info_submit.php">
