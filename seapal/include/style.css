@@ -3,12 +3,14 @@ body {
 	background:yellow;
 }
 
+/*
 #wrapper {
 	margin:0 auto;
 	text-align:left;
 	width:980px;
 	border:1px solid red;
 }
+
 
 #left {
 	position: fixed;
@@ -18,17 +20,11 @@ body {
 	margin-left:-490px;
 	background: cyan;
 }
+*/
 
 #left h1 a {
 	text-indent: -999999px;
-	//width:200px;
 	height:100px;
 	background:#666;
 	display:block;
 }
-
-section {
-	margin-top: 150px;
-	background: magenta;
-}
-
