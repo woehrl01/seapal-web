@@ -1,6 +1,5 @@
 body {
-	padding-top: 100px;
-    padding-bottom: 40px;
+   font-family:'Droid Serif', serif;
 }
 
 .round {
@@ -8,4 +7,11 @@ body {
 	background:#ccc;
 	padding: 10px;
 	margin-bottom:10px;
+}
+
+h1, h2, h3, h4, h5, h6, ul li  {
+	font-family:'Droid Sans', sans-serif;
+}
+ul li.active, h3  {
+	font-weight:bold;
 }
