@@ -3,7 +3,7 @@ CREATE TABLE person(
 	name VARCHAR(20),
 
 	PRIMARY KEY (id)
-)
+);
 
 CREATE TABLE boat(
 	id INTEGER,
@@ -33,7 +33,7 @@ CREATE TABLE boat(
 	spi_size float,
 	
 	PRIMARY KEY (id)
-)
+);
 
 CREATE TABLE trip(
 	id INTEGER,
@@ -48,27 +48,27 @@ CREATE TABLE trip(
 	tank_filled integer,
 	
 	PRIMARY KEY (id)
-)
+);
 
-CREATE TABLE crew_on_trip{
+CREATE TABLE crew_on_trip(
 	person_id INTEGER,
 	trip_id INTEGER,
 	 
 	FOREIGN KEY (person_id) references  person(id),
 	FOREIGN KEY (trip_id) references  trip(id)
-}
+);
 
-CREATE TABLE maneuver{
+CREATE TABLE maneuver(
 	id INTEGER,
 	name INTEGER,
 
 	PRIMARY KEY (id)
-}
+);
 
 CREATE TABLE waypoint(
 	id INTEGER,
-	longitude float(10,6)
-	latitude float(10,6)
+	longitude float(10,6),
+	latitude float(10,6),
 	trip_id INTEGER,
 	cog VARCHAR(3),
 	sog VARCHAR(3),
@@ -83,4 +83,4 @@ CREATE TABLE waypoint(
 	PRIMARY KEY (id),
 	FOREIGN KEY (trip_id) references trip(id),
 	FOREIGN KEY (maneuver_id) references maneuver(id)
-)
+);
