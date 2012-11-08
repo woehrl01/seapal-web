@@ -5,7 +5,7 @@
 				<ul>
 					<li><a href="#">Kontakt</a></li>
 					<li><a href="#">Impressum</a></li>
-					<li><a href="#">AGB/<a></li>
+					<li><a href="#">AGB</a></li>
 				</ul>
 			</div>
 			<div class="span6">

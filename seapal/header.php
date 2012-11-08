@@ -10,7 +10,7 @@
 			<a class="brand" href="#">SEAPAL</a>
 			<div class="nav-collapse collapse">
 				<ul class="nav">
-					<li class="active"><a href="#">Homepage</a></li>
+					<li class="active"><a href="index.php">Homepage</a></li>
 					<li><a href="user_guide.php">User Guide</a></li>
 					<li><a href="screenshots.php">Screenshots</a></li>
 					<li><a href="about.php">About</a></li>
