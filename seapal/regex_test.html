@@ -1,0 +1,17 @@
+<input id="bla" value="email" /><div></div>
+
+<script>
+	document.getElementById("bla").onblur = function() {
+		var matches;
+
+		if((matches = this.value.match(/^(([0-9]|[1-8][0-9]|90)[SN]|([0-9]{1,2}|1[0-7][0-9]|180)[WE])[\s]*([0-9]{1,2}(|[\.][0-9]*))[\s]*$/))) {
+			if(matches[3] == null){
+				this.nextSibling.innerHTML = "North";
+			}else{
+				this.nextSibling.innerHTML = "East";
+			}
+		}else{
+			this.nextSibling.innerHTML = "false";	
+		}
+	}
+</script>
