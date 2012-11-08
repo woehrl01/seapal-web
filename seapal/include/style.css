@@ -1,12 +1,11 @@
-body {
-   font-family:'Droid Serif', serif;
-}
+/**
+ * General
+ */
 
-.round {
-	border-radius:5px;
-	background:#ccc;
-	padding: 10px;
-	margin-bottom:10px;
+body {
+	font-family:'Droid Serif', serif;
+	/*padding-top: 100px;
+	padding-bottom: 40px;*/
 }
 
 h1, h2, h3, h4, h5, h6, ul li  {
@@ -15,6 +14,49 @@ h1, h2, h3, h4, h5, h6, ul li  {
 ul li.active, h3  {
 	font-weight:bold;
 }
+
+/**
+ * Header / Navigation
+ */
+
 .navbar {
 	box-shadow:1px 1px 10px #333;
+}
+
+/**
+ * Content
+ */
+
+.round {
+	border-radius:5px;
+	background:#ccc;
+	padding: 10px;
+	margin-bottom:10px;
+}
+
+/**
+ * Footer
+ */
+
+.footer {
+	box-shadow: 1px 1px 10px #333;
+	background-color:#1b1b1b;
+	background-image:-moz-linear-gradient(top, #222222, #111111);
+	background-image:-webkit-gradient(linear, 0 0, 0 100%, from(#222222), to(#111111));
+	background-image:-webkit-linear-gradient(top, #222222, #111111);
+	background-image:-o-linear-gradient(top, #222222, #111111);
+	background-image:linear-gradient(to bottom, #222222, #111111);
+	background-repeat:repeat-x;
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff222222', endColorstr='#ff111111', GradientType=0);
+	border-color:#252525;
+	min-height: 80px;
+	padding: 20px;
+}
+
+.footer a {
+	color: white;
+}
+
+.footer ul {
+	list-style-type: none;
 }
