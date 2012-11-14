@@ -11,16 +11,11 @@
     $engine_runtime     = $_POST["engine_runtime"];
     $tank_filled        = $_POST["tank_filled"];
 
-    $db = new DBConnector();
-
-    $db->connect();
+    $db = DBConnector::getConnection();
 
     $db->query("INSERT INTO trip  (id, boat_ID, title, trip_from, trip_to, start_time, end_time, engine_runtime, skipper, tank_filled)
             VALUES (1, 1, $trip_title, $trip_from, $trip_to, $start_time, $end_time, $engine_runtime, $tank_filled);");
 
-    $db->disconnect();
-
-    
-
+    $db->close();
 
 ?>

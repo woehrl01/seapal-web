@@ -1,7 +1,7 @@
 <?php
 
     require_once('database.php');
-
+	
     $boat_name          = $_POST["boat_name"];
     $boat_type          = $_POST["boat_type"];
     $build_year         = $_POST["build_year"];
@@ -28,22 +28,17 @@
     $rig_kind           = $_POST["rig_kind"];
     $spi_size           = $_POST["spi_size"];
 
-    $db = new DBConnector();
-
-    $db->connect();
+    $db = DBConnector::getConnection();
 
     $db->query("INSERT INTO boat  (id, name, boat_typ, build_year, register_nr, 
                 constructor, engine, sail_sign, boat_length, fueltank_size, home_port, boat_width, 
                 watertank_size, yachtclub, draught, wastewatertank_size, owner, mast_height, mainsail_size, 
                 insurance, water_displacement, genua_size, callsign, rig_kind, spi_size)
-            VALUES (1, $boat_name, $boat_type, $build_year, $register_nr, 
-                $constructor, $engine, $sail_sign, $length), $fueltank_size, $home_port, $width,
-                $watertank_size, $yachtclub, $draught, $wastewatertank_size, $owner, $mast_height, $mainsail_size,
-                $insurance, $water_displacement, $genua_size, $callsign, $rig_kind, $spi_size);");
-
-    $db->disconnect();
-
-    
-
+            VALUES ('', '$boat_name', '$boat_type', '$build_year', '$register_nr', 
+                '$constructor', '$engine', '$sail_sign', '$length', '$fueltank_size', '$home_port', '$width',
+                '$watertank_size', '$yachtclub', '$draught', '$wastewatertank_size', '$owner', '$mast_height', '$mainsail_size',
+                '$insurance', '$water_displacement', '$genua_size', '$callsign', '$rig_kind', '$spi_size');");
+				
+    $db->close();
 
 ?>

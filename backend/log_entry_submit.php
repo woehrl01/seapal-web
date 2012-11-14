@@ -22,16 +22,12 @@
     $longitude = $north_degree; //calc
     $latitute  = $east_degree; //calc
 
-    $db = new DBConnector();
-
-    $db->connect();
+    $db = DBConnector::getConnection();
 
     $db->query("INSERT INTO waypoint  (id, longitude, latitute, trip_id, cog, sog, time, BTM, DTM, trip_to, manuever_id, headsail_id, mainsail_id)
             VALUES (1, $longitude, $latitute, $trip_to, $cog, $sog, $timestamp, $btm, $dtm, $trip_to, $maneuver, $headsail_id, $mainsail);");
 
-    $db->disconnect();
-
-    
+    $db->close();    
 
 
 ?>
