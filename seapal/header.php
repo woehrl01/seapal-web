@@ -22,6 +22,7 @@
 							<li><a href="boat_info.php">Boat Info</a></li>
 							<li><a href="trip_info.php">Trip Info</a></li>
 							<li><a href="log_entry.php">Log Entry</a></li>
+							<li><a href="seamap.php">Seamap</a></li>
 						</ul>
 					</li>
 				</ul>
