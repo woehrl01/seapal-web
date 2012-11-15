@@ -2,6 +2,8 @@
 
     require_once('database.php');
 
+	//TODO: avoid injections with mysql_real_escape_string
+	
     $entry_name         = $_POST["entry_name"];
     $north_degree       = $_POST["north_degree"];
     $north_minutes      = $_POST["north_minutes"];

@@ -1,4 +1,5 @@
 <?php
+
 /* modify to fit your needs =) */
 $host 		= "localhost";
 $user 		= "root";
