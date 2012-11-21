@@ -3,6 +3,9 @@
 	<head>
 		<title>SeaPal</title>
 		<?php include("htmlhead.php"); ?>
+		<script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyAL6gKFmwH7gDXmmAW-5VqkW_HbJG7_QLA&sensor=false"></script>
+		<script type="text/javascript" src="include/seamap.js"></script>
+		<link type="text/css" rel="stylesheet" href="include/seamap.css" />
 	</head>
 	<body>
 
@@ -23,10 +26,6 @@
 
 					</div>
 				</div>
-		</div>	
-
-		<script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyAL6gKFmwH7gDXmmAW-5VqkW_HbJG7_QLA&sensor=false"></script>
-		<script type="text/javascript" src="include/seamap.js"></script>
-	
+		</div>		
 	</body>
 </html>

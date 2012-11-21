@@ -1,89 +1,43 @@
 /* seamap.js */
 
 $(document).ready(function() {
-	//$('#lat').popover({title: "test", content: "content", placement: "top"});
-	//$('#lat').popover('show');
-	var marker = null;
+	var map = null;
+	var crosshairMarker = null;
 	var routeMarkers = new Array();
 
-		var latlng = new google.maps.LatLng(-34.397, 150.644);
-	var myOptions = {
-  		zoom: 14,
-  		center: latlng,
-  		mapTypeId: google.maps.MapTypeId.ROADMAP
-	};
-	var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+	initMap();
+	initOpenSeaMaps();
+	initContextMenu();
+
+	updateLatLngInputs();
 
 	google.maps.event.addListener(map, 'center_changed', function() {
-		var lat = map.getCenter().lat();
-		var lng = map.getCenter().lng();
+		updateLatLngInputs();
 
-		$("#lat").val(toGeoString(lat, "N", "S", 2));
-		$("#long").val(toGeoString(lng, "E", "W", 3));
-
-		if (marker != null) {
-			updateTooltip(marker.getPosition());
+		if (crosshairMarker != null) {
+			updateContextMenu(crosshairMarker.getPosition());
 		}
 	});
-
-	
-
-	$("#map_canvas").append('<div id="tooltip_helper" style="width:1px; height:1px; position:absolute; margin-top: -10px; margin-left: 10px; z-index:1; display: block;"></div>');
 
 	google.maps.event.addListener(map, 'rightclick', function(event) {
-		var crosshairShape = {coords:[0,0,0,0],type:'rect'};
 
-		if (marker != null) {
-			marker.setMap(null);
-		}
+		removeMarker(crosshairMarker);
+		setCrosshairMarker(event.latLng);
 
-		var image = new google.maps.MarkerImage(
-			'http://www.daftlogic.com/images/cross-hairs.gif',
-			new google.maps.Size(19,19),
-			new google.maps.Point(0,0),
-			new google.maps.Point(8,8));
-
-		marker = new google.maps.Marker({
-			position: event.latLng,
-			map: map,
-			title:"123456",
-			shape: crosshairShape,
-			icon: image
-		});
-
-		var contextMenu = getMainContextMenu();
-
-		$("body").append(contextMenu);
-
-		$('#tooltip_helper').popover({title: "LAT LONG here<br />BTM DTM here", html : true, content: contextMenu, placement: function(){
-				var leftDist = $('#tooltip_helper').position().left;
-				var width = $('#map_canvas').width();
-
-				return (leftDist > width / 2 ? "left" : "right");
-			}
-		});
-
-		$("body").on("click", "#setMarkCmd", setMarkClicked);
-		$("body").on("click", "#setRouteCmd", setRouteClicked);
-		$("body").on("click", "#distanceHereCmd", distanceHereClicked);
-		$("body").on("click", "#toTargetCmd", toTargetClicked);
-		$("body").on("click", "#deleteCmd", deleteClicked);
-
-		updateTooltip(event.latLng);
-		
+		showContextMenu(event.latLng);
 	});
 
-	function getMainContextMenu() {
-		 return'<div>'
-			+ '<button id="setMarkCmd" type="button" class="btn">Markierung setzen</button>'
-			+ '<button id="setRouteCmd" type="button" class="btn">Route setzen</button>'
-			+ '<button id="distanceHereCmd" type="button" class="btn">Abstand von hier</button>'
-			+ '<button id="toTargetCmd" type="button" class="btn">Zum Ziel machen</button>'
-			+ '<button id="deleteCmd" type="button" class="btn">Löschen</button></div>';
-	}
+	google.maps.event.addListener(map, 'click', function(event) {
+
+		removeMarker(crosshairMarker);
+		hideContextMenu();
+	});
 
 	function setMarkClicked() {
-		/*marker.setIcon('http://www.webbyfreebies.com/wp-content/uploads/2009/12/icon_a.png'); */
+		setMarker(crosshairMarker.getPosition())
+
+		// make the crosshair invisible
+		crosshairMarker.setVisible(false);
 	}
 
 	function setRouteClicked() {
@@ -91,7 +45,7 @@ $(document).ready(function() {
 	}	
 
 	function toTargetClicked() {
-		;
+		
 	}
 
 	function distanceHereClicked() {
@@ -102,11 +56,131 @@ $(document).ready(function() {
 		
 	}
 
-	function updateTooltip(latLng){
-		var pos = getCanvasXY(latLng);
+	function initMap() {
+		var latlng = new google.maps.LatLng(47.655, 9.205);
+		var myOptions = {
+	  		zoom: 14,
+	  		center: latlng,
+	  		mapTypeId: google.maps.MapTypeId.ROADMAP
+		};
+		map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+	}
 
-		$('#tooltip_helper').css({top:pos.y + 10, left:pos.x});
+	function initOpenSeaMaps() {
+		map.overlayMapTypes.push(new google.maps.ImageMapType({
+			getTileUrl: function(coord, zoom) {
+				return "http://tiles.openseamap.org/seamark/" + zoom + "/" + coord.x + "/" + coord.y + ".png";
+			},
+			tileSize: new google.maps.Size(256, 256),
+			name: "OpenSeaMap",
+			maxZoom: 18
+		}));
+	}
+
+	function updateLatLngInputs() {
+		var lat = map.getCenter().lat();
+		var lng = map.getCenter().lng();
+
+		$("#lat").val(toGeoString(lat, "N", "S", 2));
+		$("#long").val(toGeoString(lng, "E", "W", 3));
+	}
+
+	function removeMarker(marker) {
+		if (marker != null) {
+			marker.setMap(null);
+		}
+	}
+
+	function setMarker(position) {
+		var newMarker = new google.maps.Marker({
+			map: map,
+			position: position
+		});
+	}
+
+	function setCrosshairMarker(position) {
+		var crosshairShape = {coords:[0,0,0,0],type:'rect'};
+		var image = new google.maps.MarkerImage(
+			'http://www.daftlogic.com/images/cross-hairs.gif',
+			new google.maps.Size(19,19),
+			new google.maps.Point(0,0),
+			new google.maps.Point(8,8));
+
+		crosshairMarker = new google.maps.Marker({
+			position: position,
+			map: map,
+			title:"crosshair",
+			shape: crosshairShape,
+			icon: image
+		});
+	}
+
+	function initContextMenu() {
+		$("#map_canvas").append('<div id="tooltip_helper" style="width:1px; height:1px; position:absolute; margin-top: -10px; margin-left: 10px; z-index:1; display: block;"></div>');
+
+		$("body").on("click", "#setMarkCmd", setMarkClicked);
+		$("body").on("click", "#setRouteCmd", setRouteClicked);
+		$("body").on("click", "#distanceHereCmd", distanceHereClicked);
+		$("body").on("click", "#toTargetCmd", toTargetClicked);
+		$("body").on("click", "#deleteCmd", deleteClicked);
+	}
+
+	function getMainContextMenu() {
+		 return'<div>'
+			+ '<button id="setMarkCmd" type="button" class="btn ctxButton">Markierung setzen</button>'
+			+ '<button id="setRouteCmd" type="button" class="btn ctxButton">Route setzen</button>'
+			+ '<button id="distanceHereCmd" type="button" class="btn ctxButton">Abstand von hier</button>'
+			+ '<button id="toTargetCmd" type="button" class="btn ctxButton">Zum Ziel machen</button>'
+			+ '<button id="deleteCmd" type="button" class="btn ctxButton">Löschen</button></div>';
+	}
+
+	function showContextMenu(latLng) {
+		var contextMenu = getMainContextMenu();
+
+		$('#tooltip_helper').popover({title: function() {
+				var lat = map.getCenter().lat();
+				var lng = map.getCenter().lng();
+
+				$("#lat").val(toGeoString(lat, "N", "S", 2));
+				$("#long").val(toGeoString(lng, "E", "W", 3));
+
+				return '<span class="ctxTitle">Lat ' + toGeoString(lat, "N", "S", 2) + '  Lon ' + toGeoString(lng, "E", "W", 3) + '</span><br /><span class="ctxTitle">BTM XXX°  DTM X.XXX nm</span>';
+			},
+			html : true,
+			content: contextMenu,
+			placement: function(){
+				var leftDist = $('#tooltip_helper').position().left;
+				var width = $('#map_canvas').width();
+
+				return (leftDist > width / 2 ? "left" : "right");
+			}
+		});
 		$('#tooltip_helper').popover('show');
+		updateContextMenu(latLng);
+	}
+
+	function hideContextMenu() {
+		$('#tooltip_helper').popover('hide');
+	}
+
+	function updateContextMenu(latLng){
+		if ($('.popover').is(':visible')) {
+			var pos = getCanvasXY(latLng);
+
+			var xPos = pos.x;
+			var yPos = pos.y + 10;
+			var width = $('#map_canvas').width();
+			var height = $('#map_canvas').height();
+
+			$('#tooltip_helper').css({top: yPos, left: xPos});
+
+			// check whether the popup is displayed outside of the maps container
+			if (xPos > 5 && xPos < width - 5 && yPos > 5 && yPos < height - 5) {
+				$('#tooltip_helper').popover('show');
+			} else {
+				$('#tooltip_helper').popover('hide');
+			}
+		}
 	}
 
 	function toGeoString(value, posChar, negChar, degLength) {

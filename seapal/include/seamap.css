@@ -1,0 +1,12 @@
+ .ctxButton {
+ 	width: 200px;
+ 	margin: 2px;
+ }
+
+.ctxTitle {
+	font-size: 12px;
+}
+
+.popover-title {
+	text-align: center;
+}
