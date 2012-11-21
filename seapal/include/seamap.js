@@ -1,17 +1,17 @@
 /* seamap.js */
 
 $(document).ready(function() {
-	//$('#lat').popover({title: "test", content: "content", placement: "top"});
-	//$('#lat').popover('show');
 	var marker = null;
 	var routeMarkers = new Array();
 
-		var latlng = new google.maps.LatLng(-34.397, 150.644);
+	var latlng = new google.maps.LatLng(-34.397, 150.644);
+	
 	var myOptions = {
   		zoom: 14,
   		center: latlng,
   		mapTypeId: google.maps.MapTypeId.ROADMAP
 	};
+	
 	var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 
 	google.maps.event.addListener(map, 'center_changed', function() {
@@ -22,15 +22,17 @@ $(document).ready(function() {
 		$("#long").val(toGeoString(lng, "E", "W", 3));
 
 		if (marker != null) {
-			updateTooltip(marker.getPosition());
+			marker.setMap(null);
+			$('#tooltip_helper').popover('hide');
 		}
 	});
-
-	
 
 	$("#map_canvas").append('<div id="tooltip_helper" style="width:1px; height:1px; position:absolute; margin-top: -10px; margin-left: 10px; z-index:1; display: block;"></div>');
 
 	google.maps.event.addListener(map, 'rightclick', function(event) {
+		// remove inner style overflow to make the hole contextmenu visible
+		$("#map_canvas").css("overflow","visible");
+		
 		var crosshairShape = {coords:[0,0,0,0],type:'rect'};
 
 		if (marker != null) {
@@ -50,12 +52,8 @@ $(document).ready(function() {
 			shape: crosshairShape,
 			icon: image
 		});
-
-		var contextMenu = getMainContextMenu();
-
-		$("body").append(contextMenu);
-
-		$('#tooltip_helper').popover({title: "LAT LONG here<br />BTM DTM here", html : true, content: contextMenu, placement: function(){
+		
+		$('#tooltip_helper').popover({title: getHeadOfMainContextMenu(), html : true, content: getMainContextMenu(), placement: function(){
 				var leftDist = $('#tooltip_helper').position().left;
 				var width = $('#map_canvas').width();
 
@@ -70,16 +68,21 @@ $(document).ready(function() {
 		$("body").on("click", "#deleteCmd", deleteClicked);
 
 		updateTooltip(event.latLng);
-		
 	});
 
 	function getMainContextMenu() {
-		 return'<div>'
-			+ '<button id="setMarkCmd" type="button" class="btn">Markierung setzen</button>'
-			+ '<button id="setRouteCmd" type="button" class="btn">Route setzen</button>'
-			+ '<button id="distanceHereCmd" type="button" class="btn">Abstand von hier</button>'
-			+ '<button id="toTargetCmd" type="button" class="btn">Zum Ziel machen</button>'
-			+ '<button id="deleteCmd" type="button" class="btn">Löschen</button></div>';
+		 return'<div id="contextmenu">'
+			+ '<button id="setMarkCmd" type="button" class="btn"><i class="icon-map-marker"></i> Markierung setzen</button>'
+			+ '<button id="setRouteCmd" type="button" class="btn"><i class="icon-flag"></i >Route setzen</button>'
+			+ '<button id="distanceHereCmd" type="button" class="btn"><i class="icon-resize-full"></i> Abstand von hier</button>'
+			+ '<button id="toTargetCmd" type="button" class="btn"><i class="icon-star"></i> Zum Ziel machen</button>'
+			+ '<button id="deleteCmd" type="button" class="btn"><i class="icon-remove"></i> Löschen</button></div>';
+	}
+	
+	function getHeadOfMainContextMenu() {
+		 return'<div class="controls controls-row"><div class="span6">'
+		 	+ '<div class="input-append"><input id="latmini" readonly="readonly" type="text" name="latmini" class="input-mini" /><span class="add-on">la</span></div></div><div class="span6">'
+		 	+ '<div class="input-append"><input id="longmini" readonly="readonly" type="text" name="longmini" class="input-mini" /><span class="add-on">lo</span></div></div></div>';
 	}
 
 	function setMarkClicked() {
@@ -91,7 +94,7 @@ $(document).ready(function() {
 	}	
 
 	function toTargetClicked() {
-		;
+
 	}
 
 	function distanceHereClicked() {
@@ -104,9 +107,12 @@ $(document).ready(function() {
 
 	function updateTooltip(latLng){
 		var pos = getCanvasXY(latLng);
-
+		
 		$('#tooltip_helper').css({top:pos.y + 10, left:pos.x});
 		$('#tooltip_helper').popover('show');
+		
+		$("#latmini").val(toGeoString(latLng.lat(), "N", "S", 2));
+		$("#longmini").val(toGeoString(latLng.lng(), "E", "W", 3));
 	}
 
 	function toGeoString(value, posChar, negChar, degLength) {

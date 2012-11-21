@@ -4,23 +4,28 @@
 		<title>SeaPal</title>
 		<?php include("htmlhead.php"); ?>
 	</head>
-	<body>
+	<body class="googlemaps">
 
 		<div class="header-wrapper">
 			<?php include("header.php"); ?>
 		</div>
 
-		<div class="content-wrapper" style="width:100%;height:100%;">
+		<div class="container-fluid" style="height:70%;">
 				<h1>Seamap</h1>
-				<label for="lat">Lat</label>
-				<input id="lat" readonly="readonly" type="text" name="lat" tabindex="1" style="width: 100%;" />
+				<div class="row-fluid">
+					<div class="span6">
+						<label for="lat">Lat</label>
+						<input id="lat" readonly="readonly" type="text" name="lat" tabindex="1" class="span12" />
+					</div>
+					<div class="span6">
+						<label for="long">Long</label>
+						<input id="long" readonly="readonly" type="text" name="long" tabindex="2" class="span12" />
+					</div>
+				</div>
 
-				<label for="long">Long</label>
-				<input id="long" readonly="readonly" type="text" name="long" tabindex="2" style="width: 100%;" />
-
-				<div class="row" style="width:100%;height:90%;">
-					<div id="map_canvas" class="span12" style="width:100%;">
-
+				<div class="row-fluid" style="width:100%;height:100%;">
+					<div class="span12" style="width:100%;height:100%;">
+						<div id="map_canvas" class="span12" style="width:100%;"></div>
 					</div>
 				</div>
 		</div>	
