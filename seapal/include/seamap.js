@@ -3,11 +3,20 @@
 $(document).ready(function() {
 	var map = null;
 	var crosshairMarker = null;
+	var poly;
 	var routeMarkers = new Array();
+	var distancePositionFrom = null;
+	var distanceActive = false;
+	var distancePoly = null;
+	var distanceMarker = null;
+	var distanceLabel = null;
 
 	initMap();
 	initOpenSeaMaps();
 	initContextMenu();
+
+	initPolyline();
+	initDistancePolyline();
 
 	updateLatLngInputs();
 
@@ -31,6 +40,11 @@ $(document).ready(function() {
 
 		removeMarker(crosshairMarker);
 		hideContextMenu();
+		endDistance();
+	});
+
+	google.maps.event.addListener(map, 'mousemove', function(event) {
+		updateDistance(event.latLng);
 	});
 
 	function setMarkClicked() {
@@ -38,10 +52,17 @@ $(document).ready(function() {
 
 		// make the crosshair invisible
 		crosshairMarker.setVisible(false);
+
+		hideContextMenu();
 	}
 
 	function setRouteClicked() {
-		
+		addRoutePosition(crosshairMarker.getPosition());
+
+		// make the crosshair invisible
+		crosshairMarker.setVisible(false);
+
+		hideContextMenu();
 	}	
 
 	function toTargetClicked() {
@@ -49,7 +70,12 @@ $(document).ready(function() {
 	}
 
 	function distanceHereClicked() {
-		
+		startDistance(crosshairMarker.getPosition());
+
+		// make the crosshair invisible
+		crosshairMarker.setVisible(false);
+
+		hideContextMenu();
 	}
 
 	function deleteClicked() {
@@ -77,6 +103,33 @@ $(document).ready(function() {
 		}));
 	}
 
+	function initPolyline() {
+		var polyOptions = {
+	      strokeColor: '#000000',
+	      strokeOpacity: 0.8,
+	      strokeWeight: 2
+	    }
+	    poly = new google.maps.Polyline(polyOptions);
+	    poly.setMap(map);
+	}
+
+	function initDistancePolyline() {
+		var polyOptions = {
+	      strokeColor: '#000000',
+	      strokeOpacity: 0.8,
+	      strokeWeight: 2
+	    }
+	    distancePoly = new google.maps.Polyline(polyOptions);
+
+		
+
+	    distancePoly.setMap(map);
+
+	    google.maps.event.addListener(distancePoly, 'click', function(event) {
+			endDistance();
+		});
+	}
+
 	function updateLatLngInputs() {
 		var lat = map.getCenter().lat();
 		var lng = map.getCenter().lng();
@@ -94,7 +147,8 @@ $(document).ready(function() {
 	function setMarker(position) {
 		var newMarker = new google.maps.Marker({
 			map: map,
-			position: position
+			position: position,
+			draggable: true
 		});
 	}
 
@@ -138,13 +192,11 @@ $(document).ready(function() {
 		var contextMenu = getMainContextMenu();
 
 		$('#tooltip_helper').popover({title: function() {
-				var lat = map.getCenter().lat();
-				var lng = map.getCenter().lng();
+				var lat = crosshairMarker.getPosition().lat();
+				var lng = crosshairMarker.getPosition().lng();
 
-				$("#lat").val(toGeoString(lat, "N", "S", 2));
-				$("#long").val(toGeoString(lng, "E", "W", 3));
-
-				return '<span class="ctxTitle">Lat ' + toGeoString(lat, "N", "S", 2) + '  Lon ' + toGeoString(lng, "E", "W", 3) + '</span><br /><span class="ctxTitle">BTM XXX°  DTM X.XXX nm</span>';
+				return '<span class="ctxTitle">Lat ' + toGeoString(lat, "N", "S", 2) + '  Lon ' + toGeoString(lng, "E", "W", 3) + '</span><br />'
+					 + '<span class="ctxTitle">BTM XXX°  DTM X.XXX nm</span>';
 			},
 			html : true,
 			content: contextMenu,
@@ -210,19 +262,112 @@ $(document).ready(function() {
 	    return string;
 	}
 
-	function getCanvasXY(caurrentLatLng){
+	function getCanvasXY(currentLatLng){
     	var scale = Math.pow(2, map.getZoom());
       	var nw = new google.maps.LatLng(
           map.getBounds().getNorthEast().lat(),
           map.getBounds().getSouthWest().lng()
       );
       var worldCoordinateNW = map.getProjection().fromLatLngToPoint(nw);
-      var worldCoordinate = map.getProjection().fromLatLngToPoint(caurrentLatLng);
-      var caurrentLatLngOffset = new google.maps.Point(
+      var worldCoordinate = map.getProjection().fromLatLngToPoint(currentLatLng);
+      var currentLatLngOffset = new google.maps.Point(
           Math.floor((worldCoordinate.x - worldCoordinateNW.x) * scale),
           Math.floor((worldCoordinate.y - worldCoordinateNW.y) * scale)
       );
-      return caurrentLatLngOffset;
-   }
+      return currentLatLngOffset;
+   	}
 
+	function addRouteMarker(position) {
+
+		var pinColor = "007569";
+	    var pinImage = new google.maps.MarkerImage("http://maps.gstatic.com/mapfiles/ridefinder-images/mm_20_blue.png",
+	        new google.maps.Size(21, 34),
+	        new google.maps.Point(0,0),
+	        new google.maps.Point(7, 19));
+
+		var newMarker = new google.maps.Marker({
+			map: map,
+			position: position,
+			icon: pinImage,
+			draggable: true
+		});
+
+		var index = routeMarkers.length;
+		routeMarkers[index] = newMarker;
+
+		google.maps.event.addListener(newMarker, 'drag', function() {
+		    updateRouteLine();
+		});
+	}
+
+   	function addRoutePosition(latLng) {
+   		addRouteLine(latLng);
+   		addRouteMarker(latLng);
+   	}
+
+   	function addRouteLine(latLng) {
+   		var path = poly.getPath();
+   		path.push(latLng);
+   	}
+
+   	function updateRouteLine() {
+   		
+   		var roulersPath = new Array();
+   		for (var i = 0; i < routeMarkers.length; ++i) {
+   			roulersPath[i] = routeMarkers[i].getPosition();
+   		}
+
+   		poly.setPath(roulersPath);
+   	}
+
+   	function startDistance(latLng) {
+   		distanceActive = true;
+   		distancePositionFrom = latLng;
+
+   		var pinImage = new google.maps.MarkerImage("images/circle.png",
+	        new google.maps.Size(16, 16),
+	        new google.maps.Point(0,0),
+	        new google.maps.Point(8, 8));
+
+   		distanceMarker = new google.maps.Marker({
+			map: map,
+			position: latLng,
+			icon: pinImage
+		});
+
+   		distanceLabel = new Label({map: map });
+		distanceLabel.bindTo('position', distanceMarker, 'position');
+		distanceLabel.set('text',distance(distancePositionFrom.lat(), distancePositionFrom.lng(), distancePositionFrom.lat(), distancePositionFrom.lng()));
+
+		google.maps.event.addListener(distanceMarker, 'click', function(event) {
+			endDistance();
+		});
+   	}
+
+   	function updateDistance(latLng) {
+   		if (distanceActive && latLng != null) {
+   			distancePoly.setPath([distancePositionFrom, latLng]);
+   			distanceMarker.setPosition(latLng);
+   			distanceLabel.set('text',distance(distancePositionFrom.lat(), distancePositionFrom.lng(), latLng.lat(), latLng.lng()));
+   		}
+   	}
+
+   	function endDistance() {
+   		distanceActive = false;
+   		distancePoly.setPath(new Array());
+   		distanceMarker.setMap(null);
+   		distanceLabel.setMap(null);
+   	}
+
+   	function distance(lat1,lon1,lat2,lon2) {
+		var R = 6371; // km (change this constant to get miles)
+		var dLat = (lat2-lat1) * Math.PI / 180;
+		var dLon = (lon2-lon1) * Math.PI / 180; 
+		var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+			Math.cos(lat1 * Math.PI / 180 ) * Math.cos(lat2 * Math.PI / 180 ) * 
+			Math.sin(dLon/2) * Math.sin(dLon/2); 
+		var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+		var d = R * c;
+		return Math.round(d*1000)+"m";
+	}
 });
