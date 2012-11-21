@@ -29,7 +29,6 @@ $(document).ready(function() {
 	});
 
 	google.maps.event.addListener(map, 'rightclick', function(event) {
-
 		removeMarker(crosshairMarker);
 		setCrosshairMarker(event.latLng);
 
@@ -37,7 +36,6 @@ $(document).ready(function() {
 	});
 
 	google.maps.event.addListener(map, 'click', function(event) {
-
 		removeMarker(crosshairMarker);
 		hideContextMenu();
 		endDistance();
@@ -89,6 +87,7 @@ $(document).ready(function() {
 	  		center: latlng,
 	  		mapTypeId: google.maps.MapTypeId.ROADMAP
 		};
+		
 		map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 	}
 
@@ -180,12 +179,12 @@ $(document).ready(function() {
 	}
 
 	function getMainContextMenu() {
-		 return'<div>'
-			+ '<button id="setMarkCmd" type="button" class="btn ctxButton">Markierung setzen</button>'
-			+ '<button id="setRouteCmd" type="button" class="btn ctxButton">Route setzen</button>'
-			+ '<button id="distanceHereCmd" type="button" class="btn ctxButton">Abstand von hier</button>'
-			+ '<button id="toTargetCmd" type="button" class="btn ctxButton">Zum Ziel machen</button>'
-			+ '<button id="deleteCmd" type="button" class="btn ctxButton">Löschen</button></div>';
+		 return'<div id="contextmenu">'
+			+ '<button id="setMarkCmd" type="button" class="btn"><i class="icon-map-marker"></i> Markierung setzen</button>'
+			+ '<button id="setRouteCmd" type="button" class="btn"><i class="icon-flag"></i >Route setzen</button>'
+			+ '<button id="distanceHereCmd" type="button" class="btn"><i class="icon-resize-full"></i> Abstand von hier</button>'
+			+ '<button id="toTargetCmd" type="button" class="btn"><i class="icon-star"></i> Zum Ziel machen</button>'
+			+ '<button id="deleteCmd" type="button" class="btn"><i class="icon-remove"></i> Löschen</button></div>';
 	}
 
 	function showContextMenu(latLng) {
@@ -208,6 +207,8 @@ $(document).ready(function() {
 			}
 		});
 		$('#tooltip_helper').popover('show');
+		
+		$('#map_canvas').css("overflow","visible"); // bugfix > menu overlaps!
 		updateContextMenu(latLng);
 	}
 

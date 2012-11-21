@@ -3,8 +3,11 @@
 	<head>
 		<title>SeaPal</title>
 		<?php include("htmlhead.php"); ?>
+		<style>
+		.header-wrapper {margin-bottom:100px;}
+		</style>
 	</head>
-	<body>
+	<body class="googlemaps">
 
 		<div class="header-wrapper">
 			<?php include("header.php"); ?>
@@ -14,10 +17,10 @@
 			<div class="container">
 				<div class="hero-unit">
 					<div class="hidden-phone hidden-tablet">
-						<img src="http://placehold.it/960x150">
+						<img class="img-rounded"src="http://placehold.it/960x150">
 					</div>
 					<div class="hidden-desktop hidden-phone">
-						<img src="http://placehold.it/724x150">
+						<img class="img-rounded"src="http://placehold.it/724x150">
 					</div>
 				</div>
 				<div class="row">
@@ -26,7 +29,7 @@
 							<h2>Welcome to SeaPal</h2>
 							<div class="entry">
 								<p>
-									<img src="http://placehold.it/724x150/ffffff">
+									<img class="img-rounded"src="http://placehold.it/724x150/ffffff">
 								</p>
 								<p>
 									<b>SeaPal</b> is an App for sailors and other water sport fanatics that support the skipper in his tasks for navigation, route planing and logbook keeping. The central view shows a map with the current position and forward line. Waypoint and routes can easily be created, distances and courses can quickly be determined and documented in the logbook. The touch interface allows for fast and intuitive interaction.
