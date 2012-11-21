@@ -162,7 +162,10 @@ body.googlemaps
 .popover h3.popover-title {
 	background:url(../images/bg.jpg);
 	text-shadow:none;
-	color:#333;
+	color:#FFF;
+}
+.popover h3 span {
+	display:block;
 }
 .popover .input-mini {
     width: 50px;
