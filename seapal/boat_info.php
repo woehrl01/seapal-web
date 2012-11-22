@@ -3,18 +3,18 @@
 	<head>
 		<title>SeaPal</title>
 		<?php include("htmlhead.php"); ?>
+		<script type="text/javascript" src="include/boat_info.js"></script>
 	</head>
 	<body>
 
 		<div class="header-wrapper">
 			<?php include("header.php"); ?>
 		</div>
-
-		<div class="content-wrapper">
-			<div class="container">
-				<h1>Logbuch</h1>
-				<div class="input-wrapper">
-					<form method="post" action="../backend/boat_info_submit.php">
+		<form id="form" method="post" action="../backend/boat_info_submit.php">
+			<div class="content-wrapper">
+				<div class="container">
+					<h1>Logbuch</h1>
+					<div class="input-wrapper">
 						<div class="row">
 							<div class="span4">
 								<label for="boat_name">Bootsname</label> 
@@ -127,39 +127,52 @@
 								<input type="text" name="spi_size" tabindex="24" />
 							</div>
 						</div>
-					</form>
-				</div>
-				<div class="listview-wrapper">
-					<div class="listview">
-						<div class="row">
-							<div class="span12">
-								<img src="http://placehold.it/960x400&text=Listview" />
-							</div>
-						</div>
+						
 					</div>
-					<div class="row">
-						<div class="listview-buttons">
-							<div class="span6">
-								<div class="left">
-									<input type="button" class="btn" value="Löschen"/>
-									<input type="button" class="btn" value="Speichern"/>
-									<input type="button" class="btn" value="Neuester"/>
+					<div class="listview-wrapper">
+						<div class="listview">
+							<div class="row">
+								<div class="span12">
+									<img src="http://placehold.it/960x400&text=Listview" />
 								</div>
 							</div>
-							<div class="span6">
-								<div class="right">
-									<input type="button" class="btn" value="Vorheriger"/>
-									<input type="button" class="btn" value="Nächster"/>
+						</div>
+						<div class="row">
+							<div class="listview-buttons">
+								<div class="span6">
+									<div class="left">
+										<input type="button" class="btn" value="Löschen"/>
+										<input type="submit" class="btn" value="Speichern"/>
+										<input type="button" class="btn" value="Neuester"/>
+									</div>
+								</div>
+								<div class="span6">
+									<div class="right">
+										<input type="button" class="btn" value="Vorheriger"/>
+										<input type="button" class="btn" value="Nächster"/>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-
+		</form>
 		<div class="footer-wrapper">
 			<?php include("footer.php"); ?>
+		</div>
+
+		<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		    <h3 id="myModalLabel">Erfolgreich!</h3>
+		  </div>
+		  <div class="modal-body">
+		    <p>Die Daten wurden erfolgreich übermittelt!</p>
+		  </div>
+		  <div class="modal-footer">
+		    <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">OK</button>
+		  </div>
 		</div>
 		
 	</body>

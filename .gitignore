@@ -6,3 +6,4 @@
 *.html~
 *.css~
 *.db
+_config.inc.php

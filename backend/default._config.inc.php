@@ -4,6 +4,6 @@
 $host 		= "localhost";
 $user 		= "root";
 $password 	= "";
-$db 		= "webtech";
+$db 		= "seapal";
 						
 ?>

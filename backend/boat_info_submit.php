@@ -1,7 +1,6 @@
 <?php
 
     require_once('database.php');
-	
     $boat_name          = $_POST["boat_name"];
     $boat_type          = $_POST["boat_type"];
     $build_year         = $_POST["build_year"];
@@ -41,4 +40,5 @@
 				
     $db->close();
 
+    echo '{"success":true}';
 ?>

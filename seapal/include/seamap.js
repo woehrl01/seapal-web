@@ -181,7 +181,7 @@ $(document).ready(function() {
 	function getMainContextMenu() {
 		 return'<div id="contextmenu">'
 			+ '<button id="setMarkCmd" type="button" class="btn"><i class="icon-map-marker"></i> Markierung setzen</button>'
-			+ '<button id="setRouteCmd" type="button" class="btn"><i class="icon-flag"></i >Route setzen</button>'
+			+ '<button id="setRouteCmd" type="button" class="btn"><i class="icon-flag"></i> Route setzen</button>'
 			+ '<button id="distanceHereCmd" type="button" class="btn"><i class="icon-resize-full"></i> Abstand von hier</button>'
 			+ '<button id="toTargetCmd" type="button" class="btn"><i class="icon-star"></i> Zum Ziel machen</button>'
 			+ '<button id="deleteCmd" type="button" class="btn"><i class="icon-remove"></i> Löschen</button></div>';

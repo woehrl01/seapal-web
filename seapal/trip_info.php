@@ -11,10 +11,10 @@
 		</div>
 
 		<div class="content-wrapper">
-			<div class="container">
-				<h1>Trip info</h1>
-				<div class="input-wrapper">
-					<form method="post" action="../backend/trip_info_submit.php">
+			<form method="post" action="../backend/trip_info_submit.php">
+				<div class="container">
+					<h1>Trip info</h1>
+					<div class="input-wrapper">
 						<div class="row">
 							<div class="span6">
 								<label for="trip_title">Trip Titel</label>
@@ -81,68 +81,67 @@
 								</div>
 							</div>
 						</div>
-					</form>
-				</div>
-				<div class="gadgets-wrapper">
-					<div class="row">
-						<div class="span3">
-							<div class="round">
-								<div class="notes">
-									<h4>Notes</h4>
-									<div class="gadget">
-										<textarea id="notes" cols="20" rows="20"></textarea>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="span6">
-							<div class="maps">
-								<img src="http://placehold.it/500x300&text=maps"/>
-							</div>
-						</div>
-						<div class="span3">
-							<div class="round">
-								<div class="photos">
-									<h4>Photos</h4>
-									<div class="gadget">
-										<img width="200" height="200" src="http://placehold.it/200x200/ffffff"/>
-									</div>
-								</div>
-							</div>
-						</div>
 					</div>
-				</div>
-				<div class="listview-wrapper">
-					<div class="listview">
+					<div class="gadgets-wrapper">
 						<div class="row">
-							<div class="span12">
-								<img src="http://placehold.it/960x300&text=Listview" />
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="listview-buttons">
-							<div class="span6">
-								<div class="left">
-									<input type="button" class="btn" value="Neuer Eintrag"/>
-									<input type="button" class="btn" value="Löschen"/>
-									<input type="button" class="btn" value="Filter"/>
+							<div class="span3">
+								<div class="round">
+									<div class="notes">
+										<h4>Notes</h4>
+										<div class="gadget">
+											<textarea id="notes" cols="20" rows="20"></textarea>
+										</div>
+									</div>
 								</div>
 							</div>
 							<div class="span6">
-								<div class="right">
-									<input type="button" class="btn" value="Erster"/>
-									<input type="button" class="btn" value="Letzter"/>
-									<input type="button" class="btn" value="Vorheriger"/>
-									<input type="button" class="btn" value="Nächster"/>
+								<div class="maps">
+									<img src="http://placehold.it/500x300&text=maps"/>
+								</div>
+							</div>
+							<div class="span3">
+								<div class="round">
+									<div class="photos">
+										<h4>Photos</h4>
+										<div class="gadget">
+											<img width="200" height="200" src="http://placehold.it/200x200/ffffff"/>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="listview-wrapper">
+						<div class="listview">
+							<div class="row">
+								<div class="span12">
+									<img src="http://placehold.it/960x300&text=Listview" />
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="listview-buttons">
+								<div class="span6">
+									<div class="left">
+										<input type="submit" class="btn" value="Neuer Eintrag"/>
+										<input type="button" class="btn" value="Löschen"/>
+										<input type="button" class="btn" value="Filter"/>
+									</div>
+								</div>
+								<div class="span6">
+									<div class="right">
+										<input type="button" class="btn" value="Erster"/>
+										<input type="button" class="btn" value="Letzter"/>
+										<input type="button" class="btn" value="Vorheriger"/>
+										<input type="button" class="btn" value="Nächster"/>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-
+		</form>
 		<div class="footer-wrapper">
 			<?php include("footer.php"); ?>
 		</div>

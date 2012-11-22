@@ -11,10 +11,10 @@
 		</div>
 
 		<div class="content-wrapper">
-			<div class="container">
-				<h1>Wegpunkt</h1>
-				<div class="input-wrapper">
-					<form method="post" action="../backend/log_entry_submit.php">
+			<form method="post" action="../backend/log_entry_submit.php">
+				<div class="container">
+					<h1>Wegpunkt</h1>
+					<div class="input-wrapper">
 						<div class="row">
 							<div class="span6">
 								<label for="entry_name">Name</label>
@@ -91,32 +91,32 @@
 								<option>reef 2</option>
 							</select>
 							</div>
-						</div>
-					</form>
-				</div>
-				<div class="gadgets-wrapper">
-					<div class="row">
-						<div class="span3">
-							<div class="round">
-								<div class="notes">
-									<h4>Notes</h4>
-									<div class="gadget">
-										<textarea id="notes" cols="20" rows="20"></textarea>
+						</div>	
+					</div>
+					<div class="gadgets-wrapper">
+						<div class="row">
+							<div class="span3">
+								<div class="round">
+									<div class="notes">
+										<h4>Notes</h4>
+										<div class="gadget">
+											<textarea id="notes" cols="20" rows="20"></textarea>
+										</div>
 									</div>
 								</div>
 							</div>
-						</div>
-						<div class="span6">
-							<div class="maps">
-								<img src="http://placehold.it/500x300&text=maps"/>
+							<div class="span6">
+								<div class="maps">
+									<img src="http://placehold.it/500x300&text=maps"/>
+								</div>
 							</div>
-						</div>
-						<div class="span3">
-							<div class="round">
-								<div class="photos">
-									<h4>Photos</h4>
-									<div class="gadget">
-										<img width="200" height="200" src="http://placehold.it/200x200/ffffff"/>
+							<div class="span3">
+								<div class="round">
+									<div class="photos">
+										<h4>Photos</h4>
+										<div class="gadget">
+											<img width="200" height="200" src="http://placehold.it/200x200/ffffff"/>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -124,8 +124,7 @@
 					</div>
 				</div>
 			</div>
-		</div>
-
+		</form>
 		<div class="footer-wrapper">
 			<?php include("footer.php"); ?>
 		</div>

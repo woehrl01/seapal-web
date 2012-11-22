@@ -18,7 +18,7 @@ h4,
 h5,
 h6
 {
-	text-shadow:0 0 3px #333;
+	/*text-shadow:0 0 3px #333;*/
 }
 ul li.active,
 h3
@@ -174,4 +174,8 @@ body.googlemaps
 }
 .popover .input-append .add-on, .popover .input-prepend .add-on {
 	line-height:18px;
+}
+
+.modal{
+	color: #000;
 }
