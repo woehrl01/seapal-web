@@ -10,6 +10,8 @@ $(document).ready(function() {
 	var distancePoly = null;
 	var distanceMarker = null;
 	var distanceLabel = null;
+	var States = {"NORMAL" : 0, "ROUTE" : 1, "DISTANCE" : 2};
+	var state = States.NORMAL;
 
 	initMap();
 	initOpenSeaMaps();
@@ -28,57 +30,47 @@ $(document).ready(function() {
 		}
 	});
 
-	google.maps.event.addListener(map, 'rightclick', function(event) {
-		removeMarker(crosshairMarker);
-		setCrosshairMarker(event.latLng);
+	google.maps.event.addListener(map, 'rightclick', handeMapRightClick);
 
-		showContextMenu(event.latLng);
-	});
+	google.maps.event.addListener(map, 'click', handeMapClick);
 
-	google.maps.event.addListener(map, 'click', function(event) {
-		removeMarker(crosshairMarker);
-		hideContextMenu();
-		endDistance();
-	});
+	google.maps.event.addListener(map, 'mousemove', handeMapMouseOver);
 
-	google.maps.event.addListener(map, 'mousemove', function(event) {
+	/*** map event ***/
+
+	function handeMapClick(event) {
+		switch(state) {
+			case States.NORMAL: 
+				removeMarker(crosshairMarker);
+				hideContextMenu();
+				break;
+			case States.ROUTE: 
+				addRoutePosition(event.latLng);
+				break;
+		}
+
+		//endDistance();
+	}
+
+	function handeMapRightClick(event) {
+		switch(state) {
+			case States.NORMAL: 
+				removeMarker(crosshairMarker);
+				setCrosshairMarker(event.latLng);
+
+				showContextMenu(event.latLng);
+				break;
+			case States.ROUTE:
+				showContextMenu(event.latLng); // TODO: check context menu shows old content!!!
+				break;
+		}
+	}
+
+	function handeMapMouseOver(event) {
 		updateDistance(event.latLng);
-	});
-
-	function setMarkClicked() {
-		setMarker(crosshairMarker.getPosition())
-
-		// make the crosshair invisible
-		crosshairMarker.setVisible(false);
-
-		hideContextMenu();
 	}
 
-	function setRouteClicked() {
-		addRoutePosition(crosshairMarker.getPosition());
-
-		// make the crosshair invisible
-		crosshairMarker.setVisible(false);
-
-		hideContextMenu();
-	}	
-
-	function toTargetClicked() {
-		
-	}
-
-	function distanceHereClicked() {
-		startDistance(crosshairMarker.getPosition());
-
-		// make the crosshair invisible
-		crosshairMarker.setVisible(false);
-
-		hideContextMenu();
-	}
-
-	function deleteClicked() {
-		
-	}
+	/*** initializations ***/
 
 	function initMap() {
 		var latlng = new google.maps.LatLng(47.655, 9.205);
@@ -120,8 +112,6 @@ $(document).ready(function() {
 	    }
 	    distancePoly = new google.maps.Polyline(polyOptions);
 
-		
-
 	    distancePoly.setMap(map);
 
 	    google.maps.event.addListener(distancePoly, 'click', function(event) {
@@ -129,13 +119,18 @@ $(document).ready(function() {
 		});
 	}
 
-	function updateLatLngInputs() {
-		var lat = map.getCenter().lat();
-		var lng = map.getCenter().lng();
+	function initContextMenu() {
+		$("#map_canvas").append('<div id="tooltip_helper" style="width:1px; height:1px; position:absolute; margin-top: -10px; margin-left: 10px; z-index:1; display: block;"></div>');
 
-		$("#lat").val(toGeoString(lat, "N", "S", 2));
-		$("#long").val(toGeoString(lng, "E", "W", 3));
+		$("body").on("click", "#setMarkCmd", setMarkClicked);
+		$("body").on("click", "#setRouteCmd", setRouteClicked);
+		$("body").on("click", "#distanceHereCmd", distanceHereClicked);
+		$("body").on("click", "#toTargetCmd", toTargetClicked);
+		$("body").on("click", "#deleteCmd", deleteClicked);
+		$("body").on("click", "#exitRouteMode", exitRouteModeClicked);
 	}
+
+	/*** marker ***/
 
 	function removeMarker(marker) {
 		if (marker != null) {
@@ -168,28 +163,9 @@ $(document).ready(function() {
 		});
 	}
 
-	function initContextMenu() {
-		$("#map_canvas").append('<div id="tooltip_helper" style="width:1px; height:1px; position:absolute; margin-top: -10px; margin-left: 10px; z-index:1; display: block;"></div>');
-
-		$("body").on("click", "#setMarkCmd", setMarkClicked);
-		$("body").on("click", "#setRouteCmd", setRouteClicked);
-		$("body").on("click", "#distanceHereCmd", distanceHereClicked);
-		$("body").on("click", "#toTargetCmd", toTargetClicked);
-		$("body").on("click", "#deleteCmd", deleteClicked);
-	}
-
-	function getMainContextMenu() {
-		 return'<div id="contextmenu">'
-			+ '<button id="setMarkCmd" type="button" class="btn"><i class="icon-map-marker"></i> Markierung setzen</button>'
-			+ '<button id="setRouteCmd" type="button" class="btn"><i class="icon-flag"></i> Route setzen</button>'
-			+ '<button id="distanceHereCmd" type="button" class="btn"><i class="icon-resize-full"></i> Abstand von hier</button>'
-			+ '<button id="toTargetCmd" type="button" class="btn"><i class="icon-star"></i> Zum Ziel machen</button>'
-			+ '<button id="deleteCmd" type="button" class="btn"><i class="icon-remove"></i> Löschen</button></div>';
-	}
+	/*** context menu ***/
 
 	function showContextMenu(latLng) {
-		var contextMenu = getMainContextMenu();
-
 		$('#tooltip_helper').popover({title: function() {
 				var lat = crosshairMarker.getPosition().lat();
 				var lng = crosshairMarker.getPosition().lng();
@@ -198,7 +174,7 @@ $(document).ready(function() {
 					 + '<span class="ctxTitle">BTM XXX°  DTM X.XXX nm</span>';
 			},
 			html : true,
-			content: contextMenu,
+			content: getContextMenuContent,
 			placement: function(){
 				var leftDist = $('#tooltip_helper').position().left;
 				var width = $('#map_canvas').width();
@@ -209,7 +185,7 @@ $(document).ready(function() {
 		$('#tooltip_helper').popover('show');
 		
 		$('#map_canvas').css("overflow","visible"); // bugfix > menu overlaps!
-		updateContextMenu(latLng);
+		updateContextMenu(latLng);	
 	}
 
 	function hideContextMenu() {
@@ -234,6 +210,81 @@ $(document).ready(function() {
 				$('#tooltip_helper').popover('hide');
 			}
 		}
+	}
+
+	function getContextMenuContent() {
+		 var ctx = '<div id="contextmenu">'
+			+ '<button id="setMarkCmd" type="button" class="btn"><i class="icon-map-marker"></i> Markierung setzen</button>';
+
+			if (state != States.ROUTE) {
+				ctx += '<button id="setRouteCmd" type="button" class="btn"><i class="icon-flag"></i> Route beginnen</button>';
+			}
+
+			
+		ctx += '<button id="distanceHereCmd" type="button" class="btn"><i class="icon-resize-full"></i> Abstand von hier</button>'
+			+ '<button id="toTargetCmd" type="button" class="btn"><i class="icon-star"></i> Zum Ziel machen</button>'
+			+ '<button id="deleteCmd" type="button" class="btn"><i class="icon-remove"></i> Löschen</button></div>';
+		return ctx;
+	}
+
+	function getExitRouteModeContextMenu() {
+		return'<div id="contextmenu">'
+			+ '<button id="exitRouteMode" type="button" class="btn"><i class="icon-map-marker"></i> Routenmodus beenden</button>';
+	}
+
+	/*** context menu events ***/
+
+	function setMarkClicked() {
+		setMarker(crosshairMarker.getPosition())
+
+		// make the crosshair invisible
+		crosshairMarker.setVisible(false);
+
+		hideContextMenu();
+	}
+
+	function setRouteClicked() {
+		addRoutePosition(crosshairMarker.getPosition());
+
+		// make the crosshair invisible
+		crosshairMarker.setVisible(false);
+
+		hideContextMenu();
+
+		state = States.ROUTE;
+
+		displayRouteControls();
+	}	
+
+	function toTargetClicked() {
+		
+	}
+
+	function distanceHereClicked() {
+		startDistance(crosshairMarker.getPosition());
+
+		// make the crosshair invisible
+		crosshairMarker.setVisible(false);
+
+		hideContextMenu();
+	}
+
+	function deleteClicked() {
+		
+	}
+
+	function exitRouteModeClicked () {
+		state = States.NORMAL;
+	}
+
+	/*** Lat/Lng ***/
+
+	function updateLatLngInputs() {
+		var lat = map.getCenter().lat();
+		var lng = map.getCenter().lng();
+
+		$("#lat").val(toGeoString(lat, "N", "S", 2));
+		$("#long").val(toGeoString(lng, "E", "W", 3));
 	}
 
 	function toGeoString(value, posChar, negChar, degLength) {
@@ -278,6 +329,13 @@ $(document).ready(function() {
       return currentLatLngOffset;
    	}
 
+   	/*** Routes ***/
+
+   	function displayRouteControls() {
+   		// TODO: bring the route-control into view here!
+   		// add a button, which switches back to normal state to exit ROUTE-MODE: "state = States.NORMAL"
+   	}
+
 	function addRouteMarker(position) {
 
 		var pinColor = "007569";
@@ -290,20 +348,34 @@ $(document).ready(function() {
 			map: map,
 			position: position,
 			icon: pinImage,
-			draggable: true
+			draggable: true,
 		});
-
-		var index = routeMarkers.length;
-		routeMarkers[index] = newMarker;
 
 		google.maps.event.addListener(newMarker, 'drag', function() {
 		    updateRouteLine();
 		});
+
+		google.maps.event.addListener(newMarker, 'rightclick', function(event) {
+			//showContextMenu(event.latLng, getRouteMarkerContextMenu());
+			removeRoutePosition(this);
+		});
+
+		var index = routeMarkers.length;
+		routeMarkers[index] = newMarker;
 	}
 
    	function addRoutePosition(latLng) {
    		addRouteLine(latLng);
    		addRouteMarker(latLng);
+   	}
+
+   	function removeRoutePosition(marker) {
+   		routeMarkers = $.grep(routeMarkers, function(value) {
+		  return value != marker;
+		});
+   		
+   		removeMarker(marker);
+   		updateRouteLine();
    	}
 
    	function addRouteLine(latLng) {
@@ -312,7 +384,6 @@ $(document).ready(function() {
    	}
 
    	function updateRouteLine() {
-   		
    		var roulersPath = new Array();
    		for (var i = 0; i < routeMarkers.length; ++i) {
    			roulersPath[i] = routeMarkers[i].getPosition();
@@ -320,6 +391,8 @@ $(document).ready(function() {
 
    		poly.setPath(roulersPath);
    	}
+
+   	/*** Distance-Roulor ***/
 
    	function startDistance(latLng) {
    		distanceActive = true;
