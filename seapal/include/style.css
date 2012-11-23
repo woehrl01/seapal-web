@@ -27,6 +27,13 @@ h3
 }
 
 /**
+ * Hero Unit index
+ */
+.hero-unit img {
+	width:100%;
+}
+
+/**
  * Header / Navigation
  */
 

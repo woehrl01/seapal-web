@@ -16,21 +16,14 @@
 		<div class="content-wrapper">
 			<div class="container">
 				<div class="hero-unit">
-					<div class="hidden-phone hidden-tablet">
-						<img class="img-rounded"src="http://placehold.it/960x150">
-					</div>
-					<div class="hidden-desktop hidden-phone">
-						<img class="img-rounded"src="http://placehold.it/724x150">
-					</div>
+					<h2 class="ir">Track your searoutes easily - for free</h2>
+					<h3 class="ir">Available on Apple iPad & iPhone and via your Browser</h3>
+					<img src="http://placehold.it/1200x300">
 				</div>
 				<div class="row">
 					<div class="span12">
 						<div class="round">
-							<h2>Welcome to SeaPal</h2>
 							<div class="entry">
-								<p>
-									<img class="img-rounded"src="http://placehold.it/724x150/ffffff">
-								</p>
 								<p>
 									<b>SeaPal</b> is an App for sailors and other water sport fanatics that support the skipper in his tasks for navigation, route planing and logbook keeping. The central view shows a map with the current position and forward line. Waypoint and routes can easily be created, distances and courses can quickly be determined and documented in the logbook. The touch interface allows for fast and intuitive interaction.
 								</p>
