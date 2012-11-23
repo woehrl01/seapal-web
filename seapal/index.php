@@ -14,12 +14,18 @@
 		</div>
 
 		<div class="content-wrapper">
-			<div class="container">
-				<div class="hero-unit">
-					<h2 class="ir">Track your searoutes easily - for free</h2>
-					<h3 class="ir">Available on Apple iPad & iPhone and via your Browser</h3>
-					<img src="http://placehold.it/1200x300">
+			<div id="head-unit">
+				<div class="container">
+					<div class="row">
+						<div class="span12">
+							<h2 class="ir">Track your searoutes easily - for free</h2>
+							<h3 class="ir">Available on Apple iPad & iPhone and via your Browser</h3>
+							<img src="http://placehold.it/1200x300">
+						</div>
+					</div>
 				</div>
+			</div>
+			<div class="container">
 				<div class="row">
 					<div class="span12">
 						<div class="round">

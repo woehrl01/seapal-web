@@ -27,9 +27,14 @@ h3
 }
 
 /**
- * Hero Unit index
+ * Head Unit index.php
  */
-.hero-unit img {
+#head-unit {
+	width:100%;
+	background:#ccc;
+	color:#000;
+}
+#head-unit img {
 	width:100%;
 }
 
