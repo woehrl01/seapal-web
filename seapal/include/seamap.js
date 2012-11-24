@@ -13,6 +13,12 @@ $(document).ready(function() {
 	var States = {"NORMAL" : 0, "ROUTE" : 1, "DISTANCE" : 2};
 	var state = States.NORMAL;
 
+	// context-menu/selection
+	var ContextMenuTypes = {"DEFAULT" : 0, "DELETE_MARKER" : 1, "DELETE_ROUTEMARKER" : 2};
+	var contextMenuType = ContextMenuTypes.DEFAULT;
+	var selectedMarker = null;
+	var contextMenuVisible = false;
+
 	initMap();
 	initOpenSeaMaps();
 	initContextMenu();
@@ -44,8 +50,12 @@ $(document).ready(function() {
 				removeMarker(crosshairMarker);
 				hideContextMenu();
 				break;
-			case States.ROUTE: 
-				addRoutePosition(event.latLng);
+			case States.ROUTE:
+				if (contextMenuVisible) {
+					hideContextMenu();
+				} else {
+					addRoutePosition(event.latLng);
+				}
 				break;
 		}
 
@@ -58,10 +68,13 @@ $(document).ready(function() {
 				removeMarker(crosshairMarker);
 				setCrosshairMarker(event.latLng);
 
-				showContextMenu(event.latLng);
+				showContextMenu(event.latLng, ContextMenuTypes.DEFAULT, crosshairMarker);
 				break;
 			case States.ROUTE:
-				showContextMenu(event.latLng); // TODO: check context menu shows old content!!!
+				removeMarker(crosshairMarker);
+				setCrosshairMarker(event.latLng);
+
+				showContextMenu(event.latLng, ContextMenuTypes.DEFAULT, crosshairMarker);
 				break;
 		}
 	}
@@ -127,7 +140,9 @@ $(document).ready(function() {
 		$("body").on("click", "#distanceHereCmd", distanceHereClicked);
 		$("body").on("click", "#toTargetCmd", toTargetClicked);
 		$("body").on("click", "#deleteCmd", deleteClicked);
-		$("body").on("click", "#exitRouteMode", exitRouteModeClicked);
+		$("body").on("click", "#exitRouteModeCmd", exitRouteModeClicked);
+		$("body").on("click", "#deleteMarkerCmd", deleteMarkerClicked);
+		$("body").on("click", "#deleteRouteMarkerCmd", deleteRouteMarkerClicked);
 	}
 
 	/*** marker ***/
@@ -138,11 +153,17 @@ $(document).ready(function() {
 		}
 	}
 
-	function setMarker(position) {
+	function setDefaultMarker(position) {
 		var newMarker = new google.maps.Marker({
 			map: map,
 			position: position,
 			draggable: true
+		});
+
+
+		google.maps.event.addListener(newMarker, 'rightclick', function(event) {
+			showContextMenu(event.latLng, ContextMenuTypes.DELETE_MARKER, newMarker);
+			//removeRoutePosition(this);
 		});
 	}
 
@@ -165,7 +186,14 @@ $(document).ready(function() {
 
 	/*** context menu ***/
 
-	function showContextMenu(latLng) {
+	function showContextMenu(latLng, type, marker) {
+		contextMenuVisible = true;
+		contextMenuType = type;
+		selectedMarker = marker;
+		showContextMenuInternal(latLng);
+	}
+
+	function showContextMenuInternal(latLng) {
 		$('#tooltip_helper').popover({title: function() {
 				var lat = crosshairMarker.getPosition().lat();
 				var lng = crosshairMarker.getPosition().lng();
@@ -189,7 +217,9 @@ $(document).ready(function() {
 	}
 
 	function hideContextMenu() {
+		
 		$('#tooltip_helper').popover('hide');
+		contextMenuVisible = false;
 	}
 
 	function updateContextMenu(latLng){
@@ -206,36 +236,42 @@ $(document).ready(function() {
 			// check whether the popup is displayed outside of the maps container
 			if (xPos > 5 && xPos < width - 5 && yPos > 5 && yPos < height - 5) {
 				$('#tooltip_helper').popover('show');
+				contextMenuVisible = true;
 			} else {
-				$('#tooltip_helper').popover('hide');
+				hideContextMenu();
 			}
 		}
 	}
 
 	function getContextMenuContent() {
-		 var ctx = '<div id="contextmenu">'
-			+ '<button id="setMarkCmd" type="button" class="btn"><i class="icon-map-marker"></i> Markierung setzen</button>';
-
-			if (state != States.ROUTE) {
-				ctx += '<button id="setRouteCmd" type="button" class="btn"><i class="icon-flag"></i> Route beginnen</button>';
-			}
-
-			
-		ctx += '<button id="distanceHereCmd" type="button" class="btn"><i class="icon-resize-full"></i> Abstand von hier</button>'
-			+ '<button id="toTargetCmd" type="button" class="btn"><i class="icon-star"></i> Zum Ziel machen</button>'
-			+ '<button id="deleteCmd" type="button" class="btn"><i class="icon-remove"></i> Löschen</button></div>';
+		var ctx = '<div id="contextmenu">'
+		switch(contextMenuType) {
+			case ContextMenuTypes.DEFAULT:
+				ctx += '<button id="setMarkCmd" type="button" class="btn"><i class="icon-map-marker"></i> Markierung setzen</button>';
+				if (state != States.ROUTE) {
+					ctx += '<button id="setRouteCmd" type="button" class="btn"><i class="icon-flag"></i> Route beginnen</button>';
+				} else {
+					ctx += '<button id="exitRouteModeCmd" type="button" class="btn"><i class="icon-flag"></i> Routenaufzeichnung beenden</button>';
+				}
+				ctx += '<button id="distanceHereCmd" type="button" class="btn"><i class="icon-resize-full"></i> Abstand von hier</button>'
+					+ '<button id="toTargetCmd" type="button" class="btn"><i class="icon-star"></i> Zum Ziel machen</button>'
+					+ '<button id="deleteCmd" type="button" class="btn"><i class="icon-remove"></i> Löschen</button>'; 
+				break;
+			case ContextMenuTypes.DELETE_MARKER:
+				ctx += '<button id="deleteMarkerCmd" type="button" class="btn"><i class="icon-map-marker"></i> Markierung löschen</button>';
+				break;
+			case ContextMenuTypes.DELETE_ROUTEMARKER:
+				ctx += '<button id="deleteRouteMarkerCmd" type="button" class="btn"><i class="icon-map-marker"></i> Routenpunkt löschen</button>';
+				break;
+		}
+		ctx += '</div>'
 		return ctx;
-	}
-
-	function getExitRouteModeContextMenu() {
-		return'<div id="contextmenu">'
-			+ '<button id="exitRouteMode" type="button" class="btn"><i class="icon-map-marker"></i> Routenmodus beenden</button>';
 	}
 
 	/*** context menu events ***/
 
 	function setMarkClicked() {
-		setMarker(crosshairMarker.getPosition())
+		setDefaultMarker(crosshairMarker.getPosition())
 
 		// make the crosshair invisible
 		crosshairMarker.setVisible(false);
@@ -249,15 +285,15 @@ $(document).ready(function() {
 		// make the crosshair invisible
 		crosshairMarker.setVisible(false);
 
-		hideContextMenu();
-
 		state = States.ROUTE;
 
+		hideContextMenu();
 		displayRouteControls();
 	}	
 
 	function toTargetClicked() {
-		
+		alert("not implemented");
+		hideContextMenu();
 	}
 
 	function distanceHereClicked() {
@@ -270,11 +306,23 @@ $(document).ready(function() {
 	}
 
 	function deleteClicked() {
-		
+		alert("not implemented");
+		hideContextMenu();
 	}
 
 	function exitRouteModeClicked () {
 		state = States.NORMAL;
+		hideContextMenu();
+	}
+
+	function deleteMarkerClicked () {
+		removeMarker(selectedMarker);
+		hideContextMenu();
+	}
+
+	function deleteRouteMarkerClicked () {
+		removeRoutePosition(selectedMarker);
+		hideContextMenu();
 	}
 
 	/*** Lat/Lng ***/
@@ -333,7 +381,8 @@ $(document).ready(function() {
 
    	function displayRouteControls() {
    		// TODO: bring the route-control into view here!
-   		// add a button, which switches back to normal state to exit ROUTE-MODE: "state = States.NORMAL"
+   		// add a button, which switches back to normal state 
+   		// to exit ROUTE-MODE: "state = States.NORMAL"
    	}
 
 	function addRouteMarker(position) {
@@ -356,8 +405,7 @@ $(document).ready(function() {
 		});
 
 		google.maps.event.addListener(newMarker, 'rightclick', function(event) {
-			//showContextMenu(event.latLng, getRouteMarkerContextMenu());
-			removeRoutePosition(this);
+			showContextMenu(event.latLng, ContextMenuTypes.DELETE_ROUTEMARKER, newMarker);
 		});
 
 		var index = routeMarkers.length;
