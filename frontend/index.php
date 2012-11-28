@@ -3,11 +3,8 @@
 	<head>
 		<title>SeaPal</title>
 		<?php include("htmlhead.php"); ?>
-		<style>
-		.header-wrapper {margin-bottom:59px;}
-		</style>
 	</head>
-	<body>
+	<body class="index">
 
 		<div class="header-wrapper">
 			<?php include("header.php"); ?>

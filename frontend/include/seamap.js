@@ -1,6 +1,6 @@
 /* seamap.js */
 
-$(document).ready(function() {
+$(document).ready(function() {	
 	var map = null;
 	var crosshairMarker = null;
 
@@ -92,6 +92,11 @@ $(document).ready(function() {
 	/*** initializations ***/
 
 	function initMap() {
+		$("#map_canvas").height($(window).height() - $(".header-wrapper .navbar-fixed-top").height() - 20);
+		$(window).resize(function(){
+			$("#map_canvas").height($(window).height() - $(".header-wrapper .navbar-fixed-top").height() - 20);
+		});
+		
 		var latlng = new google.maps.LatLng(47.655, 9.205);
 		var myOptions = {
 	  		zoom: 14,

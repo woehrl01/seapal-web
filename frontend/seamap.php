@@ -14,8 +14,8 @@
 			<?php include("header.php"); ?>
 		</div>
 
-		<div class="container-fluid" style="height:70%;">
-				<h1>Seamap</h1>
+		<div class="container-fluid">
+				<!--
 				<div class="row-fluid">
 					<div class="span6">
 						<label for="lat">Lat</label>
@@ -26,9 +26,10 @@
 						<input id="long" readonly="readonly" type="text" name="long" tabindex="2" class="span12" />
 					</div>
 				</div>
+				-->
 
-				<div class="row-fluid" style="width:100%;height:100%;">
-					<div class="span12" style="width:100%;height:100%;">
+				<div class="row-fluid" style="width:100%;">
+					<div class="span12" style="width:100%;">
 						<div id="map_canvas" class="span12" style="width:100%;"></div>
 					</div>
 				</div>
