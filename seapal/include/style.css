@@ -9,8 +9,14 @@ body.googlemaps
 }
 body
 {
-	background:url(../images/bg.jpg);
+	background:url(../images/bg.jpg) repeat-x #026899;
 }
+@media (max-width: 767px) {
+	body {
+		background: #026899;
+	}
+}
+
 h1,
 h2,
 h3,
@@ -30,12 +36,22 @@ h3
  * Head Unit index.php
  */
 #head-unit {
-	width:100%;
-	background:#ccc;
+	width:980px;
+	height:589px;
+	background:url(../images/header_teaser.jpg) top center no-repeat;
 	color:#000;
+	margin:0 auto;
 }
-#head-unit img {
-	width:100%;
+@media (max-width: 980px) {
+	#head-unit {
+		width:100%;
+	}
+}
+
+#head-unit h2, #head-unit h3 {
+	display:block;
+	text-indent:-999999px;
+	margin:0;
 }
 
 /**
@@ -54,8 +70,10 @@ h3
 
 #webapp-menu-pill
 {
-	margin-top:90px;
 	border-bottom:1px solid #fff;
+	background:#026899;
+	padding:20px 50px 0 50px;
+	margin-top:-20px;
 }
 @media (max-width: 767px) {
 	#webapp-menu-pill {
@@ -136,8 +154,11 @@ h3
 .footer
 {
 	box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
-	background:#E8E8E8;
+	background:#0c4675;
 	padding: 60px;
+}
+.footer a {
+	color:#FFF;
 }
 .footer ul {
 	list-style:none;
