@@ -4,6 +4,9 @@ $(document).ready(function() {
 	var map = null;
 	var crosshairMarker = null;
 
+	//boat
+	var boatMarker = null;
+	
 	// route
 	var poly = null;
 	var routeMarkers = new Array();
@@ -31,6 +34,8 @@ $(document).ready(function() {
 	initDistancePolyline();
 
 	updateLatLngInputs();
+	
+	positionConnect();
 
 	google.maps.event.addListener(map, 'center_changed', function() {
 		updateLatLngInputs();
@@ -154,6 +159,54 @@ $(document).ready(function() {
 		$("body").on("click", "#deleteDistanceMarkerCmd", deleteDistanceMarkerClicked);
 	}
 
+
+	function updateBoatPosition(position){
+		if(boatMarker == null){
+			var crosshairShape = {coords:[0,0,0,0],type:'rect'};
+			var image = new google.maps.MarkerImage('images/boat.png',
+			new google.maps.Size(32,32),
+			new google.maps.Point(0,0),
+			new google.maps.Point(16,16));
+
+			boatMarker = new google.maps.Marker({
+				position: position,
+				map: map,
+				title:"boat",
+				shape: crosshairShape,
+				icon: image
+			});
+		}else{
+			boatMarker.setPosition(position);
+			console.log(position);
+		}
+		
+	}
+	
+	function positionConnect(){
+		$.ajax({
+			type: 'GET',
+			url : "boatposition.php",
+			dataType : 'json',
+			data: null,
+			success : function(response){
+
+				position = new google.maps.LatLng(response.lat, response.lng);
+				updateBoatPosition(position);
+				noerror = true;
+			},
+			complete: function(response){
+				if(!self.noerror){
+					setTimeout(function(){positionConnect();},5000);
+				}else{
+					positionConnect();
+				}
+				noerror = false;
+			}
+		
+		});
+	
+	}
+	
 	/*** marker ***/
 
 	function removeMarker(marker) {
@@ -161,6 +214,7 @@ $(document).ready(function() {
 			marker.setMap(null);
 		}
 	}
+	
 
 	function setDefaultMarker(position) {
 		var newMarker = new google.maps.Marker({
