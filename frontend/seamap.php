@@ -5,7 +5,8 @@
 		<?php include("htmlhead.php"); ?>
 		<script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyAL6gKFmwH7gDXmmAW-5VqkW_HbJG7_QLA&sensor=false"></script>
 		<script type="text/javascript" src="include/label.js"></script>
-		<script type="text/javascript" src="include/seamap.js"></script>
+		<script type="text/javascript" src="include/seamap-1.0.0.js"></script>
+		<script type="text/javascript" src="include/seapal_main.js"></script>
 		<link type="text/css" rel="stylesheet" href="include/seamap.css" />
 	</head>
 	<body class="googlemaps">

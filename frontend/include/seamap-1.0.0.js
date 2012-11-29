@@ -1,6 +1,19 @@
 (function( $, window ){
-	// enums
-	var States = {
+	// default options
+	var options = {
+		contextMenuContainer : '#map_canvas .menu',
+		startLat : 47.655,
+		startLong : 9.205,
+		height : function() {
+			return $(window).height() - $(".header-wrapper .navbar-fixed-top").height() - 20
+		}
+	};
+	
+	$.seamap = function(element){	
+		var options = $.seamap.options;
+	
+		// enums
+		var States = {
 			"NORMAL" : 0, 
 			"ROUTE" : 1, 
 			"DISTANCE" : 2
@@ -10,12 +23,32 @@
 			"DELETE_MARKER" : 1, 
 			"DELETE_ROUTEMARKER" : 2
 		};
+		
+		var map = null,
+			crosshairMarker = null;
 
-		// var bug???
-	var seamapobj = function(element){
-		var $this = $(element),
-			options = options,
-			internal_options = options.vars;
+		//boat
+		var boatMarker = null;
+		
+		// route
+		var poly = null,
+			routeMarkers = new Array();
+
+		// distance
+		var distanceLabel = null,
+			distancePoly = null,
+			distanceMarkers = new Array();
+
+		// editing states
+		var state = States.NORMAL;
+
+		// context-menu/selection
+		var contextMenuType = ContextMenuTypes.DEFAULT,
+			selectedMarker = null,
+			contextMenuVisible = false;
+	
+		// bind our jquery element
+		var $this = $(element);
 		
 		initMap();
 		initOpenSeaMaps();
@@ -82,21 +115,20 @@
 		}
 
 		/*** initializations ***/
-
 		function initMap() {
-			$("#map_canvas").height($(window).height() - $(".header-wrapper .navbar-fixed-top").height() - 20);
+			$this.height(options.height());
 			$(window).resize(function(){
-				$("#map_canvas").height($(window).height() - $(".header-wrapper .navbar-fixed-top").height() - 20);
+				$this.height(options.height());
 			});
 			
-			var latlng = new google.maps.LatLng(47.655, 9.205);
+			var latlng = new google.maps.LatLng(options.startLat, options.startLong);
 			var myOptions = {
 				zoom: 14,
 				center: latlng,
 				mapTypeId: google.maps.MapTypeId.ROADMAP
 			};
 			
-			map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+			map = new google.maps.Map($this.get(0), myOptions);
 		}
 
 		function initOpenSeaMaps() {
@@ -133,7 +165,7 @@
 		}
 
 		function initContextMenu() {
-			$("#map_canvas").append('<div id="tooltip_helper" style="width:1px; height:1px; position:absolute; margin-top: -10px; margin-left: 10px; z-index:1; display: block;"></div>');
+			$this.append('<div id="tooltip_helper" style="width:1px; height:1px; position:absolute; margin-top: -10px; margin-left: 10px; z-index:1; display: block;"></div>');
 
 			$("body").on("click", "#setMarkCmd", setMarkClicked);
 			$("body").on("click", "#setRouteCmd", setRouteClicked);
@@ -212,7 +244,7 @@
 			});
 			$('#tooltip_helper').popover('show');
 			
-			$('#map_canvas').css("overflow","visible"); // bugfix > menu overlaps!
+			$this.css("overflow","visible"); // bugfix > menu overlaps!
 			updateContextMenu(latLng);	
 		}
 
@@ -228,8 +260,8 @@
 
 				var xPos = pos.x;
 				var yPos = pos.y + 10;
-				var width = $('#map_canvas').width();
-				var height = $('#map_canvas').height();
+				var width = $this.width();
+				var height = $this.height();
 
 				$('#tooltip_helper').css({top: yPos, left: xPos});
 
@@ -567,53 +599,27 @@
 			return Math.round(d*1000); // in meters
 		}
 	};
-
-		// options of our seamap
-	var options = {
-
-		// internal variables
-		vars : {
-			map : null,
-			crosshairMarker : null,
-
-			// route
-			poly : null,
-			routeMarkers : new Array(),
-
-			// distance
-			distanceLabel : null,
-			distancePoly : null,
-			distanceMarkers : new Array(),
-
-			state : States.NORMAL,
-
-			contextMenuType : ContextMenuTypes.DEFAULT,
-			selectedMarker : null,
-			contextMenuVisible : false
-		}
-	};
 	
+	$.seamap.options = options;
+
 	// extend jquery with our new fancy seamap function
 	$.fn.seamap = function( opts ) {
-		$.extend(options, opts);
+		if( typeof opts === 'object') {
+			$.extend(options, opts);
+		}
 	
-		// iterates over all matched items and initializes the seamap
-		// TODO: needed? Should it be possible?
 		return this.each(function () {
 			$this = $(this);
-			if( $this.data('seamap') ) {
-				return $this.data('seamap');
+		
+			if($this.data('seamap') === undefined) {
+				$this.data('seamap:original', $this.clone());
+				var seamap = new $.seamap(this);
+				$this.data('seamap', seamap);
+			} else {
+				$.error("Another initialization of the seamap plugin is not possible!");
 			}
-			
-			$this.data('seamap:original', $this.clone());
-			var seamap = new seamap(this);
-			$this.data('seamap', seamap);
 		});
   
 	};
 
 })( jQuery, window );
-
-$(document).ready(function() {	
-	$("#map_canvas").seamap();
-});
