@@ -177,11 +177,11 @@ $(document).ready(function() {
 			});
 		}else{
 			boatMarker.setPosition(position);
-			console.log(position);
+			//console.log(position);
 		}
 		
 		if ($('#enable_tracing:checked').val() == 'true') {	
-			map.setCenter(position);
+			map.panTo(position);
 		}
 		
 		
