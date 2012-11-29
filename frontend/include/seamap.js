@@ -180,6 +180,11 @@ $(document).ready(function() {
 			console.log(position);
 		}
 		
+		if ($('#enable_tracing:checked').val() == 'true') {	
+			map.setCenter(position);
+		}
+		
+		
 	}
 	
 	function positionConnect(){

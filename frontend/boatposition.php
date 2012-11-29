@@ -2,6 +2,9 @@
 
 $filename  = dirname(__FILE__).'/boatposition.txt';
 
+$LEFT_LNG_LIMIT = 9.195;
+$RIGHT_LNG_LIMIT = 9.24;
+
 $firstPositionAge = filemtime($filename);
 $positionAge = $firstPositionAge ;
 
@@ -26,10 +29,17 @@ if(!$changedExternal){
 	$positionArray = explode(",", $position);
 	$lat = $positionArray[0];
 	$long = $positionArray[1];
+	$dir = $positionArray[2];
 
-	$lat -= 0.00000;
-	$long += 0.00000;
-	$position = $lat.",".$long;
+	if ($long > $RIGHT_LNG_LIMIT && $dir > 0) {
+		$dir = -1;
+	} else if ($long < $LEFT_LNG_LIMIT && $dir < 0) {
+		$dir = 1;
+	}
+	
+	$lat -= 0.0000;
+	$long += 0.0019 * $dir;
+	$position = $lat.",".$long.",".$dir;
 
 	file_put_contents($filename, $position);
 }
