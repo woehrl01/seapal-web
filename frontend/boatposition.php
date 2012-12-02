@@ -6,7 +6,7 @@ $LEFT_LNG_LIMIT = 9.195;
 $RIGHT_LNG_LIMIT = 9.24;
 $DEFAULT_CONTENT = "47.655,9.20056,-1";
 
-$exists = $file_exists($filename);
+$exists = file_exists($filename);
 
 if($exists){
 
