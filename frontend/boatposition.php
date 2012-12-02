@@ -24,7 +24,7 @@ while (time() - $positionAge < $timePerRefresh) // check if the data file has be
   }
 }
 
-$position = file_get_contents($filename);
+$position = @file_get_contents($filename);
 if(!$position){
     $position = $DEFAULT_CONTENT;
 }
