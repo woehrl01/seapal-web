@@ -6,26 +6,32 @@ $LEFT_LNG_LIMIT = 9.195;
 $RIGHT_LNG_LIMIT = 9.24;
 $DEFAULT_CONTENT = "47.655,9.20056,-1";
 
-$firstPositionAge = filemtime($filename);
-$positionAge = $firstPositionAge ;
+$exists = $file_exists($filename);
 
-$timePerRefresh = 1;
+if($exists){
 
-$changedExternal = false;
+    $firstPositionAge = filemtime($filename);
+    $positionAge = $firstPositionAge ;
 
-while (time() - $positionAge < $timePerRefresh) // check if the data file has been modified
-{
-  usleep(10000); // sleep 200ms to unload the CPU
-  clearstatcache();
-  $positionAge = filemtime($filename);
-  if($firstPositionAge != $positionAge){
-	$changedExternal = true;
-	break;
-  }
-}
+    $timePerRefresh = 1;
 
-$position = @file_get_contents($filename);
-if(!$position){
+    $changedExternal = false;
+
+    while (time() - $positionAge < $timePerRefresh) // check if the data file has been modified
+    {
+      usleep(100000); // sleep 100ms to unload the CPU
+      clearstatcache();
+      $positionAge = filemtime($filename);
+      if($firstPositionAge != $positionAge){
+    	$changedExternal = true;
+    	break;
+      }
+    }
+
+    $position = @file_get_contents($filename);
+    
+}else{
+    usleep(2000000);
     $position = $DEFAULT_CONTENT;
 }
 
@@ -46,7 +52,7 @@ if(!$changedExternal){
 	$long += 0.0019 * $dir;
 	$position = $lat.",".$long.",".$dir;
 
-	file_put_contents($filename, $position);
+	@file_put_contents($filename, $position);
 }
 
 $positionArray = explode(",", $position);
