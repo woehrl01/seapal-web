@@ -59,6 +59,8 @@
 
 		updateLatLngInputs();
 
+		positionConnect();
+
 		google.maps.event.addListener(map, 'center_changed', function() {
 			updateLatLngInputs();
 
@@ -177,6 +179,58 @@
 			$("body").on("click", "#deleteRouteMarkerCmd", deleteRouteMarkerClicked);
 			$("body").on("click", "#deleteDistanceMarkerCmd", deleteDistanceMarkerClicked);
 		}
+
+		/*** boat position ***/
+
+		function updateBoatPosition(position){
+			if(boatMarker == null){
+				var crosshairShape = {coords:[0,0,0,0],type:'rect'};
+				var image = new google.maps.MarkerImage('images/boat.png',
+				new google.maps.Size(32,32),
+				new google.maps.Point(0,0),
+				new google.maps.Point(16,16));
+
+				boatMarker = new google.maps.Marker({
+					position: position,
+					map: map,
+					title:"boat",
+					shape: crosshairShape,
+					icon: image
+				});
+			}else{
+				boatMarker.setPosition(position);
+				//console.log(position);
+			}
+
+			if ($('#enable_tracing:checked').val() == 'true') {	
+				map.panTo(position);
+			}
+
+		}
+
+		function positionConnect(){
+			$.ajax({
+				type: 'GET',
+				url : "boatposition.php",
+				dataType : 'json',
+				data: null,
+				success : function(response){
+
+					position = new google.maps.LatLng(response.lat, response.lng);
+					updateBoatPosition(position);
+					noerror = true;
+				},
+				complete: function(response){
+					if(!self.noerror){
+						setTimeout(function(){positionConnect();},5000);
+					}else{
+						positionConnect();
+					}
+					noerror = false;
+				}
+			});
+		}
+
 
 		/*** marker ***/
 
