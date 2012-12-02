@@ -4,6 +4,7 @@ $filename  = dirname(__FILE__).'/boatposition.txt';
 
 $LEFT_LNG_LIMIT = 9.195;
 $RIGHT_LNG_LIMIT = 9.24;
+$DEFAULT_CONTENT = "47.655,9.20056,-1";
 
 $firstPositionAge = filemtime($filename);
 $positionAge = $firstPositionAge ;
@@ -24,6 +25,10 @@ while (time() - $positionAge < $timePerRefresh) // check if the data file has be
 }
 
 $position = file_get_contents($filename);
+if(!$position){
+    $position = $DEFAULT_CONTENT;
+}
+
 if(!$changedExternal){
 
 	$positionArray = explode(",", $position);
