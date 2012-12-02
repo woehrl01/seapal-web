@@ -1,23 +1,21 @@
 <?php
 
+/*** settings ***/
 $filename  = dirname(__FILE__).'/boatposition.txt';
 
 $LEFT_LNG_LIMIT = 9.195;
 $RIGHT_LNG_LIMIT = 9.24;
 $DEFAULT_CONTENT = "47.655,9.20056,-1";
+$TIME_PER_REFRESH = 2;
 
-$exists = file_exists($filename);
-
-if($exists){
+/*** implementation ***/
+$changedExternal = false;
+if(file_exists($filename)){
 
     $firstPositionAge = filemtime($filename);
     $positionAge = $firstPositionAge ;
 
-    $timePerRefresh = 1;
-
-    $changedExternal = false;
-
-    while (time() - $positionAge < $timePerRefresh) // check if the data file has been modified
+    while (time() - $positionAge < $TIME_PER_REFRESH) // check if the data file has been modified
     {
       usleep(100000); // sleep 100ms to unload the CPU
       clearstatcache();
@@ -31,7 +29,7 @@ if($exists){
     $position = @file_get_contents($filename);
     
 }else{
-    usleep(2000000);
+    usleep(1000000 * $TIME_PER_REFRESH);
     $position = $DEFAULT_CONTENT;
 }
 
