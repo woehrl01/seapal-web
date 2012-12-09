@@ -17,9 +17,9 @@
     $btm                = $_POST["btm"];
     $dtm                = $_POST["dtm"];
     $trip_to            = $_POST["trip_to"];
-    $maneuver           = $_POST["maneuver"];
-    $headsail_id        = $_POST["headsail"];
-    $mainsail           = $_POST["mainsail"];
+    $maneuver_id        = $_POST["maneuver_id"];
+    $headsail_id        = $_POST["headsail_id"];
+    $mainsail_id        = $_POST["mainsail_id"];
 
     $longitude = $north_degree; //calc
     $latitute  = $east_degree; //calc
@@ -27,7 +27,7 @@
     $db = DBConnector::getConnection();
 
     $db->query("INSERT INTO waypoint  (id, longitude, latitute, trip_id, cog, sog, datetime, btm, dtm, trip_to, manuever_id, headsail_id, mainsail_id)
-            VALUES (1, $longitude, $latitute, $trip_to, $cog, $sog, $timestamp, $btm, $dtm, $trip_to, $maneuver, $headsail_id, $mainsail);");
+            VALUES (1, $longitude, $latitute, $trip_to, $cog, $sog, $timestamp, $btm, $dtm, $trip_to, $maneuver_id, $headsail_id, $mainsail_id);");
 
     $db->close();    
 

@@ -3,6 +3,7 @@
 	<head>
 		<title>SeaPal</title>
 		<?php include("htmlhead.php"); ?>
+		<script type="text/javascript" src="include/trip_info.js"></script>
 	</head>
 	<body>
 
@@ -11,7 +12,9 @@
 		</div>
 
 		<div class="content-wrapper">
-			<form method="post" action="../backend/trip_info_submit.php">
+			<form method="post" action="../backend/trip_service.php">
+				<input type="text" name="method" value="save" style="display: none" />
+				<input type="text" name="boat_id" value="1" style="display: none" />
 				<div class="container">
 					<h1>Trip info</h1>
 					<div class="input-wrapper">
@@ -25,14 +28,14 @@
 							<div class="span3">
 								<div class="row">
 									<div class="span3">
-										<label for="from">Von</label>
-										<input type="text" name="from" tabindex="2" />
+										<label for="trip_from">Von</label>
+										<input type="text" name="trip_from" tabindex="2" />
 									</div>
 								</div>
 								<div class="row">
 									<div class="span3">
-										<label for="to">Nach</label>
-										<input type="text" name="to" tabindex="3" />
+										<label for="trip_to">Nach</label>
+										<input type="text" name="trip_to" tabindex="3" />
 									</div>
 								</div>
 								<div class="row">
@@ -144,6 +147,19 @@
 		</form>
 		<div class="footer-wrapper">
 			<?php include("footer.php"); ?>
+		</div>
+
+		<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		    <h3 id="myModalLabel">Erfolgreich!</h3>
+		  </div>
+		  <div class="modal-body">
+		    <p>Die Daten wurden erfolgreich übermittelt!</p>
+		  </div>
+		  <div class="modal-footer">
+		    <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">OK</button>
+		  </div>
 		</div>
 		
 	</body>

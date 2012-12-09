@@ -8,8 +8,8 @@ CREATE TABLE IF NOT EXISTS person(
 
 CREATE TABLE IF NOT EXISTS boat(
 	id INTEGER NOT NULL AUTO_INCREMENT,
-	name varchar(20) NOT NULL,
-	boat_typ varchar(20) NOT NULL,
+	boat_name varchar(20) NOT NULL,
+	boat_type varchar(20) NOT NULL,
 	build_year varchar(4) NOT NULL,
 	register_nr varchar(20) NOT NULL,
 	constructor varchar(20) NOT NULL,
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS boat(
 CREATE TABLE IF NOT EXISTS trip(
 	id INTEGER NOT NULL AUTO_INCREMENT,
 	boat_id INTEGER NOT NULL,
-	title varchar(20) NOT NULL,
+	trip_title varchar(20) NOT NULL,
 	trip_from varchar(20) NOT NULL,
 	trip_to varchar(20) NOT NULL,
 	start_time timestamp NOT NULL,
@@ -48,6 +48,7 @@ CREATE TABLE IF NOT EXISTS trip(
 	engine_runtime integer NOT NULL,
 	skipper varchar(20) NOT NULL,
 	tank_filled integer NOT NULL,
+	crew varchar(128) NOT NULL,
 	
 	PRIMARY KEY (id),
 	FOREIGN KEY (boat_id) references boat(id),
@@ -79,14 +80,6 @@ CREATE TABLE IF NOT EXISTS headsail(
 );
 
 CREATE TABLE IF NOT EXISTS mainsail(
-	id INTEGER NOT NULL AUTO_INCREMENT,
-	name INTEGER NOT NULL,
-
-	PRIMARY KEY (id),
-	UNIQUE KEY (id)
-);
-
-CREATE TABLE IF NOT EXISTS maneuver(
 	id INTEGER NOT NULL AUTO_INCREMENT,
 	name INTEGER NOT NULL,
 

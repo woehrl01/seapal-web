@@ -10,7 +10,8 @@
 		<div class="header-wrapper">
 			<?php include("header.php"); ?>
 		</div>
-		<form id="form" method="post" action="../backend/boat_info_submit.php">
+		<form id="form" method="post" action="../backend/boat_service.php">
+			<input type="text" name="method" value="save" style="display: none" />
 			<div class="content-wrapper">
 				<div class="container">
 					<h1>Logbuch</h1>
@@ -49,8 +50,8 @@
 								<input type="text" name="sail_sign" tabindex="3" />
 							</div>
 							<div class="span4">
-								<label for="length">Länge</label>
-								<input type="text" name="length" tabindex="11" />
+								<label for="boat_length">Länge</label>
+								<input type="text" name="boat_length" tabindex="11" />
 							</div>
 							<div class="span4">
 								<label for="fueltank_size">Tankgröße</label>
@@ -63,8 +64,8 @@
 								<input type="text" name="home_port" tabindex="4" />
 							</div>
 							<div class="span4">
-								<label for="width">Breite</label>
-								<input type="text" name="width" tabindex="12" />
+								<label for="boat_width">Breite</label>
+								<input type="text" name="boat_width" tabindex="12" />
 							</div>
 							<div class="span4">
 								<label for="watertank_size">Wassertankgröße</label>
