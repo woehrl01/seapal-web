@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS boat(
 
 CREATE TABLE IF NOT EXISTS trip(
 	id INTEGER NOT NULL AUTO_INCREMENT,
-	boat_ID INTEGER NOT NULL,
+	boat_id INTEGER NOT NULL,
 	title varchar(20) NOT NULL,
 	trip_from varchar(20) NOT NULL,
 	trip_to varchar(20) NOT NULL,
@@ -50,6 +50,7 @@ CREATE TABLE IF NOT EXISTS trip(
 	tank_filled integer NOT NULL,
 	
 	PRIMARY KEY (id),
+	FOREIGN KEY (boat_id) references boat(id),
 	UNIQUE KEY (id)
 );
 
@@ -69,6 +70,30 @@ CREATE TABLE IF NOT EXISTS maneuver(
 	UNIQUE KEY (id)
 );
 
+CREATE TABLE IF NOT EXISTS headsail(
+	id INTEGER NOT NULL AUTO_INCREMENT,
+	name INTEGER NOT NULL,
+
+	PRIMARY KEY (id),
+	UNIQUE KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS mainsail(
+	id INTEGER NOT NULL AUTO_INCREMENT,
+	name INTEGER NOT NULL,
+
+	PRIMARY KEY (id),
+	UNIQUE KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS maneuver(
+	id INTEGER NOT NULL AUTO_INCREMENT,
+	name INTEGER NOT NULL,
+
+	PRIMARY KEY (id),
+	UNIQUE KEY (id)
+);
+
 CREATE TABLE IF NOT EXISTS waypoint(
 	id INTEGER NOT NULL,
 	longitude float(10,6) NOT NULL,
@@ -76,9 +101,9 @@ CREATE TABLE IF NOT EXISTS waypoint(
 	trip_id INTEGER NOT NULL,
 	cog VARCHAR(3) NOT NULL,
 	sog VARCHAR(3) NOT NULL,
-	time timestamp NOT NULL,
-	BTM varchar(10) NOT NULL,
-	DTM varchar(10) NOT NULL,
+	datetime timestamp NOT NULL,
+	btm varchar(10) NOT NULL,
+	dtm varchar(10) NOT NULL,
 	trip_to integer NOT NULL,
 	maneuver_id integer NOT NULL,
 	headsail_id integer NOT NULL,
@@ -86,5 +111,8 @@ CREATE TABLE IF NOT EXISTS waypoint(
 	
 	PRIMARY KEY (id),
 	FOREIGN KEY (trip_id) references trip(id),
-	FOREIGN KEY (maneuver_id) references maneuver(id)
+	FOREIGN KEY (maneuver_id) references maneuver(id),
+	FOREIGN KEY (headsail_id) references headsail(id),
+	FOREIGN KEY (mainsail_id) references mainsail(id),
+	UNIQUE KEY (id)
 );
