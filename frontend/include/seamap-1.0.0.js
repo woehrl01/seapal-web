@@ -284,8 +284,8 @@
 					var lat = crosshairMarker.getPosition().lat();
 					var lng = crosshairMarker.getPosition().lng();
 
-					return '<span class="ctxTitle">Lat ' + toGeoString(lat, "N", "S", 2) + '  Lon ' + toGeoString(lng, "E", "W", 3) + '</span><br />'
-						 + '<span class="ctxTitle">BTM XXX°  DTM X.XXX nm</span>';
+					return '<span><b>Lat</b> ' + toGeoString(lat, "N", "S", 2) + ' <b>Lon</b> ' + toGeoString(lng, "E", "W", 3) + '</span>'
+						 + '<span><b>BTM</b> XXX° <b>DTM</b> X.XXXnm</span>';
 				},
 				html : true,
 				content: getContextMenuContent,
