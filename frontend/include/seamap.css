@@ -19,6 +19,15 @@ body.googlemaps
 	margin-bottom:5px;
 	text-align:left;
 }
+#tooltip_helper {
+	width:1px; 
+	height:1px; 
+	position:absolute; 
+	margin-top: -10px; 
+	margin-left: 10px; 
+	z-index:1; 
+	display: block;
+}
 
 .popover h3.popover-title {
 	background:#026899;
