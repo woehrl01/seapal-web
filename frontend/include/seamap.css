@@ -1,12 +1,43 @@
- .ctxButton {
- 	width: 200px;
- 	margin: 2px;
- }
-
-.ctxTitle {
-	font-size: 12px;
+/**
+ * Google Maps
+ */
+body.googlemaps
+{
+	overflow:hidden;
+}
+#map_canvas
+{
+	height:100%;
+	margin:10px 0 10px 0;
 }
 
-.popover-title {
-	text-align: center;
+/**
+ * Context Menu
+ */
+#contextmenu button {
+	width:100%;
+	margin-bottom:5px;
+	text-align:left;
 }
+
+.popover h3.popover-title {
+	background:#026899;
+	line-height:1.25em;
+	color:#FFF;
+}
+.popover h3 span {
+	display:block;
+}
+.popover .input-mini {
+    width: 50px;
+	background:#FFF;
+	font-size:9px;
+}
+.popover .input-append .add-on, .popover .input-prepend .add-on {
+	line-height:18px;
+}
+
+.modal{
+	color: #000;
+}
+

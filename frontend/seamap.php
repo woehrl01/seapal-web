@@ -31,7 +31,6 @@
 
 				<div class="row-fluid" style="width:100%;">
 					<div class="span12" style="width:100%;">
-						<input type="checkbox" id="enable_tracing" value="true"> Center Map
 						<div id="map_canvas" class="span12" style="width:100%;"></div>
 					</div>
 				</div>

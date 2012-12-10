@@ -14,20 +14,11 @@ body.index
 	background:url(../images/bg.jpg) repeat-x #026899;
 }
 @media (max-width: 767px) {
-	body {
+	body, body.index {
 		background: #026899;
 	}
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6
-{
-	/*text-shadow:0 0 3px #333;*/
-}
 ul li.active,
 h3
 {
@@ -59,7 +50,6 @@ h3
 /**
  * Header / Navigation
  */
-
 .navbar .brand
 {
 	background:url(../images/logo_seapal.jpg) center center no-repeat;
@@ -85,11 +75,10 @@ body.index .header-wrapper {
 /**
  * Second Navigation
  */
-
 #webapp-menu-pill
 {
 	border-bottom:1px solid #0E3056;
-	background:#0c4675;
+	background:#00547c;
 	padding:20px 50px 0 50px;
 	margin-top:-20px;
 }
@@ -102,11 +91,11 @@ body.index .header-wrapper {
 #webapp-menu-pill li.active a:hover {
 	color:#fff;
 }
+
 /**
  * Content
  */
-
- .input-wrapper textarea
+.input-wrapper textarea
 {
 	width: 100%;
 	height: 148px;
@@ -129,7 +118,7 @@ body.index .header-wrapper {
 	border-radius:5px;
 	padding: 20px;
 	margin-bottom:30px;
-	background:rgba(0, 0, 0, 0.1);
+	background:#00547c;
 }
 .round h2
 {
@@ -165,11 +154,11 @@ body.index .header-wrapper {
 	height: 185px;
 	resize: none;
 }
+
 /**
  * Footer
  */
-
- .footer-wrapper
+.footer-wrapper
 {
 	margin-top: 30px;
 }
@@ -190,48 +179,4 @@ body.index .header-wrapper {
 		 margin-left:-20px;
 		 margin-right:-20px;
 	}
-}
-
-/**
- * Google Maps
- */
-body.googlemaps
-{
-	overflow:hidden;
-}
-#map_canvas
-{
-	height:100%;
-	margin:10px 0 10px 0;
-}
-
-/**
- * Context Menu
- */
- 
-#contextmenu button {
-	width:100%;
-	margin-bottom:5px;
-	text-align:left;
-}
-
-.popover h3.popover-title {
-	background:url(../images/bg.jpg);
-	text-shadow:none;
-	color:#FFF;
-}
-.popover h3 span {
-	display:block;
-}
-.popover .input-mini {
-    width: 50px;
-	background:#FFF;
-	font-size:9px;
-}
-.popover .input-append .add-on, .popover .input-prepend .add-on {
-	line-height:18px;
-}
-
-.modal{
-	color: #000;
 }
