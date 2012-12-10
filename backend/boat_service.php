@@ -1,4 +1,5 @@
 <?php
+require_once("boat_dal.php");
 require_once("boat.php");
 
 main();
@@ -32,8 +33,8 @@ function main() {
  * Handles the save/update operation.
  */
 function handleSave() {
-	$boat = Boat::createFromArray($_POST);
-	if ($boat->save()) {
+	$boat = new Boat($_POST);
+	if (BoatDAL::save($boat)) {
 		echo '{"success":true}';
 	} else {
 		echo '{"success":false}';
@@ -44,8 +45,13 @@ function handleSave() {
  * Handles the delete operation.
  */
 function handleDelete() {
-	$boat = Boat::createFromArray($_POST);
-	if ($boat->delete()) {
+	$success = FALSE;
+
+	if (array_key_exists("id", $_POST)) {
+		$success = BoatDAL::delete($_POST["id"]);
+	} 
+
+	if ($success) {
 		echo '{"success":true}';
 	} else {
 		echo '{"success":false}';
@@ -56,15 +62,20 @@ function handleDelete() {
  * Handles the get by id operation.
  */
 function handleGetId() {
-	$boat = Boat::loadById($_POST["id"]);
-	echo json_encode($boat);
+	if (array_key_exists("id", $_POST)) {
+		$boat = BoatDAL::loadById($_POST["id"]);
+		echo json_encode($boat);
+	}
+	// TODO: what to write out if there was an error?
 }
 
 /**
  * Handles the get all operation.
  */
 function handleGetAll() {
-	$boats = Boat::loadAll();
+	$boats = BoatDAL::loadAll();
 	echo json_encode($boats);
+	// TODO: what to write out if there was an error?
 }
+
 ?>

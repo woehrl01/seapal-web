@@ -43,10 +43,18 @@ final class DBConnector {
     }
 
     /**
-     * Execuetes a new sql query.
+     * Execuetes a new sql query (INSERT, UPDATE, DELETE, DROP, etc).
      * @param queryString The query string.
      */
-    public function query($queryString){
+    public function queryExecute($queryString){
+        return mysql_query($queryString) or die(mysql_error());
+    }
+
+    /**
+     * Execuetes a new sql query (SELECT).
+     * @param queryString The query string.
+     */
+    public function querySelect($queryString){
         $this->result = mysql_query($queryString) or die(mysql_error());
     }
 
