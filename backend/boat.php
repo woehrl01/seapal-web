@@ -1,7 +1,9 @@
 <?php
 
 final class Boat implements JsonSerializable {
-	public $id;
+	private $valid;
+
+    public $id;
 	public $boat_name;
     public $boat_type;
     public $build_year;
@@ -9,10 +11,10 @@ final class Boat implements JsonSerializable {
     public $constructor;
     public $engine;
     public $sail_sign;
-    public $length;
+    public $boat_length;
     public $fueltank_size;
     public $home_port;
-    public $width;
+    public $boat_width;
     public $watertank_size;
     public $draught;
     public $yachtclub;
@@ -25,9 +27,7 @@ final class Boat implements JsonSerializable {
     public $genua_size;
     public $callsign;
     public $rig_kind;
-    public $spi_size; // TODO: geter/setter + private members?
-
-    private $valid;
+    public $spi_size;
 
 	/**
 	 * Creats a boat from an associative array.
@@ -78,27 +78,133 @@ final class Boat implements JsonSerializable {
 	    $this->valid = TRUE; // TODO: check, if the boat is really valid!
     }
 
+	/**
+     * Serializes the object. Needed because of private members.
+     * @return thr serialized object.
+     */
+    public function jsonSerialize()
+    {
+        return get_object_vars($this);
+    }
+
     /**
      * Checks whether the boat is new or not.
      * @return Returns TRUE, if the boat is (ID == -1).
      */
     public function isNew() {
-    	return $this->id == -1;
+        return $this->id == -1;
     }
 
-	/**
-	 * Indicates whether the boat is valid or not.
-	 * @return Returns TRUE if the boat is valid.
-	 */
-	public function isValid () {
-		return $this->valid;
-	}
-
-	// function called when encoded with json_encode
-    public function jsonSerialize()
-    {
-        return get_object_vars($this);
+    /**
+     * Indicates whether the boat is valid or not.
+     * @return Returns TRUE if the boat is valid.
+     */
+    public function isValid () {
+        return $this->valid;
     }
+
+    /* Properties */
+
+    public function getId() {
+        return $this->id;
+    }
+
+    public function getBoatName() {
+        return $this->boat_name;
+    }
+
+    public function getBoatType() {
+        return $this->boat_type;
+    }
+
+    public function getBuildYear() {
+        return $this->build_year;
+    }
+
+    public function getRegisterNr() {
+        return $this->register_nr;
+    }
+
+    public function getConstructor() {
+        return $this->constructor;
+    }
+
+    public function getEngine() {
+        return $this->engine;
+    }
+
+    public function getSailSign() {
+        return $this->sail_sign;
+    }
+
+    public function getBoatLength() {
+        return $this->boat_length;
+    }
+
+    public function getFueltankSize() {
+        return $this->fueltank_size;
+    }
+
+    public function getHomePort() {
+        return $this->home_port;
+    }
+
+    public function getBoatWidth() {
+        return $this->boat_width;
+    }
+
+    public function getWatertankSize() {
+        return $this->watertank_size;
+    }
+
+    public function getDraught() {
+        return $this->draught;
+    }
+
+    public function getYachtclub() {
+        return $this->yachtclub;
+    }
+
+    public function getWastewatertankSize() {
+        return $this->wastewatertank_size;
+    }
+
+    public function getOwner() {
+        return $this->owner;
+    }
+
+    public function getMastHeight() {
+        return $this->mast_height;
+    }
+
+    public function getMainsailSize() {
+        return $this->mainsail_size;
+    }
+
+    public function getInsurance() {
+        return $this->insurance;
+    }
+
+    public function getWaterDisplacement() {
+        return $this->water_displacement;
+    }
+
+    public function getGenuaSize() {
+        return $this->genua_size;
+    }
+
+    public function getCallsign() {
+        return $this->callsign;
+    }
+
+    public function getRigKind() {
+        return $this->rig_kind;
+    }
+
+    public function getSpiSize() {
+        return $this->spi_size;
+    }
+
 }
 
 ?>

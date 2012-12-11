@@ -85,10 +85,10 @@ final class BoatDAL {
                 constructor, engine, sail_sign, boat_length, fueltank_size, home_port, boat_width, 
                 watertank_size, yachtclub, draught, wastewatertank_size, owner, mast_height, mainsail_size, 
                 insurance, water_displacement, genua_size, callsign, rig_kind, spi_size)
-            VALUES ('', '$boat->boat_name', '$boat->boat_type', '$boat->build_year', '$boat->register_nr', 
-                '$boat->constructor', '$boat->engine', '$boat->sail_sign', '$boat->boat_length', '$boat->fueltank_size', '$boat->home_port', '$boat->boat_width',
-                '$boat->watertank_size', '$boat->yachtclub', '$boat->draught', '$boat->wastewatertank_size', '$boat->owner', '$boat->mast_height', '$boat->mainsail_size',
-                '$boat->insurance', '$boat->water_displacement', '$boat->genua_size', '$boat->callsign', '$boat->rig_kind', '$boat->spi_size')");
+            VALUES ('', '".$boat->getBoatName()."', '".$boat->getBoatType()."', '".$boat->getBuildYear()."', '".$boat->getRegisterNr()."', 
+                '".$boat->getConstructor()."', '".$boat->getEngine()."', '".$boat->getSailSign()."', '".$boat->getBoatLength()."', '".$boat->getFueltankSize()."', '".$boat->getHomePort()."', '".$boat->getBoatWidth()."',
+                '".$boat->getWatertankSize()."', '".$boat->getYachtclub()."', '".$boat->getDraught()."', '".$boat->getWastewatertankSize()."', '".$boat->getOwner()."', '".$boat->getMastHeight()."', '".$boat->getMainsailSize()."',
+                '".$boat->getInsurance()."', '".$boat->getWaterDisplacement()."', '".$boat->getGenuaSize()."', '".$boat->getCallsign()."', '".$boat->getRigKind()."', '".$boat->getSpiSize()."')");
 		$db->close();
 		return $status;
 	}
@@ -99,11 +99,11 @@ final class BoatDAL {
 	 */
 	private static function update($boat) {
 		$db = DBConnector::getConnection();
-		$status = $db->queryExecute("UPDATE boat SET name='$boat->boat_name', boat_type='$boat->boat_type', build_year='$boat->build_year', register_nr='$boat->register_nr', 
-                constructor='$boat->constructor', engine='$boat->engine', sail_sign='$boat->sail_sign', boat_length='$boat->boat_length', fueltank_size='$boat->fueltank_size', home_port='$boat->home_port', boat_width='$boat->boat_width', 
-                watertank_size='$boat->watertank_size', yachtclub='$boat->yachtclub', draught='$boat->draught', wastewatertank_size='$boat->wastewatertank_size', owner='$boat->owner', mast_height='$boat->mast_height', mainsail_size='$boat->mainsail_size', 
-                insurance='$boat->insurance', water_displacement='$boat->water_displacement', genua_size='$boat->genua_size', callsign='$boat->callsign', rig_kind='$boat->rig_kind', spi_size='$boat->spi_size'
-                WHERE id='$boat->id'");
+		$status = $db->queryExecute("UPDATE boat SET name='".$boat->getBoatName()."', boat_type='".$boat->getBoatType()."', build_year='".$boat->getBuildYear()."', register_nr='".$boat->getRegisterNr()."', 
+                constructor='".$boat->getConstructor()."', engine='".$boat->getEngine()."', sail_sign='".$boat->getSailSign()."', boat_length='".$boat->getBoatLength()."', fueltank_size='".$boat->getFueltankSize()."', home_port='".$boat->getHomePort()."', boat_width='".$boat->getBoatWidth()."', 
+                watertank_size='".$boat->getWatertankSize()."', yachtclub='".$boat->getYachtclub()."', draught='".$boat->getDraught()."', wastewatertank_size='".$boat->getWastewatertankSize()."', owner='".$boat->getOwner()."', mast_height='".$boat->getMastHeight()."', mainsail_size='".$boat->getMainsailSize()."', 
+                insurance='".$boat->getInsurance()."', water_displacement='".$boat->getWaterDisplacement()."', genua_size='".$boat->getGenuaSize()."', callsign='".$boat->getCallsign()."', rig_kind='".$boat->getRigKind()."', spi_size='".$boat->getSpiSize()."'
+                WHERE id='".$boat->getId()."'");
 		$db->close();
 		return $status;
 	}
