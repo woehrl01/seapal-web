@@ -101,59 +101,59 @@ final class LogEntry implements JsonSerializable {
     }
     
     public function getNorthMinutes() {
-
+        return $this->north_minutes;
     }
     
     public function getNorthSeconds() {
-
+        return $this->north_seconds;
     }
     
     public function getEastDegree() {
-
+        return $this->east_degree;
     }
     
     public function getEastMinutes() {
-
+        return $this->east_minutes;
     }
     
     public function getEastSeconds() {
-
+        return $this->east_seconds;
     }
     
     public function getCog() {
-
+        return $this->cog;
     }
     
     public function getSog() {
-
+        return $this->sog;
     }
     
     public function getTimestamp() {
-
+        return $this->timestamp;
     }
     
     public function getBtm() {
-
+        return $this->btm;
     }
     
     public function getDtm() {
-
+        return $this->dtm;
     }
     
     public function getTripTo() {
-
+        return $this->trip_to;
     }
     
     public function getManeuverId() {
-
+        return $this->maneuver_id;
     }
     
     public function getHeadsailId() {
-
+        return $this->headsail_id;
     }
     
     public function getMainsailId() {
-
+        return $this->mainsail_id;
     }
 
 }
