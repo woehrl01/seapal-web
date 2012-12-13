@@ -28,7 +28,12 @@ body.googlemaps
 	z-index:1; 
 	display: block;
 }
-
+.popover {
+	z-index:9999;
+}
+.popover.left {
+	margin-left:-25px;
+}
 .popover h3.popover-title {
 	background:#026899;
 	line-height:1.25em;
@@ -50,3 +55,15 @@ body.googlemaps
 	color: #000;
 }
 
+.seamapsidebar {
+	background:#fff;
+}
+
+.seamapsidebar .seamapsidebar_inner {
+	padding:5px;
+	color:#333;
+}
+
+.seamapsidebar .seamapsidebar_inner p, .seamapsidebar .seamapsidebar_inner a {
+	line-height:1.25em;
+}
