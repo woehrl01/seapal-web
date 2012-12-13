@@ -66,18 +66,9 @@ function handleGet() {
 		$boat = BoatDAL::loadById($_GET["id"]);
 		echo json_encode($boat);
 	}else{
-		handleGetAll();
+		$boats = BoatDAL::loadAll();
+		echo json_encode($boats);
 	}
-	// TODO: what to write out if there was an error?
-}
-
-/**
- * Handles the get all operation.
- */
-function handleGetAll() {
-	$boats = BoatDAL::loadAll();
-	echo json_encode($boats);
-	// TODO: what to write out if there was an error?
 }
 
 ?>

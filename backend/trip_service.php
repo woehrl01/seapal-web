@@ -65,18 +65,13 @@ function handleGet() {
 	if (array_key_exists("id", $_GET)) {
 		$trip = TripDAL::loadById($_GET["id"]);
 		echo json_encode($trip);
-	}else{
-		handleGetAll();
+	} else if(array_key_exists("boat_id", $_GET)) {
+		$trips = TripDAL::loadAllByBoatId($_GET["boat_id"]);
+		echo json_encode($trips);
+	} else {
+		$trips = TripDAL::loadAll();
+		echo json_encode($trips);
 	}
-	// TODO: what to write out if there was an error?
-}
-
-/**
- * Handles the get all operation.
- */
-function handleGetAll() {
-	$trips = TripDAL::loadAll();
-	echo json_encode($trips);
 	// TODO: what to write out if there was an error?
 }
 

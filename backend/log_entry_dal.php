@@ -63,6 +63,40 @@ final class LogEntryDAL {
 	}
 
 	/**
+	 * Loads all logEntries of the given trip ID from the database.
+	 * @return An array of logEntrys.
+	 */
+	public static function loadAllByTripId($tripId) {
+		$logEntrys = array();
+
+		$db = DBConnector::getConnection();
+
+		$sql = sprintf("SELECT id, north_degree, north_minutes, north_seconds, east_degree,
+			east_minutes, east_seconds, trip_id, cog, sog, datetime, btm, dtm, trip_to,
+			manuever_id, headsail_id, mainsail_id
+            FROM waypoint
+            WHERE trip_id='%s'",
+            $tripId);
+
+		$db->querySelect($sql);
+
+		while (TRUE) {
+			$row = $db->getNextRow();
+
+			if ($row == FALSE)
+				break;
+
+			$logEntry = new LogEntry($row);
+			if ($logEntry->isValid()) {
+				array_push($logEntrys, $logEntry);
+			}
+		}
+
+		$db->close();
+		return $logEntrys;
+	}
+
+	/**
 	 * Saves or updates the logEntry to the database.
 	 * @return TRUE, if the save operation was successfull.
 	 */

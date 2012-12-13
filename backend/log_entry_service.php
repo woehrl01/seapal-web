@@ -65,19 +65,13 @@ function handleGet() {
 	if (array_key_exists("id", $_GET)) {
 		$log_entry = LogEntryDAL::loadById($_GET["id"]);
 		echo json_encode($log_entry);
-	}else{
-		handleGetAll();
+	} else if (array_key_exists("trip_id", $_GET)) {
+		$log_entries = LogEntryDAL::loadAllByTripId($_GET["trip_id"]);
+		echo json_encode($log_entries);
+	} else {
+		$log_entries = LogEntryDAL::loadAll();
+		echo json_encode($log_entries);
 	}
-	// TODO: what to write out if there was an error?
-}
-
-/**
- * Handles the get all operation.
- */
-function handleGetAll() {
-	$log_entrys = LogEntryDAL::loadAll();
-	echo json_encode($log_entrys);
-	// TODO: what to write out if there was an error?
 }
 
 ?>

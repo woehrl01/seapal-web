@@ -7,7 +7,7 @@ final class TripDAL {
 	private function __construct() {}
 
 	/**
-	 * Loads a tripwith a specific ID from the database.
+	 * Loads a trip with a specific ID from the database.
 	 * @return An instance of an trip or NULL.
 	 */
 	public static function loadById($tripId){
@@ -31,6 +31,7 @@ final class TripDAL {
 		return $trip;
 	}
 
+
 	/**
 	 * Loads all trips from the database.
 	 * @return An array of trips.
@@ -39,8 +40,41 @@ final class TripDAL {
 		$trips = array();
 
 		$db = DBConnector::getConnection();
-		$db->querySelect("SELECT id, boat_id, trip_title, trip_from, trip_to, start_time, end_time, engine_runtime, skipper, tank_filled, crew
+		$db->querySelect("SELECT id, boat_id, trip_title, trip_from, trip_to, start_time, end_time,
+			engine_runtime, skipper, tank_filled, crew
             FROM trip");
+
+		while (TRUE) {
+			$row = $db->getNextRow();
+
+			if ($row == FALSE)
+				break;
+
+			$trip = new Trip($row);
+			if ($trip->isValid()) {
+				array_push($trips, $trip);
+			}
+		}
+
+		$db->close();
+		return $trips;
+	}
+
+	/**
+	 * Loads all trips with the fiven boat ID from the database.
+	 * @return An array of trips.
+	 */
+	public static function loadAllByBoatId($boatId) {
+		$trips = array();
+
+		$sql = sprintf("SELECT id, boat_id, trip_title, trip_from, trip_to, start_time, end_time,
+			engine_runtime, skipper, tank_filled, crew
+            FROM trip
+            WHERE boat_id='%s'",
+            $boatId);
+
+		$db = DBConnector::getConnection();
+		$db->querySelect($sql);
 
 		while (TRUE) {
 			$row = $db->getNextRow();
