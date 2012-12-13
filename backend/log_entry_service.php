@@ -1,11 +1,11 @@
 <?php
-require_once("trip_dal.php");
-require_once("trip.php");
+require_once("log_entry_dal.php");
+require_once("log_entry.php");
 
 main();
 
 /**
- * Starting point of the trip service.
+ * Starting point of the log_entry service.
  */
 function main() {
 	$method = strtoupper($_SERVER['REQUEST_METHOD']);
@@ -33,8 +33,8 @@ function main() {
  * Handles the save/update operation.
  */
 function handleSave() {
-	$trip = new Trip($_POST);
-	if (TripDAL::save($trip)) {
+	$log_entry = new LogEntry($_POST);
+	if (LogEntryDAL::save($log_entry)) {
 		echo '{"success":true}';
 	} else {
 		echo '{"success":false}';
@@ -48,7 +48,7 @@ function handleDelete() {
 	$success = FALSE;
 
 	if (array_key_exists("id", $_POST)) {
-		$success = TripDAL::delete($_POST["id"]);
+		$success = LogEntryDAL::delete($_POST["id"]);
 	} 
 
 	if ($success) {
@@ -63,8 +63,8 @@ function handleDelete() {
  */
 function handleGet() {
 	if (array_key_exists("id", $_GET)) {
-		$trip = TripDAL::loadById($_GET["id"]);
-		echo json_encode($trip);
+		$log_entry = LogEntryDAL::loadById($_GET["id"]);
+		echo json_encode($log_entry);
 	}else{
 		handleGetAll();
 	}
@@ -75,8 +75,8 @@ function handleGet() {
  * Handles the get all operation.
  */
 function handleGetAll() {
-	$trips = TripDAL::loadAll();
-	echo json_encode($trips);
+	$log_entrys = LogEntryDAL::loadAll();
+	echo json_encode($log_entrys);
 	// TODO: what to write out if there was an error?
 }
 
