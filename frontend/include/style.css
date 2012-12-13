@@ -155,6 +155,14 @@ body.index .header-wrapper {
 	resize: none;
 }
 
+.table {
+	color: #000;
+}
+
+.modal {
+	color: #000;
+}
+
 /**
  * Footer
  */

@@ -74,6 +74,7 @@ Greg Pedder, Leon, Annie, Andrea, and pollirrata.
           maxPageNumbers: 0,  /* maximum number of page links to show */
           currentPageClass: "current",	/* if using page numbers, class to stylize the current page */
           pager: ".pager",		        /* selector for container of all paging dom elements */
+          enablePager: false,
           autoHidePager: true		    /* hides the pager (see selector above) if there is only a single page */
       }, options || {});
   
@@ -195,20 +196,32 @@ Greg Pedder, Leon, Annie, Andrea, and pollirrata.
               /* Hide previous link when page is 1 and
                  next link when the page is equal to the last page */
 
-              var currentPage = pager.find(settings.currentPage);
-              var totalPages = pager.find(settings.totalPages);
               var prevPage = pager.find(settings.prevPage);
               var nextPage = pager.find(settings.nextPage);
 
               // Initially show both links
-              prevPage.show();
-              nextPage.show();
+              
+              if(prevPage.is("input")){
+                prevPage.removeAttr("disabled");
+                nextPage.removeAttr("disabled");
 
-              if (currentPage.text() == 1) {
-                prevPage.hide();
-              }
-              else if (currentPage.text() == totalPages.text()) {
-                nextPage.hide();
+                if (pageNum == 1) {
+                  prevPage.attr("disabled", "disabled");
+                }
+                if (pageNum == totalPages) {
+                  nextPage.attr("disabled", "disabled");
+                }
+              }else{
+                prevPage.show();
+                nextPage.show();
+
+                if (pageNum == 1) {
+                  prevPage.hide();
+                }
+                
+                if (pageNum == totalPages) {
+                  nextPage.hide();
+                }
               }
           }
       }

@@ -8,23 +8,23 @@ main();
  * Starting point of the boat service.
  */
 function main() {
-	$method = $_POST["method"];
+	$method = strtoupper($_SERVER['REQUEST_METHOD']);
+
+	if($method == "POST"){
+		$method = strtoupper($_POST["method"]);	
+	}
 
 	switch($method) {
-		case "save":
+		case "SAVE":
 			handleSave();
 			break;
 
-		case "delete":
+		case "DELETE":
 			handleDelete();
 			break;
 
-		case "get_id":
-			handleGetId();
-			break;
-
-		case "get_all":
-			handleGetAll();
+		case "GET":
+			handleGet();
 			break;
 	}
 }
@@ -61,10 +61,12 @@ function handleDelete() {
 /**
  * Handles the get by id operation.
  */
-function handleGetId() {
-	if (array_key_exists("id", $_POST)) {
-		$boat = BoatDAL::loadById($_POST["id"]);
+function handleGet() {
+	if (array_key_exists("id", $_GET)) {
+		$boat = BoatDAL::loadById($_GET["id"]);
 		echo json_encode($boat);
+	}else{
+		handleGetAll();
 	}
 	// TODO: what to write out if there was an error?
 }
