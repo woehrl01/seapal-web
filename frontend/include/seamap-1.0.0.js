@@ -263,7 +263,7 @@
 		function positionConnect(){
 			$.ajax({
 				type: 'GET',
-				url : "boatposition.php",
+				url : "/backend/boatposition.php",
 				dataType : 'json',
 				data: null,
 				success : function(response){

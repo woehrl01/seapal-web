@@ -5,7 +5,7 @@ include("_config.inc.php");
  * The database connection manager singleton class.
  */
 final class DBConnector {
-    private $ident;
+    private $connection;
 	private $result;
 						
 	private static $instance = NULL;
@@ -20,7 +20,7 @@ final class DBConnector {
 	public static function getConnection()
 	{
 		if (NULL === self::$instance) {
-           self::$instance = new self;
+           self::$instance = new self();
        	}
 		
 		self::$instance->connect();
@@ -35,7 +35,7 @@ final class DBConnector {
     {	
 		global $host, $user, $password, $db;
 	
-        $this->ident = mysql_connect($host, $user, $password);
+        $this->connection = mysql_connect($host, $user, $password);
 
         if (!mysql_select_db($db)) {
            die("Could not connect to DB");
@@ -43,10 +43,18 @@ final class DBConnector {
     }
 
     /**
-     * Execuetes a new sql query.
+     * Execuetes a new sql query (INSERT, UPDATE, DELETE, DROP, etc).
      * @param queryString The query string.
      */
-    public function query($queryString){
+    public function queryExecute($queryString){
+        return mysql_query($queryString) or die(mysql_error());
+    }
+
+    /**
+     * Execuetes a new sql query (SELECT).
+     * @param queryString The query string.
+     */
+    public function querySelect($queryString){
         $this->result = mysql_query($queryString) or die(mysql_error());
     }
 
@@ -71,7 +79,7 @@ final class DBConnector {
      */
 	private function disconnect()
     {
-        if (!mysql_close($this->ident)) {
+        if (!mysql_close($this->connection)) {
             die("Could not close DB");
         }
     }

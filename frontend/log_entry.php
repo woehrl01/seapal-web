@@ -65,8 +65,8 @@
 						</div>
 						<div class="row">
 							<div class="span4">
-								<label for="maneuver">Manöver</label>
-								<select name="maneuver" size="1" style="width:100%;">
+								<label for="maneuver_id">Manöver</label>
+								<select name="maneuver_id" size="1" style="width:100%;">
 									<option>-</option>
 									<option>Track</option>
 									<option>Jibe</option>
@@ -74,8 +74,8 @@
 								</select>
 							</div>
 							<div class="span4">
-								<label for="headsail">Vorsegel</label>
-								<select name="headsail" size="1" style="width:100%;">
+								<label for="headsail_id">Vorsegel</label>
+								<select name="headsail_id" size="1" style="width:100%;">
 									<option>-</option>
 									<option>Genua1</option>
 									<option>Genua2</option>
@@ -83,8 +83,8 @@
 								</select>
 							</div>
 							<div class="span4">
-								<label for="mainsail">Großsegel</label>
-							<select name="mainsail" size="1" style="width:100%;">
+								<label for="mainsail_id">Großsegel</label>
+							<select name="mainsail_id" size="1" style="width:100%;">
 								<option>-</option>
 								<option>full</option>
 								<option>reef 1</option>

@@ -7,3 +7,4 @@
 *.css~
 *.db
 _config.inc.php
+backend/boatposition.txt

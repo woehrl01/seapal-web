@@ -15,8 +15,8 @@
 
     $db = DBConnector::getConnection();
 
-    $db->query("INSERT INTO trip  (id, boat_id, title, trip_from, trip_to, start_time, end_time, engine_runtime, skipper, tank_filled)
-            VALUES (1, 1, '$trip_title, $trip_from, $trip_to, $start_time, $end_time, $engine_runtime, $tank_filled);");
+    $db->query("INSERT INTO trip  (id, boat_id, title, trip_from, trip_to, start_time, end_time, engine_runtime, skipper, tank_filled, crew)
+            VALUES ('', 1, '$trip_title, $trip_from, $trip_to, $start_time, $end_time, $engine_runtime, $tank_filled, $crew)");
 
     $db->close();
 

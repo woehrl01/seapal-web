@@ -4,13 +4,15 @@
 		<title>SeaPal</title>
 		<?php include("htmlhead.php"); ?>
 		<script type="text/javascript" src="include/boat_info.js"></script>
+		<script type="text/javascript" src="include/jquery.paginatetable.js"></script>
 	</head>
 	<body>
 
 		<div class="header-wrapper">
 			<?php include("header.php"); ?>
 		</div>
-		<form id="form" method="post" action="../backend/boat_info_submit.php">
+		<form id="form" method="post" action="/backend/boat_service.php">
+			<input type="text" name="method" value="save" style="display: none" />
 			<div class="content-wrapper">
 				<div class="container">
 					<h1>Logbuch</h1>
@@ -49,8 +51,8 @@
 								<input type="text" name="sail_sign" tabindex="3" />
 							</div>
 							<div class="span4">
-								<label for="length">Länge</label>
-								<input type="text" name="length" tabindex="11" />
+								<label for="boat_length">Länge</label>
+								<input type="text" name="boat_length" tabindex="11" />
 							</div>
 							<div class="span4">
 								<label for="fueltank_size">Tankgröße</label>
@@ -63,8 +65,8 @@
 								<input type="text" name="home_port" tabindex="4" />
 							</div>
 							<div class="span4">
-								<label for="width">Breite</label>
-								<input type="text" name="width" tabindex="12" />
+								<label for="boat_width">Breite</label>
+								<input type="text" name="boat_width" tabindex="12" />
 							</div>
 							<div class="span4">
 								<label for="watertank_size">Wassertankgröße</label>
@@ -133,7 +135,14 @@
 						<div class="listview">
 							<div class="row">
 								<div class="span12">
-									<img src="http://placehold.it/960x400&text=Listview" />
+
+									<table id="boatListTable" class="table table-striped table-bordered table-hover">
+										<thead>
+									        <tr><th>ID</th><th>Name</th></tr>
+									    </thead>
+									    <tbody>
+									    </tbody>
+									</table>
 								</div>
 							</div>
 						</div>
@@ -141,15 +150,14 @@
 							<div class="listview-buttons">
 								<div class="span6">
 									<div class="left">
-										<input type="button" class="btn" value="Löschen"/>
+										<input type="button" id="deleteBtn" class="btn" value="Löschen"/>
 										<input type="submit" class="btn" value="Speichern"/>
-										<input type="button" class="btn" value="Neuester"/>
 									</div>
 								</div>
 								<div class="span6">
-									<div class="right">
-										<input type="button" class="btn" value="Vorheriger"/>
-										<input type="button" class="btn" value="Nächster"/>
+									<div class="right tablePager">
+										<input type="button" class="btn prevPage" value="Vorheriger"/>
+										<input type="button" class="btn nextPage" value="Nächster"/>
 									</div>
 								</div>
 							</div>
@@ -162,16 +170,30 @@
 			<?php include("footer.php"); ?>
 		</div>
 
-		<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div id="addSuccessModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="addSuccessModalLabel" aria-hidden="true">
 		  <div class="modal-header">
-		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-		    <h3 id="myModalLabel">Erfolgreich!</h3>
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		    <h3 id="addSuccessModalLabel">Erfolgreich!</h3>
 		  </div>
 		  <div class="modal-body">
 		    <p>Die Daten wurden erfolgreich übermittelt!</p>
 		  </div>
 		  <div class="modal-footer">
 		    <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">OK</button>
+		  </div>
+		</div>
+
+		<div id="deletePromptModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="deletePromptModalLabel" aria-hidden="true">
+		  <div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		    <h3 id="deletePromptModalLabel">Löschen</h3>
+		  </div>
+		  <div class="modal-body">
+		    <p>Möchten Sie wirklich <span></span> löschen?</p>
+		  </div>
+		  <div class="modal-footer">
+		  	<button class="btn" data-dismiss="modal" aria-hidden="true">Abbrechen</button>
+    		<button class="btn btn-primary" id="deleteModalBtn" data-dismiss="modal">Löschen</button>
 		  </div>
 		</div>
 		
