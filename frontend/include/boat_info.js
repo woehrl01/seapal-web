@@ -79,11 +79,18 @@ $(document).ready(function() {
 	}
 
 	function updateDeleteButton(){
-		if($('#boatListTable tbody tr.error').size() > 0){
+		var count = $('#boatListTable tbody tr.error').size();
+		
+		if(count > 0){
 			$('#deleteBtn').removeAttr("disabled");
+
 		}else{
 			$('#deleteBtn').attr("disabled", "disabled");
 		}
+
+		var entryText = (count == 1 ? "Eintrag" :"Einträge");
+		$('#deletePromptModal .modal-body span').html(count + ' ' + entryText);
+
 	}
 
 
