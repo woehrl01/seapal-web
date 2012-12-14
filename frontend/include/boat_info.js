@@ -62,7 +62,7 @@ $(document).ready(function() {
 	function loadAllBoats() {
 		$.ajax({
 			type: "GET",
-			url: "/backend/boat_service.php",
+			url: "../backend/boat_service.php",
 			data: null,
 			dataType: "json",
 			success: function(data) {

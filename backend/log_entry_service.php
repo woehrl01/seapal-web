@@ -1,11 +1,11 @@
 <?php
-require_once("boat_dal.php");
-require_once("boat.php");
+require_once("log_entry_dal.php");
+require_once("log_entry.php");
 
 main();
 
 /**
- * Starting point of the boat service.
+ * Starting point of the log_entry service.
  */
 function main() {
 	$method = strtoupper($_SERVER['REQUEST_METHOD']);
@@ -33,8 +33,8 @@ function main() {
  * Handles the save/update operation.
  */
 function handleSave() {
-	$boat = new Boat($_POST);
-	if (BoatDAL::save($boat)) {
+	$log_entry = new LogEntry($_POST);
+	if (LogEntryDAL::save($log_entry)) {
 		echo '{"success":true}';
 	} else {
 		echo '{"success":false}';
@@ -48,7 +48,7 @@ function handleDelete() {
 	$success = FALSE;
 
 	if (array_key_exists("id", $_POST)) {
-		$success = BoatDAL::delete($_POST["id"]);
+		$success = LogEntryDAL::delete($_POST["id"]);
 	} 
 
 	if ($success) {
@@ -63,11 +63,14 @@ function handleDelete() {
  */
 function handleGet() {
 	if (array_key_exists("id", $_GET)) {
-		$boat = BoatDAL::loadById($_GET["id"]);
-		echo json_encode($boat);
-	}else{
-		$boats = BoatDAL::loadAll();
-		echo json_encode($boats);
+		$log_entry = LogEntryDAL::loadById($_GET["id"]);
+		echo json_encode($log_entry);
+	} else if (array_key_exists("trip_id", $_GET)) {
+		$log_entries = LogEntryDAL::loadAllByTripId($_GET["trip_id"]);
+		echo json_encode($log_entries);
+	} else {
+		$log_entries = LogEntryDAL::loadAll();
+		echo json_encode($log_entries);
 	}
 }
 

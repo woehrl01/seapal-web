@@ -2,6 +2,8 @@
 require_once("database.php");
 
 final class Trip implements JsonSerializable {
+	private $valid;
+
 	private $id;
 	private $boat_id;
 	private $trip_title;
@@ -13,11 +15,13 @@ final class Trip implements JsonSerializable {
     private $engine_runtime;
     private $tank_filled;
 
-    // indicates whether the instance is valid or not.
-    private $valid;
-
-    private function __construct() {
-    	$this->valid = FALSE;
+	/**
+	 * Creats a trip from an associative array.
+	 * @param A associative array with trip data, like the POST-Array.
+	 * @return An instance of an trip.
+	 */
+    private function __construct($tripArray) {
+    	$this->parse($tripArray);
     }
 
 	/**
@@ -44,112 +48,19 @@ final class Trip implements JsonSerializable {
 	    $this->valid = TRUE;
     }
 
-    /**
-	 * Creats a trip from an associative array.
-	 * @return An instance of an trip.
-	 */
-    public static function createFromArray($tripArray) {
-    	$trip = new self();
-    	$trip->parse($tripArray);
-    	return $trip;
-    }
-
-	/**
-	 * Loads a tripwith a specific ID from the database.
-	 * @return An instance of an trip.
-	 */
-	public static function loadById($tripId){
-		$trip = new self();
-		$db = DBConnector::getConnection();
-		$db->query("SELECT id, boat_id, trip_title, trip_from, trip_to, start_time, end_time, engine_runtime, skipper, tank_filled, crew
-                FROM trip
-                WHERE id='$tripId'");
-
-		$row = $db->getNextRow();
-		
-		if ($row) {
-			$trip->parse($row);
-		}
-		
-		$db->close();
-		return $trip;
-	}
-
-	/**
-	 * Loads all trips from the database.
-	 * @return An array of trips.
-	 */
-	public static function loadAll() {
-		$trips = array();
-
-		$db = DBConnector::getConnection();
-		$db->query("SELECT id, boat_id, trip_title, trip_from, trip_to, start_time, end_time, engine_runtime, skipper, tank_filled, crew
-                FROM trip");
-
-		while (TRUE) {
-			$row = $db->getNextRow();
-
-			if ($row == FALSE)
-				break;
-
-			$trip = new self();
-			$trip->parse($row);
-			array_push($trips, $trip);
-		}
-
-		$db->close();
-		return $trips;
-	}
-
-	/**
-	 * Saves or updates the trip to the database.
-	 * @return TRUE, if the save operation was successfull.
-	 */
-    public function save() {
-    	if ($this->valid) {
-    		if ($this->id == -1) {
-    			return $this->saveNew();
-    		} else {
-    			return $this->updateExisting();
-    		}
-    	}
+    // function called when encoded with json_encode
+    public function jsonSerialize()
+    {
+        return get_object_vars($this);
     }
 
     /**
-     * Saves a new trip to the database.
-     * @return TRUE, if the insert operation was successfull.
+     * Checks whether the trip is new or not.
+     * @return Returns TRUE, if the boat is (ID == -1).
      */
-	private function saveNew() {
-		$db = DBConnector::getConnection();
-		$status = $db->query("INSERT INTO trip (id, boat_id, trip_title, trip_from, trip_to, start_time, end_time, engine_runtime, skipper, tank_filled, crew)
-            VALUES ('', '$this->boat_id', '$this->trip_title', '$this->trip_from', '$this->trip_to', '$this->start_time', '$this->end_time', '$this->engine_runtime', '$this->tank_filled', '$this->crew')");
-		$db->close();
-		return $status;
-	}
-
-	/**
-	 * Updates an existing trip in the database.
-	 * @return TRUE, if the update operation was successfull.
-	 */
-	private function updateExisting() {
-		$db = DBConnector::getConnection();
-		$status = $db->query("UPDATE trip SET boat_id='$this->boat_id', trip_title='$this->trip_title', trip_from='this->trip_from', trip_to='$this->trip_to', start_time='$this->start_time', end_time='$this->end_time', engine_runtime='$this->engine_runtime', skipper='', tank_filled='$this->tank_filled', crew='$this->crew'
-                WHERE id='$this->id'");
-		$db->close();
-		return $status;
-	}
-
-	/**
-	 * Deletes a trip from the database.
-	 * @return TRUE, if the delete operation was successfull.
-	 */
-	public function delete() {
-		$db = DBConnector::getConnection();
-		$status = $db->query("DELETE FROM trip WHERE id='$this->id'");
-		$db->close();
-
-		return $status;
-	}
+    public function isNew() {
+        return $this->id == -1;
+    }
 
 	/**
 	 * Indicates whether the trip is valid or not.
@@ -159,10 +70,46 @@ final class Trip implements JsonSerializable {
 		return $this->valid;
 	}
 
-	// function called when encoded with json_encode
-    public function jsonSerialize()
-    {
-        return get_object_vars($this);
+	/* Properties */
+
+    public function getId() {
+        return $this->id;
+    }
+
+    public function getBoatId() {
+		return $this->boatId;
+    }
+
+	public function getTripTitle() {
+		return $this->trip_title;
+	}
+
+    public function getTripFrom() {
+		return $this->trip_from;
+    }
+
+    public function getTripTo() {
+		return $this->trip_to;
+    }
+
+    public function getCrew() {
+		return $this->crew;
+    }
+
+    public function getStartTime() {
+		return $this->start_time;
+    }
+    
+    public function getEndTime() {
+		return $this->end_time;
+    }
+    
+    public function getEngineRuntime() {
+		return $this->engine_runtime;
+    }
+    
+    public function getTankFilled() {
+		return $this->tank_filled;
     }
 }
 

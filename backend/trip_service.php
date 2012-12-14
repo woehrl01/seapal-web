@@ -1,4 +1,5 @@
 <?php
+require_once("trip_dal.php");
 require_once("trip.php");
 
 main();
@@ -7,23 +8,23 @@ main();
  * Starting point of the trip service.
  */
 function main() {
-	$method = $_POST["method"];
+	$method = strtoupper($_SERVER['REQUEST_METHOD']);
+
+	if($method == "POST"){
+		$method = strtoupper($_POST["method"]);	
+	}
 
 	switch($method) {
-		case "save":
+		case "SAVE":
 			handleSave();
 			break;
 
-		case "delete":
+		case "DELETE":
 			handleDelete();
 			break;
 
-		case "get_id":
-			handleGetId();
-			break;
-
-		case "get_all":
-			handleGetAll();
+		case "GET":
+			handleGet();
 			break;
 	}
 }
@@ -32,8 +33,8 @@ function main() {
  * Handles the save/update operation.
  */
 function handleSave() {
-	$trip = Trip::createFromArray($_POST);
-	if ($trip->save()) {
+	$trip = new Trip($_POST);
+	if (TripDAL::save($trip)) {
 		echo '{"success":true}';
 	} else {
 		echo '{"success":false}';
@@ -44,8 +45,13 @@ function handleSave() {
  * Handles the delete operation.
  */
 function handleDelete() {
-	$trip = Trip::createFromArray($_POST);
-	if ($trip->delete()) {
+	$success = FALSE;
+
+	if (array_key_exists("id", $_POST)) {
+		$success = TripDAL::delete($_POST["id"]);
+	} 
+
+	if ($success) {
 		echo '{"success":true}';
 	} else {
 		echo '{"success":false}';
@@ -55,16 +61,18 @@ function handleDelete() {
 /**
  * Handles the get by id operation.
  */
-function handleGetId() {
-	$trip = Trip::loadById($_POST["id"]);
-	echo json_encode($trip);
+function handleGet() {
+	if (array_key_exists("id", $_GET)) {
+		$trip = TripDAL::loadById($_GET["id"]);
+		echo json_encode($trip);
+	} else if(array_key_exists("boat_id", $_GET)) {
+		$trips = TripDAL::loadAllByBoatId($_GET["boat_id"]);
+		echo json_encode($trips);
+	} else {
+		$trips = TripDAL::loadAll();
+		echo json_encode($trips);
+	}
+	// TODO: what to write out if there was an error?
 }
 
-/**
- * Handles the get all operation.
- */
-function handleGetAll() {
-	$trips = Trip::loadAll();
-	echo json_encode($trips);
-}
 ?>

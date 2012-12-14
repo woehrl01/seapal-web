@@ -3,31 +3,31 @@
 final class Boat implements JsonSerializable {
 	private $valid;
 
-    public $id;
-	public $boat_name;
-    public $boat_type;
-    public $build_year;
-    public $register_nr;
-    public $constructor;
-    public $engine;
-    public $sail_sign;
-    public $boat_length;
-    public $fueltank_size;
-    public $home_port;
-    public $boat_width;
-    public $watertank_size;
-    public $draught;
-    public $yachtclub;
-    public $wastewatertank_size;
-    public $owner;
-    public $mast_height;
-    public $mainsail_size;
-    public $insurance;
-    public $water_displacement;
-    public $genua_size;
-    public $callsign;
-    public $rig_kind;
-    public $spi_size;
+    private $id;
+	private $boat_name;
+    private $boat_type;
+    private $build_year;
+    private $register_nr;
+    private $constructor;
+    private $engine;
+    private $sail_sign;
+    private $boat_length;
+    private $fueltank_size;
+    private $home_port;
+    private $boat_width;
+    private $watertank_size;
+    private $draught;
+    private $yachtclub;
+    private $wastewatertank_size;
+    private $owner;
+    private $mast_height;
+    private $mainsail_size;
+    private $insurance;
+    private $water_displacement;
+    private $genua_size;
+    private $callsign;
+    private $rig_kind;
+    private $spi_size;
 
 	/**
 	 * Creats a boat from an associative array.

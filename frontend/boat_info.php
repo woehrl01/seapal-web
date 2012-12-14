@@ -11,7 +11,7 @@
 		<div class="header-wrapper">
 			<?php include("header.php"); ?>
 		</div>
-		<form id="form" method="post" action="/backend/boat_service.php">
+		<form id="form" method="post" action="../backend/boat_service.php">
 			<input type="text" name="method" value="save" style="display: none" />
 			<div class="content-wrapper">
 				<div class="container">
