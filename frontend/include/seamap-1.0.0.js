@@ -18,28 +18,35 @@
 			return $(window).height() - $(".header-wrapper .navbar-fixed-top").height() - 20
 		},
 		routepolyOptions : {
-			strokeColor: '#000000',
-			strokeOpacity: 0.8,
+			strokeColor: '#FF0000',
+			strokeOpacity: 0.5,
 			strokeWeight: 3
 		},
 		distancePolyOptions : {
-			strokeColor: '#550000',
-			strokeOpacity: 0.8,
+			strokeColor: '#FF9933',
+			strokeOpacity: 0.5,
 			strokeWeight: 2
+		},
+		defaultmarker : {
+			image : new google.maps.MarkerImage(
+				"images/pin_marker.png",
+				new google.maps.Size(42, 42),
+				new google.maps.Point(0,0),
+				new google.maps.Point(21, 36))
 		},
 		routemarker : {
 			image : new google.maps.MarkerImage(
-				"http://maps.gstatic.com/mapfiles/ridefinder-images/mm_20_blue.png",
-				new google.maps.Size(21, 34),
+				"images/circle.png",
+				new google.maps.Size(20, 20),
 				new google.maps.Point(0,0),
-				new google.maps.Point(7, 19))
+				new google.maps.Point(10, 10))
 		},
 		distancemarker : {
 			image : new google.maps.MarkerImage(
-				"http://maps.gstatic.com/mapfiles/ridefinder-images/mm_20_green.png",
-				new google.maps.Size(21, 34),
+				"images/circle.png",
+				new google.maps.Size(20, 20),
 				new google.maps.Point(0,0),
-				new google.maps.Point(7, 19))
+				new google.maps.Point(10, 10))
 		},
 		boatmarker : {
 			crosshairShape : {
@@ -58,10 +65,10 @@
 				type:'rect'
 			},
 			image : new google.maps.MarkerImage(
-				'http://www.daftlogic.com/images/cross-hairs.gif', 
-				new google.maps.Size(50,50),	
+				'images/crosshair.png', 
+				new google.maps.Size(28,28),	
 				new google.maps.Point(0,0),	
-				new google.maps.Point(8,8))	
+				new google.maps.Point(14,14))	
 		}
 	};
 	
@@ -657,6 +664,7 @@
 			var newMarker = new google.maps.Marker({
 				map: map,
 				position: position,
+				icon: options.defaultmarker.image,
 				draggable: true
 			});
 
