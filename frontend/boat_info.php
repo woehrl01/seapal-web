@@ -20,7 +20,7 @@
 						<div class="row">
 							<div class="span4">
 								<label for="boat_name">Bootsname</label> 
-								<input type="text" name="boat_name" tabindex="1" />
+								<input type="text" name="boat_name" tabindex="1" required />
 							</div>
 							<div class="span4">
 								<label for="boat_type">Typ</label>
@@ -28,13 +28,13 @@
 							</div>
 							<div class="span4">
 								<label for="build_year">Baujahr</label>
-								<input type="text" name="build_year" tabindex="17" />
+								<input type="number" name="build_year" tabindex="17" min="1900" />
 							</div>
 						</div>
 						<div class="row">
 							<div class="span4">
 								<label for="register_nr">Registernr.</label>
-								<input type="text" name="register_nr" tabindex="2" />
+								<input type="number" name="register_nr" tabindex="2" />
 							</div>
 							<div class="span4">
 								<label for="constructor">Konstrukteur</label>
@@ -52,11 +52,11 @@
 							</div>
 							<div class="span4">
 								<label for="boat_length">Länge</label>
-								<input type="text" name="boat_length" tabindex="11" />
+								<input type="number" name="boat_length" tabindex="11" min="0.1" step="0.1" />
 							</div>
 							<div class="span4">
 								<label for="fueltank_size">Tankgröße</label>
-								<input type="text" name="fueltank_size" tabindex="19" />
+								<input type="number" name="fueltank_size" tabindex="19" min="0" step="0.1"  />
 							</div>
 						</div>
 						<div class="row">
@@ -66,11 +66,11 @@
 							</div>
 							<div class="span4">
 								<label for="boat_width">Breite</label>
-								<input type="text" name="boat_width" tabindex="12" />
+								<input type="number" name="boat_width" tabindex="12" min="0.1" step="0.1" />
 							</div>
 							<div class="span4">
 								<label for="watertank_size">Wassertankgröße</label>
-								<input type="text" name="watertank_size" tabindex="20" />
+								<input type="number" name="watertank_size" tabindex="20" min="0" step="0.1" />
 							</div>
 						</div>
 						<div class="row">
@@ -80,11 +80,11 @@
 							</div>
 							<div class="span4">
 								<label for="draught">Tiefgang</label>
-								<input type="text" name="draught" tabindex="13" />
+								<input type="number" name="draught" tabindex="13" min="0" step="0.1" />
 							</div>
 							<div class="span4">
 								<label for="wastewatertank_size">Abwassertankgröße</label>
-								<input type="text" name="wastewatertank_size" tabindex="21" />
+								<input type="number" name="wastewatertank_size" tabindex="21" min="0" step="0.1" />
 							</div>
 						</div>
 						<div class="row">
@@ -94,11 +94,11 @@
 							</div>
 							<div class="span4">
 								<label for="mast_height">Masthöhe</label>
-								<input type="text" name="mast_height" tabindex="14" />
+								<input type="number" name="mast_height" tabindex="14" min="0" step="0.1" />
 							</div>
 							<div class="span4">
 								<label for="mainsail_size">Großsegelgröße</label>
-								<input type="text" name="mainsail_size" tabindex="22" />
+								<input type="number" name="mainsail_size" tabindex="22" min="0" step="0.1" />
 							</div>
 						</div>
 						<div class="row">
@@ -108,11 +108,11 @@
 							</div>
 							<div class="span4">
 								<label for="water_displacement">Verdrängung</label>
-								<input type="text" name="water_displacement" tabindex="15" />
+								<input type="number" name="water_displacement" tabindex="15" min="0" step="0.1" />
 							</div>
 							<div class="span4">
 								<label for="genua_size">Genuagröße</label>
-								<input type="text" name="genua_size" tabindex="23" />
+								<input type="number" name="genua_size" tabindex="23" min="0" step="0.1" />
 							</div>
 						</div>
 						<div class="row">
@@ -126,7 +126,7 @@
 							</div>
 							<div class="span4">
 								<label for="spi_size">Spigröße</label>
-								<input type="text" name="spi_size" tabindex="24" />
+								<input type="number" name="spi_size" tabindex="24" min="0" step="0.1" />
 							</div>
 						</div>
 						

@@ -64,16 +64,16 @@
 								</div>
 								<div class="row">
 									<div class="span3">
-										<label for="timespan">Dauer</label>
-										<input type="number" name="timespan" tabindex="8" />
+										<label for="timespan">Dauer (min)</label>
+										<input type="number" name="timespan" tabindex="8" min="1"/>
 									</div>
 								</div>
 							</div>
 							<div class="span3">
 								<div class="row">
 									<div class="span3">
-										<label for="engine_runtime">Motor(min)</label>
-										<input type="text" name="engine_runtime" tabindex="9" />
+										<label for="engine_runtime">Motor (min)</label>
+										<input type="number" name="engine_runtime" tabindex="9" min="0" />
 									</div>
 								</div>
 								<div class="row">
