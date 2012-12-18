@@ -5,6 +5,7 @@
 		<?php include("htmlhead.php"); ?>
 		<script type="text/javascript" src="include/boat_info.js"></script>
 		<script type="text/javascript" src="include/jquery.paginatetable.js"></script>
+		<script type="text/javascript" src="include/jsrender.js"></script>
 	</head>
 	<body>
 
@@ -135,14 +136,18 @@
 						<div class="listview">
 							<div class="row">
 								<div class="span12">
-
 									<table id="boatListTable" class="table table-striped table-bordered table-hover">
 										<thead>
-									        <tr><th>ID</th><th>Name</th></tr>
+									        <tr><th>Name</th><th>Baujahr</th></tr>
 									    </thead>
 									    <tbody>
 									    </tbody>
 									</table>
+									<script id="boatListTemplate" type="text/x-jsrender">
+										<tr data-boatid="{{>id}}">
+											<td>{{>boat_name}}</td><td>{{>build_year}}</td>
+										</tr>
+									</script>
 								</div>
 							</div>
 						</div>

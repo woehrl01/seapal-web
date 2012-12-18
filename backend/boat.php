@@ -77,7 +77,7 @@ final class Boat implements JsonSerializable {
 	    $this->rig_kind           = mysql_real_escape_string($boatArray["rig_kind"]);
 	    $this->spi_size           = mysql_real_escape_string($boatArray["spi_size"]);
 
-	    $this->valid = $this->validate();
+	    //$this->valid = $this->validate();
     }
 
     /**

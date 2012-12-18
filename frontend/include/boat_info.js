@@ -32,18 +32,14 @@ $(document).ready(function() {
 		event.preventDefault();
 
 		$('#boatListTable tbody tr.error').each(function(id){ //.first() before .each() if only delete single value
-
-			var row = new Array();
-			$(this).find("td").each(function(){
-			    row.push($(this).html());
-			});
+			var id = $(this).attr("data-boatid");
 			
 			$.ajax({
 				type: "POST",
 				url: $('#form').attr('action'),
 				data: {
 						method: "delete",
-						id: row[0]
+						id: id
 					},
 				dataType: "json",
 				success: function(data) {
@@ -66,12 +62,10 @@ $(document).ready(function() {
 			data: null,
 			dataType: "json",
 			success: function(data) {
-				var content = '';
-				for(var i = 0; i < data.length; ++i){
-		            content += '<tr><td>' + data[i].id + '</td><td>' + data[i].boat_name + '</td></tr>';
+				$( "#boatListTable tbody" ).html(
+					$( "#boatListTemplate" ).render(data)
+				);
 
-		        }
-				$('#boatListTable tbody').html(content);
 				$('#boatListTable').paginateTable({ rowsPerPage: 5, pager: ".tablePager", autoHidePager: false });
 			}
 		});

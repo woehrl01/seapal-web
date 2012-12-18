@@ -19,7 +19,7 @@ final class BoatDAL {
                 watertank_size, yachtclub, draught, wastewatertank_size, owner, mast_height, mainsail_size, 
                 insurance, water_displacement, genua_size, callsign, rig_kind, spi_size
                 FROM boat
-                WHERE id='%s",
+                WHERE id='%s'",
                 $boatId);
 
 		$db->querySelect($sql);
@@ -55,9 +55,7 @@ final class BoatDAL {
 				break;
 
 			$boat = new Boat($row);
-			if ($boat->isValid()) {
-				array_push($boats, $boat);
-			}
+            array_push($boats, $boat);
 		}
 
 		$db->close();
