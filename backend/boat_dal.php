@@ -19,7 +19,7 @@ final class BoatDAL {
                 watertank_size, yachtclub, draught, wastewatertank_size, owner, mast_height, mainsail_size, 
                 insurance, water_displacement, genua_size, callsign, rig_kind, spi_size
                 FROM boat
-                WHERE id='%s",
+                WHERE id='%s'",
                 $boatId);
 
 		$db->querySelect($sql);
@@ -55,9 +55,7 @@ final class BoatDAL {
 				break;
 
 			$boat = new Boat($row);
-			if ($boat->isValid()) {
-				array_push($boats, $boat);
-			}
+            array_push($boats, $boat);
 		}
 
 		$db->close();
@@ -85,12 +83,11 @@ final class BoatDAL {
      */
 	private static function insert($boat) {
 		$db = DBConnector::getConnection();
-
-		$sql = sprintf("INSERT INTO boat (id, boat_name, boat_type, build_year, register_nr, 
+		$sql = sprintf("INSERT INTO boat (boat_name, boat_type, build_year, register_nr, 
                 constructor, engine, sail_sign, boat_length, fueltank_size, home_port, boat_width, 
                 watertank_size, yachtclub, draught, wastewatertank_size, owner, mast_height, mainsail_size, 
                 insurance, water_displacement, genua_size, callsign, rig_kind, spi_size)
-            	VALUES ('', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s',
+            	VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s',
                 '%s', '%s', '%s', '%s', '%s', '%s', '%s','%s', '%s', '%s', '%s', '%s', '%s')",
 				$boat->getBoatName(),
 				$boat->getBoatType(),
@@ -133,7 +130,7 @@ final class BoatDAL {
                 constructor='%s', engine='%s', sail_sign='%s', boat_length='%s', fueltank_size='%s', home_port='%s', boat_width='%s', 
                 watertank_size='%s', yachtclub='%s', draught='%s', wastewatertank_size='%s', owner='%s', mast_height='%s', mainsail_size='%s', 
                 insurance='%s', water_displacement='%s', genua_size='%s', callsign='%s', rig_kind='%s', spi_size='%s'
-                WHERE id='%s",
+                WHERE id='%s'",
                 $boat->getBoatName(),
                 $boat->getBoatType(),
                 $boat->getBuildYear(),

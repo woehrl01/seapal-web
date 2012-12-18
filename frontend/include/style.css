@@ -123,6 +123,28 @@ body.index .header-wrapper {
 .round h2
 {
 	border-bottom:1px solid #fff;
+	margin-top: -5px;
+	line-height: 56px;
+}
+.round h2.seamaps
+{
+	background: url(../images/seamaps.png) top right no-repeat;
+}
+.round h2.navi
+{
+	background: url(../images/compass.png) top right no-repeat;
+}
+.round h2.tools
+{
+	background: url(../images/tools.png) top right no-repeat;
+}
+.round h2.extensions
+{
+	background: url(../images/extensions.png) top right no-repeat;
+}
+.round h2.warning
+{
+	background: url(../images/warning.png) top right no-repeat;
 }
 .listview
 {

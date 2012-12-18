@@ -1,8 +1,8 @@
 <?php
 
-final class Boat implements JsonSerializable {
-	private $valid;
+require_once("validator.php");
 
+final class Boat implements JsonSerializable {
     private $id;
 	private $boat_name;
     private $boat_type;
@@ -74,8 +74,30 @@ final class Boat implements JsonSerializable {
 	    $this->genua_size         = mysql_real_escape_string($boatArray["genua_size"]);
 	    $this->rig_kind           = mysql_real_escape_string($boatArray["rig_kind"]);
 	    $this->spi_size           = mysql_real_escape_string($boatArray["spi_size"]);
+    }
 
-	    $this->valid = TRUE; // TODO: check, if the boat is really valid!
+    /**
+     * Validates field values.
+     * @return TRUE, if everything is valid.
+     */
+    private function validate() {
+        if (!Valid::is_number($this->id, Valid::$REQ)) return FALSE;
+        if (!Valid::is_required($this->boat_name)) return FALSE;
+        if (!Valid::is_number_min($this->build_year, 1900, Valid::$NOT_REQ)) return FALSE;
+        if (!Valid::is_number($this->register_nr, Valid::$NOT_REQ)) return FALSE;
+        if (!Valid::is_number_min($this->boat_length, 0.1, Valid::$NOT_REQ)) return FALSE;
+        if (!Valid::is_number_min($this->fueltank_size, 0, Valid::$NOT_REQ)) return FALSE;
+        if (!Valid::is_number_min($this->boat_width, 0.1, Valid::$NOT_REQ)) return FALSE;
+        if (!Valid::is_number_min($this->watertank_size, 0, Valid::$NOT_REQ)) return FALSE;
+        if (!Valid::is_number_min($this->draught, 0, Valid::$NOT_REQ)) return FALSE;
+        if (!Valid::is_number_min($this->wastewatertank_size, 0, Valid::$NOT_REQ)) return FALSE;
+        if (!Valid::is_number_min($this->mast_height, 0, Valid::$NOT_REQ)) return FALSE;
+        if (!Valid::is_number_min($this->mainsail_size, 0, Valid::$NOT_REQ)) return FALSE;
+        if (!Valid::is_number_min($this->water_displacement, 0, Valid::$NOT_REQ)) return FALSE;
+        if (!Valid::is_number_min($this->genua_size, 0, Valid::$NOT_REQ)) return FALSE;
+        if (!Valid::is_number_min($this->spi_size, 0, Valid::$NOT_REQ)) return FALSE;
+
+        return TRUE;
     }
 
 	/**
@@ -100,7 +122,7 @@ final class Boat implements JsonSerializable {
      * @return Returns TRUE if the boat is valid.
      */
     public function isValid () {
-        return $this->valid;
+        return $this->validate();
     }
 
     /* Properties */

@@ -28,8 +28,17 @@ final class SimpleEntry implements JsonSerializable {
     	}
 
     	$this->name = mysql_real_escape_string($entryArray["name"]);
+    }
 
-	    $this->valid = TRUE;
+    /**
+     * Validates field values.
+     * @return TRUE, if everything is valid.
+     */
+    private function validate() {
+        if (!Valid::is_number($this->id, Valid::$REQ)) return FALSE;
+        if (!Valid::is_required($this->name)) return FALSE;
+
+        return TRUE;
     }
 
 	/**
@@ -37,7 +46,7 @@ final class SimpleEntry implements JsonSerializable {
 	 * @return Returns TRUE if the maneuver is valid.
 	 */
 	public function isValid () {
-		return $this->valid;
+		return $this->validate();
 	}
 
 	// function called when encoded with json_encode

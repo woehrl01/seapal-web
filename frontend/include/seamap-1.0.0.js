@@ -16,9 +16,23 @@
 		
 		height : function() {
 			return $(window).height() - $(".header-wrapper .navbar-fixed-top").height() - 20
-		},
-		
+		},	
 		strokeColors : ['grey','red','blue','green','yellow','black'],
+		
+		defaultOptions : {
+			polyOptions : {
+				strokeColor: '#000000',
+				strokeOpacity: 0.5,
+				strokeWeight: 3
+			},
+			markerOptions : {
+				image : new google.maps.MarkerImage(
+					"images/pin_marker.png",
+					new google.maps.Size(42, 42),
+					new google.maps.Point(0,0),
+					new google.maps.Point(21, 36))
+			}
+		},
 		
 		routeOptions : {
 			polyOptions : {
@@ -28,15 +42,10 @@
 			},
 			markerOptions : {
 				image : new google.maps.MarkerImage(
-					"http://labs.google.com/ridefinder/images/mm_20_gray.png",
-					new google.maps.Size(12, 20),
+					"images/circle.png",
+					new google.maps.Size(20, 20),
 					new google.maps.Point(0,0),
-					new google.maps.Point(6, 20)),
-				shadow : new google.maps.MarkerImage(
-					"http://labs.google.com/ridefinder/images/mm_20_shadow.png",
-					new google.maps.Size(22, 20),
-					new google.maps.Point(0, 0),
-					new google.maps.Point(6, 20))
+					new google.maps.Point(10, 10))
 			}
 		},
 		
@@ -48,15 +57,10 @@
 			},
 			markerOptions : {
 				image : new google.maps.MarkerImage(
-					"http://labs.google.com/ridefinder/images/mm_20_white.png",
-					new google.maps.Size(12, 20),
+					"images/circle.png",
+					new google.maps.Size(20, 20),
 					new google.maps.Point(0,0),
-					new google.maps.Point(6, 20)),
-				shadow : new google.maps.MarkerImage(
-					"http://labs.google.com/ridefinder/images/mm_20_shadow.png",
-					new google.maps.Size(22, 20),
-					new google.maps.Point(0, 0),
-					new google.maps.Point(6, 20))
+					new google.maps.Point(10, 10))
 			}
 		},
 		
@@ -81,10 +85,10 @@
 					type:'rect'
 				},
 				image : new google.maps.MarkerImage(
-					'http://www.daftlogic.com/images/cross-hairs.gif', 
-					new google.maps.Size(50,50),	
+					'images/crosshair.png', 
+					new google.maps.Size(28,28),	
 					new google.maps.Point(0,0),	
-					new google.maps.Point(8,8))	
+					new google.maps.Point(14,14))	
 			}
 		}
 	};
@@ -728,6 +732,7 @@
 			var newMarker = new google.maps.Marker({
 				map: map,
 				position: position,
+				icon: options.defaultOptions.markerOptions.image,
 				draggable: true
 			});
 
