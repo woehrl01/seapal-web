@@ -48,7 +48,7 @@
 				<div class="row">
 					<div class="span4">
 						<div class="round">
-							<h2>Features 1</h2>
+							<h2 class="seamaps">Seamaps</h2>
 							<ul>
 								<li>Google Maps</li>
 								<li>OpenSeaMaps</li>
@@ -61,7 +61,7 @@
 					</div>
 					<div class="span4">
 						<div class="round">
-							<h2>Features 2</h2>
+							<h2 class="navi">Navigation</h2>
 							<ul>
 								<li>Free navigation on the map with swipe and pinch</li>
 								<li>Fast return to the current position</li>
@@ -74,7 +74,7 @@
 					</div>
 					<div class="span4">
 						<div class="round">
-							<h2>Features 3</h2>
+							<h2 class="tools">Tools</h2>
 							<ul>
 								<li>Add marks using bearing or coordinates</li>
 								<li>Select any mark as target</li>
@@ -88,7 +88,7 @@
 				<div class="row">
 					<div class="span6">
 						<div class="round">
-							<h2>Extensions</h2>
+							<h2 class="extensions">Extensions</h2>
 							<p>
 								With extensions <strong>SeaPal</strong> offers the following functionality:
 							</p>
@@ -103,7 +103,7 @@
 					</div>
 					<div class="span6">
 						<div class="round">
-							<h2>Warning</h2>
+							<h2 class="warning">Warning</h2>
 							<p>
 								<strong>SeaPal</strong> is a valuable addition to your navigational equipment, but no replacement. Always use official sea maps in conjunction. All positions are provided so that a transition to paper sea maps is simple. The responsibility for the proper use lies with the skipper. The manufacturer of <strong>SeaPal</strong> assume no liability.
 							</p>
