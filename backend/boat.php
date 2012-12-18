@@ -3,8 +3,6 @@
 require_once("validator.php");
 
 final class Boat implements JsonSerializable {
-	private $valid;
-
     private $id;
 	private $boat_name;
     private $boat_type;
@@ -76,8 +74,6 @@ final class Boat implements JsonSerializable {
 	    $this->genua_size         = mysql_real_escape_string($boatArray["genua_size"]);
 	    $this->rig_kind           = mysql_real_escape_string($boatArray["rig_kind"]);
 	    $this->spi_size           = mysql_real_escape_string($boatArray["spi_size"]);
-
-	    //$this->valid = $this->validate();
     }
 
     /**
@@ -125,7 +121,7 @@ final class Boat implements JsonSerializable {
      * @return Returns TRUE if the boat is valid.
      */
     public function isValid () {
-        return $this->valid;
+        return $this->validate();
     }
 
     /* Properties */

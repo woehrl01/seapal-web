@@ -14,9 +14,11 @@ $(document).ready(function() {
 			data: $(this).serialize(),
 			dataType: "json",
 			success: function(data) {
-				$('#addSuccessModal').modal('show');
-				resetFormData();
-				loadAllBoats();
+				if(data.success){
+					$('#addSuccessModal').modal('show');
+					resetFormData();
+					loadAllBoats();
+				}
 			}
 		});
 	});
