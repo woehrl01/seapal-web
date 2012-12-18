@@ -57,8 +57,28 @@ final class LogEntry implements JsonSerializable {
         $this->maneuver_id        = mysql_real_escape_string($logEntryArray["maneuver_id"]);
         $this->headsail_id        = mysql_real_escape_string($logEntryArray["headsail_id"]);
         $this->mainsail_id        = mysql_real_escape_string($logEntryArray["mainsail_id"]);
+    }
 
-	    $this->valid = TRUE; // TODO: check, if the logEntry is really valid!
+    /**
+     * Validates field values.
+     * @return TRUE, if everything is valid.
+     */
+    private function validate() {
+        if (!Valid::is_number($this->id, Valid::$REQ)) return FALSE;
+        if (!Valid::is_required($this->entry_name)) return FALSE;
+        if (!Valid::is_number_range($this->north_degree, -89, 89, Valid::$REQ)) return FALSE;
+        if (!Valid::is_number_range($this->north_minutes, -59, 59, Valid::$REQ)) return FALSE;
+        if (!Valid::is_number_range($this->north_seconds, -59, 59, Valid::$REQ)) return FALSE;
+        if (!Valid::is_number_range($this->east_degree, -179, 179, Valid::$REQ)) return FALSE;
+        if (!Valid::is_number_range($this->east_minutes, -59, 59, Valid::$REQ)) return FALSE;
+        if (!Valid::is_number_range($this->east_seconds, -59, 59, Valid::$REQ)) return FALSE;
+        if (!Valid::is_number_min($this->cog, 0, Valid::$NOT_REQ)) return FALSE;
+        if (!Valid::is_number_range($this->sog, 0, 360, Valid::$NOT_REQ)) return FALSE;
+        //TODO: timestamp
+        if (!Valid::is_number_range($this->btm, 0, 360, Valid::$NOT_REQ)) return FALSE;
+        if (!Valid::is_number_min($this->dtm, 0, Valid::$NOT_REQ)) return FALSE;
+
+        return TRUE;
     }
 
 	/**
@@ -83,7 +103,7 @@ final class LogEntry implements JsonSerializable {
      * @return Returns TRUE if the logEntry is valid.
      */
     public function isValid () {
-        return $this->valid;
+        return $this->validate();
     }
 
     /* Properties */

@@ -140,7 +140,7 @@
 										<thead>
 									        <tr><th>Name</th><th>Baujahr</th></tr>
 									    </thead>
-									    <tbody>
+									    <tbody style="display:none;">
 									    </tbody>
 									</table>
 									<script id="boatListTemplate" type="text/x-jsrender">

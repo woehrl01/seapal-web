@@ -81,6 +81,7 @@ final class Boat implements JsonSerializable {
      * @return TRUE, if everything is valid.
      */
     private function validate() {
+        if (!Valid::is_number($this->id, Valid::$REQ)) return FALSE;
         if (!Valid::is_required($this->boat_name)) return FALSE;
         if (!Valid::is_number_min($this->build_year, 1900, Valid::$NOT_REQ)) return FALSE;
         if (!Valid::is_number($this->register_nr, Valid::$NOT_REQ)) return FALSE;

@@ -35,20 +35,38 @@ final class Trip implements JsonSerializable {
     		$this->id = -1;
     	}
 
-    	$this->boat_id    		  = mysql_real_escape_string(1);
+    	$this->boat_id    		  = mysql_real_escape_string($tripArray["boat_id"]);
 	    $this->trip_title         = mysql_real_escape_string($tripArray["trip_title"]);
     	$this->trip_from          = mysql_real_escape_string($tripArray["trip_from"]);
     	$this->trip_to            = mysql_real_escape_string($tripArray["trip_to"]);
     	$this->crew               = mysql_real_escape_string($tripArray["crew"]);
     	$this->start_time         = mysql_real_escape_string($tripArray["start_time"]);
     	$this->end_time           = mysql_real_escape_string($tripArray["end_time"]);
+        $this->timespan           = mysql_real_escape_string($tripArray["timespan"]);
     	$this->engine_runtime     = mysql_real_escape_string($tripArray["engine_runtime"]);
     	$this->tank_filled        = mysql_real_escape_string($tripArray["tank_filled"]);
-
-	    $this->valid = TRUE;
     }
 
-    // function called when encoded with json_encode
+    /**
+     * Validates field values.
+     * @return TRUE, if everything is valid.
+     */
+    private function validate() {
+        if (!Valid::is_number($this->id, Valid::$REQ)) return FALSE;
+        if (!Valid::is_required($this->trip_title)) return FALSE;
+        if (!Valid::is_number_min($this->engine_runtime, 0, Valid::$NOT_REQ)) return FALSE;
+        if (!Valid::is_number_min($this->timespan, 1, Valid::$NOT_REQ)) return FALSE;
+        //TODO: start_time
+        //TODO: end_time
+        //TODO: tank_filled
+
+        return TRUE;
+    }
+
+    /**
+     * Serializes the object. Needed because of private members.
+     * @return thr serialized object.
+     */
     public function jsonSerialize()
     {
         return get_object_vars($this);
@@ -67,7 +85,7 @@ final class Trip implements JsonSerializable {
 	 * @return Returns TRUE if the trip is valid.
 	 */
 	public function isValid () {
-		return $this->valid;
+		return $this->validate();
 	}
 
 	/* Properties */
@@ -102,6 +120,10 @@ final class Trip implements JsonSerializable {
     
     public function getEndTime() {
 		return $this->end_time;
+    }
+
+    public function getTimespan() {
+        return $this->timespam;
     }
     
     public function getEngineRuntime() {

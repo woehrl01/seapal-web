@@ -21,7 +21,7 @@
 						<div class="row">
 							<div class="span6">
 								<label for="trip_title">Trip Titel</label>
-								<input type="text" name="trip_title" tabindex="1" style="width: 100%;" />
+								<input type="text" name="trip_title" tabindex="1" style="width: 100%;" required />
 							</div>
 						</div>
 						<div class="row">

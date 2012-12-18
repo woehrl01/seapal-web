@@ -69,6 +69,7 @@ $(document).ready(function() {
 				);
 
 				$('#boatListTable').paginateTable({ rowsPerPage: 5, pager: ".tablePager", autoHidePager: false });
+				$("#boatListTable tbody").show('slow');
 			}
 		});
 		updateDeleteButton();
