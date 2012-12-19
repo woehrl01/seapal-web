@@ -19,7 +19,7 @@ final class LogEntryDAL {
 			manuever_id, headsail_id, mainsail_id
             FROM waypoint
             WHERE id='%s",
-                $logEntryId);
+            mysql_real_escape_string($logEntryId));
 
 		$db->querySelect($sql);
 
@@ -76,7 +76,7 @@ final class LogEntryDAL {
 			manuever_id, headsail_id, mainsail_id
             FROM waypoint
             WHERE trip_id='%s'",
-            $tripId);
+            mysql_real_escape_string($tripId));
 
 		$db->querySelect($sql);
 
@@ -108,7 +108,7 @@ final class LogEntryDAL {
     		return LogEntryDAL::update($logEntry);
     	}
 
-    	return FALSE;
+    	return $logEntry->getErrors();
     }
 
     /**
@@ -122,22 +122,22 @@ final class LogEntryDAL {
 			east_minutes, east_seconds, trip_id, cog, sog, datetime, btm, dtm, trip_to,
 			manuever_id, headsail_id, mainsail_id)
             VALUES ('', %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
-				$logEntry->getNorthDegree(),
-				$logEntry->getNorthMinutes(),
-				$logEntry->getNorthMinutes(),
-				$logEntry->getEastDegree(),
-				$logEntry->getEastMinutes(),
-				$logEntry->getEastSeconds(),
-                $logEntry->getTripId(),
-                $logEntry->getCog(),
-                $logEntry->getSog(),
-                $logEntry->getDatetime(),
-                $logEntry->getBtm(),
-                $logEntry->getDtm(),
-                $logEntry->getTripTo(),
-                $logEntry->getManeuverId(),
-                $logEntry->getHeadsailId(),
-                $logEntry->getMainsailId());
+				mysql_real_escape_string($logEntry->getNorthDegree()),
+				mysql_real_escape_string($logEntry->getNorthMinutes()),
+				mysql_real_escape_string($logEntry->getNorthMinutes()),
+				mysql_real_escape_string($logEntry->getEastDegree()),
+				mysql_real_escape_string($logEntry->getEastMinutes()),
+				mysql_real_escape_string($logEntry->getEastSeconds()),
+                mysql_real_escape_string($logEntry->getTripId()),
+                mysql_real_escape_string($logEntry->getCog()),
+                mysql_real_escape_string($logEntry->getSog()),
+                mysql_real_escape_string($logEntry->getDatetime()),
+                mysql_real_escape_string($logEntry->getBtm()),
+                mysql_real_escape_string($logEntry->getDtm()),
+                mysql_real_escape_string($logEntry->getTripTo()),
+                mysql_real_escape_string($logEntry->getManeuverId()),
+                mysql_real_escape_string($logEntry->getHeadsailId()),
+                mysql_real_escape_string($logEntry->getMainsailId()));
 
 		$status = $db->queryExecute($sql);
 		$db->close();
@@ -155,23 +155,23 @@ final class LogEntryDAL {
                 east_minutes='%s', east_seconds='%s', trip_id='%s', cog='%s', sog='%s', datetime='%s', 
                 btm='%s', dtm='%s', trip_to='%s', maneuver_id='%s', headsail_id='%s', mainsail_id='%s'
                 WHERE id='%s",
-                $logEntry->getNorthDegree(),
-				$logEntry->getNorthMinutes(),
-				$logEntry->getNorthMinutes(),
-				$logEntry->getEastDegree(),
-				$logEntry->getEastMinutes(),
-				$logEntry->getEastSeconds(),
-                $logEntry->getTripId(),
-                $logEntry->getCog(),
-                $logEntry->getSog(),
-                $logEntry->getDatetime(),
-                $logEntry->getBtm(),
-                $logEntry->getDtm(),
-                $logEntry->getTripTo(),
-                $logEntry->getManeuverId(),
-                $logEntry->getHeadsailId(),
-                $logEntry->getMainsailId(),
-                $logEntry->getId());
+                mysql_real_escape_string($logEntry->getNorthDegree()),
+				mysql_real_escape_string($logEntry->getNorthMinutes()),
+				mysql_real_escape_string($logEntry->getNorthMinutes()),
+				mysql_real_escape_string($logEntry->getEastDegree()),
+				mysql_real_escape_string($logEntry->getEastMinutes()),
+				mysql_real_escape_string($logEntry->getEastSeconds()),
+                mysql_real_escape_string($logEntry->getTripId()),
+                mysql_real_escape_string($logEntry->getCog()),
+                mysql_real_escape_string($logEntry->getSog()),
+                mysql_real_escape_string($logEntry->getDatetime()),
+                mysql_real_escape_string($logEntry->getBtm()),
+                mysql_real_escape_string($logEntry->getDtm()),
+                mysql_real_escape_string($logEntry->getTripTo()),
+                mysql_real_escape_string($logEntry->getManeuverId()),
+                mysql_real_escape_string($logEntry->getHeadsailId()),
+                mysql_real_escape_string($logEntry->getMainsailId()),
+                mysql_real_escape_string($logEntry->getId()));
 
 		$status = $db->queryExecute($sql);
 		$db->close();
@@ -186,7 +186,7 @@ final class LogEntryDAL {
 		$db = DBConnector::getConnection();
 
 		$sql = sprintf("DELETE FROM waypoint WHERE id='%s'",
-			$logEntryId);
+			mysql_real_escape_string($logEntryId));
 
 		$status = $db->queryExecute($sql);
 		$db->close();

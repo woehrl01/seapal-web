@@ -34,10 +34,11 @@ function main() {
  */
 function handleSave() {
 	$log_entry = new LogEntry($_POST);
-	if (LogEntryDAL::save($log_entry)) {
+	$errors = LogEntryDAL::save($log_entry)
+	if (!is_array($errprs)) {
 		echo '{"success":true}';
 	} else {
-		echo '{"success":false}';
+		echo '{"success":false, "errors": '.json_encode($errors).'}';
 	}
 }
 

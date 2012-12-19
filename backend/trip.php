@@ -2,8 +2,6 @@
 require_once("database.php");
 
 final class Trip implements JsonSerializable {
-	private $valid;
-
 	private $id;
 	private $boat_id;
 	private $trip_title;
@@ -28,39 +26,40 @@ final class Trip implements JsonSerializable {
 	 * Parses the associative array.
 	 */
     private function parse($tripArray) {
-
     	if (array_key_exists("id", $tripArray)) {
-    		$this->id = mysql_real_escape_string($tripArray["id"]);
+    		$this->id = $tripArray["id"];
     	} else {
     		$this->id = -1;
     	}
 
-    	$this->boat_id    		  = mysql_real_escape_string($tripArray["boat_id"]);
-	    $this->trip_title         = mysql_real_escape_string($tripArray["trip_title"]);
-    	$this->trip_from          = mysql_real_escape_string($tripArray["trip_from"]);
-    	$this->trip_to            = mysql_real_escape_string($tripArray["trip_to"]);
-    	$this->crew               = mysql_real_escape_string($tripArray["crew"]);
-    	$this->start_time         = mysql_real_escape_string($tripArray["start_time"]);
-    	$this->end_time           = mysql_real_escape_string($tripArray["end_time"]);
-        $this->timespan           = mysql_real_escape_string($tripArray["timespan"]);
-    	$this->engine_runtime     = mysql_real_escape_string($tripArray["engine_runtime"]);
-    	$this->tank_filled        = mysql_real_escape_string($tripArray["tank_filled"]);
+    	$this->boat_id    		  = $tripArray["boat_id"];
+	    $this->trip_title         = $tripArray["trip_title"];
+    	$this->trip_from          = $tripArray["trip_from"];
+    	$this->trip_to            = $tripArray["trip_to"];
+    	$this->crew               = $tripArray["crew"];
+    	$this->start_time         = $tripArray["start_time"];
+    	$this->end_time           = $tripArray["end_time"];
+        $this->timespan           = $tripArray["timespan"];
+    	$this->engine_runtime     = $tripArray["engine_runtime"];
+    	$this->tank_filled        = $tripArray["tank_filled"];
     }
 
     /**
      * Validates field values.
-     * @return TRUE, if everything is valid.
+     * @return An array of invalid fields.
      */
     private function validate() {
-        if (!Valid::is_number($this->id, Valid::$REQ)) return FALSE;
-        if (!Valid::is_required($this->trip_title)) return FALSE;
-        if (!Valid::is_number_min($this->engine_runtime, 0, Valid::$NOT_REQ)) return FALSE;
-        if (!Valid::is_number_min($this->timespan, 1, Valid::$NOT_REQ)) return FALSE;
+        $errors = array();
+
+        if (!Valid::is_number($this->id, Valid::$REQ)) array_push($errors, "id");
+        if (!Valid::is_required($this->trip_title)) array_push($errors, "trip_title");
+        if (!Valid::is_number_min($this->engine_runtime, 0, Valid::$NOT_REQ))array_push($errors, "engine_runtime");
+        if (!Valid::is_number_min($this->timespan, 1, Valid::$NOT_REQ)) array_push($errors, "timespan");
         //TODO: start_time
         //TODO: end_time
         //TODO: tank_filled
 
-        return TRUE;
+        return $errors;
     }
 
     /**
@@ -85,8 +84,17 @@ final class Trip implements JsonSerializable {
 	 * @return Returns TRUE if the trip is valid.
 	 */
 	public function isValid () {
-		return $this->validate();
-	}
+        $errors = $this->validate();
+        return !(is_array($errors) && !empty($errors));
+    }
+
+    /**
+     * Gets the invalid fields.
+     * @return Returns every field which contains invalid data.
+     */
+    public function getErrors(){
+        return $this->validate();
+    }
 
 	/* Properties */
 

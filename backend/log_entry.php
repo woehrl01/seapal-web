@@ -1,8 +1,6 @@
 <?php
 
 final class LogEntry implements JsonSerializable {
-	private $valid;
-
     private $id;
     private $entry_name;
     private $north_degree;
@@ -36,49 +34,51 @@ final class LogEntry implements JsonSerializable {
     private function parse($logEntryArray) {
 
     	if (array_key_exists("id", $logEntryArray)) {
-    		$this->id = mysql_real_escape_string($logEntryArray["id"]);
+    		$this->id = $logEntryArray["id"];
     	} else {
     		$this->id = -1;
     	}
 	    
-        $this->entry_name         = mysql_real_escape_string($logEntryArray["entry_name"]);
-        $this->north_degree       = mysql_real_escape_string($logEntryArray["north_degree"]);
-        $this->north_minutes      = mysql_real_escape_string($logEntryArray["north_minutes"]);
-        $this->north_seconds      = mysql_real_escape_string($logEntryArray["north_seconds"]);
-        $this->east_degree        = mysql_real_escape_string($logEntryArray["east_degree"]);
-        $this->east_minutes       = mysql_real_escape_string($logEntryArray["east_minutes"]);
-        $this->east_seconds       = mysql_real_escape_string($logEntryArray["east_seconds"]);
-        $this->cog                = mysql_real_escape_string($logEntryArray["cog"]);
-        $this->sog                = mysql_real_escape_string($logEntryArray["sog"]);
-        $this->timestamp          = mysql_real_escape_string($logEntryArray["timestamp"]);
-        $this->btm                = mysql_real_escape_string($logEntryArray["btm"]);
-        $this->dtm                = mysql_real_escape_string($logEntryArray["dtm"]);
-        $this->trip_to            = mysql_real_escape_string($logEntryArray["trip_to"]);
-        $this->maneuver_id        = mysql_real_escape_string($logEntryArray["maneuver_id"]);
-        $this->headsail_id        = mysql_real_escape_string($logEntryArray["headsail_id"]);
-        $this->mainsail_id        = mysql_real_escape_string($logEntryArray["mainsail_id"]);
+        $this->entry_name         = $logEntryArray["entry_name"];
+        $this->north_degree       = $logEntryArray["north_degree"];
+        $this->north_minutes      = $logEntryArray["north_minutes"];
+        $this->north_seconds      = $logEntryArray["north_seconds"];
+        $this->east_degree        = $logEntryArray["east_degree"];
+        $this->east_minutes       = $logEntryArray["east_minutes"];
+        $this->east_seconds       = $logEntryArray["east_seconds"];
+        $this->cog                = $logEntryArray["cog"];
+        $this->sog                = $logEntryArray["sog"];
+        $this->timestamp          = $logEntryArray["timestamp"];
+        $this->btm                = $logEntryArray["btm"];
+        $this->dtm                = $logEntryArray["dtm"];
+        $this->trip_to            = $logEntryArray["trip_to"];
+        $this->maneuver_id        = $logEntryArray["maneuver_id"];
+        $this->headsail_id        = $logEntryArray["headsail_id"];
+        $this->mainsail_id        = $logEntryArray["mainsail_id"];
     }
 
     /**
      * Validates field values.
-     * @return TRUE, if everything is valid.
+     * @return An array of invalid fields.
      */
     private function validate() {
-        if (!Valid::is_number($this->id, Valid::$REQ)) return FALSE;
-        if (!Valid::is_required($this->entry_name)) return FALSE;
-        if (!Valid::is_number_range($this->north_degree, -89, 89, Valid::$REQ)) return FALSE;
-        if (!Valid::is_number_range($this->north_minutes, -59, 59, Valid::$REQ)) return FALSE;
-        if (!Valid::is_number_range($this->north_seconds, -59, 59, Valid::$REQ)) return FALSE;
-        if (!Valid::is_number_range($this->east_degree, -179, 179, Valid::$REQ)) return FALSE;
-        if (!Valid::is_number_range($this->east_minutes, -59, 59, Valid::$REQ)) return FALSE;
-        if (!Valid::is_number_range($this->east_seconds, -59, 59, Valid::$REQ)) return FALSE;
-        if (!Valid::is_number_min($this->cog, 0, Valid::$NOT_REQ)) return FALSE;
-        if (!Valid::is_number_range($this->sog, 0, 360, Valid::$NOT_REQ)) return FALSE;
-        //TODO: timestamp
-        if (!Valid::is_number_range($this->btm, 0, 360, Valid::$NOT_REQ)) return FALSE;
-        if (!Valid::is_number_min($this->dtm, 0, Valid::$NOT_REQ)) return FALSE;
+        $errors = array();
 
-        return TRUE;
+        if (!Valid::is_number($this->id, Valid::$REQ)) array_push($errors, "id");
+        if (!Valid::is_required($this->entry_name)) array_push($errors, "entry_name");
+        if (!Valid::is_number_range($this->north_degree, -89, 89, Valid::$REQ)) array_push($errors, "north_degree");
+        if (!Valid::is_number_range($this->north_minutes, -59, 59, Valid::$REQ)) array_push($errors, "north_minutes");
+        if (!Valid::is_number_range($this->north_seconds, -59, 59, Valid::$REQ)) array_push($errors, "north_seconds");
+        if (!Valid::is_number_range($this->east_degree, -179, 179, Valid::$REQ)) array_push($errors, "east_degree");
+        if (!Valid::is_number_range($this->east_minutes, -59, 59, Valid::$REQ)) array_push($errors, "east_minutes");
+        if (!Valid::is_number_range($this->east_seconds, -59, 59, Valid::$REQ)) array_push($errors, "east_seconds");
+        if (!Valid::is_number_min($this->cog, 0, Valid::$NOT_REQ)) array_push($errors, "cog");
+        if (!Valid::is_number_range($this->sog, 0, 360, Valid::$NOT_REQ)) array_push($errors, "sog");
+        //TODO: timestamp
+        if (!Valid::is_number_range($this->btm, 0, 360, Valid::$NOT_REQ)) array_push($errors, "btm");
+        if (!Valid::is_number_min($this->dtm, 0, Valid::$NOT_REQ)) array_push($errors, "dtm");
+
+        return $errors;
     }
 
 	/**
@@ -103,6 +103,15 @@ final class LogEntry implements JsonSerializable {
      * @return Returns TRUE if the logEntry is valid.
      */
     public function isValid () {
+        $errors = $this->validate();
+        return !(is_array($errors) && !empty($errors));
+    }
+
+    /**
+     * Gets the invalid fields.
+     * @return Returns every field which contains invalid data.
+     */
+    public function getErrors(){
         return $this->validate();
     }
 

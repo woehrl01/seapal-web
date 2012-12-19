@@ -34,7 +34,7 @@ function main() {
  */
 function handleSave() {
 	$boat = new Boat($_POST);
-	$errors = BoatDAL::save($boat) ;
+	$errors = BoatDAL::save($boat);
 	if (!is_array($errors)) {
 		echo '{"success":true}';
 	} else {
@@ -66,7 +66,7 @@ function handleGet() {
 	if (array_key_exists("id", $_GET)) {
 		$boat = BoatDAL::loadById($_GET["id"]);
 		echo json_encode($boat);
-	}else{
+	} else {
 		$boats = BoatDAL::loadAll();
 		echo json_encode($boats);
 	}

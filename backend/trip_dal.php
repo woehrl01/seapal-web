@@ -17,7 +17,7 @@ final class TripDAL {
 		$sql = sprintf("SELECT id, boat_id, trip_title, trip_from, trip_to, start_time, end_time, engine_runtime, skipper, tank_filled, crew
             FROM trip
             WHERE id='%s'",
-            $tripId);
+            mysql_real_escape_string($tripId);
 
 		$db->querySelect($sql);
 
@@ -71,7 +71,7 @@ final class TripDAL {
 			engine_runtime, skipper, tank_filled, crew
             FROM trip
             WHERE boat_id='%s'",
-            $boatId);
+            mysql_real_escape_string($boatId);
 
 		$db = DBConnector::getConnection();
 		$db->querySelect($sql);
@@ -104,7 +104,7 @@ final class TripDAL {
     		return TripDAL::update($trip);
     	}
 
-    	return FALSE;
+    	return $trip->getErrors();
     }
 
     /**
@@ -117,15 +117,15 @@ final class TripDAL {
 		$sql = sprintf("INSERT INTO trip (id, boat_id, trip_title, trip_from, trip_to, start_time, end_time, engine_runtime, skipper, tank_filled, crew)
             VALUES ('', '%s', '%s', '%s', '%s', '%s', '%s', '%s',
             '%s', '%s')",
-			$this->getBoatId(),
-			$this->getTripTitle(),
-			$this->getTripFrom(),
-			$this->geTripTo(),
-			$this->getStartTime(),
-			$this->getEndTime(),
-			$this->getEngine_runtime(),
-			$this->getTankFilled(),
-			$this->getCrew());
+			mysql_real_escape_string($this->getBoatId()),
+			mysql_real_escape_string($this->getTripTitle()),
+			mysql_real_escape_string($this->getTripFrom()),
+			mysql_real_escape_string($this->geTripTo()),
+			mysql_real_escape_string($this->getStartTime()),
+			mysql_real_escape_string($this->getEndTime()),
+			mysql_real_escape_string($this->getEngine_runtime()),
+			mysql_real_escape_string($this->getTankFilled()),
+			mysql_real_escape_string($this->getCrew()));
 
 		$status = $db->queryExecute($sql);
 		$db->close();
@@ -141,16 +141,16 @@ final class TripDAL {
 
 		$sql = sprintf("UPDATE trip SET boat_id='%s', trip_title='%s', trip_from='%s', trip_to='%s', start_time='%s', end_time='%s', engine_runtime='%s', skipper='%s', tank_filled='%s', crew='%s'
             WHERE id='%s'",
-            $this->getBoatId(),
-			$this->getTripTitle(),
-			$this->getTripFrom(),
-			$this->geTripTo(),
-			$this->getStartTime(),
-			$this->getEndTime(),
-			$this->getEngine_runtime(),
-			$this->getTankFilled(),
-			$this->getCrew(),
-            $trip->getId());
+            mysql_real_escape_string($this->getBoatId()),
+			mysql_real_escape_string($this->getTripTitle()),
+			mysql_real_escape_string($this->getTripFrom()),
+			mysql_real_escape_string($this->geTripTo()),
+			mysql_real_escape_string($this->getStartTime()),
+			mysql_real_escape_string($this->getEndTime()),
+			mysql_real_escape_string($this->getEngine_runtime()),
+			mysql_real_escape_string($this->getTankFilled()),
+			mysql_real_escape_string($this->getCrew()),
+            mysql_real_escape_string($trip->getId()));
 
 		$status = $db->queryExecute($sql);
 		$db->close();
@@ -165,7 +165,7 @@ final class TripDAL {
 		$db = DBConnector::getConnection();
 
 		$sql = sprintf("DELETE FROM trip WHERE id='%s'",
-			$tripId);
+			mysql_real_escape_string($tripId);
 
 		$status = $db->queryExecute($sql);
 		$db->close();

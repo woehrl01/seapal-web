@@ -2,8 +2,6 @@
 require_once("database.php");
 
 final class SimpleEntry implements JsonSerializable {
-    private $valid;
-
     private $id;
 	private $name;
 
@@ -22,37 +20,58 @@ final class SimpleEntry implements JsonSerializable {
     private function parse($entryArray) {
 
     	if (array_key_exists("id", $entryArray)) {
-    		$this->id = mysql_real_escape_string($entryArray["id"]);
+    		$this->id = $entryArray["id"];
     	} else {
     		$this->id = -1;
     	}
 
-    	$this->name = mysql_real_escape_string($entryArray["name"]);
+    	$this->name = $entryArray["name"];
     }
 
     /**
      * Validates field values.
-     * @return TRUE, if everything is valid.
+     * @return An array of invalid fields.
      */
     private function validate() {
-        if (!Valid::is_number($this->id, Valid::$REQ)) return FALSE;
-        if (!Valid::is_required($this->name)) return FALSE;
+        $errors = array();
 
-        return TRUE;
+        if (!Valid::is_number($this->id, Valid::$REQ)) array_push($errors, "id");
+        if (!Valid::is_required($this->name)) array_push($errors, "name");
+
+        return $errors;
     }
 
 	/**
-	 * Indicates whether the maneuver is valid or not.
-	 * @return Returns TRUE if the maneuver is valid.
-	 */
-	public function isValid () {
-		return $this->validate();
-	}
+     * Indicates whether the boat is valid or not.
+     * @return Returns TRUE if the boat is valid.
+     */
+    public function isValid () {
+        $errors = $this->validate();
+        return !(is_array($errors) && !empty($errors));
+    }
+
+    /**
+     * Gets the invalid fields.
+     * @return Returns every field which contains invalid data.
+     */
+    public function getErrors(){
+        return $this->validate();
+    }
 
 	// function called when encoded with json_encode
     public function jsonSerialize()
     {
         return get_object_vars($this);
+    }
+
+    /* Properties */
+
+    public function getId() {
+        return $this->id;
+    }
+
+    public function getName() {
+        return $this->name;
     }
 }
 
