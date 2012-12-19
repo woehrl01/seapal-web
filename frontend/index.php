@@ -17,6 +17,71 @@
 			</div>
 			<div class="container">
 				<div class="row">
+					<div class="span4">
+						<div class="round feature">
+							<h2 class="seamaps">Seamaps</h2>
+							<ul>
+								<li>Google Maps</li>
+								<li>OpenSeaMaps</li>
+								<li>Satellite view</li>
+								<li>Follow position</li>
+								<li>Position from GPS always visible in the map view</li>
+								<li>Course and speed always visible in the map view</li>
+							</ul>
+						</div>
+					</div>
+					<div class="span4">
+						<div class="round feature">
+							<h2 class="navi">Navigation</h2>
+							<ul>
+								<li>Free navigation on the map with swipe and pinch</li>
+								<li>Fast return to the current position</li>
+								<li>Route planing, waypoints are editable</li>
+								<li>Automatic waypoint switching</li>
+								<li>Bearing and distance to any particular point with long-touch</li>
+								<li>Placing of permanent marks on the map</li>
+							</ul>
+						</div>
+					</div>
+					<div class="span4">
+						<div class="round feature">
+							<h2 class="tools">Tools</h2>
+							<ul>
+								<li>Add marks using bearing or coordinates</li>
+								<li>Select any mark as target</li>
+								<li>Bearing and distance to current target always visible in the map view</li>
+								<li>Distance measurement, even across several waypoints</li>
+								<li>“Person over Board” functionality</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="span6">
+						<div class="round widebox">
+							<h2 class="extensions">Extensions</h2>
+							<p>
+								With extensions <strong>SeaPal</strong> offers the following functionality:
+							</p>
+							<ul>
+								<li>Logbook function for one or several boats</li>
+								<li>Automatic tracking</li>
+								<li>Automatic or manual logbook entries</li>
+								<li>Fotos for logbook entries</li>
+								<li>Collection of regional Points of Interest</li>
+							</ul>
+						</div>
+					</div>
+					<div class="span6">
+						<div class="round widebox">
+							<h2 class="warning">Warning</h2>
+							<p>
+								<strong>SeaPal</strong> is a valuable addition to your navigational equipment, but no replacement. Always use official sea maps in conjunction. All positions are provided so that a transition to paper sea maps is simple. The responsibility for the proper use lies with the skipper. The manufacturer of <strong>SeaPal</strong> assume no liability.
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="row">
 					<div class="span12">
 						<div class="round">
 							<div class="entry">
@@ -42,71 +107,6 @@
 									The application runs on the iPad and with reduced functionality on the iPhone. An iPad with 3G or 4G and GPS is recommended. For longer use an external power source (like a USP port of a radio) is required.
 								</p>
 							</div>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="span4">
-						<div class="round">
-							<h2 class="seamaps">Seamaps</h2>
-							<ul>
-								<li>Google Maps</li>
-								<li>OpenSeaMaps</li>
-								<li>Satellite view</li>
-								<li>Follow position</li>
-								<li>Position from GPS always visible in the map view</li>
-								<li>Course and speed always visible in the map view</li>
-							</ul>
-						</div>
-					</div>
-					<div class="span4">
-						<div class="round">
-							<h2 class="navi">Navigation</h2>
-							<ul>
-								<li>Free navigation on the map with swipe and pinch</li>
-								<li>Fast return to the current position</li>
-								<li>Route planing, waypoints are editable</li>
-								<li>Automatic waypoint switching</li>
-								<li>Bearing and distance to any particular point with long-touch</li>
-								<li>Placing of permanent marks on the map</li>
-							</ul>
-						</div>
-					</div>
-					<div class="span4">
-						<div class="round">
-							<h2 class="tools">Tools</h2>
-							<ul>
-								<li>Add marks using bearing or coordinates</li>
-								<li>Select any mark as target</li>
-								<li>Bearing and distance to current target always visible in the map view</li>
-								<li>Distance measurement, even across several waypoints</li>
-								<li>“Person over Board” functionality</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="span6">
-						<div class="round">
-							<h2 class="extensions">Extensions</h2>
-							<p>
-								With extensions <strong>SeaPal</strong> offers the following functionality:
-							</p>
-							<ul>
-								<li>Logbook function for one or several boats</li>
-								<li>Automatic tracking</li>
-								<li>Automatic or manual logbook entries</li>
-								<li>Fotos for logbook entries</li>
-								<li>Collection of regional Points of Interest</li>
-							</ul>
-						</div>
-					</div>
-					<div class="span6">
-						<div class="round">
-							<h2 class="warning">Warning</h2>
-							<p>
-								<strong>SeaPal</strong> is a valuable addition to your navigational equipment, but no replacement. Always use official sea maps in conjunction. All positions are provided so that a transition to paper sea maps is simple. The responsibility for the proper use lies with the skipper. The manufacturer of <strong>SeaPal</strong> assume no liability.
-							</p>
 						</div>
 					</div>
 				</div>

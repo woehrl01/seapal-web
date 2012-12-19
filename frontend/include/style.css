@@ -113,6 +113,25 @@ body.index .header-wrapper {
 {
 	width: 100%
 }
+.feature {
+	min-height: 295px;
+}
+.widebox {
+	min-height: 250px;
+}
+@media (min-width: 768px) and (max-width: 979px) {
+	.feature {
+		min-height: 463px;
+	}
+	.widebox {
+		min-height: 279px;
+	}
+}
+@media (min-width: 979px) and (max-width: 1200px) {
+	.feature {
+		min-height: 352px;
+	}
+}
 .round
 {
 	border-radius:5px;
