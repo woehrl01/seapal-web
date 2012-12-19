@@ -1,3 +1,7 @@
+<?php
+	$boat_id = (array_key_exists('boat', $_GET) ? $_GET['boat'] : -1);
+?>
+
 <!DOCTYPE HTML>
 <html>
 	<head>
@@ -14,7 +18,19 @@
 		</div>
 			<div class="content-wrapper">
 				<div class="container">
-					<h1>Tripliste</h1>
+					<div class="row">
+						<div class="span8">
+							<div class="left">
+								<h1>Tripliste</h1>
+							</div>
+						</div>
+						<div class="span4">
+							<div class="right buttons_top">
+								<a id="addButton" href="trip_info.php?boat=<?=$boat_id ?>" class="btn btn-primary"><i class="icon-plus icon-white"></i> <span>Hinzufügen<span></a>
+							</div>
+						</div>
+					</div>
+					<input type="hidden" id="boatId" value="<?=$boat_id ?>" />
 					<div class="listview-wrapper">
 						<div class="listview">
 							<div class="row">
@@ -38,7 +54,10 @@
 											<td>{{>trip_from}}</td>
 											<td>{{>trip_to}}</td>
 											<td>{{>start_time}}</td>
-											<td><a href="#" class="editItemBtn"><i class="icon-pencil"></i></a> <a href="#"  class="deleteItemBtn"><i class="icon-remove"></i></a></td>
+											<td>
+												<a href="trip_info.php?trip={{>id}}" class="editItemBtn"><i class="icon-pencil"></i></a>
+												<a href="#"  class="deleteItemBtn"><i class="icon-remove"></i></a>
+											</td>
 										</tr>
 									</script>
 								</div>

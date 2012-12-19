@@ -164,8 +164,12 @@
 										<tr data-boatid="{{>id}}">
 											<td>{{>boat_name}}</td>
 											<td>{{>build_year}}</td>
-											<td><a href="#" class="editBoadBtn"><i class="icon-pencil"></i></a> <a href="#"  class="deleteBoadBtn"><i class="icon-remove"></i></a></td>
-										</tr>
+											<td>
+												<a href="#" class="editBoadBtn"><i class="icon-pencil"></i></a>
+												<a href="#" class="deleteBoadBtn"><i class="icon-remove"></i></a>
+												<a href="trip_list.php?boat={{>id}}"><i class="icon-chevron-right"></i></a>
+											</td>
+										</tr> 
 									</script>
 								</div>
 							</div>

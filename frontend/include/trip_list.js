@@ -36,30 +36,6 @@ $(document).ready(function() {
 		});
 	}
 
-	function loadBoat( boatId) {
-		$.ajax({
-			type: "GET",
-			url: $('#form').attr('action'),
-			data: {id: boatId},
-			dataType: "json",
-			success: function(boat) {
-				populateJSON('#form input', boat);
-				updateAddSaveButton();
-				$('#boat_input').show('slow');
-				$('html, body').animate({ scrollTop: 0 }, 600);
-			}
-		});
-
-	}
-
-	$('body').on('click', 'a.editItemBtn', function(event) {
-	        event.preventDefault();
-	        var id = $(this).closest('tr').attr("data-id");
-	        if(id > 0){
-	        	loadBoat(id);
-	        }
-    });
-
     $('body').on('click', 'a.deleteItemBtn', function(event) {
 	        event.preventDefault();
 
@@ -73,10 +49,16 @@ $(document).ready(function() {
     });
 
 	function loadAllTrips() {
+		var id = $('#boatId').val();
+		var sendData = null;
+		if(id > 0){
+			sendData = {boat_id: id};
+		}
+
 		$.ajax({
 			type: "GET",
 			url: '../backend/trip_service.php',
-			data: null,
+			data: sendData,
 			dataType: "json",
 			success: function(data) {
 				$( "#tripListTable tbody" ).html(
