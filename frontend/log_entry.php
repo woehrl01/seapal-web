@@ -1,3 +1,9 @@
+<?php
+	include_once('../backend/headsail_dal.php');
+	include_once('../backend/mainsail_dal.php');
+	include_once('../backend/maneuver_dal.php');
+	include_once('../backend/mark_dal.php');
+?>
 <!DOCTYPE HTML>
 <html>
 	<head>
@@ -69,10 +75,12 @@
 							<div class="span4 offset2">
 								<label for="trip_to">Fahrt nach</label>
 								<select name="trip_to" size="1" style="width:100%;">
-									<option>Mark 1</option>
-									<option>Mark 2</option>
-									<option>Mark 3</option>
-									<option>Mark 4</option>
+									<?php
+										$marks = MarkDAL::loadAll();
+										foreach ($marks as &$value) {
+											echo '<option value="'.$value->getId().'">'.$value->getName().'</option>';
+										}
+									?>
 								</select>
 							</div>
 						</div>
@@ -80,29 +88,35 @@
 							<div class="span4">
 								<label for="maneuver_id">Manöver</label>
 								<select name="maneuver_id" size="1" style="width:100%;">
-									<option>-</option>
-									<option>Track</option>
-									<option>Jibe</option>
-									<option>Lay to</option>
+									<?php
+										$maneuver = ManeuverDAL::loadAll();
+										foreach ($maneuver as &$value) {
+											echo '<option value="'.$value->getId().'">'.$value->getName().'</option>';
+										}
+									?>
 								</select>
 							</div>
 							<div class="span4">
 								<label for="headsail_id">Vorsegel</label>
 								<select name="headsail_id" size="1" style="width:100%;">
-									<option>-</option>
-									<option>Genua1</option>
-									<option>Genua2</option>
-									<option>Genua3</option>
+									<?php
+										$headsail = HeadsailDAL::loadAll();
+										foreach ($headsail as &$value) {
+											echo '<option value="'.$value->getId().'">'.$value->getName().'</option>';
+										}
+									?>
 								</select>
 							</div>
 							<div class="span4">
 								<label for="mainsail_id">Großsegel</label>
-							<select name="mainsail_id" size="1" style="width:100%;">
-								<option>-</option>
-								<option>full</option>
-								<option>reef 1</option>
-								<option>reef 2</option>
-							</select>
+								<select name="mainsail_id" size="1" style="width:100%;">
+									<?php
+										$mainsail = MainsailDAL::loadAll();
+										foreach ($mainsail as &$value) {
+											echo '<option value="'.$value->getId().'">'.$value->getName().'</option>';
+										}
+									?>
+								</select>
 							</div>
 						</div>	
 					</div>
