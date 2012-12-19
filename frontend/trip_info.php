@@ -4,6 +4,8 @@
 		<title>SeaPal</title>
 		<?php include("htmlhead.php"); ?>
 		<script type="text/javascript" src="include/trip_info.js"></script>
+		<script type="text/javascript" src="include/jquery.paginatetable.js"></script>
+		<script type="text/javascript" src="include/jsrender.js"></script>
 	</head>
 	<body>
 
@@ -12,11 +14,22 @@
 		</div>
 
 		<div class="content-wrapper">
-			<form method="post" action="../backend/trip_service.php">
+			<form id="form" method="post" action="../backend/trip_service.php">
 				<input type="text" name="method" value="save" style="display: none" />
-				<input type="text" name="boat_id" value="1" style="display: none" />
+				<input type="text" name="trip_id" value="1" style="display: none" />
 				<div class="container">
-					<h1>Trip info</h1>
+					<div class="row">
+						<div class="span8">
+							<div class="left">
+								<h1>Trip Info</h1>
+							</div>
+						</div>
+						<div class="span4">
+							<div class="right buttons_top">
+								<input type="submit" id="submitBtn" class="btn btn-success" value="Speichern"/>
+							</div>
+						</div>
+					</div>
 					<div class="input-wrapper">
 						<div class="row">
 							<div class="span6">
@@ -118,25 +131,37 @@
 						<div class="listview">
 							<div class="row">
 								<div class="span12">
-									<img src="http://placehold.it/960x300&text=Listview" />
+									<table id="waypointListTable" class="table table-striped table-bordered table-hover">
+										<thead>
+									        <tr>
+									        	<th>Wegpunkt</th>
+									        	<th>Position</th>
+									        	<th>Aktionen</th>
+									        </tr>
+									    </thead>
+									    <tbody>
+									    </tbody>
+									</table>
+									<script id="waypointListTemplate" type="text/x-jsrender">
+										<tr data-id="{{>id}}">
+											<td>{{>boat_name}}</td>
+											<td>{{>build_year}}</td>
+											<td><a href="#" class="editBoadBtn"><i class="icon-pencil"></i></a> <a href="#"  class="deleteBoadBtn"><i class="icon-remove"></i></a></td>
+										</tr>
+									</script>
 								</div>
 							</div>
 						</div>
 						<div class="row">
-							<div class="listview-buttons">
+							<div class="listview-buttons tablePager">
 								<div class="span6">
 									<div class="left">
-										<input type="submit" class="btn" value="Neuer Eintrag"/>
-										<input type="button" class="btn" value="Löschen"/>
-										<input type="button" class="btn" value="Filter"/>
+										<input type="button" class="btn prevPage" value="Vorheriger"/>
 									</div>
 								</div>
 								<div class="span6">
-									<div class="right">
-										<input type="button" class="btn" value="Erster"/>
-										<input type="button" class="btn" value="Letzter"/>
-										<input type="button" class="btn" value="Vorheriger"/>
-										<input type="button" class="btn" value="Nächster"/>
+									<div class="right ">
+										<input type="button" class="btn nextPage" value="Nächster"/>
 									</div>
 								</div>
 							</div>
@@ -149,16 +174,30 @@
 			<?php include("footer.php"); ?>
 		</div>
 
-		<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div id="addSuccessModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="addSuccessModalLabel" aria-hidden="true">
 		  <div class="modal-header">
-		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-		    <h3 id="myModalLabel">Erfolgreich!</h3>
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		    <h3 id="addSuccessModalLabel">Erfolgreich!</h3>
 		  </div>
 		  <div class="modal-body">
 		    <p>Die Daten wurden erfolgreich übermittelt!</p>
 		  </div>
 		  <div class="modal-footer">
 		    <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">OK</button>
+		  </div>
+		</div>
+
+		<div id="deletePromptModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="deletePromptModalLabel" aria-hidden="true">
+		  <div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		    <h3 id="deletePromptModalLabel">Löschen</h3>
+		  </div>
+		  <div class="modal-body">
+		    <p>Möchten Sie wirklich den Wegpunkt (ID: <span></span>) löschen?</p>
+		  </div>
+		  <div class="modal-footer">
+		  	<button class="btn" data-dismiss="modal" aria-hidden="true">Abbrechen</button>
+    		<button class="btn btn-danger" id="deleteModalBtn" data-dismiss="modal">Löschen</button>
 		  </div>
 		</div>
 		
