@@ -113,7 +113,7 @@ $(document).ready(function() {
 	function loadAllWaypoints() {
 		$.ajax({
 			type: "GET",
-			url: $('#form').attr('action'),
+			url: '../backend/log_entry_service.php',
 			data: null,
 			dataType: "json",
 			success: function(data) {
