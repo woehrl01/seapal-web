@@ -62,8 +62,33 @@ body.googlemaps
 .seamapsidebar .seamapsidebar_inner {
 	padding:5px;
 	color:#333;
+	position:relative;
+	height:90%;
+	overflow-y:auto;
+	margin:10px;
 }
 
-.seamapsidebar .seamapsidebar_inner p, .seamapsidebar .seamapsidebar_inner a {
-	line-height:1.25em;
+.seamapsidebar .seamapsidebar_inner li a {
+	line-height:1.5em;
+}
+
+.seamapsidebar .seamapsidebar_inner li {
+	margin-bottom:4px;
+}
+
+.seamapsidebar .seamapsidebar_inner li.well:hover {
+	background-color:#CCC;
+}
+
+.seamapsidebar span.badge {
+	padding:6px;
+	margin-top:-2px;
+	vertical-align: middle;
+}
+
+.seamapsidebar div.buttons_bottom {
+	width:100%;
+}
+.seamapsidebar div.buttons_bottom div {
+	padding:10px;
 }

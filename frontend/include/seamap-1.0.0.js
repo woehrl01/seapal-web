@@ -8,67 +8,88 @@
 	* *************************************************************************************
 	*/
 	var options = {
-		defaultRoute : null,
-		mode : "INTERACTIVE",
-		contextMenuContainer : '#map_canvas .menu',
-		startLat : 47.655,
-		startLong : 9.205,
-		zoom : 15,
+		defaultRoute 	: null,
+		mode 			: "INTERACTIVE",
+		startLat 		: 47.655,
+		startLong 		: 9.205,
+		zoom 			: 15,
+		
 		height : function() {
 			return $(window).height() - $(".header-wrapper .navbar-fixed-top").height() - 20
-		},
-		routepolyOptions : {
-			strokeColor: '#FF0000',
-			strokeOpacity: 0.5,
-			strokeWeight: 3
-		},
-		distancePolyOptions : {
-			strokeColor: '#FF9933',
-			strokeOpacity: 0.5,
-			strokeWeight: 2
-		},
-		defaultmarker : {
-			image : new google.maps.MarkerImage(
-				"images/pin_marker.png",
-				new google.maps.Size(42, 42),
-				new google.maps.Point(0,0),
-				new google.maps.Point(21, 36))
-		},
-		routemarker : {
-			image : new google.maps.MarkerImage(
-				"images/circle.png",
-				new google.maps.Size(20, 20),
-				new google.maps.Point(0,0),
-				new google.maps.Point(10, 10))
-		},
-		distancemarker : {
-			image : new google.maps.MarkerImage(
-				"images/circle.png",
-				new google.maps.Size(20, 20),
-				new google.maps.Point(0,0),
-				new google.maps.Point(10, 10))
-		},
-		boatmarker : {
-			crosshairShape : {
-				coords:[0,0,0,0],
-				type:'rect'
+		},	
+		strokeColors : ['grey','red','blue','green','yellow','black'],
+		
+		defaultOptions : {
+			polyOptions : {
+				strokeColor: '#000000',
+				strokeOpacity: 0.5,
+				strokeWeight: 3
 			},
-			image : new google.maps.MarkerImage(
-				'images/boat.png', 
-				new google.maps.Size(32,32),	
-				new google.maps.Point(0,0),	
-				new google.maps.Point(16,16))	
+			markerOptions : {
+				image : new google.maps.MarkerImage(
+					"images/pin_marker.png",
+					new google.maps.Size(42, 42),
+					new google.maps.Point(0,0),
+					new google.maps.Point(21, 36))
+			}
 		},
-		crosshairmarker : {
-			crosshairShape : {
-				coords:[0,20,20,20],
-				type:'rect'
+		
+		routeOptions : {
+			polyOptions : {
+				strokeColor: '#000000',
+				strokeOpacity: 0.5,
+				strokeWeight: 3
 			},
-			image : new google.maps.MarkerImage(
-				'images/crosshair.png', 
-				new google.maps.Size(28,28),	
-				new google.maps.Point(0,0),	
-				new google.maps.Point(14,14))	
+			markerOptions : {
+				image : new google.maps.MarkerImage(
+					"images/circle.png",
+					new google.maps.Size(20, 20),
+					new google.maps.Point(0,0),
+					new google.maps.Point(10, 10))
+			}
+		},
+		
+		distanceOptions : {
+			polyOptions : {
+				strokeColor: '#550000',
+				strokeOpacity: 0.5,
+				strokeWeight: 2
+			},
+			markerOptions : {
+				image : new google.maps.MarkerImage(
+					"images/circle.png",
+					new google.maps.Size(20, 20),
+					new google.maps.Point(0,0),
+					new google.maps.Point(10, 10))
+			}
+		},
+		
+		boatOptions : {
+			markerOptions : {
+				crosshairShape : {
+					coords:[0,0,0,0],
+					type:'rect'
+				},
+				image : new google.maps.MarkerImage(
+					'images/boat.png', 
+					new google.maps.Size(32,32),	
+					new google.maps.Point(0,0),	
+					new google.maps.Point(16,16))	
+			}
+		},
+		
+		crosshairOptions : {
+			markerOptions : {
+				crosshairShape : {
+					coords:[0,20,20,20],
+					type:'rect'
+				},
+				image : new google.maps.MarkerImage(
+					'images/crosshair.png', 
+					new google.maps.Size(28,28),	
+					new google.maps.Point(0,0),	
+					new google.maps.Point(14,14))	
+			}
 		}
 	};
 	
@@ -102,14 +123,14 @@
 		
 		// routes
 		var routeCounter = 1,
-			routes = new Array(),
+			routes = [],
 			activeRoute = null;
 
 		// distance
 		var distanceroute = null;
 		
 		// marker
-		var markers = new Array();
+		var markers = [];
 
 		// editing states
 		var state = States.NORMAL;
@@ -121,6 +142,9 @@
 	
 		// bind our jquery element
 		var $this = $(element);
+		
+		// set as destination path
+		var destpath = new google.maps.Polyline(options.polyOptions);
 
 		init();
 
@@ -195,6 +219,7 @@
 			$this.on("click", "#deleteMarker", handleDeleteMarker);
 			$this.on("click", "#addNewRoute", handleAddNewRoute);
 			$this.on("click", "#exitRouteCreation", handleExitRouteCreation);
+			$this.on("click", "#setAsDestination", handleSetAsDestination);
 			$this.on("click", "#addNewDistanceRoute", handleAddNewDistanceRoute);
 			$this.on("click", "#hideContextMenu", handleHideContextMenu);
 		}
@@ -205,12 +230,10 @@
 		* *********************************************************************************
 		*/
 		function initGoogleMapsListeners() {
-			google.maps.event.addListener(map, 'center_changed', function() {
-				/*updateLatLngInputs();
-	
-				if (crosshairMarker != null) {
-					updateContextMenu(crosshairMarker.getPosition());
-				}*/
+			google.maps.event.addListener(map, 'bounds_changed', function() {
+				if (crosshairMarker != null && contextMenuVisible) {
+					updateContextMenuPosition(crosshairMarker.getPosition());
+				}
 			});
 	
 			google.maps.event.addListener(map, 'rightclick', function(event) {
@@ -260,7 +283,7 @@
 			
 			routeId = routeCounter++;
 			
-			activeRoute = routes[routeId] = new $.seamap.route(routeId, map, "ROUTE", {});	
+			activeRoute = routes[routeId] = new $.seamap.route(routeId, map, "ROUTE");	
 			activeRoute.setNotInteractive();
 			
 			$.each(options.defaultRoute, function() {	
@@ -276,7 +299,7 @@
 		function startBoatAnimation(){
 			$.ajax({
 				type: 'GET',
-				url : "/backend/boatposition.php",
+				url : "/webtech/backend/boatposition.php",
 				dataType : 'json',
 				data: null,
 				success : function(response){
@@ -306,8 +329,8 @@
 					position: position,
 					map: map,
 					title:"boat",
-					shape: options.boatmarker.crosshairShape,
-					icon: options.boatmarker.image
+					shape: options.boatOptions.markerOptions.crosshairShape,
+					icon:  options.boatOptions.markerOptions.image
 				});
 			}else{
 				boatMarker.setPosition(position);
@@ -328,7 +351,7 @@
 					position: position,
 					map: map,
 					title:"crosshair",
-					icon: options.crosshairmarker.image
+					icon: options.crosshairOptions.markerOptions.image
 				});
 			}		
 			
@@ -406,24 +429,23 @@
 		* *********************************************************************************
 		*/
 		function updateContextMenuPosition(latLng){
-			if ($('.popover').is(':visible')) {
-				var pos = getCanvasXY(latLng);
+			var pos = getCanvasXY(latLng);
 
-				var xPos = pos.x;
-				var yPos = pos.y + 10;
-				var width = $this.width() - $(".seamapsidebar",$this).width();
-				var height = $this.height();
+			var xPos = pos.x;
+			var yPos = pos.y + 10;
+			var width = $this.width() - $(".seamapsidebar",$this).width();
+			var height = $this.height();
 
-				$('#tooltip_helper').css({top: yPos, left: xPos + $(".seamapsidebar",$this).width()});
+			$('#tooltip_helper').css({top: yPos, left: xPos + $(".seamapsidebar",$this).width()});
 
-				// check whether the popup is displayed outside of the maps container
-				if (xPos > 5 && xPos < width - 5 && yPos > 5 && yPos < height - 5) {
-					$('#tooltip_helper').popover('show');
-					contextMenuVisible = true;
-				} else {
-					hideContextMenu();
-				}
+			// check whether the popup is displayed outside of the maps container
+			if (xPos > 5 && xPos < width - 5 && yPos > 5 && yPos < height - 5) {
+				$('#tooltip_helper').popover('show');
+			} else {
+				$('#tooltip_helper').popover('hide');
 			}
+			
+			contextMenuVisible = true;
 		}
 
 		/**
@@ -442,7 +464,7 @@
 						ctx += '<button id="exitRouteCreation" type="button" class="btn"><i class="icon-flag"></i> Routenaufzeichnung beenden</button>';
 					}
 					ctx += '<button id="addNewDistanceRoute" type="button" class="btn"><i class="icon-resize-full"></i> Abstand von hier</button>'
-						//+ '<button id="setAsDestination" type="button" class="btn"><i class="icon-star"></i> Zum Ziel machen</button>'
+						+ '<button id="setAsDestination" type="button" class="btn"><i class="icon-star"></i> Zum Ziel machen</button>'
 						+ '<button id="hideContextMenu" type="button" class="btn"><i class="icon-remove"></i> Schließen</button>'; 
 					break;
 				case ContextMenuTypes.DELETE_MARKER:
@@ -458,7 +480,7 @@
 			ctx += '</div>'
 			return ctx;
 		}
-		
+				
 		/**
 		* *********************************************************************************
 		* 
@@ -469,6 +491,30 @@
 			$(".seamapsidebar", $this).animate({width:'20%'});
 			
 			$(".seamapsidebar .seamapsidebar_inner", $this).html('<h4>' + heading + '</h4><div class="seamapalerts"></div>');
+		}
+		
+		/**
+		* *********************************************************************************
+		* 
+		* *********************************************************************************
+		*/	
+		function showSidebarWithRoute(route) {
+			showSidebar('Route <span class="badge" style="background-color:' + route.color + ';">#' + route.id + '</span>');
+			appendContentIntoSidebar('<ul class="nav nav-tabs nav-stacked"></ul>');
+			appendContentIntoSidebar('<div class="buttons_bottom"><div><a class="close btn btn-block" href="#close">Routenaufzeichnung beenden</a></div></div>');
+
+			$.each(route.markers, function() {
+				appendMarkerIntoSidebar(this);
+			});
+			
+			$this.unbind('click.sidebar');
+			$this.on("click.sidebar", ".seamapsidebar a.delete", function(){
+				route.removeMarker(route.markers[getParmFromHash($(this).attr("href"), "deleteId")])
+			});
+			
+			$this.on("click.sidebar", ".seamapsidebar a.close", function(){
+				handleExitRouteCreation();
+			});
 		}
 		
 		/**
@@ -518,6 +564,19 @@
 			$(".seamapsidebar .seamapsidebar_inner .seamapalerts", $this)
 				.append('<div class="alert alert-' + type + '"><button type="button" class="close" data-dismiss="alert">&times;</button>' + content + '</div>');
 		}
+		
+		/**
+		* *********************************************************************************
+		* 
+		* *********************************************************************************
+		*/	
+		function appendMarkerIntoSidebar(marker) {	
+			var content = $('<li class="well well-small"><div class="btn-toolbar pull-right" style="margin:0"> \
+					<div class="btn-group"><a class="delete btn" href="#page?deleteId='+marker.id+'"><i class="icon-remove"></i></a></div></div> \
+					<b>#' + marker.id + '</b> <small>- Lat ' + toGeoString(marker.getPosition().lat(), "N", "S", 2) + ' Lon ' + 
+					toGeoString(marker.getPosition().lng(), "E", "W", 3) + '</small></li>');
+			appendContentIntoSidebarElement(content, '.nav');
+		}
 
 		/**
 		* *********************************************************************************
@@ -538,7 +597,7 @@
 			hideContextMenu();
 			hideCrosshairMarker();
 			
-			activeRoute = distanceroute = new $.seamap.route(-1, map, "DISTANCE", {});			
+			activeRoute = distanceroute = new $.seamap.route(-1, map, "DISTANCE");			
 			activeRoute.addMarker(crosshairMarker.getPosition());
 
 			state = States.DISTANCE;
@@ -579,26 +638,25 @@
 			
 			routeId = routeCounter++;
 
-			activeRoute = routes[routeId] = new $.seamap.route(routeId, map, "ROUTE", {
-				deleted : function(route){
-					clearSidebarElement("ul");
-					
-					$.each(route.markers, function(){
-						appendContentIntoSidebarElement('<li><a href="#"><b>Marker #' + this.id + '</b><br /> \
-							<small>(Lat ' + toGeoString(this.getPosition().lat(), "N", "S", 2) + ' Lon ' + 
-							toGeoString(this.getPosition().lng(), "E", "W", 3) + ')</small></a></li>', '.nav');
-						});
-				}	
-			});			
+			activeRoute = routes[routeId] = new $.seamap.route(routeId, map, "ROUTE");		
+			
+			activeRoute.addEventListener("remove", function() {
+				showSidebarWithRoute(this);
+			});	
+			
+			activeRoute.addEventListener("dragend", function() {
+				showSidebarWithRoute(this);
+			});	
+			
+			activeRoute.addEventListener("click", function() {
+				showSidebarWithRoute(this);
+				activeRoute = this;
+				state = States.ROUTE;		
+			});
 
-			state = States.ROUTE;
-			
-			showSidebar("Route Nummer #" + routeId);
-			appendInfoIntoSidebar('<h4>Du bist nun im Routenmodus</h4><p><small>Mit einem Klick fügst Du neue \
-				Punkte hinzu. Mit einem Rechtsklick auf einen Routenpunkt entfernst Du diesen wieder.</small></p>', 'success');
-			appendContentIntoSidebar('<ul class="nav nav-tabs nav-stacked"></ul>');
-			
+			state = States.ROUTE;		
 			addRouteMarker(crosshairMarker.getPosition());
+			showSidebarWithRoute(activeRoute);
 		}
 		
 		/**
@@ -612,8 +670,7 @@
 			hideSidebar();
 			
 			state = States.NORMAL;
-		}
-			
+		}		
 		
 		/**
 		* *********************************************************************************
@@ -628,9 +685,7 @@
 			activeRoute.drawPath();
 			
 			if(state == States.ROUTE) {
-				appendContentIntoSidebarElement('<li><a href="#"><b>Marker #' + newmarker.id + '</b><br /> \
-					<small>(Lat ' + toGeoString(newmarker.getPosition().lat(), "N", "S", 2) + ' Lon ' + 
-					toGeoString(newmarker.getPosition().lng(), "E", "W", 3) + ')</small></a></li>', '.nav');
+				appendMarkerIntoSidebar(newmarker);
 			}
 		}
 		
@@ -660,11 +715,24 @@
 		* 
 		* *********************************************************************************
 		*/
+		function handleSetAsDestination() {
+			hideContextMenu();
+			hideCrosshairMarker();
+
+			destpath.setMap(map);
+			destpath.setPath([boatMarker.getPosition(), crosshairMarker.getPosition()]);
+		}
+		
+		/**
+		* *********************************************************************************
+		* 
+		* *********************************************************************************
+		*/
 		function addDefaultMarker(position) {
 			var newMarker = new google.maps.Marker({
 				map: map,
 				position: position,
-				icon: options.defaultmarker.image,
+				icon: options.defaultOptions.markerOptions.image,
 				draggable: true
 			});
 
@@ -742,6 +810,17 @@
 		  );
 		  return currentLatLngOffset;
 		}
+		
+		/**
+		* *********************************************************************************
+		* 
+		* *********************************************************************************
+		*/
+		function getParmFromHash(url, parm) {
+			var re = new RegExp("#.*[?&]" + parm + "=([^&]+)(&|$)");
+			var match = url.match(re);
+			return(match ? match[1] : "");
+		}
 	};
 	
 	/**
@@ -749,34 +828,34 @@
 	* Route class 
 	* *************************************************************************************
 	*/
-	$.seamap.route = function(newrouteid, newgooglemaps, type, callbacks){
+	$.seamap.route = function(newrouteid, newgooglemaps, type){
 		this.id = newrouteid;
 		this.googlemaps = newgooglemaps;
+		this.color = $.seamap.options.strokeColors[$.seamap.options.strokeColors.length % this.id];;
 		
 		this.path = null;
-		this.markers = new Array();
+		this.markers = [];
 		this.label = null;
 		this.notinteractive = false;
 		
-		this.callbacks = {
-			deleted : function(route){}	
+		// internal data
+		var eventListener = {
+			add : [],
+			remove : [],
+			dragend : [],
+			click : []
 		};
 		
-		$.extend(this.callbacks, callbacks);
-		
-		// internal data
-		var options = $.seamap.options;
-		var polyoptions, markeroptions;
-		
 		if(type === "DISTANCE") {
-			polyoptions = options.distancePolyOptions;
-			markeroptions = options.distancemarker;
+			options = $.seamap.options.distanceOptions;
 		} else {
-			polyoptions = options.routepolyOptions;
-			markeroptions = options.routemarker;
+			options = $.seamap.options.routeOptions;
 		}
+		
+		// edit color
+		options.polyOptions.strokeColor = this.color;
 			
-		this.path = new google.maps.Polyline(polyoptions);
+		this.path = new google.maps.Polyline(options.polyOptions);
 		this.path.setMap(this.googlemaps);
 		
 		/**
@@ -799,26 +878,39 @@
 			var marker = new google.maps.Marker({
 				map: this.googlemaps,
 				position: position,
-				icon: markeroptions.image,
+				icon: options.markerOptions.image,
+				shadow: options.markerOptions.shadow,
 				animation: google.maps.Animation.DROP,
 				draggable: !this.notinteractive,
 				id: this.markers.length 
 			});
 			
 			this.markers[this.markers.length] = marker;
-			if(this.label == null) this.addLabel();	else this.updateLabel();
+			
+			if(this.label == null) {
+				this.addLabel();	
+			} else {
+				this.updateLabel();
+			}
 
 			if(!this.notinteractive) {
 				google.maps.event.addListener(marker, 'dragend', function() {
 					$this.drawPath();
 					$this.updateLabel();
+					$this.notify("dragend");
 				});
 	
 				google.maps.event.addListener(marker, 'rightclick', function(event) {
 					$this.removeMarker(marker);
-					$this.callbacks.deleted($this);
+					$this.notify("remove");
+				});
+				
+				google.maps.event.addListener(marker, 'click', function(event) {
+					$this.notify("click");
 				});
 			}
+			
+			this.notify("add");
 			
 			return marker;
 		}
@@ -840,6 +932,8 @@
 			});
 			this.drawPath();
 			this.updateLabel();
+			
+			this.notify("remove");
 		}
 		
 		/**
@@ -926,6 +1020,27 @@
 			var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
 			var d = R * c;
 			return Math.round(d*1000); // in meters
+		}
+		
+		/**
+		* *********************************************************************************
+		* 
+		* *********************************************************************************
+		*/
+		this.addEventListener = function(type, fn) {
+			eventListener[type][ eventListener[type].length ] = fn;
+		}
+				
+		/**
+		* *********************************************************************************
+		* 
+		* *********************************************************************************
+		*/
+		this.notify = function(type) {
+			var that = this;
+			$.each(eventListener[type], function(){
+				this.call(that, 0);
+			});
 		}
 	};
 	
