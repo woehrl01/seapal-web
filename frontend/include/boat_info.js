@@ -5,6 +5,8 @@ $(document).ready(function() {
 	loadAllBoats();
 	makeTableSelectable();
 
+	$('#boat_input').hide();
+
 	$('#form').submit(function(event) {
 		event.preventDefault();
 
@@ -18,6 +20,8 @@ $(document).ready(function() {
 					$('#addSuccessModal').modal('show');
 					resetFormData();
 					loadAllBoats();
+				}else{
+					alert("Serverside error occured!");
 				}
 			}
 		});
@@ -30,10 +34,15 @@ $(document).ready(function() {
 
 	});
 
+	$('#addButton').click(function(event){
+		event.preventDefault();
+		$('#boat_input').toggle('slow');
+	});
+
 	$('#deleteModalBtn').click(function(event) {
 		event.preventDefault();
 
-		$('#boatListTable tbody tr.error').each(function(id){ //.first() before .each() if only delete single value
+		$('#boatListTable tbody tr.error').first().each(function(id){ //.first() before .each() if only delete single value
 			var id = $(this).attr("data-boatid");
 			
 			$.ajax({
@@ -93,7 +102,7 @@ $(document).ready(function() {
 
 	function makeTableSelectable(){
 		$('body').on('click', '#boatListTable tbody td', function() {
-	        //$(this).closest('tr').siblings().removeClass('success');
+	        $(this).closest('tr').siblings().removeClass('error');
 	        $(this).parents('tr').toggleClass('error', this.clicked);
 	        updateDeleteButton();
     	});

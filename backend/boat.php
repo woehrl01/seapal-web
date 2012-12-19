@@ -49,6 +49,8 @@ final class Boat implements JsonSerializable {
     		$this->id = -1;
     	}
 
+        $db = (!mysql_ping() ? DBConnector::getConnection() : false);
+
     	$this->boat_name          = mysql_real_escape_string($boatArray["boat_name"]);
 	    $this->boat_type          = mysql_real_escape_string($boatArray["boat_type"]);
 	    $this->build_year         = mysql_real_escape_string($boatArray["build_year"]);
@@ -74,6 +76,8 @@ final class Boat implements JsonSerializable {
 	    $this->genua_size         = mysql_real_escape_string($boatArray["genua_size"]);
 	    $this->rig_kind           = mysql_real_escape_string($boatArray["rig_kind"]);
 	    $this->spi_size           = mysql_real_escape_string($boatArray["spi_size"]);
+
+        if($db) $db->close();
     }
 
     /**

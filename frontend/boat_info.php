@@ -17,7 +17,8 @@
 			<div class="content-wrapper">
 				<div class="container">
 					<h1>Logbuch</h1>
-					<div class="input-wrapper">
+					<div class="addButtonContainer"><a id="addButton" class="btn"><i class="icon-plus"></i> Hinzufügen</a></div>
+					<div class="input-wrapper" id="boat_input">
 						<div class="row">
 							<div class="span4">
 								<label for="boat_name">Bootsname</label> 
