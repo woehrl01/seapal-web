@@ -126,7 +126,7 @@ final class BoatDAL {
 	private static function update($boat) {
 		$db = DBConnector::getConnection();
 
-		$sql = sprintf("UPDATE boat SET name='%s', boat_type='%s', build_year='%s', register_nr='%s', 
+		$sql = sprintf("UPDATE boat SET boat_name='%s', boat_type='%s', build_year='%s', register_nr='%s', 
                 constructor='%s', engine='%s', sail_sign='%s', boat_length='%s', fueltank_size='%s', home_port='%s', boat_width='%s', 
                 watertank_size='%s', yachtclub='%s', draught='%s', wastewatertank_size='%s', owner='%s', mast_height='%s', mainsail_size='%s', 
                 insurance='%s', water_displacement='%s', genua_size='%s', callsign='%s', rig_kind='%s', spi_size='%s'

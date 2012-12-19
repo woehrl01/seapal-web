@@ -3,9 +3,9 @@
 $(document).ready(function() {
 
 	loadAllBoats();
-	makeTableSelectable();
 
 	$('#boat_input').hide();
+	$("#boatListTable tbody").hide();
 
 	$('#form').submit(function(event) {
 		event.preventDefault();
@@ -18,6 +18,7 @@ $(document).ready(function() {
 			success: function(data) {
 				if(data.success){
 					$('#addSuccessModal').modal('show');
+					$('#boat_input').hide('slow');
 					resetFormData();
 					loadAllBoats();
 				}else{
@@ -27,43 +28,93 @@ $(document).ready(function() {
 		});
 	});
 
-	$('#deleteBtn').click(function(event){
-		event.preventDefault();
-
-		$('#deletePromptModal').modal('show');
-
-	});
-
 	$('#addButton').click(function(event){
 		event.preventDefault();
-		$('#boat_input').toggle('slow');
+		
+		var icon = $(this).find('i');
+		var area = $('#boat_input');
+
+		if (area.is(':visible')){
+			area.hide('slow');
+			icon.addClass('icon-plus');
+			icon.removeClass('icon-minus');
+		}else{
+			area.show('slow');
+			icon.addClass('icon-minus');
+			icon.removeClass('icon-plus');
+		}
+
+		resetFormData();
 	});
 
 	$('#deleteModalBtn').click(function(event) {
 		event.preventDefault();
-
-		$('#boatListTable tbody tr.error').first().each(function(id){ //.first() before .each() if only delete single value
-			var id = $(this).attr("data-boatid");
-			
-			$.ajax({
-				type: "POST",
-				url: $('#form').attr('action'),
-				data: {
-						method: "delete",
-						id: id
-					},
-				dataType: "json",
-				success: function(data) {
-					loadAllBoats();
-				}
-			});
-
-		});
-		
+		var id = $('#deletePromptModal .modal-body span').html();
+		deleteBoat(id);		
 	});
+
+	function deleteBoat(boatId){
+		$.ajax({
+			type: "POST",
+			url: $('#form').attr('action'),
+			data: {
+					method: "delete",
+					id: boatId
+				},
+			dataType: "json",
+			success: function(data) {
+				loadAllBoats();
+			}
+		});
+	}
+
+	function populateJSON( item, data){
+		var $inputs = $(item);
+		$.each(data, function(key, value) {
+		  $inputs.filter(function() {
+		    return key == this.name;
+		  }).val(value);
+		});
+	}
+
+	function loadBoat( boatId) {
+		$.ajax({
+			type: "GET",
+			url: "../backend/boat_service.php",
+			data: {id: boatId},
+			dataType: "json",
+			success: function(boat) {
+				populateJSON('#form input', boat);
+				$('#boat_input').show('slow');
+
+				$('html, body').animate({ scrollTop: 0 }, 600);
+			}
+		});
+
+	}
+
+	$('body').on('click', 'a.editBoadBtn', function(event) {
+	        event.preventDefault();
+	        var id = $(this).closest('tr').attr("data-boatid");
+	        if(id > 0){
+	        	loadBoat(id);
+	        }
+    });
+
+    $('body').on('click', 'a.deleteBoadBtn', function(event) {
+	        event.preventDefault();
+
+	        var id = $(this).closest('tr').attr("data-boatid");
+
+	        if(id > 0){
+	        	$('#deletePromptModal .modal-body span').html(id);
+	        	$('#deletePromptModal').modal('show');
+	        }
+    });
 
 	function resetFormData() {
 		$('#form').get(0).reset();
+		$('form input[name="id"]').val("-1");
 	}
 
 	function loadAllBoats() {
@@ -81,31 +132,6 @@ $(document).ready(function() {
 				$("#boatListTable tbody").show('slow');
 			}
 		});
-		updateDeleteButton();
-	}
-
-	function updateDeleteButton(){
-		var count = $('#boatListTable tbody tr.error').size();
-		
-		if(count > 0){
-			$('#deleteBtn').removeAttr("disabled");
-
-		}else{
-			$('#deleteBtn').attr("disabled", "disabled");
-		}
-
-		var entryText = (count == 1 ? "Eintrag" :"Einträge");
-		$('#deletePromptModal .modal-body span').html(count + ' ' + entryText);
-
-	}
-
-
-	function makeTableSelectable(){
-		$('body').on('click', '#boatListTable tbody td', function() {
-	        $(this).closest('tr').siblings().removeClass('error');
-	        $(this).parents('tr').toggleClass('error', this.clicked);
-	        updateDeleteButton();
-    	});
 	}
 });
 

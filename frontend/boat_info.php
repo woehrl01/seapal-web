@@ -6,6 +6,7 @@
 		<script type="text/javascript" src="include/boat_info.js"></script>
 		<script type="text/javascript" src="include/jquery.paginatetable.js"></script>
 		<script type="text/javascript" src="include/jsrender.js"></script>
+		<script type="text/javascript" src="include/jquery.populate.pack.js"></script>
 	</head>
 	<body>
 
@@ -13,7 +14,8 @@
 			<?php include("header.php"); ?>
 		</div>
 		<form id="form" method="post" action="../backend/boat_service.php">
-			<input type="text" name="method" value="save" style="display: none" />
+			<input type="hidden" name="method" value="save"/>
+			<input type="hidden" name="id" value="-1"/>
 			<div class="content-wrapper">
 				<div class="container">
 					<h1>Logbuch</h1>
@@ -139,14 +141,20 @@
 								<div class="span12">
 									<table id="boatListTable" class="table table-striped table-bordered table-hover">
 										<thead>
-									        <tr><th>Name</th><th>Baujahr</th></tr>
+									        <tr>
+									        	<th>Name</th>
+									        	<th>Baujahr</th>
+									        	<th>Aktionen</th>
+									        </tr>
 									    </thead>
-									    <tbody style="display:none;">
+									    <tbody>
 									    </tbody>
 									</table>
 									<script id="boatListTemplate" type="text/x-jsrender">
 										<tr data-boatid="{{>id}}">
-											<td>{{>boat_name}}</td><td>{{>build_year}}</td>
+											<td>{{>boat_name}}</td>
+											<td>{{>build_year}}</td>
+											<td><a href="#" class="editBoadBtn"><i class="icon-pencil"></i></a> <a href="#"  class="deleteBoadBtn"><i class="icon-remove"></i></a></td>
 										</tr>
 									</script>
 								</div>
@@ -195,7 +203,7 @@
 		    <h3 id="deletePromptModalLabel">Löschen</h3>
 		  </div>
 		  <div class="modal-body">
-		    <p>Möchten Sie wirklich <span></span> löschen?</p>
+		    <p>Möchten Sie wirklich das Boot (ID: <span></span>) löschen?</p>
 		  </div>
 		  <div class="modal-footer">
 		  	<button class="btn" data-dismiss="modal" aria-hidden="true">Abbrechen</button>
