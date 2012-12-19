@@ -15,8 +15,9 @@
 
 		<div class="content-wrapper">
 			<form id="form" method="post" action="../backend/trip_service.php">
-				<input type="text" name="method" value="save" style="display: none" />
-				<input type="text" name="trip_id" value="1" style="display: none" />
+				<input type="hidden" name="method" value="save" />
+				<input type="hidden" name="trip_id" value="1" />
+				<input type="hidden" name="boat_id" value="<?= (array_key_exists('boat', $_GET) ? $_GET['boat'] : -1) ?>" />
 				<div class="container">
 					<div class="row">
 						<div class="span8">
