@@ -60,7 +60,7 @@ $(document).ready(function() {
 
 	$('#deleteModalBtn').click(function(event) {
 		event.preventDefault();
-		var id = $('#deletePromptModal .modal-body span').html();
+		var id = $('#deletePromptModal').attr("data-boatid");
 		deleteBoat(id);		
 	});
 
@@ -118,6 +118,7 @@ $(document).ready(function() {
 	        var id = $(this).closest('tr').attr("data-boatid");
 
 	        if(id > 0){
+	        	$('#deletePromptModal').attr("data-boatid", id);
 	        	$('#deletePromptModal .modal-body span').html(id);
 	        	$('#deletePromptModal').modal('show');
 	        }

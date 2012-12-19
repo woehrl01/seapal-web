@@ -20,7 +20,7 @@
 					<div class="row">
 						<div class="span8">
 							<div class="left">
-								<h1>Logbuch</h1>
+								<h1>Bootliste</h1>
 							</div>
 						</div>
 						<div class="span4">
