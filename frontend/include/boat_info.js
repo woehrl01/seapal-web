@@ -4,6 +4,8 @@ $(document).ready(function() {
 
 	loadAllBoats();
 
+	var editFieldsVisible = false;
+
 	$('#boat_input').hide();
 	$("#boatListTable tbody").hide();
 	$('#submitBtn').attr("disabled", "disabled");
@@ -19,8 +21,9 @@ $(document).ready(function() {
 			success: function(data) {
 				if(data.success){
 					$('#addSuccessModal').modal('show');
-					$('#boat_input').hide('slow');
-					resetFormData();
+					editFieldsVisible = false;
+					$('#boat_input').hide('slow', resetFormData());
+					
 					loadAllBoats();
 				}else{
 					console.log(data.errors);
@@ -32,23 +35,23 @@ $(document).ready(function() {
 
 	$('#addButton').click(function(event){
 		event.preventDefault();
-		updateAddSaveButton();
-		resetFormData();
-		$('#boat_input').toggle('slow');
+		editFieldsVisible = !editFieldsVisible;
+		$('#boat_input').toggle('slow', resetFormData());
 	});
 
 	function updateAddSaveButton(){
 		var icon = $('#addButton').find('i');
-		if ($('#boat_input').is(':visible')){
-			icon.removeClass('icon-minus');
-			icon.addClass('icon-plus');
-			$('#submitBtn').attr("disabled", "disabled");
-			$('#addButton span').html('Hinzufügen');
-		}else{
+
+		if (editFieldsVisible){
 			icon.removeClass('icon-plus');
 			icon.addClass('icon-minus');
 			$('#submitBtn').removeAttr("disabled");
 			$('#addButton span').html('Abbrechen');
+		}else{
+			icon.removeClass('icon-minus');
+			icon.addClass('icon-plus');
+			$('#submitBtn').attr("disabled", "disabled");
+			$('#addButton span').html('Hinzufügen');
 		}
 
 		if($('#idField').val() > 0){
@@ -96,8 +99,8 @@ $(document).ready(function() {
 			dataType: "json",
 			success: function(boat) {
 				populateJSON('#form input', boat);
-				updateAddSaveButton();
-				$('#boat_input').show('slow');
+				editFieldsVisible = true;
+				$('#boat_input').show('slow', updateAddSaveButton());
 				$('html, body').animate({ scrollTop: 0 }, 600);
 			}
 		});
