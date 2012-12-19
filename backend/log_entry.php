@@ -14,7 +14,7 @@ final class LogEntry implements JsonSerializable {
     private $east_seconds;
     private $cog;
     private $sog;
-    private $timestamp;
+    private $datetime;
     private $btm;
     private $dtm;
     private $trip_to;
@@ -51,7 +51,7 @@ final class LogEntry implements JsonSerializable {
         $this->east_seconds       = $logEntryArray["east_seconds"];
         $this->cog                = $logEntryArray["cog"];
         $this->sog                = $logEntryArray["sog"];
-        $this->datetime          = $logEntryArray["datetime"];
+        $this->datetime           = $logEntryArray["datetime"];
         $this->btm                = $logEntryArray["btm"];
         $this->dtm                = $logEntryArray["dtm"];
         $this->trip_to            = $logEntryArray["trip_to"];

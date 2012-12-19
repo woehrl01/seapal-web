@@ -40,7 +40,6 @@ final class Trip implements JsonSerializable {
     	$this->crew               = $tripArray["crew"];
     	$this->start_time         = $tripArray["start_time"];
     	$this->end_time           = $tripArray["end_time"];
-        $this->timespan           = $tripArray["timespan"];
     	$this->engine_runtime     = $tripArray["engine_runtime"];
         $this->skipper            = $tripArray["skipper"];
 
@@ -61,7 +60,6 @@ final class Trip implements JsonSerializable {
         if (!Valid::is_number($this->id, Valid::$REQ)) array_push($errors, "id");
         if (!Valid::is_required($this->trip_title)) array_push($errors, "trip_title");
         if (!Valid::is_number_min($this->engine_runtime, 0, Valid::$NOT_REQ))array_push($errors, "engine_runtime");
-        if (!Valid::is_number_min($this->timespan, 1, Valid::$NOT_REQ)) array_push($errors, "timespan");
         //TODO: start_time
         //TODO: end_time
         //TODO: tank_filled
@@ -135,10 +133,6 @@ final class Trip implements JsonSerializable {
     
     public function getEndTime() {
 		return $this->end_time;
-    }
-
-    public function getTimespan() {
-        return $this->timespam;
     }
     
     public function getEngineRuntime() {

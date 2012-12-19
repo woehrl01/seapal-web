@@ -10,7 +10,7 @@ final class TripDAL {
 	 * Loads a trip with a specific ID from the database.
 	 * @return An instance of an trip or NULL.
 	 */
-	public static function loadById($tripId){
+	public static function loadById($tripId) {
 		$trip = NULL;
 		$db = DBConnector::getConnection();
 
