@@ -16,7 +16,7 @@ final class LogEntryDAL {
 
 		$sql = sprintf("SELECT id, north_degree, north_minutes, north_seconds, east_degree,
 			east_minutes, east_seconds, trip_id, cog, sog, datetime, btm, dtm, trip_to,
-			manuever_id, headsail_id, mainsail_id
+			maneuver_id, headsail_id, mainsail_id
             FROM waypoint
             WHERE id='%s",
             mysql_real_escape_string($logEntryId));
@@ -43,7 +43,7 @@ final class LogEntryDAL {
 		$db = DBConnector::getConnection();
 		$db->querySelect("SELECT id, north_degree, north_minutes, north_seconds, east_degree,
 			east_minutes, east_seconds, trip_id, cog, sog, datetime, btm, dtm, trip_to,
-			manuever_id, headsail_id, mainsail_id
+			maneuver_id, headsail_id, mainsail_id
             FROM waypoint");
 
 		while (TRUE) {
@@ -73,7 +73,7 @@ final class LogEntryDAL {
 
 		$sql = sprintf("SELECT id, north_degree, north_minutes, north_seconds, east_degree,
 			east_minutes, east_seconds, trip_id, cog, sog, datetime, btm, dtm, trip_to,
-			manuever_id, headsail_id, mainsail_id
+			maneuver_id, headsail_id, mainsail_id
             FROM waypoint
             WHERE trip_id='%s'",
             mysql_real_escape_string($tripId));
@@ -120,7 +120,7 @@ final class LogEntryDAL {
 
 		$sql = sprintf("INSERT INTO waypoint (north_degree, north_minutes, north_seconds, east_degree,
 			east_minutes, east_seconds, trip_id, cog, sog, datetime, btm, dtm, trip_to,
-			manuever_id, headsail_id, mainsail_id)
+			maneuver_id, headsail_id, mainsail_id)
             VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')",
 				mysql_real_escape_string($logEntry->getNorthDegree()),
 				mysql_real_escape_string($logEntry->getNorthMinutes()),
@@ -186,7 +186,6 @@ final class LogEntryDAL {
 		$db = DBConnector::getConnection();
 
 		$sql = sprintf("DELETE FROM waypoint WHERE id='%s'",
-			$logEntryId);
 			mysql_real_escape_string($logEntryId));
 
 		$status = $db->queryExecute($sql);

@@ -51,7 +51,7 @@ final class LogEntry implements JsonSerializable {
         $this->east_seconds       = $logEntryArray["east_seconds"];
         $this->cog                = $logEntryArray["cog"];
         $this->sog                = $logEntryArray["sog"];
-        $this->timestamp          = $logEntryArray["timestamp"];
+        $this->datetime          = $logEntryArray["datetime"];
         $this->btm                = $logEntryArray["btm"];
         $this->dtm                = $logEntryArray["dtm"];
         $this->trip_to            = $logEntryArray["trip_to"];
@@ -77,7 +77,7 @@ final class LogEntry implements JsonSerializable {
         if (!Valid::is_number_range($this->east_seconds, -59, 59, Valid::$REQ)) array_push($errors, "east_seconds");
         if (!Valid::is_number_min($this->cog, 0, Valid::$NOT_REQ)) array_push($errors, "cog");
         if (!Valid::is_number_range($this->sog, 0, 360, Valid::$NOT_REQ)) array_push($errors, "sog");
-        //TODO: timestamp
+        //TODO: datetime
         if (!Valid::is_number_range($this->btm, 0, 360, Valid::$NOT_REQ)) array_push($errors, "btm");
         if (!Valid::is_number_min($this->dtm, 0, Valid::$NOT_REQ)) array_push($errors, "dtm");
 
@@ -166,8 +166,8 @@ final class LogEntry implements JsonSerializable {
         return $this->sog;
     }
     
-    public function getTimestamp() {
-        return $this->timestamp;
+    public function getDatetime() {
+        return $this->datetime;
     }
     
     public function getBtm() {
