@@ -72,9 +72,9 @@ final class BoatDAL {
     			return BoatDAL::insert($boat);
     		}	
     		return BoatDAL::update($boat);
-    	}
-
-    	return FALSE;
+    	} else {
+            return $boat->getErrors();
+        }
     }
 
     /**

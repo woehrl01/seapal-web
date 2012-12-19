@@ -85,23 +85,25 @@ final class Boat implements JsonSerializable {
      * @return TRUE, if everything is valid.
      */
     private function validate() {
-        if (!Valid::is_number($this->id, Valid::$REQ)) return FALSE;
-        if (!Valid::is_required($this->boat_name)) return FALSE;
-        if (!Valid::is_number_min($this->build_year, 1900, Valid::$NOT_REQ)) return FALSE;
-        if (!Valid::is_number($this->register_nr, Valid::$NOT_REQ)) return FALSE;
-        if (!Valid::is_number_min($this->boat_length, 0.1, Valid::$NOT_REQ)) return FALSE;
-        if (!Valid::is_number_min($this->fueltank_size, 0, Valid::$NOT_REQ)) return FALSE;
-        if (!Valid::is_number_min($this->boat_width, 0.1, Valid::$NOT_REQ)) return FALSE;
-        if (!Valid::is_number_min($this->watertank_size, 0, Valid::$NOT_REQ)) return FALSE;
-        if (!Valid::is_number_min($this->draught, 0, Valid::$NOT_REQ)) return FALSE;
-        if (!Valid::is_number_min($this->wastewatertank_size, 0, Valid::$NOT_REQ)) return FALSE;
-        if (!Valid::is_number_min($this->mast_height, 0, Valid::$NOT_REQ)) return FALSE;
-        if (!Valid::is_number_min($this->mainsail_size, 0, Valid::$NOT_REQ)) return FALSE;
-        if (!Valid::is_number_min($this->water_displacement, 0, Valid::$NOT_REQ)) return FALSE;
-        if (!Valid::is_number_min($this->genua_size, 0, Valid::$NOT_REQ)) return FALSE;
-        if (!Valid::is_number_min($this->spi_size, 0, Valid::$NOT_REQ)) return FALSE;
+        $errors = array();
 
-        return TRUE;
+        if (!Valid::is_number($this->id, Valid::$REQ)) array_push($errors, "id");
+        if (!Valid::is_required($this->boat_name)) array_push($errors, "boat_name");
+        if (!Valid::is_number_min($this->build_year, 1900, Valid::$NOT_REQ)) array_push($errors, "build_year");
+        if (!Valid::is_number($this->register_nr, Valid::$NOT_REQ)) array_push($errors, "register_nr");
+        if (!Valid::is_number_min($this->boat_length, 0.1, Valid::$NOT_REQ)) array_push($errors, "boat_length");
+        if (!Valid::is_number_min($this->fueltank_size, 0, Valid::$NOT_REQ)) array_push($errors, "fueltank_size");
+        if (!Valid::is_number_min($this->boat_width, 0.1, Valid::$NOT_REQ)) array_push($errors, "boat_width");
+        if (!Valid::is_number_min($this->watertank_size, 0, Valid::$NOT_REQ)) array_push($errors, "watertank_size");
+        if (!Valid::is_number_min($this->draught, 0, Valid::$NOT_REQ)) array_push($errors, "draught");
+        if (!Valid::is_number_min($this->wastewatertank_size, 0, Valid::$NOT_REQ)) array_push($errors, "wastewatertank_size");
+        if (!Valid::is_number_min($this->mast_height, 0, Valid::$NOT_REQ)) array_push($errors, "mast_height");
+        if (!Valid::is_number_min($this->mainsail_size, 0, Valid::$NOT_REQ)) array_push($errors, "mainsail_size");
+        if (!Valid::is_number_min($this->water_displacement, 0, Valid::$NOT_REQ)) array_push($errors, "water_displacement");
+        if (!Valid::is_number_min($this->genua_size, 0, Valid::$NOT_REQ)) array_push($errors, "genua_size");
+        if (!Valid::is_number_min($this->spi_size, 0, Valid::$NOT_REQ)) array_push($errors, "spi_size");
+
+        return $errors;
     }
 
 	/**
@@ -126,6 +128,14 @@ final class Boat implements JsonSerializable {
      * @return Returns TRUE if the boat is valid.
      */
     public function isValid () {
+        $errors = $this->validate();
+        return !(is_array($errors) && !empty($errors));
+    }
+
+    /**
+     * @return Returns every field which contains invalid data.
+     */
+    public function getErrors(){
         return $this->validate();
     }
 

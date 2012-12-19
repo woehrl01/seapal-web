@@ -6,7 +6,6 @@
 		<script type="text/javascript" src="include/boat_info.js"></script>
 		<script type="text/javascript" src="include/jquery.paginatetable.js"></script>
 		<script type="text/javascript" src="include/jsrender.js"></script>
-		<script type="text/javascript" src="include/jquery.populate.pack.js"></script>
 	</head>
 	<body>
 

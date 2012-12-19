@@ -34,10 +34,11 @@ function main() {
  */
 function handleSave() {
 	$boat = new Boat($_POST);
-	if (BoatDAL::save($boat)) {
+	$errors = BoatDAL::save($boat) ;
+	if (!is_array($errors)) {
 		echo '{"success":true}';
 	} else {
-		echo '{"success":false}';
+		echo '{"success":false, "errors": '.json_encode($errors).'}';
 	}
 }
 

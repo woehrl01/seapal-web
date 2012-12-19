@@ -22,6 +22,7 @@ $(document).ready(function() {
 					resetFormData();
 					loadAllBoats();
 				}else{
+					console.log(data.errors);
 					alert("Serverside error occured!");
 				}
 			}
