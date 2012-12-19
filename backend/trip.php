@@ -1,5 +1,6 @@
 <?php
 require_once("database.php");
+require_once("validator.php");
 
 final class Trip implements JsonSerializable {
 	private $valid;
@@ -20,7 +21,7 @@ final class Trip implements JsonSerializable {
 	 * @param A associative array with trip data, like the POST-Array.
 	 * @return An instance of an trip.
 	 */
-    private function __construct($tripArray) {
+    public function __construct($tripArray) {
     	$this->parse($tripArray);
     }
 
@@ -42,7 +43,7 @@ final class Trip implements JsonSerializable {
     	$this->crew               = mysql_real_escape_string($tripArray["crew"]);
     	$this->start_time         = mysql_real_escape_string($tripArray["start_time"]);
     	$this->end_time           = mysql_real_escape_string($tripArray["end_time"]);
-        $this->timespan           = mysql_real_escape_string($tripArray["timespan"]);
+        $this->timespan           = $this->start_time - $this->end_time;
     	$this->engine_runtime     = mysql_real_escape_string($tripArray["engine_runtime"]);
     	$this->tank_filled        = mysql_real_escape_string($tripArray["tank_filled"]);
     }
@@ -55,7 +56,6 @@ final class Trip implements JsonSerializable {
         if (!Valid::is_number($this->id, Valid::$REQ)) return FALSE;
         if (!Valid::is_required($this->trip_title)) return FALSE;
         if (!Valid::is_number_min($this->engine_runtime, 0, Valid::$NOT_REQ)) return FALSE;
-        if (!Valid::is_number_min($this->timespan, 1, Valid::$NOT_REQ)) return FALSE;
         //TODO: start_time
         //TODO: end_time
         //TODO: tank_filled

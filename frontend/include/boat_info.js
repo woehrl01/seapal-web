@@ -91,7 +91,7 @@ $(document).ready(function() {
 	function loadBoat( boatId) {
 		$.ajax({
 			type: "GET",
-			url: "../backend/boat_service.php",
+			url: $('#form').attr('action'),
 			data: {id: boatId},
 			dataType: "json",
 			success: function(boat) {
@@ -133,7 +133,7 @@ $(document).ready(function() {
 	function loadAllBoats() {
 		$.ajax({
 			type: "GET",
-			url: "../backend/boat_service.php",
+			url: $('#form').attr('action'),
 			data: null,
 			dataType: "json",
 			success: function(data) {
