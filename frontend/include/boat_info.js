@@ -43,10 +43,18 @@ $(document).ready(function() {
 			icon.removeClass('icon-minus');
 			icon.addClass('icon-plus');
 			$('#submitBtn').attr("disabled", "disabled");
+			$('#addButton span').html('Hinzufügen');
 		}else{
 			icon.removeClass('icon-plus');
 			icon.addClass('icon-minus');
 			$('#submitBtn').removeAttr("disabled");
+			$('#addButton span').html('Abbrechen');
+		}
+
+		if($('#idField').val() > 0){
+			$('#submitBtn').val("Aktualisieren");
+		}else{
+			$('#submitBtn').val("Speichern");
 		}
 	}
 
@@ -117,7 +125,7 @@ $(document).ready(function() {
 
 	function resetFormData() {
 		$('#form').get(0).reset();
-		$('form input[name="id"]').val("-1");
+		$('#idField').val("-1");
 		updateAddSaveButton();
 	}
 

@@ -14,7 +14,7 @@
 		</div>
 		<form id="form" method="post" action="../backend/boat_service.php">
 			<input type="hidden" name="method" value="save"/>
-			<input type="hidden" name="id" value="-1"/>
+			<input type="hidden" id="idField" name="id" value="-1"/>
 			<div class="content-wrapper">
 				<div class="container">
 					<div class="row">
@@ -25,8 +25,8 @@
 						</div>
 						<div class="span4">
 							<div class="right buttons_top">
-								<a id="addButton" class="btn"><i class="icon-plus"></i> Hinzufügen</a>
-								<input type="submit" id="submitBtn" class="btn" value="Speichern"/>
+								<a id="addButton" class="btn btn-primary"><i class="icon-plus icon-white"></i> <span>Hinzufügen<span></a>
+								<input type="submit" id="submitBtn" class="btn btn-success" value="Speichern"/>
 							</div>
 						</div>
 					</div>
@@ -215,7 +215,7 @@
 		  </div>
 		  <div class="modal-footer">
 		  	<button class="btn" data-dismiss="modal" aria-hidden="true">Abbrechen</button>
-    		<button class="btn btn-primary" id="deleteModalBtn" data-dismiss="modal">Löschen</button>
+    		<button class="btn btn-danger" id="deleteModalBtn" data-dismiss="modal">Löschen</button>
 		  </div>
 		</div>
 		
