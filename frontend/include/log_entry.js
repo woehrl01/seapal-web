@@ -4,7 +4,7 @@ $(document).ready(function() {
 
 	$('#form').submit(function(event) {
 		event.preventDefault();
-
+		var tripId = $('#trip_id').val();
 		$.ajax({
 			type: "POST",
 			url: $(this).attr('action'),
@@ -13,7 +13,7 @@ $(document).ready(function() {
 			success: function(data) {
 				if(data.success){
 					$('#addSuccessModal').modal('show');
-					resetFormData();
+					window.location.href = 'trip_info.php?trip=' + tripId;
 				}else{
 					console.log(data.errors);
 					alert("Serverside error occured!");
@@ -31,22 +31,17 @@ $(document).ready(function() {
 		});
 	}
 
-	function loadWaypoint( boatId) {
+	function loadWaypoint( itemId) {
 		$.ajax({
 			type: "GET",
 			url: $('#form').attr('action'),
-			data: {id: boatId},
+			data: {id: itemId},
 			dataType: "json",
-			success: function(boat) {
-				populateJSON('#form input', boat);
+			success: function(item) {
+				populateJSON('#form input', item);
 				$('html, body').animate({ scrollTop: 0 }, 600);
 			}
 		});
-	}
-
-	function resetFormData() {
-		$('#form').get(0).reset();
-		$('#idField').val("-1");
 	}
 });
 

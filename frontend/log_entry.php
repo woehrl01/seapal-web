@@ -15,7 +15,7 @@
 			<form id="form" method="post" action="../backend/log_entry_service.php">
 				<div class="container">
 					<input type="hidden" name="method" value="save" />
-					<input type="hidden" name="trip_id" value="<?= (array_key_exists('trip', $_GET) ? $_GET['trip'] : -1) ?>" />
+					<input type="hidden" id="trip_id" name="trip_id" value="<?= (array_key_exists('trip', $_GET) ? $_GET['trip'] : -1) ?>" />
 					<div class="row">
 						<div class="span8">
 							<div class="left">

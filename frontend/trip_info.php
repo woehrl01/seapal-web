@@ -16,7 +16,7 @@
 		<div class="content-wrapper">
 			<form id="form" method="post" action="../backend/trip_service.php">
 				<input type="hidden" name="method" value="save" />
-				<input type="hidden" id="trip_id" name="trip_id" value="<?= (array_key_exists('trip', $_GET) ? $_GET['trip'] : -1) ?>" />
+				<input type="hidden" id="trip_id" name="id" value="<?= (array_key_exists('trip', $_GET) ? $_GET['trip'] : -1) ?>" />
 				<input type="hidden" id="boat_id" name="boat_id" value="<?= (array_key_exists('boat', $_GET) ? $_GET['boat'] : -1) ?>" />
 				<div class="container">
 					<div class="row">
@@ -157,6 +157,8 @@
 							<div class="listview-buttons tablePager">
 								<div class="span6">
 									<div class="left">
+										<a href="log_entry.php?trip=<?= (array_key_exists('trip', $_GET) ? $_GET['trip'] : -1) ?>" class="btn btn-success">Neuer Wegpunkt<a/>
+										
 										<input type="button" class="btn prevPage" value="Vorheriger"/>
 									</div>
 								</div>
