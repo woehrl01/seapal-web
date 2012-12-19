@@ -118,10 +118,10 @@ final class LogEntryDAL {
 	private static function insert($logEntry) {
 		$db = DBConnector::getConnection();
 
-		$sql = sprintf("INSERT INTO waypoint (id, north_degree, north_minutes, north_seconds, east_degree,
+		$sql = sprintf("INSERT INTO waypoint (north_degree, north_minutes, north_seconds, east_degree,
 			east_minutes, east_seconds, trip_id, cog, sog, datetime, btm, dtm, trip_to,
 			manuever_id, headsail_id, mainsail_id)
-            VALUES ('', %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+            VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')",
 				$logEntry->getNorthDegree(),
 				$logEntry->getNorthMinutes(),
 				$logEntry->getNorthMinutes(),
@@ -131,7 +131,7 @@ final class LogEntryDAL {
                 $logEntry->getTripId(),
                 $logEntry->getCog(),
                 $logEntry->getSog(),
-                $logEntry->getDatetime(),
+                $logEntry->getTimestamp(),
                 $logEntry->getBtm(),
                 $logEntry->getDtm(),
                 $logEntry->getTripTo(),
@@ -164,7 +164,7 @@ final class LogEntryDAL {
                 $logEntry->getTripId(),
                 $logEntry->getCog(),
                 $logEntry->getSog(),
-                $logEntry->getDatetime(),
+                $logEntry->getTimestamp(),
                 $logEntry->getBtm(),
                 $logEntry->getDtm(),
                 $logEntry->getTripTo(),

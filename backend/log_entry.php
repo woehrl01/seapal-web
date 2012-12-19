@@ -1,4 +1,5 @@
 <?php
+require_once("validator.php");
 
 final class LogEntry implements JsonSerializable {
 	private $valid;
@@ -110,6 +111,12 @@ final class LogEntry implements JsonSerializable {
 
     public function getId() {
         return $this->id;
+    }
+
+    public function getTripId() {
+        //TODO: Implement
+
+        return 1;
     }
 
     public function getEntryName() {
