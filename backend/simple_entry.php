@@ -1,5 +1,6 @@
 <?php
-require_once("database.php");
+
+require_once("validator.php");
 
 final class SimpleEntry implements JsonSerializable {
     private $id;
@@ -10,7 +11,7 @@ final class SimpleEntry implements JsonSerializable {
      * @param A associative array with simple_entry data, like the POST-Array.
      * @return An instance of an simple_entry.
      */
-    private function __construct($entryArray) {
+    public function __construct($entryArray) {
     	$this->parse($entryArray);
     }
 

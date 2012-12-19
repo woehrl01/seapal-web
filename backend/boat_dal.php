@@ -170,7 +170,7 @@ final class BoatDAL {
 		$db = DBConnector::getConnection();
 
 		$sql = sprintf("DELETE FROM boat WHERE id='%s'",
-			mysql_real_escape_string($boatId);
+			mysql_real_escape_string($boatId));
 
 		$status = $db->queryExecute($sql);
 		$db->close();

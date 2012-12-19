@@ -1,5 +1,7 @@
 <?php
 
+require_once("validator.php");
+
 final class LogEntry implements JsonSerializable {
     private $id;
     private $entry_name;

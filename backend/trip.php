@@ -1,5 +1,6 @@
 <?php
-require_once("database.php");
+
+require_once("validator.php");
 
 final class Trip implements JsonSerializable {
 	private $id;
@@ -11,6 +12,7 @@ final class Trip implements JsonSerializable {
     private $start_time;
     private $end_time;
     private $engine_runtime;
+    private $skipper;
     private $tank_filled;
 
 	/**
@@ -18,7 +20,7 @@ final class Trip implements JsonSerializable {
 	 * @param A associative array with trip data, like the POST-Array.
 	 * @return An instance of an trip.
 	 */
-    private function __construct($tripArray) {
+    public function __construct($tripArray) {
     	$this->parse($tripArray);
     }
 
@@ -41,7 +43,13 @@ final class Trip implements JsonSerializable {
     	$this->end_time           = $tripArray["end_time"];
         $this->timespan           = $tripArray["timespan"];
     	$this->engine_runtime     = $tripArray["engine_runtime"];
-    	$this->tank_filled        = $tripArray["tank_filled"];
+        $this->skipper            = $tripArray["skipper"];
+
+        if (array_key_exists("tank_filled", $tripArray)) {
+            $this->tank_filled = 1; // true for MySQL 
+        } else {
+            $this->tank_filled = 0; // false for MySQL
+        }
     }
 
     /**
@@ -103,7 +111,7 @@ final class Trip implements JsonSerializable {
     }
 
     public function getBoatId() {
-		return $this->boatId;
+		return $this->boat_id;
     }
 
 	public function getTripTitle() {
@@ -136,6 +144,10 @@ final class Trip implements JsonSerializable {
     
     public function getEngineRuntime() {
 		return $this->engine_runtime;
+    }
+
+    public function getSkipper() {
+        return $this->skipper;
     }
     
     public function getTankFilled() {

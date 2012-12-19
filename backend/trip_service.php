@@ -34,7 +34,7 @@ function main() {
  */
 function handleSave() {
 	$trip = new Trip($_POST);
-	$errors = TripDAL::save($trip)
+	$errors = TripDAL::save($trip);
 	if (!is_array($errors)) {
 		echo '{"success":true}';
 	} else {
