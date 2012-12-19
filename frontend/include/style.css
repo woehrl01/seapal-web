@@ -190,6 +190,11 @@ body.index .header-wrapper {
 	padding-top: 1em;
 }
 
+
+#slideshow .item img {
+	max-height: 576px;
+}
+
 /**
  * Footer
  */
