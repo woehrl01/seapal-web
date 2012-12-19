@@ -100,7 +100,7 @@ final class TripDAL {
     	if ($trip->isValid()) {
     		if ($trip->isNew()) {
     			return TripDAL::insert($trip);
-    		}	
+    		}
     		return TripDAL::update($trip);
     	}
 
@@ -145,7 +145,7 @@ final class TripDAL {
             mysql_real_escape_string($trip->getBoatId()),
 			mysql_real_escape_string($trip->getTripTitle()),
 			mysql_real_escape_string($trip->getTripFrom()),
-			mysql_real_escape_string($trip->geTripTo()),
+			mysql_real_escape_string($trip->getTripTo()),
 			mysql_real_escape_string($trip->getStartTime()),
 			mysql_real_escape_string($trip->getEndTime()),
 			mysql_real_escape_string($trip->getEngineRuntime()),

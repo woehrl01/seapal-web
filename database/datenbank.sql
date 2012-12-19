@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS crew_on_trip(
 
 CREATE TABLE IF NOT EXISTS maneuver(
 	id INTEGER NOT NULL AUTO_INCREMENT,
-	name INTEGER NOT NULL,
+	name varchar(32) NOT NULL,
 
 	PRIMARY KEY (id),
 	UNIQUE KEY (id)
@@ -73,7 +73,7 @@ CREATE TABLE IF NOT EXISTS maneuver(
 
 CREATE TABLE IF NOT EXISTS headsail(
 	id INTEGER NOT NULL AUTO_INCREMENT,
-	name INTEGER NOT NULL,
+	name varchar(32) NOT NULL,
 
 	PRIMARY KEY (id),
 	UNIQUE KEY (id)
@@ -81,7 +81,15 @@ CREATE TABLE IF NOT EXISTS headsail(
 
 CREATE TABLE IF NOT EXISTS mainsail(
 	id INTEGER NOT NULL AUTO_INCREMENT,
-	name INTEGER NOT NULL,
+	name varchar(32) NOT NULL,
+
+	PRIMARY KEY (id),
+	UNIQUE KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS mark (
+	id INTEGER NOT NULL AUTO_INCREMENT,
+	name varchar(32) NOT NULL,
 
 	PRIMARY KEY (id),
 	UNIQUE KEY (id)
@@ -108,6 +116,7 @@ CREATE TABLE IF NOT EXISTS waypoint(
 	
 	PRIMARY KEY (id),
 	FOREIGN KEY (trip_id) references trip(id),
+	FOREIGN KEY (trip_to) references mark(id),
 	FOREIGN KEY (maneuver_id) references maneuver(id),
 	FOREIGN KEY (headsail_id) references headsail(id),
 	FOREIGN KEY (mainsail_id) references mainsail(id),
