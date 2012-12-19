@@ -15,7 +15,7 @@ final class ManeuverDAL {
 		$db = DBConnector::getConnection();
 
 		$sql = sprintf("SELECT id, name FROM maneuver WHERE id='%s",
-            $maneuverId);
+            mysql_real_escape_string($maneuverId));
 
 		$db->querySelect($sql);
 

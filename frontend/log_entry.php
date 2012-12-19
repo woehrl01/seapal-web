@@ -53,8 +53,8 @@
 								<input type="number" name="sog" tabindex="18" min="0" max="360" />
 							</div>
 							<div class="span2">
-								<label for="timestamp">um</label>
-								<input type="datetime" name="timestamp" min="2010-04-18" max="2017-04-18" value="2012-04-18" tabindex="18"/>
+								<label for="datetime">um</label>
+								<input type="datetime" name="datetime" min="2010-04-18" max="2017-04-18" value="2012-04-18" tabindex="18"/>
 							</div>
 						</div>
 						<div class="row">

@@ -34,10 +34,11 @@ function main() {
  */
 function handleSave() {
 	$trip = new Trip($_POST);
-	if (TripDAL::save($trip)) {
+	$errors = TripDAL::save($trip);
+	if (!is_array($errors)) {
 		echo '{"success":true}';
 	} else {
-		echo '{"success":false}';
+		echo '{"success":false, "errors": '.json_encode($errors).'}';
 	}
 }
 
@@ -72,7 +73,6 @@ function handleGet() {
 		$trips = TripDAL::loadAll();
 		echo json_encode($trips);
 	}
-	// TODO: what to write out if there was an error?
 }
 
 ?>

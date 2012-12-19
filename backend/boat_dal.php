@@ -20,7 +20,7 @@ final class BoatDAL {
                 insurance, water_displacement, genua_size, callsign, rig_kind, spi_size
                 FROM boat
                 WHERE id='%s'",
-                $boatId);
+                mysql_real_escape_string($boatId));
 
 		$db->querySelect($sql);
 
@@ -72,9 +72,9 @@ final class BoatDAL {
     			return BoatDAL::insert($boat);
     		}	
     		return BoatDAL::update($boat);
-    	} else {
-            return $boat->getErrors();
-        }
+    	}
+        
+        return $boat->getErrors();
     }
 
     /**
@@ -89,30 +89,30 @@ final class BoatDAL {
                 insurance, water_displacement, genua_size, callsign, rig_kind, spi_size)
             	VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s',
                 '%s', '%s', '%s', '%s', '%s', '%s', '%s','%s', '%s', '%s', '%s', '%s', '%s')",
-				$boat->getBoatName(),
-				$boat->getBoatType(),
-				$boat->getBuildYear(),
-				$boat->getRegisterNr(),
-                $boat->getConstructor(),
-                $boat->getEngine(),
-                $boat->getSailSign(),
-                $boat->getBoatLength(),
-                $boat->getFueltankSize(),
-                $boat->getHomePort(),
-                $boat->getBoatWidth(),
-                $boat->getWatertankSize(),
-                $boat->getYachtclub(),
-                $boat->getDraught(),
-                $boat->getWastewatertankSize(),
-                $boat->getOwner(),
-                $boat->getMastHeight(),
-                $boat->getMainsailSize(),
-                $boat->getInsurance(),
-                $boat->getWaterDisplacement(),
-                $boat->getGenuaSize(),
-                $boat->getCallsign(),
-                $boat->getRigKind(),
-                $boat->getSpiSize());
+				mysql_real_escape_string($boat->getBoatName()),
+				mysql_real_escape_string($boat->getBoatType()),
+				mysql_real_escape_string($boat->getBuildYear()),
+				mysql_real_escape_string($boat->getRegisterNr()),
+                mysql_real_escape_string($boat->getConstructor()),
+                mysql_real_escape_string($boat->getEngine()),
+                mysql_real_escape_string($boat->getSailSign()),
+                mysql_real_escape_string($boat->getBoatLength()),
+                mysql_real_escape_string($boat->getFueltankSize()),
+                mysql_real_escape_string($boat->getHomePort()),
+                mysql_real_escape_string($boat->getBoatWidth()),
+                mysql_real_escape_string($boat->getWatertankSize()),
+                mysql_real_escape_string($boat->getYachtclub()),
+                mysql_real_escape_string($boat->getDraught()),
+                mysql_real_escape_string($boat->getWastewatertankSize()),
+                mysql_real_escape_string($boat->getOwner()),
+                mysql_real_escape_string($boat->getMastHeight()),
+                mysql_real_escape_string($boat->getMainsailSize()),
+                mysql_real_escape_string($boat->getInsurance()),
+                mysql_real_escape_string($boat->getWaterDisplacement()),
+                mysql_real_escape_string($boat->getGenuaSize()),
+                mysql_real_escape_string($boat->getCallsign()),
+                mysql_real_escape_string($boat->getRigKind()),
+                mysql_real_escape_string($boat->getSpiSize()));
 
 		$status = $db->queryExecute($sql);
 		$db->close();
@@ -131,31 +131,31 @@ final class BoatDAL {
                 watertank_size='%s', yachtclub='%s', draught='%s', wastewatertank_size='%s', owner='%s', mast_height='%s', mainsail_size='%s', 
                 insurance='%s', water_displacement='%s', genua_size='%s', callsign='%s', rig_kind='%s', spi_size='%s'
                 WHERE id='%s'",
-                $boat->getBoatName(),
-                $boat->getBoatType(),
-                $boat->getBuildYear(),
-                $boat->getRegisterNr(), 
-                $boat->getConstructor(),
-                $boat->getEngine(),
-                $boat->getSailSign(),
-                $boat->getBoatLength(),
-                $boat->getFueltankSize(),
-                $boat->getHomePort(),
-                $boat->getBoatWidth(),
-                $boat->getWatertankSize(),
-                $boat->getYachtclub(),
-                $boat->getDraught(),
-                $boat->getWastewatertankSize(),
-                $boat->getOwner(),
-                $boat->getMastHeight(),
-                $boat->getMainsailSize(), 
-                $boat->getInsurance(),
-                $boat->getWaterDisplacement(),
-                $boat->getGenuaSize(),
-                $boat->getCallsign(),
-                $boat->getRigKind(),
-                $boat->getSpiSize(),
-                $boat->getId());
+                mysql_real_escape_string($boat->getBoatName()),
+                mysql_real_escape_string($boat->getBoatType()),
+                mysql_real_escape_string($boat->getBuildYear()),
+                mysql_real_escape_string($boat->getRegisterNr()), 
+                mysql_real_escape_string($boat->getConstructor()),
+                mysql_real_escape_string($boat->getEngine()),
+                mysql_real_escape_string($boat->getSailSign()),
+                mysql_real_escape_string($boat->getBoatLength()),
+                mysql_real_escape_string($boat->getFueltankSize()),
+                mysql_real_escape_string($boat->getHomePort()),
+                mysql_real_escape_string($boat->getBoatWidth()),
+                mysql_real_escape_string($boat->getWatertankSize()),
+                mysql_real_escape_string($boat->getYachtclub()),
+                mysql_real_escape_string($boat->getDraught()),
+                mysql_real_escape_string($boat->getWastewatertankSize()),
+                mysql_real_escape_string($boat->getOwner()),
+                mysql_real_escape_string($boat->getMastHeight()),
+                mysql_real_escape_string($boat->getMainsailSize()), 
+                mysql_real_escape_string($boat->getInsurance()),
+                mysql_real_escape_string($boat->getWaterDisplacement()),
+                mysql_real_escape_string($boat->getGenuaSize()),
+                mysql_real_escape_string($boat->getCallsign()),
+                mysql_real_escape_string($boat->getRigKind()),
+                mysql_real_escape_string($boat->getSpiSize()),
+                mysql_real_escape_string($boat->getId()));
 
 		$status = $db->queryExecute($sql);
 		$db->close();
@@ -170,7 +170,7 @@ final class BoatDAL {
 		$db = DBConnector::getConnection();
 
 		$sql = sprintf("DELETE FROM boat WHERE id='%s'",
-			$boatId);
+			mysql_real_escape_string($boatId));
 
 		$status = $db->queryExecute($sql);
 		$db->close();

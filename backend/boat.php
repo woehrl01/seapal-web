@@ -42,47 +42,42 @@ final class Boat implements JsonSerializable {
 	 * Parses the associative array.
 	 */
     private function parse($boatArray) {
-
-        $db = (!mysql_ping() ? DBConnector::getConnection() : false);
-
     	if (array_key_exists("id", $boatArray)) {
-    		$this->id = mysql_real_escape_string($boatArray["id"]);
+    		$this->id = $boatArray["id"];
     	} else {
     		$this->id = -1;
     	}
 
-    	$this->boat_name          = mysql_real_escape_string($boatArray["boat_name"]);
-	    $this->boat_type          = mysql_real_escape_string($boatArray["boat_type"]);
-	    $this->build_year         = mysql_real_escape_string($boatArray["build_year"]);
-	    $this->register_nr        = mysql_real_escape_string($boatArray["register_nr"]);
-	    $this->constructor        = mysql_real_escape_string($boatArray["constructor"]);
-	    $this->engine             = mysql_real_escape_string($boatArray["engine"]);
-	    $this->sail_sign          = mysql_real_escape_string($boatArray["sail_sign"]);
-	    $this->boat_length        = mysql_real_escape_string($boatArray["boat_length"]);
-	    $this->fueltank_size      = mysql_real_escape_string($boatArray["fueltank_size"]);
-	    $this->home_port          = mysql_real_escape_string($boatArray["home_port"]);
-	    $this->boat_width         = mysql_real_escape_string($boatArray["boat_width"]);
-	    $this->watertank_size     = mysql_real_escape_string($boatArray["watertank_size"]);
-	    $this->draught            = mysql_real_escape_string($boatArray["draught"]);
-	    $this->yachtclub          = mysql_real_escape_string($boatArray["yachtclub"]);
-	    $this->wastewatertank_size= mysql_real_escape_string($boatArray["wastewatertank_size"]);
-	    $this->owner              = mysql_real_escape_string($boatArray["owner"]);
-	    $this->mast_height        = mysql_real_escape_string($boatArray["mast_height"]);
-	    $this->mainsail_size      = mysql_real_escape_string($boatArray["mainsail_size"]);
-	    $this->insurance          = mysql_real_escape_string($boatArray["insurance"]);
-	    $this->water_displacement = mysql_real_escape_string($boatArray["water_displacement"]);
-	    $this->genua_size         = mysql_real_escape_string($boatArray["genua_size"]);
-	    $this->callsign           = mysql_real_escape_string($boatArray["callsign"]);
-	    $this->genua_size         = mysql_real_escape_string($boatArray["genua_size"]);
-	    $this->rig_kind           = mysql_real_escape_string($boatArray["rig_kind"]);
-	    $this->spi_size           = mysql_real_escape_string($boatArray["spi_size"]);
-
-        if($db) $db->close();
+    	$this->boat_name          = $boatArray["boat_name"];
+	    $this->boat_type          = $boatArray["boat_type"];
+	    $this->build_year         = $boatArray["build_year"];
+	    $this->register_nr        = $boatArray["register_nr"];
+	    $this->constructor        = $boatArray["constructor"];
+	    $this->engine             = $boatArray["engine"];
+	    $this->sail_sign          = $boatArray["sail_sign"];
+	    $this->boat_length        = $boatArray["boat_length"];
+	    $this->fueltank_size      = $boatArray["fueltank_size"];
+	    $this->home_port          = $boatArray["home_port"];
+	    $this->boat_width         = $boatArray["boat_width"];
+	    $this->watertank_size     = $boatArray["watertank_size"];
+	    $this->draught            = $boatArray["draught"];
+	    $this->yachtclub          = $boatArray["yachtclub"];
+	    $this->wastewatertank_size= $boatArray["wastewatertank_size"];
+	    $this->owner              = $boatArray["owner"];
+	    $this->mast_height        = $boatArray["mast_height"];
+	    $this->mainsail_size      = $boatArray["mainsail_size"];
+	    $this->insurance          = $boatArray["insurance"];
+	    $this->water_displacement = $boatArray["water_displacement"];
+	    $this->genua_size         = $boatArray["genua_size"];
+	    $this->callsign           = $boatArray["callsign"];
+	    $this->genua_size         = $boatArray["genua_size"];
+	    $this->rig_kind           = $boatArray["rig_kind"];
+	    $this->spi_size           = $boatArray["spi_size"];
     }
 
     /**
      * Validates field values.
-     * @return TRUE, if everything is valid.
+     * @return An array of invalid fields.
      */
     private function validate() {
         $errors = array();
@@ -133,6 +128,7 @@ final class Boat implements JsonSerializable {
     }
 
     /**
+     * Gets the invalid fields.
      * @return Returns every field which contains invalid data.
      */
     public function getErrors(){

@@ -15,7 +15,7 @@ final class HeadsailDAL {
 		$db = DBConnector::getConnection();
 
 		$sql = sprintf("SELECT id, name FROM headsail WHERE id='%s",
-            $headsailId);
+            mysql_real_escape_string($headsailId));
 
 		$db->querySelect($sql);
 
