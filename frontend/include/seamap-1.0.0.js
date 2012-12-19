@@ -299,7 +299,7 @@
 		function startBoatAnimation(){
 			$.ajax({
 				type: 'GET',
-				url : "/webtech/backend/boatposition.php",
+				url : "../backend/boatposition.php",
 				dataType : 'json',
 				data: null,
 				success : function(response){
