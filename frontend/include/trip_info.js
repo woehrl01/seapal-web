@@ -1,6 +1,11 @@
 /* boat_info.js */
 
 $(document).ready(function() {
+
+	loadAllWaypoints();
+
+	$("#waypointListTable tbody").hide();
+
 	$('#form').submit(function(event) {
 		event.preventDefault();
 
@@ -10,14 +15,110 @@ $(document).ready(function() {
 			data: $(this).serialize(),
 			dataType: "json",
 			success: function(data) {
-				$('#myModal').modal('show');
-				resetFormData();
+				if(data.success){
+					$('#addSuccessModal').modal('show');
+					resetFormData();
+					loadAllWaypoints();
+				}else{
+					console.log(data.errors);
+					alert("Serverside error occured!");
+				}
 			}
 		});
 	});
 
-	function resetFormData() {
-		$('#form').get(0).reset();
+	$('#addButton').click(function(event){
+		event.preventDefault();
+		resetFormData();
+	});
+
+
+	$('#deleteModalBtn').click(function(event) {
+		event.preventDefault();
+		var id = $('#deletePromptModal').attr("data-id");
+		deleteWaypoint(id);		
+	});
+
+	function deleteBoat(waypointId){
+		$.ajax({
+			type: "POST",
+			url: $('#form').attr('action'),
+			data: {
+					method: "delete",
+					id: waypointId
+				},
+			dataType: "json",
+			success: function(data) {
+				loadAllWaypoints();
+			}
+		});
 	}
 
+	function populateJSON( item, data){
+		var $inputs = $(item);
+		$.each(data, function(key, value) {
+		  $inputs.filter(function() {
+		    return key == this.name;
+		  }).val(value);
+		});
+	}
+
+	function loadTrip( tripInfo) {
+		$.ajax({
+			type: "GET",
+			url: $('#form').attr('action'),
+			data: {id: boatId},
+			dataType: "json",
+			success: function(boat) {
+				populateJSON('#form input', boat);
+				updateAddSaveButton();
+				$('html, body').animate({ scrollTop: 0 }, 600);
+			}
+		});
+
+	}
+
+	$('body').on('click', 'a.editItemBtn', function(event) {
+	        event.preventDefault();
+	        var id = $(this).closest('tr').attr("data-id");
+	        if(id > 0){
+	        	loadBoat(id);
+	        }
+    });
+
+    $('body').on('click', 'a.deleteItemBtn', function(event) {
+	        event.preventDefault();
+
+	        var id = $(this).closest('tr').attr("data-id");
+
+	        if(id > 0){
+	        	$('#deletePromptModal').attr("data-id", id);
+	        	$('#deletePromptModal .modal-body span').html(id);
+	        	$('#deletePromptModal').modal('show');
+	        }
+    });
+
+	function resetFormData() {
+		$('#form').get(0).reset();
+		$('#idField').val("-1");
+		updateAddSaveButton();
+	}
+
+	function loadAllWaypoints() {
+		$.ajax({
+			type: "GET",
+			url: $('#form').attr('action'),
+			data: null,
+			dataType: "json",
+			success: function(data) {
+				$( "#waypointListTable tbody" ).html(
+					$( "#waypointListTemplate" ).render(data)
+				);
+
+				$('#waypointListTable').paginateTable({ rowsPerPage: 5, pager: ".tablePager", autoHidePager: false });
+				$("#waypointListTable tbody").show('slow');
+			}
+		});
+	}
 });
+
