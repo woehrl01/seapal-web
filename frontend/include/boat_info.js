@@ -6,6 +6,7 @@ $(document).ready(function() {
 
 	$('#boat_input').hide();
 	$("#boatListTable tbody").hide();
+	$('#submitBtn').attr("disabled", "disabled");
 
 	$('#form').submit(function(event) {
 		event.preventDefault();
@@ -31,22 +32,23 @@ $(document).ready(function() {
 
 	$('#addButton').click(function(event){
 		event.preventDefault();
-		
-		var icon = $(this).find('i');
-		var area = $('#boat_input');
-
-		if (area.is(':visible')){
-			area.hide('slow');
-			icon.addClass('icon-plus');
-			icon.removeClass('icon-minus');
-		}else{
-			area.show('slow');
-			icon.addClass('icon-minus');
-			icon.removeClass('icon-plus');
-		}
-
+		updateAddSaveButton();
 		resetFormData();
+		$('#boat_input').toggle('slow');
 	});
+
+	function updateAddSaveButton(){
+		var icon = $('#addButton').find('i');
+		if ($('#boat_input').is(':visible')){
+			icon.removeClass('icon-minus');
+			icon.addClass('icon-plus');
+			$('#submitBtn').attr("disabled", "disabled");
+		}else{
+			icon.removeClass('icon-plus');
+			icon.addClass('icon-minus');
+			$('#submitBtn').removeAttr("disabled");
+		}
+	}
 
 	$('#deleteModalBtn').click(function(event) {
 		event.preventDefault();
@@ -86,8 +88,8 @@ $(document).ready(function() {
 			dataType: "json",
 			success: function(boat) {
 				populateJSON('#form input', boat);
+				updateAddSaveButton();
 				$('#boat_input').show('slow');
-
 				$('html, body').animate({ scrollTop: 0 }, 600);
 			}
 		});
@@ -116,6 +118,7 @@ $(document).ready(function() {
 	function resetFormData() {
 		$('#form').get(0).reset();
 		$('form input[name="id"]').val("-1");
+		updateAddSaveButton();
 	}
 
 	function loadAllBoats() {

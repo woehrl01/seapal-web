@@ -185,6 +185,11 @@ body.index .header-wrapper {
 	color: #000;
 }
 
+
+.container .buttons_top {
+	padding-top: 1em;
+}
+
 /**
  * Footer
  */

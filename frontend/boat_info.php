@@ -17,8 +17,19 @@
 			<input type="hidden" name="id" value="-1"/>
 			<div class="content-wrapper">
 				<div class="container">
-					<h1>Logbuch</h1>
-					<div class="addButtonContainer"><a id="addButton" class="btn"><i class="icon-plus"></i> Hinzufügen</a></div>
+					<div class="row">
+						<div class="span8">
+							<div class="left">
+								<h1>Logbuch</h1>
+							</div>
+						</div>
+						<div class="span4">
+							<div class="right buttons_top">
+								<a id="addButton" class="btn"><i class="icon-plus"></i> Hinzufügen</a>
+								<input type="submit" id="submitBtn" class="btn" value="Speichern"/>
+							</div>
+						</div>
+					</div>
 					<div class="input-wrapper" id="boat_input">
 						<div class="row">
 							<div class="span4">
@@ -160,16 +171,14 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="listview-buttons">
+							<div class="listview-buttons tablePager">
 								<div class="span6">
 									<div class="left">
-										<input type="button" id="deleteBtn" class="btn" value="Löschen"/>
-										<input type="submit" class="btn" value="Speichern"/>
+										<input type="button" class="btn prevPage" value="Vorheriger"/>
 									</div>
 								</div>
 								<div class="span6">
-									<div class="right tablePager">
-										<input type="button" class="btn prevPage" value="Vorheriger"/>
+									<div class="right ">
 										<input type="button" class="btn nextPage" value="Nächster"/>
 									</div>
 								</div>
