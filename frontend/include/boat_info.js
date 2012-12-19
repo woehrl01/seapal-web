@@ -20,6 +20,8 @@ $(document).ready(function() {
 					$('#addSuccessModal').modal('show');
 					resetFormData();
 					loadAllBoats();
+				}else{
+					alert("Serverside error occured!");
 				}
 			}
 		});
@@ -34,7 +36,7 @@ $(document).ready(function() {
 
 	$('#addButton').click(function(event){
 		event.preventDefault();
-		$('#boat_input').show('slow');
+		$('#boat_input').toggle('slow');
 	});
 
 	$('#deleteModalBtn').click(function(event) {
