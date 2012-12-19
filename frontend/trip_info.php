@@ -157,7 +157,7 @@
 							<div class="listview-buttons tablePager">
 								<div class="span6">
 									<div class="left">
-										<a href="log_entry.php?trip=<?= (array_key_exists('trip', $_GET) ? $_GET['trip'] : -1) ?>" class="btn btn-success">Neuer Wegpunkt<a/>
+										<a href="log_entry.php?trip=<?= (array_key_exists('trip', $_GET) ? $_GET['trip'] : -1) ?>" class="btn btn-primary"><i class="icon-plus icon-white"></i> Neuer Wegpunkt<a/>
 										
 										<input type="button" class="btn prevPage" value="Vorheriger"/>
 									</div>
