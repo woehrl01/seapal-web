@@ -16,8 +16,8 @@
 		<div class="content-wrapper">
 			<form id="form" method="post" action="../backend/trip_service.php">
 				<input type="hidden" name="method" value="save" />
-				<input type="hidden" name="trip_id" value="1" />
-				<input type="hidden" name="boat_id" value="<?= (array_key_exists('boat', $_GET) ? $_GET['boat'] : -1) ?>" />
+				<input type="hidden" id="trip_id" name="trip_id" value="<?= (array_key_exists('trip', $_GET) ? $_GET['trip'] : -1) ?>" />
+				<input type="hidden" id="boat_id" name="boat_id" value="<?= (array_key_exists('boat', $_GET) ? $_GET['boat'] : -1) ?>" />
 				<div class="container">
 					<div class="row">
 						<div class="span8">

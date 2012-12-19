@@ -9,20 +9,20 @@ $(document).ready(function() {
 	$('#deleteModalBtn').click(function(event) {
 		event.preventDefault();
 		var id = $('#deletePromptModal').attr("data-id");
-		deleteTrip(id);		
+		deleteItem(id);		
 	});
 
-	function deleteBoat(boatId){
+	function deleteItem(itemId){
 		$.ajax({
 			type: "POST",
-			url: $('#form').attr('action'),
+			url: '../backend/trip_service.php',
 			data: {
 					method: "delete",
-					id: boatId
+					id: itemId
 				},
 			dataType: "json",
 			success: function(data) {
-				loadAllBoats();
+				loadAllTrips();
 			}
 		});
 	}

@@ -4,10 +4,16 @@ $(document).ready(function() {
 
 	loadAllWaypoints();
 
+	var tripId = $('#trip_id').val();
+	if(tripId > 0){
+		loadTrip(tripId);
+	}
+
 	$("#waypointListTable tbody").hide();
 
 	$('#form').submit(function(event) {
 		event.preventDefault();
+		var boatId = $('#boat_id').val();
 
 		$.ajax({
 			type: "POST",
@@ -17,8 +23,8 @@ $(document).ready(function() {
 			success: function(data) {
 				if(data.success){
 					$('#addSuccessModal').modal('show');
-					resetFormData();
-					loadAllWaypoints();
+					
+					window.location.href = 'trip_list.php?boat=' + boatId;
 				}else{
 					console.log(data.errors);
 					alert("Serverside error occured!");
@@ -67,11 +73,11 @@ $(document).ready(function() {
 		$.ajax({
 			type: "GET",
 			url: $('#form').attr('action'),
-			data: {id: boatId},
+			data: {id: tripInfo},
 			dataType: "json",
 			success: function(boat) {
 				populateJSON('#form input', boat);
-				updateAddSaveButton();
+				$('#submitBtn').val("Aktualisieren");
 				$('html, body').animate({ scrollTop: 0 }, 600);
 			}
 		});
