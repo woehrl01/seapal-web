@@ -43,13 +43,13 @@ final class Boat implements JsonSerializable {
 	 */
     private function parse($boatArray) {
 
+        $db = (!mysql_ping() ? DBConnector::getConnection() : false);
+
     	if (array_key_exists("id", $boatArray)) {
     		$this->id = mysql_real_escape_string($boatArray["id"]);
     	} else {
     		$this->id = -1;
     	}
-
-        $db = (!mysql_ping() ? DBConnector::getConnection() : false);
 
     	$this->boat_name          = mysql_real_escape_string($boatArray["boat_name"]);
 	    $this->boat_type          = mysql_real_escape_string($boatArray["boat_type"]);
