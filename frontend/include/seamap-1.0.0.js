@@ -501,7 +501,7 @@
 		function showSidebarWithRoute(route) {
 			showSidebar('Route <span class="badge" style="background-color:' + route.color + ';">#' + route.id + '</span>');
 			appendContentIntoSidebar('<ul class="nav nav-tabs nav-stacked"></ul>');
-			appendContentIntoSidebar('<div class="buttons_bottom"><div><a class="close btn btn-block" href="#close">Routenaufzeichnung beenden</a></div></div>');
+			appendContentIntoSidebar('<div class="buttons_bottom"><div><a class="closeIt btn btn-block" href="#close">Routenaufzeichnung beenden</a></div></div>');
 
 			$.each(route.markers, function() {
 				appendMarkerIntoSidebar(this);
@@ -512,7 +512,7 @@
 				route.removeMarker(route.markers[getParmFromHash($(this).attr("href"), "deleteId")])
 			});
 			
-			$this.on("click.sidebar", ".seamapsidebar a.close", function(){
+			$this.on("click.sidebar", ".seamapsidebar a.closeIt", function(){
 				handleExitRouteCreation();
 			});
 		}
@@ -640,23 +640,27 @@
 
 			activeRoute = routes[routeId] = new $.seamap.route(routeId, map, "ROUTE");		
 			
-			activeRoute.addEventListener("remove", function() {
-				showSidebarWithRoute(this);
-			});	
+			activate = function() {
+				activateRoute(this);
+			}
 			
-			activeRoute.addEventListener("dragend", function() {
-				showSidebarWithRoute(this);
-			});	
-			
-			activeRoute.addEventListener("click", function() {
-				showSidebarWithRoute(this);
-				activeRoute = this;
-				state = States.ROUTE;		
-			});
-
-			state = States.ROUTE;		
+			activeRoute.addEventListener("remove", activate);	
+			activeRoute.addEventListener("dragend", activate);	
+			activeRoute.addEventListener("click", activate);
+		
 			addRouteMarker(crosshairMarker.getPosition());
-			showSidebarWithRoute(activeRoute);
+			activateRoute(activeRoute);
+		}
+				
+		/**
+		* *********************************************************************************
+		* 
+		* *********************************************************************************
+		*/
+		function activateRoute(route) {
+			showSidebarWithRoute(route);
+			activeRoute = route;
+			state = States.ROUTE;	
 		}
 		
 		/**
@@ -831,7 +835,7 @@
 	$.seamap.route = function(newrouteid, newgooglemaps, type){
 		this.id = newrouteid;
 		this.googlemaps = newgooglemaps;
-		this.color = $.seamap.options.strokeColors[$.seamap.options.strokeColors.length % this.id];;
+		this.color = $.seamap.options.strokeColors[this.id % ($.seamap.options.strokeColors.length-1)];
 		
 		this.path = null;
 		this.markers = [];
@@ -922,8 +926,8 @@
 		*/
 		this.removeMarker = function($marker) {
 			$marker.setMap(null);
-			this.markers = $.grep(this.markers, function(marker) {
-				return marker != $marker;
+			this.markers = $.grep(this.markers, function(mark) {
+				return mark != $marker;
 			});
 			
 			var i = 0;
@@ -944,6 +948,7 @@
 		this.addLabel = function() {		
 			this.label = new Label({map: this.googlemaps });
 			this.label.bindTo('position', this.markers[this.markers.length-1], 'position');
+			$(this.label.span_).css({"margin-left":"15px","padding":"7px","box-shadow":"0px 0px 3px #666","z-index":99999,"color":this.color});
 			this.label.set('text', this.getTotalDistanceText());
 		}
 		
@@ -954,8 +959,7 @@
 		*/
 		this.updateLabel = function() {
 			if(this.label != null) this.label.setMap(null);
-			
-			this.addLabel();
+			if(this.markers.length != 0) this.addLabel();
 		}
 		
 		/**
