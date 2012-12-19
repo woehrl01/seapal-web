@@ -118,10 +118,10 @@ final class LogEntryDAL {
 	private static function insert($logEntry) {
 		$db = DBConnector::getConnection();
 
-		$sql = sprintf("INSERT INTO waypoint (id, north_degree, north_minutes, north_seconds, east_degree,
+		$sql = sprintf("INSERT INTO waypoint (north_degree, north_minutes, north_seconds, east_degree,
 			east_minutes, east_seconds, trip_id, cog, sog, datetime, btm, dtm, trip_to,
 			manuever_id, headsail_id, mainsail_id)
-            VALUES ('', %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+            VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')",
 				mysql_real_escape_string($logEntry->getNorthDegree()),
 				mysql_real_escape_string($logEntry->getNorthMinutes()),
 				mysql_real_escape_string($logEntry->getNorthMinutes()),
@@ -186,6 +186,7 @@ final class LogEntryDAL {
 		$db = DBConnector::getConnection();
 
 		$sql = sprintf("DELETE FROM waypoint WHERE id='%s'",
+			$logEntryId);
 			mysql_real_escape_string($logEntryId));
 
 		$status = $db->queryExecute($sql);

@@ -3,6 +3,7 @@
 	<head>
 		<title>SeaPal</title>
 		<?php include("htmlhead.php"); ?>
+		<script type="text/javascript" src="include/log_entry.js"></script>
 	</head>
 	<body>
 
@@ -11,9 +12,20 @@
 		</div>
 
 		<div class="content-wrapper">
-			<form method="post" action="../backend/log_entry_submit.php">
+			<form id="form" method="post" action="../backend/log_entry_service.php">
 				<div class="container">
-					<h1>Wegpunkt</h1>
+					<input type="hidden" name="method" value="save" />
+					<div class="row">
+						<div class="span8">
+							<div class="left">
+							<h1>Wegpunkt</h1>
+							</div>
+						</div>
+						<div class="span4">
+							<div class="right buttons_top">
+								<input type="submit" id="submitBtn" class="btn btn-success" value="Speichern"/>
+							</div>
+						</div>
 					<div class="input-wrapper">
 						<div class="row">
 							<div class="span6">
@@ -128,6 +140,17 @@
 		<div class="footer-wrapper">
 			<?php include("footer.php"); ?>
 		</div>
-		
+		<div id="addSuccessModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="addSuccessModalLabel" aria-hidden="true">
+		  <div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		    <h3 id="addSuccessModalLabel">Erfolgreich!</h3>
+		  </div>
+		  <div class="modal-body">
+		    <p>Die Daten wurden erfolgreich übermittelt!</p>
+		  </div>
+		  <div class="modal-footer">
+		    <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">OK</button>
+		  </div>
+		</div>
 	</body>
 </html>

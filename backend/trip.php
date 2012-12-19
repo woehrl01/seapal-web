@@ -1,5 +1,4 @@
 <?php
-
 require_once("validator.php");
 
 final class Trip implements JsonSerializable {

@@ -58,7 +58,7 @@ function contains($filename, $name){
 		</div>
 	</div>
 	<?php 
-		if( contains( $filename, "boat_info.php", "log_entry.php", "trip_info.php", "seamap.php" ) ){
+		if( contains( $filename, "boat_info.php", "log_entry.php", "trip_info.php", "seamap.php", "trip_list.php" ) ){
 			include( "header-app.php" );
 		}
 	?>
