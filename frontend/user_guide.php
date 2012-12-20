@@ -44,7 +44,7 @@
 				</div>
 				<div class="span6">
 					<div class="round">
-						<img src="screenshots/SeaPal-Gothenborg-OSM.jpg" />
+						<img src="images/screenshots/SeaPal-Gothenborg-OSM.jpg" />
 					</div>
 				</div>
 			</div><!-- row end -->
@@ -73,7 +73,7 @@
 				</div>
 				<div class="span6">
 					<div class="round">
-						<img src="screenshots/SeaPal-Gothenborg-Menu.jpg" />
+						<img src="images/screenshots/SeaPal-Gothenborg-Menu.jpg" />
 					</div>
 				</div>
 			</div><!-- row end -->
@@ -89,7 +89,7 @@
 				</div>
 				<div class="span6">
 					<div class="round">
-						<img src="screenshots/SeaPal-SatelliteView.jpg" />
+						<img src="images/screenshots/SeaPal-SatelliteView.jpg" />
 					</div>
 				</div>
 			</div><!-- row end -->
@@ -111,7 +111,7 @@
 				</div>
 				<div class="span6">
 					<div class="round">
-						<img src="screenshots/SeaPal-Southampton-OSM.jpg" />
+						<img src="images/screenshots/SeaPal-Southampton-OSM.jpg" />
 					</div>
 				</div>
 			</div><!-- row end -->
@@ -135,7 +135,7 @@
 				</div>
 				<div class="span6">
 					<div class="round">
-						<img src="screenshots/SeaPal-Konstanz-IBN.jpg" />
+						<img src="images/screenshots/SeaPal-Konstanz-IBN.jpg" />
 					</div>
 				</div>
 			</div><!-- row end -->

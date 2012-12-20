@@ -7,9 +7,9 @@
 	<head>
 		<title>SeaPal</title>
 		<?php include("htmlhead.php"); ?>
-		<script type="text/javascript" src="include/trip_list.js"></script>
-		<script type="text/javascript" src="include/jquery.paginatetable.js"></script>
-		<script type="text/javascript" src="include/jsrender.js"></script>
+		<script type="text/javascript" src="js/trip_list.js"></script>
+		<script type="text/javascript" src="lib/jquery.paginatetable.js"></script>
+		<script type="text/javascript" src="lib/jsrender.js"></script>
 	</head>
 	<body class="withsubnavi">
 
