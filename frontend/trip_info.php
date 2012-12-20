@@ -137,7 +137,7 @@
 									        <tr>
 									        	<th>Wegpunkt</th>
 									        	<th>Position</th>
-									        	<th>Aktionen</th>
+									        	<th class="actionCol">Aktionen</th>
 									        </tr>
 									    </thead>
 									    <tbody>
@@ -145,9 +145,12 @@
 									</table>
 									<script id="waypointListTemplate" type="text/x-jsrender">
 										<tr data-id="{{>id}}">
-											<td>{{>boat_name}}</td>
-											<td>{{>build_year}}</td>
-											<td><a href="#" class="editBoadBtn"><i class="icon-pencil"></i></a> <a href="#"  class="deleteBoadBtn"><i class="icon-remove"></i></a></td>
+											<td>{{>entry_name}}</td>
+											<td>{{>position_lat}}, {{>position_lon}}</td>
+											<td class="actionCol">
+												<a href="#"  class="deleteBoadBtn" rel="tooltip" title="Löschen"><i class="icon-trash"></i></a>
+												<a href="#" class="editBoadBtn" rel="tooltip" title="Betrachten"><i class="icon-search"></i></a>
+											</td>
 										</tr>
 									</script>
 								</div>
