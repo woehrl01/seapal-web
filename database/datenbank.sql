@@ -48,14 +48,6 @@ CREATE TABLE IF NOT EXISTS trip(
 	UNIQUE KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS crew_on_trip(
-	person_id INTEGER NOT NULL,
-	trip_id INTEGER NOT NULL,
-	 
-	FOREIGN KEY (person_id) references  person(id),
-	FOREIGN KEY (trip_id) references  trip(id)
-);
-
 CREATE TABLE IF NOT EXISTS maneuver(
 	id INTEGER NOT NULL AUTO_INCREMENT,
 	name varchar(32) NOT NULL,
