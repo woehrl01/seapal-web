@@ -11,9 +11,14 @@
 		</div>
 
 		<div class="content-wrapper">
-			<div id="head-unit" class="hidden-phone">
-				<h2 class="ir">Track your searoutes easily - for free</h2>
-				<h3 class="ir">Available on Apple iPad & iPhone and via your Browser</h3>
+			<div id="head-unit-wrapper">
+				<div id="head-unit" class="hidden-phone">
+					<h2 class="ir">Track your searoutes easily - for free</h2>
+					<h3 class="ir">Available on Apple iPad & iPhone and via your Browser</h3>
+				</div>
+				
+				<a class="apple_app" href="https://itunes.apple.com/us/app/seapal/id561903907?mt=8&ign-mpt=uo%3D4"><span class="visible-phone btn btn-large btn-block btn-primary">Download via AppStore</span></a>
+				<a class="browser_app" href="./boat_info.php"><span class="visible-phone btn btn-large btn-block btn-primary">Use our Browser App</span></a>
 			</div>
 			<div class="container">
 				<div class="row">

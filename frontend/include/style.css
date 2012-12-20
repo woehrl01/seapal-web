@@ -33,18 +33,54 @@ h3
 	height:589px;
 	background:url(../images/header_teaser.jpg) top center no-repeat;
 	color:#000;
+}
+#head-unit-wrapper {
+	width:980px;
+	position:relative;
 	margin:0 auto;
 }
 @media (max-width: 980px) {
+	#head-unit-wrapper,
 	#head-unit {
 		width:100%;
 	}
 }
-
 #head-unit h2, #head-unit h3 {
 	display:block;
 	text-indent:-999999px;
 	margin:0;
+}
+#head-unit-wrapper a {
+	display:block;
+	position:absolute;
+	left:50px;
+	width:350px;
+	height:50px;
+	text-indent:-999999px;
+}
+@media (max-width: 980px) {
+	#head-unit-wrapper a {
+		width:30%;
+		left:5%;
+		margin-bottom:20px;
+		width:100%;
+	}
+}
+#head-unit-wrapper a.apple_app {
+	top:293px;
+}
+#head-unit-wrapper a.browser_app {
+	top:345px;
+}
+@media (max-width: 767px) {
+	#head-unit-wrapper a.apple_app,
+	#head-unit-wrapper a.browser_app,
+	#head-unit-wrapper a {
+		position:relative;
+		top:0;
+		left:0;
+		text-indent:0px;
+	}
 }
 
 /**
@@ -66,7 +102,7 @@ body.withsubnavi .header-wrapper {
 	margin-bottom:144px;
 }
 @media (max-width: 767px) {
-	.header-wrapper {
+	body.index .header-wrapper {
 		margin:0;
 	}
 	
