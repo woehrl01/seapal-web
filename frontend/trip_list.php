@@ -11,7 +11,7 @@
 		<script type="text/javascript" src="include/jquery.paginatetable.js"></script>
 		<script type="text/javascript" src="include/jsrender.js"></script>
 	</head>
-	<body>
+	<body class="withsubnavi">
 
 		<div class="header-wrapper">
 			<?php include("header.php"); ?>
