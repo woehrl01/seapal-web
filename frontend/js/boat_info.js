@@ -27,7 +27,7 @@ $(document).ready(function() {
 					if(data.success){
 						$('#addSuccessModal').modal('show');
 						editFieldsVisible = false;
-						$('#boat_input').slideUp('slow', resetFormData());
+						$('#boat_input').slideUp('slow').promise().done(resetFormData());
 						
 						loadAllBoats();
 					}else{
@@ -42,7 +42,7 @@ $(document).ready(function() {
 	$('#addButton').click(function(event){
 		event.preventDefault();
 		editFieldsVisible = !editFieldsVisible;
-		$('#boat_input').slideToggle('slow', resetFormData());
+		$('#boat_input').slideToggle('slow').promise().done(resetFormData());
 	});
 
 	function updateAddSaveButton(){
@@ -112,7 +112,7 @@ $(document).ready(function() {
 				populateJSON('#form input', boat);
 				editFieldsVisible = true;
 				displayAsText(displayOnly);
-				$('#boat_input').slideDown('slow', updateAddSaveButton());
+				$('#boat_input').slideDown('slow').promise().done(updateAddSaveButton());
 				$('html, body').animate({ scrollTop: 0 }, 600);
 			}
 		});
