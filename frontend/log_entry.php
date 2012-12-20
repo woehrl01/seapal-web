@@ -19,9 +19,10 @@
 
 		<div class="content-wrapper">
 			<form id="form" method="post" action="../backend/log_entry_service.php">
+				<input type="hidden" name="method" value="save" />
+				<input type="hidden" id="trip_id" name="trip_id" value="<?= (array_key_exists('trip', $_GET) ? $_GET['trip'] : -1) ?>" />
 				<div class="container">
-					<input type="hidden" name="method" value="save" />
-					<input type="hidden" id="trip_id" name="trip_id" value="<?= (array_key_exists('trip', $_GET) ? $_GET['trip'] : -1) ?>" />
+					
 					<div class="row">
 						<div class="span8">
 							<div class="left">
@@ -33,6 +34,7 @@
 								<input type="submit" id="submitBtn" class="btn btn-success" value="Speichern"/>
 							</div>
 						</div>
+					</div>
 					<div class="input-wrapper">
 						<div class="row">
 							<div class="span6">
@@ -134,7 +136,7 @@
 							</div>
 							<div class="span6">
 								<div class="maps">
-									<img src="http://placehold.it/500x300&text=maps"/>
+									<img src="http://placehold.it/500x300&text=maps" style="width:100%;"/>
 								</div>
 							</div>
 							<div class="span3">
@@ -150,6 +152,7 @@
 						</div>
 					</div>
 				</div>
+
 			</div>
 		</form>
 		<div class="footer-wrapper">
