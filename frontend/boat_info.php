@@ -168,10 +168,10 @@
 											<td>{{>boat_type}}</td>
 											<td>{{>register_nr}}</td>
 											<td>{{>build_year}}</td>
-											<td>
-												<a href="#" class="editBoadBtn"><i class="icon-pencil"></i></a>
-												<a href="#" class="deleteBoadBtn"><i class="icon-remove"></i></a>
-												<a href="trip_list.php?boat={{>id}}"><i class="icon-chevron-right"></i></a>
+											<td class="actionCol">
+												<a href="#" class="editBoadBtn tooltipable" rel="tooltip" title="Bearbeiten"><i class="icon-pencil"></i></a>
+												<a href="#" class="deleteBoadBtn tooltipable" rel="tooltip" title="Löschen"><i class="icon-remove"></i></a>
+												<a href="trip_list.php?boat={{>id}}" class="tooltipable" rel="tooltip" title="Auswählen"><i class="icon-chevron-right"></i></a>
 											</td>
 										</tr>
 									</script>

@@ -169,7 +169,7 @@ $(document).ready(function() {
 				$( "#boatListTable tbody" ).html(
 					$( "#boatListTemplate" ).render(data)
 				);
-
+				$('.tooltipable').tooltip();
 				$('#boatListTable').paginateTable({ rowsPerPage: 5, pager: ".tablePager", autoHidePager: false });
 				$("#boatListTable tbody").show('slow');
 			}
@@ -177,8 +177,10 @@ $(document).ready(function() {
 	}
 
 	$('body').on('click', '#boatListTable tbody td', function() {
-	        var id = $(this).closest('tr').attr("data-boatid");
-	        loadBoat(id, true);
+			if(!$(this).hasClass('actionCol')){
+				var id = $(this).closest('tr').attr("data-boatid");
+	        	loadBoat(id, true);
+			}
     });
 });
 

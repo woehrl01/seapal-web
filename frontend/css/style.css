@@ -270,6 +270,10 @@ input.asText::-webkit-inner-spin-button {
 	webkit-appearance: none;
 }
 
+td.actionCol i {
+	padding-right: 4px;
+}
+
 /**
  * Footer
  */
