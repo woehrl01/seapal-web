@@ -5,10 +5,7 @@
 				<div class="round">
 					<h2>Where to get SeaPal</h2>
 					<p>SeaPal is available in the following stores</p>
-					<ul>
-						<li><a href="http://itunes.apple.com/us/app/seapal/id561903907?mt=8&uo=4">iPad App Store</a></li>
-						<li><a href="http://itunes.apple.com/us/app/seapal/id561903907?mt=8&uo=4">iPhone App Store</a></li>
-					</ul>
+					<a href="https://itunes.apple.com/us/app/seapal/id561903907?mt=8&uo=4" target="itunes_store"><img src="http://r.mzstatic.com/images/web/linkmaker/badge_appstore-lrg.gif" alt="SeaPal - Druck- und Verlagshaus Hermann Daniel GmbH & Co. KG Betriebsgesellschaft" style="border: 0;"/></a>
 				</div>
 			</div>
 			<div class="span4">
