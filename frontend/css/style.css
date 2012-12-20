@@ -266,11 +266,23 @@ input.asText:disabled{
 	cursor: default;
 }
 
+.table-hover tbody tr:hover td,.table-hover tbody tr:hover th{
+	background-color:#dff0d8;
+}
+
 input.asText::-webkit-outer-spin-button,
 input.asText::-webkit-inner-spin-button {
 	margin: 0;
 	visibility: hidden;
 	webkit-appearance: none;
+}
+
+#boatListTable td{
+	cursor: pointer;
+}
+
+td.actionCol{
+	cursor: default !important;
 }
 
 th.actionCol {
