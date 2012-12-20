@@ -270,8 +270,15 @@ input.asText::-webkit-inner-spin-button {
 	webkit-appearance: none;
 }
 
+th.actionCol {
+	width: 50px;
+}
+
 td.actionCol i {
-	padding-right: 4px;
+	margin-right: 5px;
+}
+td.actionCol a:last-child i {
+	margin-right: 0px;
 }
 
 /**

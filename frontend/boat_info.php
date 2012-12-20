@@ -156,7 +156,7 @@
 									        	<th>Registernr.</th>
 									        	<th>Typ</th>
 									        	<th>Baujahr</th>
-									        	<th style="width: 40px;">Aktionen</th>
+									        	<th class="actionCol">Aktionen</th>
 									        </tr>
 									    </thead>
 									    <tbody>
