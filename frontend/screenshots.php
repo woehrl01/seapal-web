@@ -22,7 +22,7 @@
 								<div id="slideshow" class="carousel slide">
 								  <div class="carousel-inner">
 									<div class="active item">
-										<img src="screenshots/SeaPal-InitialPosition.jpg" alt="" />
+										<img src="images/screenshots/SeaPal-InitialPosition.jpg" alt="" />
 										<div class="carousel-caption">
 											<p>
 												Map view with current position, initial view
@@ -30,7 +30,7 @@
 										</div>
 									</div>
 									<div class="item">
-										<img src="screenshots/SeaPal-Gothenborg-Menu.jpg" alt="" />
+										<img src="images/screenshots/SeaPal-Gothenborg-Menu.jpg" alt="" />
 										<div class="carousel-caption">
 											<p>
 												Menu selected
@@ -38,7 +38,7 @@
 										</div>
 									</div>
 									<div class="item">
-										<img src="screenshots/SeaPal-Gothenborg-Tools.jpg" alt="" />
+										<img src="images/screenshots/SeaPal-Gothenborg-Tools.jpg" alt="" />
 										<div class="carousel-caption">
 											<p>
 												Tools selected
@@ -46,7 +46,7 @@
 										</div>
 									</div>
 									<div class="item">
-										<img src="screenshots/SeaPal-Gothenborg-OSM.jpg" alt="" />
+										<img src="images/screenshots/SeaPal-Gothenborg-OSM.jpg" alt="" />
 										<div class="carousel-caption">
 											<p>
 												Map view with OpenSeaMap showing Gothenburg
@@ -54,7 +54,7 @@
 										</div>
 									</div>
 									<div class="item">
-										<img src="screenshots/SeaPal-SatelliteView.jpg" alt="" />
+										<img src="images/screenshots/SeaPal-SatelliteView.jpg" alt="" />
 										<div class="carousel-caption">
 											<p>
 												Satellite view
@@ -62,7 +62,7 @@
 										</div>
 									</div>
 									<div class="item">
-										<img src="screenshots/SeaPal-Satellite-Closeup.jpg" alt="" />
+										<img src="images/screenshots/SeaPal-Satellite-Closeup.jpg" alt="" />
 										<div class="carousel-caption">
 											<p>
 												Satellite view - Close-up
@@ -70,7 +70,7 @@
 										</div>
 									</div>
 									<div class="item">
-										<img src="screenshots/SeaPal-Southampton-OSM.jpg" alt="" />
+										<img src="images/screenshots/SeaPal-Southampton-OSM.jpg" alt="" />
 										<div class="carousel-caption">
 											<p>
 												Map view with OpenSeaMap showing Southampton
@@ -78,7 +78,7 @@
 										</div>
 									</div>
 									<div class="item">
-										<img src="screenshots/SeaPal-Southampton-OSM.jpg" alt="" />
+										<img src="images/screenshots/SeaPal-Southampton-OSM.jpg" alt="" />
 										<div class="carousel-caption">
 											<p>
 												Map view with OpenSeaMap showing Southampton
@@ -86,7 +86,7 @@
 										</div>
 									</div>
 									<div class="item">
-										<img src="screenshots/SeaPal-Konstanz-IBN.jpg" alt="" />
+										<img src="images/screenshots/SeaPal-Konstanz-IBN.jpg" alt="" />
 										<div class="carousel-caption">
 											<p>
 												Offline map from IBN
@@ -94,7 +94,7 @@
 										</div>
 									</div>
 									<div class="item">
-										<img src="screenshots/SeaPal-POI-Search.jpg" alt="" />
+										<img src="images/screenshots/SeaPal-POI-Search.jpg" alt="" />
 										<div class="carousel-caption">
 											<p>
 												Searching for Points of Interest
@@ -102,7 +102,7 @@
 										</div>
 									</div>
 									<div class="item">
-										<img src="screenshots/SeaPal-POI-Harborinfo.jpg" alt="" />
+										<img src="images/screenshots/SeaPal-POI-Harborinfo.jpg" alt="" />
 										<div class="carousel-caption">
 											<p>
 												Points of Interest: Info for a Harbour

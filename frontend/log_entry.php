@@ -9,7 +9,7 @@
 	<head>
 		<title>SeaPal</title>
 		<?php include("htmlhead.php"); ?>
-		<script type="text/javascript" src="include/log_entry.js"></script>
+		<script type="text/javascript" src="js/log_entry.js"></script>
 	</head>
 	<body class="withsubnavi">
 
