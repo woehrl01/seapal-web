@@ -1,11 +1,3 @@
-CREATE TABLE IF NOT EXISTS person(
-	id INTEGER NOT NULL AUTO_INCREMENT,
-	name VARCHAR(20) NOT NULL,
-	
-	PRIMARY KEY (id),
-	UNIQUE KEY (id)
-);
-
 CREATE TABLE IF NOT EXISTS boat(
 	id INTEGER NOT NULL AUTO_INCREMENT,
 	boat_name varchar(20) NOT NULL,
@@ -49,6 +41,7 @@ CREATE TABLE IF NOT EXISTS trip(
 	skipper varchar(20) NOT NULL,
 	tank_filled bool NOT NULL,
 	crew varchar(128) NOT NULL,
+	note varchar(512) NOT NULL,
 	
 	PRIMARY KEY (id),
 	FOREIGN KEY (boat_id) references boat(id),
@@ -113,6 +106,7 @@ CREATE TABLE IF NOT EXISTS waypoint(
 	maneuver_id integer NOT NULL,
 	headsail_id integer NOT NULL,
 	mainsail_id integer NOT NULL,
+	note varchar(512) NOT NULL,
 	
 	PRIMARY KEY (id),
 	FOREIGN KEY (trip_id) references trip(id),
