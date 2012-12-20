@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
-		<title>SeaPal</title>
+		<title>SeaPal - Track your searoutes easily.</title>
 		<?php include("htmlhead.php"); ?>
 	</head>
 	<body class="index">

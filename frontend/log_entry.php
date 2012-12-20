@@ -11,7 +11,7 @@
 		<?php include("htmlhead.php"); ?>
 		<script type="text/javascript" src="include/log_entry.js"></script>
 	</head>
-	<body>
+	<body class="withsubnavi">
 
 		<div class="header-wrapper">
 			<?php include("header.php"); ?>
