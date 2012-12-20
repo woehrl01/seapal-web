@@ -150,9 +150,9 @@ $(document).ready(function() {
 		});
 	}
 
-	$('body').on('click', '#boatListTable tbody td', function() {
+	/*$('body').on('click', '#boatListTable tbody td', function() {
 	        var id = $(this).closest('tr').attr("data-boatid");
 	        window.location.href = 'trip_list.php?boat=' + id;
-    });
+    });*/
 });
 
