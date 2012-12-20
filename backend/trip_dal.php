@@ -51,9 +51,7 @@ final class TripDAL {
 				break;
 
 			$trip = new Trip($row);
-			if ($trip->isValid()) {
-				array_push($trips, $trip);
-			}
+			array_push($trips, $trip);
 		}
 
 		$db->close();
@@ -83,9 +81,7 @@ final class TripDAL {
 				break;
 
 			$trip = new Trip($row);
-			if ($trip->isValid()) {
-				array_push($trips, $trip);
-			}
+			array_push($trips, $trip);
 		}
 
 		$db->close();

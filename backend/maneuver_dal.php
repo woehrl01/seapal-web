@@ -46,9 +46,7 @@ final class ManeuverDAL {
 				break;
 
 			$maneuver = new SimpleEntry($row);
-			if ($maneuver->isValid()) {
-				array_push($maneuvers, $maneuver);
-			}
+			array_push($maneuvers, $maneuver);
 		}
 
 		$db->close();

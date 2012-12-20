@@ -46,9 +46,7 @@ final class MainsailDAL {
 				break;
 
 			$mainsail = new SimpleEntry($row);
-			if ($mainsail->isValid()) {
-				array_push($mainsails, $mainsail);
-			}
+			array_push($mainsails, $mainsail);
 		}
 
 		$db->close();

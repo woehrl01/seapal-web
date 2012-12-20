@@ -46,9 +46,7 @@ final class HeadsailDAL {
 				break;
 
 			$headsail = new SimpleEntry($row);
-			if ($headsail->isValid()) {
-				array_push($headsails, $headsail);
-			}
+			array_push($headsails, $headsail);
 		}
 
 		$db->close();

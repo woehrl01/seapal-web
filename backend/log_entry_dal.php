@@ -53,9 +53,7 @@ final class LogEntryDAL {
 				break;
 
 			$logEntry = new LogEntry($row);
-			if ($logEntry->isValid()) {
-				array_push($logEntrys, $logEntry);
-			}
+			array_push($logEntrys, $logEntry);
 		}
 
 		$db->close();
@@ -87,9 +85,7 @@ final class LogEntryDAL {
 				break;
 
 			$logEntry = new LogEntry($row);
-			if ($logEntry->isValid()) {
-				array_push($logEntrys, $logEntry);
-			}
+			array_push($logEntrys, $logEntry);
 		}
 
 		$db->close();

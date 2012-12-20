@@ -46,9 +46,7 @@ final class MarkDAL {
 				break;
 
 			$mark = new SimpleEntry($row);
-			if ($mark->isValid()) {
-				array_push($marks, $mark);
-			}
+			array_push($marks, $mark);
 		}
 
 		$db->close();
