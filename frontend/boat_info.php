@@ -174,9 +174,6 @@
 												<a href="trip_list.php?boat={{>id}}"><i class="icon-chevron-right"></i></a>
 											</td>
 										</tr>
-										<tr class="info">
-											<td  colspan="5">Data</td>
-										</tr> 
 									</script>
 								</div>
 							</div>
