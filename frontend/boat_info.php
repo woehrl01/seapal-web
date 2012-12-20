@@ -165,8 +165,8 @@
 									<script id="boatListTemplate" type="text/x-jsrender">
 										<tr data-boatid="{{>id}}">
 											<td>{{>boat_name}}</td>
-											<td>{{>boat_type}}</td>
 											<td>{{>register_nr}}</td>
+											<td>{{>boat_type}}</td>
 											<td>{{>build_year}}</td>
 											<td class="actionCol">
 												<a href="#" class="editBoadBtn tooltipable" rel="tooltip" title="Bearbeiten"><i class="icon-pencil"></i></a>
