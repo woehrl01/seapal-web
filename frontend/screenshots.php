@@ -22,7 +22,7 @@
 								<div id="slideshow" class="carousel slide">
 								  <div class="carousel-inner">
 									<div class="active item">
-										<img src="screenshots/SeaPal-initialPosition.jpg" alt="" />
+										<img src="screenshots/SeaPal-InitialPosition.jpg" alt="" />
 										<div class="carousel-caption">
 											<p>
 												Map view with current position, initial view
