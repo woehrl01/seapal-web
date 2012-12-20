@@ -57,10 +57,13 @@ h3
 	width:143px;
 }
 .header-wrapper {
-	margin-bottom:144px;
+	margin-bottom:100px;
 }
 body.index .header-wrapper {
 	margin-bottom:59px;
+}
+body.withsubnavi .header-wrapper {
+	margin-bottom:144px;
 }
 @media (max-width: 767px) {
 	.header-wrapper {
@@ -223,15 +226,16 @@ body.index .header-wrapper {
 }
 .footer
 {
-	box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
-	background:#0c4675;
-	padding: 60px;
+	border-top:1px solid #0c4675;
+	padding-top:20px;
 }
 .footer a {
 	color:#FFF;
 }
 .footer ul {
 	list-style:none;
+}
+.footer .round {
 }
 @media (max-width: 767px) {
 	.footer {

@@ -9,7 +9,7 @@
 		<script type="text/javascript" src="include/seapal_main.js"></script>
 		<link type="text/css" rel="stylesheet" href="include/seamap.css" />
 	</head>
-	<body class="googlemaps">
+	<body class="withsubnavi googlemaps">
 
 		<div class="header-wrapper">
 			<?php include("header.php"); ?>
