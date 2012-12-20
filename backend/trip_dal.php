@@ -64,14 +64,15 @@ final class TripDAL {
 	 */
 	public static function loadAllByBoatId($boatId) {
 		$trips = array();
-
+		$db = DBConnector::getConnection();
+		
 		$sql = sprintf("SELECT id, boat_id, trip_title, trip_from, trip_to, start_time, end_time,
 			engine_runtime, skipper, tank_filled, crew
             FROM trip
             WHERE boat_id='%s'",
             mysql_real_escape_string($boatId));
 
-		$db = DBConnector::getConnection();
+		
 		$db->querySelect($sql);
 
 		while (TRUE) {
