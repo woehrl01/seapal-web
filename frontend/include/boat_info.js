@@ -5,6 +5,7 @@ $(document).ready(function() {
 	loadAllBoats();
 
 	var editFieldsVisible = false;
+	var editingDisabled = false;
 
 	$('#boat_input').hide();
 	$("#boatListTable tbody").hide();
@@ -13,30 +14,35 @@ $(document).ready(function() {
 	$('#form').submit(function(event) {
 		event.preventDefault();
 
-		$.ajax({
-			type: "POST",
-			url: $(this).attr('action'),
-			data: $(this).serialize(),
-			dataType: "json",
-			success: function(data) {
-				if(data.success){
-					$('#addSuccessModal').modal('show');
-					editFieldsVisible = false;
-					$('#boat_input').hide('slow', resetFormData());
-					
-					loadAllBoats();
-				}else{
-					console.log(data.errors);
-					alert("Serverside error occured!");
+		if(editingDisabled){
+			displayAsText(false);
+			updateAddSaveButton();
+		}else{
+			$.ajax({
+				type: "POST",
+				url: $(this).attr('action'),
+				data: $(this).serialize(),
+				dataType: "json",
+				success: function(data) {
+					if(data.success){
+						$('#addSuccessModal').modal('show');
+						editFieldsVisible = false;
+						$('#boat_input').slideUp('slow', resetFormData());
+						
+						loadAllBoats();
+					}else{
+						console.log(data.errors);
+						alert("Serverside error occured!");
+					}
 				}
-			}
-		});
+			});
+		}		
 	});
 
 	$('#addButton').click(function(event){
 		event.preventDefault();
 		editFieldsVisible = !editFieldsVisible;
-		$('#boat_input').toggle('slow', resetFormData());
+		$('#boat_input').slideToggle('slow', resetFormData());
 	});
 
 	function updateAddSaveButton(){
@@ -55,7 +61,12 @@ $(document).ready(function() {
 		}
 
 		if($('#idField').val() > 0){
-			$('#submitBtn').val("Aktualisieren");
+			if(editingDisabled){
+				$('#submitBtn').val("Bearbeiten");
+			}else{
+				$('#submitBtn').val("Aktualisieren");
+			}
+			
 		}else{
 			$('#submitBtn').val("Speichern");
 		}
@@ -91,7 +102,7 @@ $(document).ready(function() {
 		});
 	}
 
-	function loadBoat( boatId) {
+	function loadBoat( boatId, displayOnly) {
 		$.ajax({
 			type: "GET",
 			url: $('#form').attr('action'),
@@ -100,18 +111,32 @@ $(document).ready(function() {
 			success: function(boat) {
 				populateJSON('#form input', boat);
 				editFieldsVisible = true;
-				$('#boat_input').show('slow', updateAddSaveButton());
+				displayAsText(displayOnly);
+				$('#boat_input').slideDown('slow', updateAddSaveButton());
 				$('html, body').animate({ scrollTop: 0 }, 600);
 			}
 		});
 
 	}
 
+	function displayAsText(showAsText){
+		if(showAsText){
+			$("#boat_input input").prop('disabled', true);
+			$("#boat_input input").addClass('asText');
+			editingDisabled = true;
+		}else{
+			$("#boat_input input").prop('disabled', false);
+			$("#boat_input input").removeClass('asText');
+			editingDisabled = false;
+		}
+	}
+
 	$('body').on('click', 'a.editBoadBtn', function(event) {
 	        event.preventDefault();
 	        var id = $(this).closest('tr').attr("data-boatid");
 	        if(id > 0){
-	        	loadBoat(id);
+	        	loadBoat(id, false);
+	        	displayAsText(false);
 	        }
     });
 
@@ -130,6 +155,7 @@ $(document).ready(function() {
 	function resetFormData() {
 		$('#form').get(0).reset();
 		$('#idField').val("-1");
+		displayAsText(false);
 		updateAddSaveButton();
 	}
 
@@ -150,9 +176,9 @@ $(document).ready(function() {
 		});
 	}
 
-	/*$('body').on('click', '#boatListTable tbody td', function() {
+	$('body').on('click', '#boatListTable tbody td', function() {
 	        var id = $(this).closest('tr').attr("data-boatid");
-	        window.location.href = 'trip_list.php?boat=' + id;
-    });*/
+	        loadBoat(id, true);
+    });
 });
 
