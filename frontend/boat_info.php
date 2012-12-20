@@ -153,8 +153,10 @@
 										<thead>
 									        <tr>
 									        	<th>Name</th>
+									        	<th>Registernr.</th>
+									        	<th>Typ</th>
 									        	<th>Baujahr</th>
-									        	<th>Aktionen</th>
+									        	<th style="width: 40px;">Aktionen</th>
 									        </tr>
 									    </thead>
 									    <tbody>
@@ -163,12 +165,17 @@
 									<script id="boatListTemplate" type="text/x-jsrender">
 										<tr data-boatid="{{>id}}">
 											<td>{{>boat_name}}</td>
+											<td>{{>boat_type}}</td>
+											<td>{{>register_nr}}</td>
 											<td>{{>build_year}}</td>
 											<td>
 												<a href="#" class="editBoadBtn"><i class="icon-pencil"></i></a>
 												<a href="#" class="deleteBoadBtn"><i class="icon-remove"></i></a>
 												<a href="trip_list.php?boat={{>id}}"><i class="icon-chevron-right"></i></a>
 											</td>
+										</tr>
+										<tr colspan="5" class="info">
+											<td>Data</td>
 										</tr> 
 									</script>
 								</div>
