@@ -115,9 +115,9 @@ final class LogEntryDAL {
 		$db = DBConnector::getConnection();
 
 		$sql = sprintf("INSERT INTO waypoint (entry_name, north_degree, north_minutes, north_seconds, east_degree,
-			east_minutes, east_seconds, trip_id, cog, sog, datetime, btm, dtm, trip_to,
+			east_minutes, east_seconds, trip_id, cog, sog, datetime, btm, dtm, note, trip_to,
 			maneuver_id, headsail_id, mainsail_id)
-            VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')",
+            VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')",
 				mysql_real_escape_string($logEntry->getEntryName()),
                 mysql_real_escape_string($logEntry->getNorthDegree()),
 				mysql_real_escape_string($logEntry->getNorthMinutes()),
@@ -131,6 +131,7 @@ final class LogEntryDAL {
                 mysql_real_escape_string($logEntry->getDatetime()),
                 mysql_real_escape_string($logEntry->getBtm()),
                 mysql_real_escape_string($logEntry->getDtm()),
+                mysql_real_escape_string($logEntry->getNote()),
                 mysql_real_escape_string($logEntry->getTripTo()),
                 mysql_real_escape_string($logEntry->getManeuverId()),
                 mysql_real_escape_string($logEntry->getHeadsailId()),
@@ -150,7 +151,7 @@ final class LogEntryDAL {
 
 		$sql = sprintf("UPDATE waypoint SET entry_name='%s', north_degree='%s', north_minutes='%s', north_seconds='%s', east_degree='%s', 
                 east_minutes='%s', east_seconds='%s', trip_id='%s', cog='%s', sog='%s', datetime='%s', 
-                btm='%s', dtm='%s', trip_to='%s', maneuver_id='%s', headsail_id='%s', mainsail_id='%s'
+                btm='%s', dtm='%s', note='%s', trip_to='%s', maneuver_id='%s', headsail_id='%s', mainsail_id='%s'
                 WHERE id='%s",
                 mysql_real_escape_string($logEntry->getEntryName()),
                 mysql_real_escape_string($logEntry->getNorthDegree()),
@@ -165,6 +166,7 @@ final class LogEntryDAL {
                 mysql_real_escape_string($logEntry->getDatetime()),
                 mysql_real_escape_string($logEntry->getBtm()),
                 mysql_real_escape_string($logEntry->getDtm()),
+                mysql_real_escape_string($logEntry->getNote()),
                 mysql_real_escape_string($logEntry->getTripTo()),
                 mysql_real_escape_string($logEntry->getManeuverId()),
                 mysql_real_escape_string($logEntry->getHeadsailId()),

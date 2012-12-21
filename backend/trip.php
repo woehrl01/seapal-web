@@ -13,6 +13,7 @@ final class Trip implements JsonSerializable {
     private $engine_runtime;
     private $skipper;
     private $tank_filled;
+    private $note;
 
 	/**
 	 * Creats a trip from an associative array.
@@ -48,6 +49,8 @@ final class Trip implements JsonSerializable {
         } else {
             $this->tank_filled = 0; // false for MySQL
         }
+
+        $this->note               = $tripArray["note"];
     }
 
     /**
@@ -145,6 +148,10 @@ final class Trip implements JsonSerializable {
     
     public function getTankFilled() {
 		return $this->tank_filled;
+    }
+
+    public function getNote() {
+        return $this->note;
     }
 }
 
