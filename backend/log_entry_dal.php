@@ -14,8 +14,8 @@ final class LogEntryDAL {
 		$logEntry = NULL;
 		$db = DBConnector::getConnection();
 
-		$sql = sprintf("SELECT id, north_degree, north_minutes, north_seconds, east_degree,
-			east_minutes, east_seconds, trip_id, cog, sog, datetime, btm, dtm, trip_to,
+		$sql = sprintf("SELECT id, entry_name, north_degree, north_minutes, north_seconds, east_degree,
+			east_minutes, east_seconds, note, trip_id, cog, sog, datetime, btm, dtm, trip_to,
 			maneuver_id, headsail_id, mainsail_id
             FROM waypoint
             WHERE id='%s",
@@ -41,8 +41,8 @@ final class LogEntryDAL {
 		$logEntrys = array();
 
 		$db = DBConnector::getConnection();
-		$db->querySelect("SELECT id, north_degree, north_minutes, north_seconds, east_degree,
-			east_minutes, east_seconds, trip_id, cog, sog, datetime, btm, dtm, trip_to,
+		$db->querySelect("SELECT id, entry_name, north_degree, north_minutes, north_seconds, east_degree,
+			east_minutes, east_seconds, trip_id, note, cog, sog, datetime, btm, dtm, trip_to,
 			maneuver_id, headsail_id, mainsail_id
             FROM waypoint");
 
@@ -69,8 +69,8 @@ final class LogEntryDAL {
 
 		$db = DBConnector::getConnection();
 
-		$sql = sprintf("SELECT id, north_degree, north_minutes, north_seconds, east_degree,
-			east_minutes, east_seconds, trip_id, cog, sog, datetime, btm, dtm, trip_to,
+		$sql = sprintf("SELECT id, entry_name, north_degree, north_minutes, north_seconds, east_degree,
+			east_minutes, east_seconds, trip_id, note, cog, sog, datetime, btm, dtm, trip_to,
 			maneuver_id, headsail_id, mainsail_id
             FROM waypoint
             WHERE trip_id='%s'",
@@ -114,11 +114,12 @@ final class LogEntryDAL {
 	private static function insert($logEntry) {
 		$db = DBConnector::getConnection();
 
-		$sql = sprintf("INSERT INTO waypoint (north_degree, north_minutes, north_seconds, east_degree,
+		$sql = sprintf("INSERT INTO waypoint (entry_name, north_degree, north_minutes, north_seconds, east_degree,
 			east_minutes, east_seconds, trip_id, cog, sog, datetime, btm, dtm, trip_to,
 			maneuver_id, headsail_id, mainsail_id)
             VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')",
-				mysql_real_escape_string($logEntry->getNorthDegree()),
+				mysql_real_escape_string($logEntry->getEntryName()),
+                mysql_real_escape_string($logEntry->getNorthDegree()),
 				mysql_real_escape_string($logEntry->getNorthMinutes()),
 				mysql_real_escape_string($logEntry->getNorthMinutes()),
 				mysql_real_escape_string($logEntry->getEastDegree()),
@@ -147,10 +148,11 @@ final class LogEntryDAL {
 	private static function update($logEntry) {
 		$db = DBConnector::getConnection();
 
-		$sql = sprintf("UPDATE waypoint SET north_degree='%s', north_minutes='%s', north_seconds='%s', east_degree='%s', 
+		$sql = sprintf("UPDATE waypoint SET entry_name='%s', north_degree='%s', north_minutes='%s', north_seconds='%s', east_degree='%s', 
                 east_minutes='%s', east_seconds='%s', trip_id='%s', cog='%s', sog='%s', datetime='%s', 
                 btm='%s', dtm='%s', trip_to='%s', maneuver_id='%s', headsail_id='%s', mainsail_id='%s'
                 WHERE id='%s",
+                mysql_real_escape_string($logEntry->getEntryName()),
                 mysql_real_escape_string($logEntry->getNorthDegree()),
 				mysql_real_escape_string($logEntry->getNorthMinutes()),
 				mysql_real_escape_string($logEntry->getNorthMinutes()),
