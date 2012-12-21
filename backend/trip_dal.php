@@ -14,7 +14,8 @@ final class TripDAL {
 		$trip = NULL;
 		$db = DBConnector::getConnection();
 
-		$sql = sprintf("SELECT id, boat_id, trip_title, trip_from, trip_to, start_time, end_time, engine_runtime, skipper, tank_filled, crew
+		$sql = sprintf("SELECT id, boat_id, trip_title, trip_from, trip_to, start_time, end_time,
+			engine_runtime, skipper, tank_filled, crew, note
             FROM trip
             WHERE id='%s'",
             mysql_real_escape_string($tripId));
@@ -41,7 +42,7 @@ final class TripDAL {
 
 		$db = DBConnector::getConnection();
 		$db->querySelect("SELECT id, boat_id, trip_title, trip_from, trip_to, start_time, end_time,
-			engine_runtime, skipper, tank_filled, crew
+			engine_runtime, skipper, tank_filled, crew, note
             FROM trip");
 
 		while (TRUE) {
@@ -67,7 +68,7 @@ final class TripDAL {
 		$db = DBConnector::getConnection();
 		
 		$sql = sprintf("SELECT id, boat_id, trip_title, trip_from, trip_to, start_time, end_time,
-			engine_runtime, skipper, tank_filled, crew
+			engine_runtime, skipper, tank_filled, crew, note
             FROM trip
             WHERE boat_id='%s'",
             mysql_real_escape_string($boatId));
@@ -112,8 +113,7 @@ final class TripDAL {
 		$db = DBConnector::getConnection();
 
 		$sql = sprintf("INSERT INTO trip (boat_id, trip_title, trip_from, trip_to, start_time, end_time, engine_runtime, skipper, tank_filled, crew)
-            VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s',
-            '%s', '%s', '%s')",
+            VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')",
 			mysql_real_escape_string($trip->getBoatId()),
 			mysql_real_escape_string($trip->getTripTitle()),
 			mysql_real_escape_string($trip->getTripFrom()),
@@ -123,7 +123,8 @@ final class TripDAL {
 			mysql_real_escape_string($trip->getEngineRuntime()),
 			mysql_real_escape_string($trip->getSkipper()),
 			mysql_real_escape_string($trip->getTankFilled()),
-			mysql_real_escape_string($trip->getCrew()));
+			mysql_real_escape_string($trip->getCrew()),
+			mysql_real_escape_string($trip->getNote()));
 
 		$status = $db->queryExecute($sql);
 		$db->close();
@@ -137,7 +138,8 @@ final class TripDAL {
 	private static function update($trip) {
 		$db = DBConnector::getConnection();
 
-		$sql = sprintf("UPDATE trip SET boat_id='%s', trip_title='%s', trip_from='%s', trip_to='%s', start_time='%s', end_time='%s', engine_runtime='%s', skipper='%s', tank_filled='%s', crew='%s'
+		$sql = sprintf("UPDATE trip SET boat_id='%s', trip_title='%s', trip_from='%s', trip_to='%s', start_time='%s', end_time='%s', engine_runtime='%s',
+		    skipper='%s', tank_filled='%s', crew='%s', note='%s'
             WHERE id='%s'",
             mysql_real_escape_string($trip->getBoatId()),
 			mysql_real_escape_string($trip->getTripTitle()),
@@ -149,7 +151,8 @@ final class TripDAL {
 			mysql_real_escape_string($trip->getTankFilled()),
 			mysql_real_escape_string($trip->getSkipper()),
 			mysql_real_escape_string($trip->getCrew()),
-            mysql_real_escape_string($trip->getId()));
+            mysql_real_escape_string($trip->getId()),
+            mysql_real_escape_string($trip->getNote()));
 
 		$status = $db->queryExecute($sql);
 		$db->close();

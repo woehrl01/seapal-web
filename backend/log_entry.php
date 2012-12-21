@@ -1,8 +1,6 @@
 <?php
 require_once("validator.php");
 
-require_once("validator.php");
-
 final class LogEntry implements JsonSerializable {
     private $id;
     private $entry_name;
@@ -17,6 +15,7 @@ final class LogEntry implements JsonSerializable {
     private $datetime;
     private $btm;
     private $dtm;
+    private $note;
     private $trip_to;
     private $maneuver_id;
     private $headsail_id;
@@ -54,6 +53,7 @@ final class LogEntry implements JsonSerializable {
         $this->datetime           = $logEntryArray["datetime"];
         $this->btm                = $logEntryArray["btm"];
         $this->dtm                = $logEntryArray["dtm"];
+        $this->note               = $logEntryArray["note"];
         $this->trip_to            = $logEntryArray["trip_to"];
         $this->maneuver_id        = $logEntryArray["maneuver_id"];
         $this->headsail_id        = $logEntryArray["headsail_id"];
@@ -176,6 +176,10 @@ final class LogEntry implements JsonSerializable {
     
     public function getDtm() {
         return $this->dtm;
+    }
+
+    public function getNote() {
+        return $this->note;
     }
     
     public function getTripTo() {
