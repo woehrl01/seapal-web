@@ -23,7 +23,7 @@ INSERT INTO `headsail` (`id`, `name`) VALUES
 INSERT INTO `mainsail` (`id`, `name`) VALUES
 (1,	'-'),
 (2,	'Fock'),
-(3,	'Großsegel');
+(3,	'Grosssegel');
 
 INSERT INTO `maneuver` (`id`, `name`) VALUES
 (1,	'-'),
@@ -53,8 +53,8 @@ INSERT INTO `trip` (`id`, `boat_id`, `trip_title`, `trip_from`, `trip_to`, `star
 (13, 4, 'Segelkurs C', 'Friedrichshafen', 'Überlingen', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, '', 0, '', '');
 
 
-INSERT INTO `waypoint` (`id`, `north_degree`, `north_minutes`, `north_seconds`, `east_degree`, `east_minutes`, `east_seconds`, `trip_id`, `cog`, `sog`, `datetime`, `btm`, `dtm`, `trip_to`, `maneuver_id`, `headsail_id`, `mainsail_id`, `note`) VALUES
-(0, 2.000000,   2.000000,   2.000000,   2.000000,   2.000000,   2.000000,   1,  '', '', '2012-04-18 00:00:00',  '', '', 1,  1,  1,  1,  ''),
-(1, 2.000000,   2.000000,   2.000000,   2.000000,   2.000000,   2.000000,   1,  '', '', '2012-04-18 00:00:00',  '', '', 1,  1,  1,  1,  '');
+INSERT INTO `waypoint` (`id`, `entry_name`, `north_degree`, `north_minutes`, `north_seconds`, `east_degree`, `east_minutes`, `east_seconds`, `trip_id`, `cog`, `sog`, `datetime`, `btm`, `dtm`, `trip_to`, `maneuver_id`, `headsail_id`, `mainsail_id`, `note`) VALUES
+(0, 'Rote Boje', 2.000000,   2.000000,   2.000000,   2.000000,   2.000000,   2.000000,   1,  '', '', '2012-04-18 00:00:00',  '', '', 1,  1,  1,  1,  ''),
+(1, 'Sammelstelle', 2.000000,   2.000000,   2.000000,   2.000000,   2.000000,   2.000000,   1,  '', '', '2012-04-18 00:00:00',  '', '', 1,  1,  1,  1,  '');
 
 -- 2012-12-21 01:27:59

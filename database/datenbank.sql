@@ -82,6 +82,7 @@ CREATE TABLE IF NOT EXISTS mark (
 
 CREATE TABLE IF NOT EXISTS waypoint(
 	id INTEGER NOT NULL,
+	entry_name varchar(32) NOT NULL,
 	north_degree float(10,6) NOT NULL,
 	north_minutes float(10,6) NOT NULL,
 	north_seconds float(10,6) NOT NULL,

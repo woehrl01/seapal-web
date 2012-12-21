@@ -48,11 +48,11 @@
 							<div class="span6">
 								<label for="north_degree">Position</label>
 								<input type="number" class="compact" name="north_degree" size="3" tabindex="2" min="-89" max="89" required/>°
-								<input type="number" class="compact" name="north_minutes" size="2" tabindex="3" min="-59" max="59" required/>'
-								<input type="number" class="compact" name="north_seconds" size="2" tabindex="4" min="-59" max="59" required/>''N
+								<input type="number" class="compact" name="north_minutes" size="2" tabindex="3" min="0" max="59" required/>'
+								<input type="number" class="compact" name="north_seconds" size="2" tabindex="4" min="0" max="59" required/>''N
 								<input type="number" class="compact shift" name="east_degree" size="3" tabindex="5" min="-179" max="179" required/>°
-								<input type="number" class="compact" name="east_minutes" size="2" tabindex="6" min="-59" max="59" required/>'
-								<input type="number" class="compact" name="east_seconds" size="2" tabindex="7" min="-59" max="59" required/>''E
+								<input type="number" class="compact" name="east_minutes" size="2" tabindex="6" min="0" max="59" required/>'
+								<input type="number" class="compact" name="east_seconds" size="2" tabindex="7" min="0" max="59" required/>''E
 							</div>
 							<div class="span2">
 								<label for="cog">COG</label>

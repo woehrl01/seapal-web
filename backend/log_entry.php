@@ -20,6 +20,8 @@ final class LogEntry implements JsonSerializable {
     private $maneuver_id;
     private $headsail_id;
     private $mainsail_id;
+    private $position_lon;
+    private $position_lat;
 
 	/**
 	 * Creats a logEntry from an associative array.
@@ -58,6 +60,28 @@ final class LogEntry implements JsonSerializable {
         $this->maneuver_id        = $logEntryArray["maneuver_id"];
         $this->headsail_id        = $logEntryArray["headsail_id"];
         $this->mainsail_id        = $logEntryArray["mainsail_id"];
+        $this->position_lon       = LogEntry::toLatLong($this->north_degree, $this->north_minutes, $this->north_seconds);
+        $this->position_lat       = LogEntry::toLatLong($this->east_degree, $this->east_minutes, $this->east_seconds);
+    }
+
+    /**
+     * Calculates the lat/long value.
+     * @param deg The degree value (pos/neg).
+     * @param min The minutes value (pos).
+     * @param sec The seconds value (pos).
+     * @return An array of invalid fields.
+     */
+    private static function toLatLong($deg, $min, $sec) {
+        $res = $deg;
+        if ($res > 0) {
+            $res += ($min / 60);
+            $res += ($sec / 3600);
+        } else {
+            $res -= ($min / 60);
+            $res -= ($sec / 3600);
+        }
+
+        return $res;
     }
 
     /**
@@ -70,11 +94,11 @@ final class LogEntry implements JsonSerializable {
         if (!Valid::is_number($this->id, Valid::$REQ)) array_push($errors, "id");
         if (!Valid::is_required($this->entry_name)) array_push($errors, "entry_name");
         if (!Valid::is_number_range($this->north_degree, -89, 89, Valid::$REQ)) array_push($errors, "north_degree");
-        if (!Valid::is_number_range($this->north_minutes, -59, 59, Valid::$REQ)) array_push($errors, "north_minutes");
-        if (!Valid::is_number_range($this->north_seconds, -59, 59, Valid::$REQ)) array_push($errors, "north_seconds");
+        if (!Valid::is_number_range($this->north_minutes, 0, 59, Valid::$REQ)) array_push($errors, "north_minutes");
+        if (!Valid::is_number_range($this->north_seconds, 0, 59, Valid::$REQ)) array_push($errors, "north_seconds");
         if (!Valid::is_number_range($this->east_degree, -179, 179, Valid::$REQ)) array_push($errors, "east_degree");
-        if (!Valid::is_number_range($this->east_minutes, -59, 59, Valid::$REQ)) array_push($errors, "east_minutes");
-        if (!Valid::is_number_range($this->east_seconds, -59, 59, Valid::$REQ)) array_push($errors, "east_seconds");
+        if (!Valid::is_number_range($this->east_minutes, 0, 59, Valid::$REQ)) array_push($errors, "east_minutes");
+        if (!Valid::is_number_range($this->east_seconds, 0, 59, Valid::$REQ)) array_push($errors, "east_seconds");
         if (!Valid::is_number_min($this->cog, 0, Valid::$NOT_REQ)) array_push($errors, "cog");
         if (!Valid::is_number_range($this->sog, 0, 360, Valid::$NOT_REQ)) array_push($errors, "sog");
         //TODO: datetime
