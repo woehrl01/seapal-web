@@ -39,18 +39,18 @@ INSERT INTO `mark` (`id`, `name`) VALUES
 (4,	'Markierung 3');
 
 INSERT INTO `trip` (`id`, `boat_id`, `trip_title`, `trip_from`, `trip_to`, `start_time`, `end_time`, `engine_runtime`, `skipper`, `tank_filled`, `crew`, `note`) VALUES
-(1,	1,	'Sonntagstrip',	'Konstanz',	'Friedrichshafen',	'2012-10-10 11:00:00',	'2012-10-10 16:00:00',	0,	'0',	0,	'',	''),
-(2, 1, 'Donnerstagstrip', 'Konstanz', 'Friedrichshafen', '2012-12-19 09:00:00', '2012-12-19 18:00:00', 0, '', 0, ''),
-(3, 1, 'Segelkurs A', 'St. Petersburg', 'Hamburg', '2012-11-19 11:00:00', '0000-00-00 00:00:00', 0, '', 0, ''),
-(4, 1, 'Sonniger Tag', 'Konstanz', 'Überlingen', '2012-08-905 10:00:00', '0000-00-00 00:00:00', 0, '', 0, ''),
-(5, 2, 'Segelkurs B', 'Überlingen', 'Konstanz', '2012-11-13 09:30:00', '0000-00-00 00:00:00', 0, '', 0, ''),
-(6, 2, 'Segelkurs C', 'Meersburg', 'Konstanz', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, '', 0, ''),
-(8, 2, 'Segelkurs D', 'Meersburg', 'Friedrichshafen', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, '', 0, ''),
-(9, 3, 'Testfahrt', 'Friedrichshafen', 'Meersburg', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, '', 0, ''),
-(10, 3, 'Segelkurs A', 'Überlingen', 'Konstanz', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, '', 0, ''),
-(11, 4, 'Segelkurs B', 'Bozen', 'Konstanz', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, '', 0, ''),
-(12, 4, 'Segelkurs D', 'Bozen', 'Überlingen', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, '', 0, ''),
-(13, 4, 'Segelkurs C', 'Friedrichshafen', 'Überlingen', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, '', 0, '');
+(1,	1,	'Sonntagstrip',	'Konstanz',	'Friedrichshafen',	'2012-10-10 11:00:00',	'2012-10-10 16:00:00',	0,	'',	0,	'', ''),
+(2, 1, 'Donnerstagstrip', 'Konstanz', 'Friedrichshafen', '2012-12-19 09:00:00', '2012-12-19 18:00:00', 0, '', 0, '', ''),
+(3, 1, 'Segelkurs A', 'St. Petersburg', 'Hamburg', '2012-11-19 11:00:00', '0000-00-00 00:00:00', 0, '', 0, '', ''),
+(4, 1, 'Sonniger Tag', 'Konstanz', 'Überlingen', '2012-08-905 10:00:00', '0000-00-00 00:00:00', 0, '', 0, '', ''),
+(5, 2, 'Segelkurs B', 'Überlingen', 'Konstanz', '2012-11-13 09:30:00', '0000-00-00 00:00:00', 0, '', 0, '', ''),
+(6, 2, 'Segelkurs C', 'Meersburg', 'Konstanz', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, '', 0, '', ''),
+(8, 2, 'Segelkurs D', 'Meersburg', 'Friedrichshafen', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, '', 0, '', ''),
+(9, 3, 'Testfahrt', 'Friedrichshafen', 'Meersburg', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, '', 0, '', ''),
+(10, 3, 'Segelkurs A', 'Überlingen', 'Konstanz', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, '', 0, '', ''),
+(11, 4, 'Segelkurs B', 'Bozen', 'Konstanz', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, '', 0, '', ''),
+(12, 4, 'Segelkurs D', 'Bozen', 'Überlingen', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, '', 0, '', ''),
+(13, 4, 'Segelkurs C', 'Friedrichshafen', 'Überlingen', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, '', 0, '', '');
 
 
 INSERT INTO `waypoint` (`id`, `north_degree`, `north_minutes`, `north_seconds`, `east_degree`, `east_minutes`, `east_seconds`, `trip_id`, `cog`, `sog`, `datetime`, `btm`, `dtm`, `trip_to`, `maneuver_id`, `headsail_id`, `mainsail_id`, `note`) VALUES

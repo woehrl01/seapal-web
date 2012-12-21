@@ -9,6 +9,8 @@
 	<head>
 		<title>SeaPal</title>
 		<?php include("htmlhead.php"); ?>
+		<link type="text/css" rel="stylesheet" href="lib/datepicker/css/datepicker.css" />
+		<script type="text/javascript" src="lib/datepicker/js/bootstrap-datepicker.js"></script>
 		<script type="text/javascript" src="js/log_entry.js"></script>
 	</head>
 	<body class="withsubnavi">
@@ -61,8 +63,13 @@
 								<input type="number" name="sog" tabindex="18" min="0" max="360" />
 							</div>
 							<div class="span2">
-								<label for="datetime">um</label>
-								<input type="datetime" name="datetime" min="2010-04-18" max="2017-04-18" value="2012-04-18" tabindex="18"/>
+								<div class="datepicker-small input-append date" data-date="2013-01-17" data-date-format="yyyy-mm-dd">
+									<label for="start_time">um</label>
+									<input class="span2" size="16" type="text" name="datetime" tabindex="18" value="2013-01-17"/>
+									<span class="add-on">
+										<i class="icon-th"></i>
+									</span>
+								</div>
 							</div>
 						</div>
 						<div class="row">

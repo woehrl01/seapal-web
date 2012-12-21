@@ -22,6 +22,8 @@ $(document).ready(function() {
 		});
 	});
 
+	$('.datepicker-small').datepicker();
+
 	function populateJSON( item, data){
 		var $inputs = $(item);
 		$.each(data, function(key, value) {

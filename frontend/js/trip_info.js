@@ -45,6 +45,8 @@ $(document).ready(function() {
 		deleteWaypoint(id);		
 	});
 
+	$('.datepicker').datepicker();
+
 	function deleteBoat(waypointId){
 		$.ajax({
 			type: "POST",

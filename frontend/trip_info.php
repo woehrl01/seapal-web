@@ -3,6 +3,8 @@
 	<head>
 		<title>SeaPal</title>
 		<?php include("htmlhead.php"); ?>
+		<link type="text/css" rel="stylesheet" href="lib/datepicker/css/datepicker.css" />
+		<script type="text/javascript" src="lib/datepicker/js/bootstrap-datepicker.js"></script>
 		<script type="text/javascript" src="js/trip_info.js"></script>
 		<script type="text/javascript" src="lib/jquery.paginatetable.js"></script>
 		<script type="text/javascript" src="lib/jsrender.js"></script>
@@ -66,14 +68,24 @@
 							<div class="span3">
 								<div class="row">
 									<div class="span3">
-										<label for="start_time">Start</label>
-										<input type="datetime" name="start_time" tabindex="6" />
+										<div class="datepicker input-append date" data-date="2013-01-17" data-date-format="yyyy-mm-dd">
+  											<label for="start_time">Start</label>
+  											<input class="span2" size="16" type="text" name="start_time" tabindex="6" value="2013-01-17"/>
+  											<span class="add-on">
+  												<i class="icon-th"></i>
+  											</span>
+										</div>
 									</div>
 								</div>
 								<div class="row">
 									<div class="span3">
-										<label for="end_time">Ende</label>
-										<input type="datetime" name="end_time" tabindex="7" />
+										<div class="datepicker input-append date" data-date="2013-01-17" data-date-format="yyyy-mm-dd">
+  											<label for="start_time">Ende</label>
+  											<input class="span2" size="16" type="text" name="end_time" tabindex="7" value="2013-01-17"/>
+  											<span class="add-on">
+  												<i class="icon-th"></i>
+  											</span>
+										</div>
 									</div>
 								</div>
 								<div class="row">

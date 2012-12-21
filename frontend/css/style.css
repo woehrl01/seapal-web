@@ -296,6 +296,17 @@ td.actionCol a:first-child i {
 	margin-left: 0px;
 }
 
+.datepicker {
+	margin-right: 26px;
+	color: black;
+}
+.datepicker-small {
+	margin-right: 42px;
+}
+.datepicker label {
+	color: white;
+}
+
 /**
  * Footer
  */
