@@ -117,7 +117,7 @@ final class LogEntryDAL {
 		$sql = sprintf("INSERT INTO waypoint (entry_name, north_degree, north_minutes, north_seconds, east_degree,
 			east_minutes, east_seconds, trip_id, cog, sog, datetime, btm, dtm, note, trip_to,
 			maneuver_id, headsail_id, mainsail_id)
-            VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')",
+            VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')",
 				mysql_real_escape_string($logEntry->getEntryName()),
                 mysql_real_escape_string($logEntry->getNorthDegree()),
 				mysql_real_escape_string($logEntry->getNorthMinutes()),

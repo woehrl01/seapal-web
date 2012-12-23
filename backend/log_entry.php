@@ -3,6 +3,7 @@ require_once("validator.php");
 
 final class LogEntry implements JsonSerializable {
     private $id;
+    private $trip_id;
     private $entry_name;
     private $north_degree;
     private $north_minutes;
@@ -43,6 +44,7 @@ final class LogEntry implements JsonSerializable {
     		$this->id = -1;
     	}
 	    
+        $this->trip_id            = $logEntryArray["trip_id"];
         $this->entry_name         = $logEntryArray["entry_name"];
         $this->north_degree       = $logEntryArray["north_degree"];
         $this->north_minutes      = $logEntryArray["north_minutes"];
@@ -92,6 +94,7 @@ final class LogEntry implements JsonSerializable {
         $errors = array();
 
         if (!Valid::is_number($this->id, Valid::$REQ)) array_push($errors, "id");
+        if (!Valid::is_number($this->trip_id, Valid::$REQ)) array_push($errors, "trip_id");
         if (!Valid::is_required($this->entry_name)) array_push($errors, "entry_name");
         if (!Valid::is_number_range($this->north_degree, -89, 89, Valid::$REQ)) array_push($errors, "north_degree");
         if (!Valid::is_number_range($this->north_minutes, 0, 59, Valid::$REQ)) array_push($errors, "north_minutes");
@@ -149,9 +152,7 @@ final class LogEntry implements JsonSerializable {
     }
 
     public function getTripId() {
-        //TODO: Implement
-
-        return 1;
+        return $this->trip_id;
     }
 
     public function getEntryName() {

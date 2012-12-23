@@ -136,7 +136,7 @@
 									<div class="notes">
 										<h4>Notes</h4>
 										<div class="gadget">
-											<textarea id="notes" cols="20" rows="20"></textarea>
+											<textarea id="notes" name="note" cols="20" rows="20"></textarea>
 										</div>
 									</div>
 								</div>

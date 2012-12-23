@@ -1,12 +1,11 @@
 /* boat_info.js */
 
 $(document).ready(function() {
-
-	loadAllWaypoints();
-
+	
 	var tripId = $('#trip_id').val();
 	if(tripId > 0){
 		loadTrip(tripId);
+		loadAllWaypointsByTripId(tripId);
 	}
 
 	$("#waypointListTable tbody").hide();
@@ -57,7 +56,10 @@ $(document).ready(function() {
 				},
 			dataType: "json",
 			success: function(data) {
-				loadAllWaypoints();
+				var tripId = $('#trip_id').val();
+				if(tripId > 0) {
+					loadAllWaypointsByTripId(tripId);
+				}
 			}
 		});
 	}
@@ -112,11 +114,11 @@ $(document).ready(function() {
 		updateAddSaveButton();
 	}
 
-	function loadAllWaypoints() {
+	function loadAllWaypointsByTripId(tripInfo) {
 		$.ajax({
 			type: "GET",
 			url: '../backend/log_entry_service.php',
-			data: null,
+			data: {trip_id: tripInfo},
 			dataType: "json",
 			success: function(data) {
 				$( "#waypointListTable tbody" ).html(

@@ -5,6 +5,7 @@ $(document).ready(function() {
 	$('#form').submit(function(event) {
 		event.preventDefault();
 		var tripId = $('#trip_id').val();
+		console.log(tripId);
 		$.ajax({
 			type: "POST",
 			url: $(this).attr('action'),

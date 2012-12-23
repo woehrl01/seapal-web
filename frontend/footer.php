@@ -15,7 +15,7 @@
 						<div class="span1">
 							<!-- Google + -->
 							<a href="https://plus.google.com/100825752167882077539?prsrc=3" rel="publisher" style="text-decoration:none;">
-							<img src="//ssl.gstatic.com/images/icons/gplus-64.png" alt="Google+" style="border:0;width:64px;height:64px;"/></a>
+							<img src="//ssl.gstatic.com/images/icons/gplus-64.png" alt="Google+" style="border:0height:64px;"/></a>
 						</div>
 						<div class="span2">
 							<!-- Facebook -->

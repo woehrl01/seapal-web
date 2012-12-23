@@ -112,7 +112,7 @@ final class TripDAL {
 	private static function insert($trip) {
 		$db = DBConnector::getConnection();
 
-		$sql = sprintf("INSERT INTO trip (boat_id, trip_title, trip_from, trip_to, start_time, end_time, engine_runtime, skipper, tank_filled, crew)
+		$sql = sprintf("INSERT INTO trip (boat_id, trip_title, trip_from, trip_to, start_time, end_time, engine_runtime, skipper, tank_filled, crew, note)
             VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')",
 			mysql_real_escape_string($trip->getBoatId()),
 			mysql_real_escape_string($trip->getTripTitle()),
