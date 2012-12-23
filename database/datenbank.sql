@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS trip(
 	note varchar(512) NOT NULL,
 	
 	PRIMARY KEY (id),
-	FOREIGN KEY (boat_id) references boat(id),
+	FOREIGN KEY (boat_id) references boat(id) ON DELETE CASCADE,
 	UNIQUE KEY (id)
 );
 
@@ -102,7 +102,7 @@ CREATE TABLE IF NOT EXISTS waypoint(
 	note varchar(512) NOT NULL,
 	
 	PRIMARY KEY (id),
-	FOREIGN KEY (trip_id) references trip(id),
+	FOREIGN KEY (trip_id) references trip(id) ON DELETE CASCADE,
 	FOREIGN KEY (trip_to) references mark(id),
 	FOREIGN KEY (maneuver_id) references maneuver(id),
 	FOREIGN KEY (headsail_id) references headsail(id),

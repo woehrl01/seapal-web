@@ -101,7 +101,6 @@ final class TripDAL {
     		}
     		return TripDAL::update($trip);
     	}
-
     	return $trip->getErrors();
     }
 
@@ -151,8 +150,8 @@ final class TripDAL {
 			mysql_real_escape_string($trip->getTankFilled()),
 			mysql_real_escape_string($trip->getSkipper()),
 			mysql_real_escape_string($trip->getCrew()),
-            mysql_real_escape_string($trip->getId()),
-            mysql_real_escape_string($trip->getNote()));
+            mysql_real_escape_string($trip->getNote()),
+            mysql_real_escape_string($trip->getId()));
 
 		$status = $db->queryExecute($sql);
 		$db->close();
