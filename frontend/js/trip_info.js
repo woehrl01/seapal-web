@@ -24,7 +24,7 @@ $(document).ready(function() {
 					$('#addSuccessModal').modal('show');
 					
 					window.location.href = 'trip_list.php?boat=' + boatId;
-				}else{
+				} else {
 					console.log(data.errors);
 					alert("Serverside error occured!");
 				}
@@ -45,6 +45,20 @@ $(document).ready(function() {
 	});
 
 	$('.datepicker').datepicker();
+
+	function initStaticSeamap(waypoints) {
+		jsonObj = [];
+		console.log(jsonObj);
+		for (var i = 0; i < waypoints.length; i++) {
+			console.log(waypoints[i].position_lat);
+			jsonObj.push({lat: waypoints[i].position_lat, lng : waypoints[i].position_lon});
+		}
+
+		$("#mini_map").seamap({
+			defaultRoute : jsonObj,
+			mode : "NOTINTERACTIVE" 
+		});
+	}
 
 	function deleteBoat(waypointId){
 		$.ajax({
@@ -127,6 +141,8 @@ $(document).ready(function() {
 
 				$('#waypointListTable').paginateTable({ rowsPerPage: 5, pager: ".tablePager", autoHidePager: false });
 				$("#waypointListTable tbody").show('slow');
+
+				initStaticSeamap(data);
 			}
 		});
 	}

@@ -8,6 +8,9 @@
 		<script type="text/javascript" src="js/trip_info.js"></script>
 		<script type="text/javascript" src="lib/jquery.paginatetable.js"></script>
 		<script type="text/javascript" src="lib/jsrender.js"></script>
+		<script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyAL6gKFmwH7gDXmmAW-5VqkW_HbJG7_QLA&sensor=false"></script>
+		<script type="text/javascript" src="lib/label.js"></script>
+		<script type="text/javascript" src="lib/seamap/seamap-1.0.0.js"></script>
 	</head>
 	<body class="withsubnavi">
 
@@ -124,16 +127,14 @@
 								</div>
 							</div>
 							<div class="span6">
-								<div class="maps">
-									<img src="http://placehold.it/500x300&text=maps"/>
-								</div>
+								<div id="mini_map" style="width=100%; heigth=100%;"/>
 							</div>
 							<div class="span3">
 								<div class="round">
 									<div class="photos">
 										<h4>Photos</h4>
 										<div class="gadget">
-											<img width="200" height="200" src="http://placehold.it/200x200/ffffff"/>
+											<img width="230" height="230" src="images/photo1.jpg"/>
 										</div>
 									</div>
 								</div>

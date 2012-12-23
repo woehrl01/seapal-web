@@ -25,6 +25,20 @@ $(document).ready(function() {
 
 	$('.datepicker-small').datepicker();
 
+	function initStaticSeamap(waypoints) {
+		jsonObj = [];
+		console.log(jsonObj);
+		for (var i = 0; i < waypoints.length; i++) {
+			console.log(waypoints[i].position_lat);
+			jsonObj.push({lat: waypoints[i].position_lat, lng : waypoints[i].position_lon});
+		}
+
+		$("#mini_map").seamap({
+			defaultRoute : jsonObj,
+			mode : "NOTINTERACTIVE" 
+		});
+	}
+
 	function populateJSON( item, data){
 		var $inputs = $(item);
 		$.each(data, function(key, value) {
@@ -43,6 +57,8 @@ $(document).ready(function() {
 			success: function(item) {
 				populateJSON('#form input', item);
 				$('html, body').animate({ scrollTop: 0 }, 600);
+
+				initStaticSeamap(item);
 			}
 		});
 	}
