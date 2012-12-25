@@ -42,7 +42,7 @@
 									        	<th>Von</th>
 									        	<th>Nach</th>
 									        	<th>Datum</th>
-									        	<th>Aktionen</th>
+									        	<th class="actionCol">Aktionen</th>
 									        </tr>
 									    </thead>
 									    <tbody>
@@ -54,7 +54,7 @@
 											<td>{{>trip_from}}</td>
 											<td>{{>trip_to}}</td>
 											<td>{{>start_time}}</td>
-											<td>
+											<td class="actionCol">
 												<a href="#"  class="deleteItemBtn tooltipable" rel="tooltip" title="Löschen"><i class="icon-remove"></i></a>
 												<a href="trip_info.php?trip={{>id}}" class="editItemBtn tooltipable" rel="tooltip" title="Auswählen"><i class="icon-chevron-right"></i></a>
 											</td>
