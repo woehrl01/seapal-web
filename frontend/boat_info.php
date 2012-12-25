@@ -27,6 +27,7 @@
 							<div class="right buttons_top">
 								<a id="addButton" class="btn btn-primary"><i class="icon-plus icon-white"></i> <span>Hinzufügen<span></a>
 								<input type="submit" id="submitBtn" class="btn btn-success" value="Speichern"/>
+								<a id="onwardButton" class="btn btn-inverse"><span>Weiter<span></a>
 							</div>
 						</div>
 					</div>

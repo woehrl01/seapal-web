@@ -8,6 +8,7 @@ $(document).ready(function() {
 	var editingDisabled = false;
 
 	$('#boat_input').hide();
+	$('#onwardButton').hide();
 	$("#boatListTable tbody").hide();
 	$('#submitBtn').attr("disabled", "disabled");
 
@@ -45,6 +46,12 @@ $(document).ready(function() {
 		$('#boat_input').slideToggle('slow').promise().done(resetFormData());
 	});
 
+	$('#onwardButton').click(function(event){
+		event.preventDefault();
+		var boatId = $('#idField').val();
+		window.location.href = 'trip_list.php?boat=' + boatId;
+	});
+
 	function updateAddSaveButton(){
 		var icon = $('#addButton').find('i');
 
@@ -66,9 +73,10 @@ $(document).ready(function() {
 			}else{
 				$('#submitBtn').val("Aktualisieren");
 			}
-			
+			$('#onwardButton').show();
 		}else{
 			$('#submitBtn').val("Speichern");
+			$('#onwardButton').hide();
 		}
 	}
 

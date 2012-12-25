@@ -163,8 +163,8 @@
 											<td>{{>entry_name}}</td>
 											<td>{{>position_lat}}, {{>position_lon}}</td>
 											<td class="actionCol">
-												<a href="#"  class="deleteBoadBtn" rel="tooltip" title="Löschen"><i class="icon-trash"></i></a>
-												<a href="#" class="editBoadBtn" rel="tooltip" title="Betrachten"><i class="icon-search"></i></a>
+												<a href="#"  class="deleteBoadBtn" rel="tooltip" title="Löschen"><i class="icon-remove"></i></a>
+												<a href="#" class="editBoadBtn" rel="tooltip" title="Betrachten"><i class="icon-chevron-right"></i></a>
 											</td>
 										</tr>
 									</script>

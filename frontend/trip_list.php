@@ -55,8 +55,8 @@
 											<td>{{>trip_to}}</td>
 											<td>{{>start_time}}</td>
 											<td>
-												<a href="trip_info.php?trip={{>id}}" class="editItemBtn"><i class="icon-pencil"></i></a>
 												<a href="#"  class="deleteItemBtn"><i class="icon-remove"></i></a>
+												<a href="trip_info.php?trip={{>id}}" class="editItemBtn"><i class="icon-chevron-right"></i></a>
 											</td>
 										</tr>
 									</script>
