@@ -114,7 +114,7 @@ $(document).ready(function() {
 	        event.preventDefault();
 	        var id = $(this).closest('tr').attr("data-id");
 	        if(id > 0){
-	        	loadBoat(id);
+	        	window.location.href = 'log_entry.php?id=' + id;
 	        }
     });
 
