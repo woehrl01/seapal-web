@@ -126,8 +126,10 @@
 									</div>
 								</div>
 							</div>
-							<div class="span6" id="mini_map" style="height: 250px;">
-								
+							<div class="span6">
+								<div class="round">
+									<div id="mini_map"></div>
+								</div>
 							</div>
 							<div class="span3">
 								<div class="round">

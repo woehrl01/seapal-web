@@ -33,11 +33,18 @@ $(document).ready(function() {
 			jsonObj.push({lat: waypoints[i].position_lat, lng : waypoints[i].position_lon});
 		}
 
-		$("#mini_map").seamap({
-			defaultRoute : jsonObj,
-			height : '250px',
-			mode : "NOTINTERACTIVE" 
-		});
+		var config = {
+			defaultRoute 	: jsonObj,
+			height 			: '350px',
+			mode 			: "NOTINTERACTIVE" 
+		};
+		
+		if(jsonObj.length > 0) {
+			config.startLat  = jsonObj[0].lat;
+			config.startLong = jsonObj[0].lng;
+		}
+
+		$("#mini_map").seamap(config);
 	}
 
 	function populateJSON( item, data){
