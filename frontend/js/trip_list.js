@@ -65,6 +65,7 @@ $(document).ready(function() {
 					$( "#tripListTemplate" ).render(data)
 				);
 
+				$('.tooltipable').tooltip();
 				$('#tripListTable').paginateTable({ rowsPerPage: 10, pager: ".tablePager", autoHidePager: false });
 				$("#tripListTable tbody").show('slow');
 			}

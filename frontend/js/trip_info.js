@@ -147,6 +147,7 @@ $(document).ready(function() {
 					$( "#waypointListTemplate" ).render(data)
 				);
 
+				$('.tooltipable').tooltip();
 				$('#waypointListTable').paginateTable({ rowsPerPage: 5, pager: ".tablePager", autoHidePager: false });
 				$("#waypointListTable tbody").show('slow');
 
