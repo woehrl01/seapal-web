@@ -56,6 +56,7 @@ $(document).ready(function() {
 
 		$("#mini_map").seamap({
 			defaultRoute : jsonObj,
+			height : '250px',
 			mode : "NOTINTERACTIVE" 
 		});
 	}
