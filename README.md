@@ -1,8 +1,12 @@
-htwg.seapal.lwbsjm
+PLAY // HTWG Konstanz SeaPal Web
 ==================
 
-HTWG Konstanz SeaPal Web
+Web URL: -
 
-Web URL: http://sea.uber.woehrl.net/ (new)
+Konfiguration
+------------------
 
-Web URL: http://85.10.193.197:100/ (deprecated)
+Path: 
+...\play-2.0.4;
+...\Java\jdk1.6.0_38\bin
+
