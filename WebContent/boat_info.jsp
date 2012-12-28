@@ -1,18 +1,20 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
 <!DOCTYPE HTML>
 <html>
 	<head>
 		<title>SeaPal</title>
-		<?php include("htmlhead.php"); ?>
-		<script type="text/javascript" src="js/boat_info.js"></script>
-		<script type="text/javascript" src="lib/jquery.paginatetable.js"></script>
-		<script type="text/javascript" src="lib/jsrender.js"></script>
+		<%@ include file="htmlhead.jsp" %>
+		<script type="text/javascript" src="frontend/js/boat_info.js"></script>
+		<script type="text/javascript" src="frontend/lib/jquery.paginatetable.js"></script>
+		<script type="text/javascript" src="frontend/lib/jsrender.js"></script>
 	</head>
-	<body class="withsubnavi">
+	<body class="">
 
 		<div class="header-wrapper">
-			<?php include("header.php"); ?>
+			<%@ include file="header.jsp" %>
 		</div>
-		<form id="form" method="post" action="../backend/boat_service.php">
+		<form id="form" method="post" action="./BoatService">
 			<input type="hidden" name="method" value="save"/>
 			<input type="hidden" id="idField" name="id" value="-1"/>
 			<div class="content-wrapper">
@@ -171,8 +173,7 @@
 											<td>{{>build_year}}</td>
 											<td class="actionCol">
 												<a href="#" class="editBoadBtn tooltipable" rel="tooltip" title="Bearbeiten"><i class="icon-pencil"></i></a>
-												<a href="#" class="deleteBoadBtn tooltipable" rel="tooltip" title="Löschen"><i class="icon-remove"></i></a>
-												<a href="trip_list.php?boat={{>id}}" class="tooltipable" rel="tooltip" title="Auswählen"><i class="icon-chevron-right"></i></a>
+												<a href="#" class="deleteBoadBtn tooltipable" rel="tooltip" title="Löschen"><i class="icon-remove"></i></a>		
 											</td>
 										</tr>
 									</script>
@@ -198,7 +199,7 @@
 			</div>
 		</form>
 		<div class="footer-wrapper">
-			<?php include("footer.php"); ?>
+			<%@ include file="footer.jsp" %>
 		</div>
 
 		<div id="addSuccessModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="addSuccessModalLabel" aria-hidden="true">
