@@ -1,13 +1,15 @@
+@(message: String)
+
 <!DOCTYPE HTML>
 <html>
 	<head>
-		<title>SeaPal - Team</title>
-		<?php include("htmlhead.php"); ?>
+		<title>@message</title>
+		@htmlhead()
 	</head>
 	<body>
 
 		<div class="header-wrapper">
-			<?php include("header.php"); ?>
+			@header()
 		</div>
 
 		<div class="container">
@@ -53,7 +55,7 @@
 		</div>
 
 		<div class="footer-wrapper">
-			<?php include("footer.php"); ?>
+			@footer()
 		</div>
 		
 	</body>
