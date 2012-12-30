@@ -1,0 +1,94 @@
+/**
+ * Google Maps
+ */
+body.googlemaps
+{
+	overflow:hidden;
+}
+#map_canvas
+{
+	height:100%;
+	margin:10px 0 10px 0;
+}
+
+/**
+ * Context Menu
+ */
+#contextmenu button {
+	width:100%;
+	margin-bottom:5px;
+	text-align:left;
+}
+#tooltip_helper {
+	width:1px; 
+	height:1px; 
+	position:absolute; 
+	margin-top: -10px; 
+	margin-left: 10px; 
+	z-index:1; 
+	display: block;
+}
+.popover {
+	z-index:9999;
+}
+.popover.left {
+	margin-left:-25px;
+}
+.popover h3.popover-title {
+	background:#026899;
+	line-height:1.25em;
+	color:#FFF;
+}
+.popover h3 span {
+	display:block;
+}
+.popover .input-mini {
+    width: 50px;
+	background:#FFF;
+	font-size:9px;
+}
+.popover .input-append .add-on, .popover .input-prepend .add-on {
+	line-height:18px;
+}
+
+.modal{
+	color: #000;
+}
+
+.seamapsidebar {
+	background:#fff;
+}
+
+.seamapsidebar .seamapsidebar_inner {
+	padding:5px;
+	color:#333;
+	position:relative;
+	height:90%;
+	overflow-y:auto;
+	margin:10px;
+}
+
+.seamapsidebar .seamapsidebar_inner li a {
+	line-height:1.5em;
+}
+
+.seamapsidebar .seamapsidebar_inner li {
+	margin-bottom:4px;
+}
+
+.seamapsidebar .seamapsidebar_inner li.well:hover {
+	background-color:#CCC;
+}
+
+.seamapsidebar span.badge {
+	padding:6px;
+	margin-top:-2px;
+	vertical-align: middle;
+}
+
+.seamapsidebar div.buttons_bottom {
+	width:100%;
+}
+.seamapsidebar div.buttons_bottom div {
+	padding:10px;
+}

@@ -1,8 +1,4 @@
-htwg.seapal.lwbsjm
+GWT // HTWG Konstanz SeaPal Web
 ==================
 
-HTWG Konstanz SeaPal Web
-
-Web URL: http://sea.uber.woehrl.net/ (new)
-
-Web URL: http://85.10.193.197:100/ (deprecated)
+Web URL: -

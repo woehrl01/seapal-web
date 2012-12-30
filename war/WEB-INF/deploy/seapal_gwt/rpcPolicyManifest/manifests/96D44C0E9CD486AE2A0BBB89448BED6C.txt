@@ -1,0 +1,2 @@
+serviceClass: de.seapal.gwt.client.BoatService
+path: 59226F9E2C8E0FD25252450A294AA468.gwt.rpc
