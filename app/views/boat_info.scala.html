@@ -1,0 +1,58 @@
+@(title: String = "Boat Info", boats: List[Boat], form: Form[Boat])
+
+@import helper.twitterBootstrap._
+
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>@title</title>
+		@htmlhead()
+	</head>
+	<body>
+
+		<div class="header-wrapper">
+			@header()
+		</div>
+
+		<div class="content-wrapper">
+			<div class="container">
+				<div class="row">
+					<div class="span12">
+						<h1>@boats.size() boat(s)</h1>
+						
+						<ul>
+					        @for(boat <- boats) { 
+					            <li>
+					                @boat.name
+					                
+					                @boat.bla
+					                
+					                @helper.form(routes.Boat_Info.deleteBoat(boat.id)) {
+					                    <input type="submit" value="Delete">
+					                }
+					            </li>
+					        }
+					    </ul>
+					    
+					    <h2>Add a new task</h2>
+    
+					    @helper.form(routes.Boat_Info.addBoat()) {
+					        
+					        @helper.inputText(form("name"))
+					        					        
+					        @helper.inputText(form("bla"))
+					        
+					        <input type="submit" value="Create">
+					        
+					    }
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="footer-wrapper">
+			@footer()
+		</div>
+		
+	</body>
+</html>

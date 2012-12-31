@@ -1,13 +1,19 @@
 # Routes
-# This file defines all application routes (Higher priority routes first)
-# ~~~~
 
-# Home page
-GET     /                           controllers.Application.index
-GET     /screenshots                controllers.Application.screenshots
-GET     /about                		controllers.Application.about
-GET     /contact                    controllers.Application.contact
-GET     /user_guide                 controllers.Application.user_guide
+# Static pages
+GET     /           		controllers.Application.index()
+GET     /screenshots        controllers.Application.screenshots()
+GET     /about              controllers.Application.about()
+GET     /contact            controllers.Application.contact()
+GET     /user_guide         controllers.Application.user_guide()
+# to be continued ...
+
+# Seapal web app
+GET		/boat_info			controllers.Boat_Info.index()
+GET		/boat_info/json		controllers.Boat_Info.boatsAsJson()
+POST	/add_boat			controllers.Boat_Info.addBoat()
+POST	/delete_boat/:id 	controllers.Boat_Info.deleteBoat(id: Long)
+# to be continued ...
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.at(path="/public", file)
+GET     /assets/*file       controllers.Assets.at(path="/public", file)
