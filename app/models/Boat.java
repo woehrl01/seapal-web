@@ -17,13 +17,36 @@ public class Boat extends Model {
 	public Long id;
 	
 	@Required
-	public Integer bla;
+	public String boat_name;
+	
+	private String boat_type;
+    private double build_year;
+    private String register_nr;
+    private String constructor;
+    private String engine;
+    private String sail_sign;
+    private double boat_length;
+    private double fueltank_size;
+    private String home_port;
+    private double boat_width;
+    private double watertank_size;
+    private double draught;
+    private String yachtclub;
+    private double wastewatertank_size;
+    private String owner;
+    private double mast_height;
+    private double mainsail_size;
+    private String insurance;
+    private double water_displacement;
+    private double genua_size;
+    private String callsign;
+    private String rig_kind;
+    private double spi_size;
+	
+	
+	
 
-	@Required
-	public String name;
-
-	public static Finder<Long, Boat> find = new Finder<Long, Boat>(Long.class,
-			Boat.class);
+	public static Finder<Long, Boat> find = new Finder<Long, Boat>(Long.class, Boat.class);
 
 	public static List<Boat> all() {
 		return find.all();

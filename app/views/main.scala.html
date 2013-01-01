@@ -1,10 +1,11 @@
-@(title: String, bodyClass: String = "")(content: Html)
+@(title: String, scripts: Html = Html(""), bodyClass: String = "")(content: Html)
 
 <!DOCTYPE HTML>
 <html>
 	<head>
 		<title>@title</title>
 		@htmlhead()
+		@scripts
 	</head>
 	<body @if(!bodyClass.isEmpty) {class="@bodyClass"}>
 		<div class="header-wrapper">

@@ -1,7 +1,5 @@
 package controllers.helpers;
 
-import play.*;
-import play.mvc.*;
 import java.util.List;
 import java.util.LinkedList;
 
@@ -94,51 +92,3 @@ public class HeaderHelper {
 		return subnavi_files.contains(filename);
 	}
 }
-
-/*
-$filename = basename($_SERVER['SCRIPT_FILENAME']);
-
-function print_nav_element($name, $href) {
-	global $filename;
-	
-	$class = "";
-	$hrefs = array_slice(func_get_args(), 1);
-	
-	if(contains($filename, $hrefs)){
-		$class = "active";	
-	}
-
-	echo '<li class="'.$class.'"><a href="'.$href.'">'.$name.'</a></li>';
-}
-
-function contains($filename, $name){
-	if(is_array($name)) {
-		$names = $name;
-	} else {
-		$names = array_slice(func_get_args(), 1);
-	}
-	
-	foreach($names as $name){		
-		if($filename === $name){
-			return true;
-		}
-	}
-	
-	return false;
-}
-// Navi
-<?php print_nav_element( "Start", "index.php", "" ); ?>
-						<?php print_nav_element( "How To", "user_guide.php" ); ?>
-						<?php print_nav_element( "Screenshots", "screenshots.php" ); ?>
-						<?php print_nav_element( "Team", "about.php" ); ?>
-						<?php print_nav_element( "Kontakt", "contact.php" ); ?>
-						<?php print_nav_element( "Web-App", "boat_info.php", "boat_info.php", "log_entry.php", "trip_info.php", "seamap.php" ); ?>
-
-// Subnavi
-<?php print_nav_element( "Boat Info", "boat_info.php" ); ?>
-						<?php print_nav_element( "Trip List", "trip_list.php" ); ?>
-						<?php print_nav_element( "Trip Info", "trip_info.php" ); ?>
-						<?php print_nav_element( "Log Entry", "log_entry.php" ); ?>
-						<?php print_nav_element( "Seamap", "seamap.php" ); ?>
-
-*/
