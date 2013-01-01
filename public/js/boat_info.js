@@ -113,11 +113,12 @@ $(document).ready(function() {
 	function loadBoat( boatId, displayOnly) {
 		$.ajax({
 			type: "GET",
-			url: $('#form').attr('action'),
-			data: {id: boatId},
+			url: $('#form').attr('action') + '/' + boatId,
+			data: null,
 			dataType: "json",
 			success: function(boat) {
 				populateJSON('#form input', boat);
+				$('#idField').removeAttr("disabled");
 				editFieldsVisible = true;
 				displayAsText(displayOnly);
 				$('#boat_input').slideDown('slow').promise().done(updateAddSaveButton());
@@ -163,6 +164,7 @@ $(document).ready(function() {
 	function resetFormData() {
 		$('#form').get(0).reset();
 		$('#idField').val("-1");
+		$('#idField').attr("disabled", "disabled");
 		displayAsText(false);
 		updateAddSaveButton();
 	}

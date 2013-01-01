@@ -1,19 +1,20 @@
 # Routes
 
 # Static pages
-GET     /           		controllers.Application.index()
-GET     /screenshots        controllers.Application.screenshots()
-GET     /about              controllers.Application.about()
-GET     /contact            controllers.Application.contact()
-GET     /user_guide         controllers.Application.user_guide()
+GET     /           				controllers.Application.index()
+GET     /screenshots        		controllers.Application.screenshots()
+GET     /about              		controllers.Application.about()
+GET     /contact            		controllers.Application.contact()
+GET     /user_guide         		controllers.Application.user_guide()
 # to be continued ...
 
 # Seapal web app
-GET		/boat_info			controllers.BoatInfo.index()
-GET		/boat_info/json		controllers.BoatInfo.boatsAsJson()
-POST	/add_boat			controllers.BoatInfo.addBoat()
-POST	/delete_boat/:id 	controllers.BoatInfo.deleteBoat(id: Long)
+GET		/boat_info					controllers.BoatInfo.index()
+GET		/boatservice/$id<[0-9]+>	controllers.BoatInfo.boatAsJson(id: Long)
+GET		/boatservice				controllers.BoatInfo.boatsAsJson()
+POST	/boatservice				controllers.BoatInfo.addBoat()
+POST	/delete_boat/:id 			controllers.BoatInfo.deleteBoat(id: Long)
 # to be continued ...
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file       controllers.Assets.at(path="/public", file)
+GET     /assets/*file       		controllers.Assets.at(path="/public", file)

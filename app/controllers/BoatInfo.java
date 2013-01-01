@@ -1,7 +1,10 @@
 package controllers;
 
+import org.codehaus.jackson.node.ObjectNode;
+
 import models.Boat;
 import play.data.Form;
+import play.data.Form.Field;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -12,21 +15,39 @@ public class BoatInfo extends Controller {
 	static Form<Boat> form = form(Boat.class);
 
 	public static Result index() {
-		return ok(boat_info.render(Boat.all(), form));
+		return ok(boat_info.render(form));
 	}
 
 	public static Result boatsAsJson() {
 		return ok(Json.toJson(Boat.all()).toString());
 	}
+	
+	public static Result boatAsJson(Long id) {
+		return ok(Json.toJson(Boat.findById(id)).toString());
+	}
 
 	public static Result addBoat() {
 		Form<Boat> filledForm = form.bindFromRequest();
-
+		
+		ObjectNode response = Json.newObject();
+		
 		if (filledForm.hasErrors()) {
-			return badRequest(boat_info.render(Boat.all(), filledForm));
+			response.put("success", false);
+			response.put("errors", filledForm.errorsAsJson());
+			
+			return badRequest(response);
 		} else {
-			Boat.create(filledForm.get());
-			return redirect(routes.BoatInfo.index());
+			Field id = filledForm.field("id");
+			
+			response.put("success", true);
+			if(Integer.parseInt(id.valueOr("-1")) > 0){
+				filledForm.get().update();
+				return ok(response);
+			}else{
+				filledForm.data().remove("id");
+				Boat.create(filledForm.get());
+				return created(response);
+			}
 		}
 	}
 
