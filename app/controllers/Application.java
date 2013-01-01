@@ -19,8 +19,7 @@ public class Application extends Controller {
 	}
 
 	public static Result contact() {
-		return ok(contact.render()); // FIXME: why does the message-parameter
-										// not work here!?!??
+		return ok(contact.render());
 	}
 
 	public static Result user_guide() {

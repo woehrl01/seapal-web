@@ -7,12 +7,12 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.content.*;
 
-public class BoatInfoController extends Controller {
+public class BoatInfo extends Controller {
 
 	static Form<Boat> form = form(Boat.class);
 
 	public static Result index() {
-		return ok(boat_info.render("Boat Info", Boat.all(), form));
+		return ok(boat_info.render(Boat.all(), form));
 	}
 
 	public static Result boatsAsJson() {
@@ -23,16 +23,16 @@ public class BoatInfoController extends Controller {
 		Form<Boat> filledForm = form.bindFromRequest();
 
 		if (filledForm.hasErrors()) {
-			return badRequest(boat_info.render("Boat Info", Boat.all(), filledForm));
+			return badRequest(boat_info.render(Boat.all(), filledForm));
 		} else {
 			Boat.create(filledForm.get());
-			return redirect(routes.Boat_Info.index());
+			return redirect(routes.BoatInfo.index());
 		}
 	}
 
 	public static Result deleteBoat(Long id) {
 		Boat.delete(id);
-		return redirect(routes.Boat_Info.index());
+		return redirect(routes.BoatInfo.index());
 	}
 
 }
