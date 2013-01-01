@@ -13,26 +13,25 @@ public class HeaderHelper {
 		StringBuilder sb = new StringBuilder();
 
 		List<String> start_hrefs = new LinkedList<String>();
-		start_hrefs.add("index.php");
 		start_hrefs.add("");
 
 		List<String> howto_hrefs = new LinkedList<String>();
-		howto_hrefs.add("user_guide.php");
+		howto_hrefs.add("user_guide");
 
 		List<String> screenshots_hrefs = new LinkedList<String>();
-		screenshots_hrefs.add("user_guide.php");
+		screenshots_hrefs.add("user_guide");
 
 		List<String> team_hrefs = new LinkedList<String>();
-		team_hrefs.add("about.php");
+		team_hrefs.add("about");
 
 		List<String> contact_hrefs = new LinkedList<String>();
-		contact_hrefs.add("contact.php");
+		contact_hrefs.add("contact");
 
 		List<String> webapp_hrefs = new LinkedList<String>();
-		webapp_hrefs.add("boat_info.php");
-		webapp_hrefs.add("log_entry.php");
-		webapp_hrefs.add("trip_info.php");
-		webapp_hrefs.add("seamap.php");
+		webapp_hrefs.add("boat_info");
+		webapp_hrefs.add("log_entry");
+		webapp_hrefs.add("trip_info");
+		webapp_hrefs.add("seamap");
 
 		sb.append(renderNavigationEntry("Start", start_hrefs));
 		sb.append(renderNavigationEntry("How To", howto_hrefs));
@@ -48,10 +47,10 @@ public class HeaderHelper {
 		StringBuilder sb = new StringBuilder();
 
 		List<String> boatinfo_hrefs = new LinkedList<String>();
-		boatinfo_hrefs.add("boat_info.php");
+		boatinfo_hrefs.add("boat_info");
 
 		List<String> triplist_hrefs = new LinkedList<String>();
-		triplist_hrefs.add("trip_list.php");
+		triplist_hrefs.add("trip_list");
 
 		List<String> tripinfo_hrefs = new LinkedList<String>();
 		tripinfo_hrefs.add("trip_info.php");

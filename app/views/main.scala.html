@@ -1,0 +1,20 @@
+@(title: String, bodyClass: String = "")(content: Html)
+
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>@title</title>
+		@htmlhead()
+	</head>
+	<body @if(!bodyClass.isEmpty) {class="@bodyClass"}>
+		<div class="header-wrapper">
+			@header()
+		</div>
+
+		@content
+
+		<div class="footer-wrapper">
+			@footer()
+		</div>
+	</body>
+</html>

@@ -5,9 +5,9 @@ import play.data.Form;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
-import views.html.boat_info;
+import views.html.content.*;
 
-public class Boat_Info extends Controller {
+public class BoatInfoController extends Controller {
 
 	static Form<Boat> form = form(Boat.class);
 

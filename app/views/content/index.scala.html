@@ -1,15 +1,4 @@
-<!DOCTYPE HTML>
-<html>
-	<head>
-		<title>SeaPal - Track your searoutes easily.</title>
-		<?php include("htmlhead.php"); ?>
-	</head>
-	<body class="index">
-
-		<div class="header-wrapper">
-			<?php include("header.php"); ?>
-		</div>
-
+@main("SeaPal - Track your searoutes easily", "index") {
 		<div class="content-wrapper">
 			<div id="head-unit-wrapper">
 				<div id="head-unit" class="hidden-phone">
@@ -56,7 +45,7 @@
 								<li>Select any mark as target</li>
 								<li>Bearing and distance to current target always visible in the map view</li>
 								<li>Distance measurement, even across several waypoints</li>
-								<li>“Person over Board” functionality</li>
+								<li>â€œPerson over Boardâ€� functionality</li>
 							</ul>
 						</div>
 					</div>
@@ -94,7 +83,7 @@
     								<h1>Track your searoutes easily - for free <br /><small>Available on Apple iPad & iPhone and via your Browser</small></h1>
     							</div>
     							<div class="right hidden-phone" style="padding-left: 20px;" >
-									<a href="https://itunes.apple.com/us/app/seapal/id561903907?mt=8&amp;ign-mpt=uo%3D4"><img src="images/qr_code.png" alt="" /></a>
+									<a href="https://itunes.apple.com/us/app/seapal/id561903907?mt=8&amp;ign-mpt=uo%3D4"><img src="assets/images/qr_code.png" alt="" /></a>
 								</div>
 								<p>
 									<b>SeaPal</b> is an App for sailors and other water sport fanatics that support the skipper in his tasks for navigation, route planing and logbook keeping. The central view shows a map with the current position and forward line. Waypoint and routes can easily be created, distances and courses can quickly be determined and documented in the logbook. The touch interface allows for fast and intuitive interaction.
@@ -120,10 +109,4 @@
 				</div>
 			</div>
 		</div>
-
-		<div class="footer-wrapper">
-			<?php include("footer.php"); ?>
-		</div>
-		
-	</body>
-</html>
+}

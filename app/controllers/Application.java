@@ -2,24 +2,20 @@ package controllers;
 
 import play.mvc.Controller;
 import play.mvc.Result;
-import views.html.about;
-import views.html.contact;
-import views.html.index;
-import views.html.screenshots;
-import views.html.user_guide;
+import views.html.content.*;
 
 public class Application extends Controller {
-
+	
 	public static Result index() {
-		return ok(index.render("SeaPal - Track your searoutes easily"));
+		return ok(index.render());
 	}
 
 	public static Result screenshots() {
-		return ok(screenshots.render("SeaPal - Screenshots"));
+		return ok(screenshots.render());
 	}
 
 	public static Result about() {
-		return ok(about.render("SeaPal - Team"));
+		return ok(about.render());
 	}
 
 	public static Result contact() {
@@ -28,7 +24,7 @@ public class Application extends Controller {
 	}
 
 	public static Result user_guide() {
-		return ok(user_guide.render("SeaPal - How To"));
+		return ok(user_guide.render());
 	}
-
+	
 }
