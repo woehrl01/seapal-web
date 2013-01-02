@@ -49,7 +49,7 @@ $(document).ready(function() {
 	$('#onwardButton').click(function(event){
 		event.preventDefault();
 		var boatId = $('#idField').val();
-		window.location.href = 'trip_list.php?boat=' + boatId;
+		window.location.href = '/trip_list/' + boatId;
 	});
 
 	function updateAddSaveButton(){

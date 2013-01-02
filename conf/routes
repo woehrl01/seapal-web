@@ -17,5 +17,8 @@ POST	/boatservice				controllers.BoatInfo.addBoat()
 POST	/delete_boat/:id 			controllers.BoatInfo.deleteBoat(id: Long)
 GET		/boatposition				controllers.BoatPositionAPI.current()
 
+GET		/trip_list					controllers.Trips.listAll()
+GET		/trip_list/$id<[0-9]+>		controllers.Trips.listByBoatId(id: Long)
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file       		controllers.Assets.at(path="/public", file)

@@ -23,12 +23,8 @@ public class MenuItem {
 
 	public boolean sameURI(String uriString){
 
-		try{
-			URI uri = new URI(uriString);
-			return this.uri.equals(uri);
-		}catch(URISyntaxException e){
-			return false;
-		}
+			return this.uri.getPath().startsWith(uriString);
+
 	}
 
 	@Override
@@ -43,7 +39,7 @@ public class MenuItem {
 
 		if(other instanceof MenuItem){
   			MenuItem o = (MenuItem) other;
-  			return o.uri.equals(this.uri);
+  			return this.uri.getPath().startsWith(o.uri.getPath());
   		}
 
   		return false;
