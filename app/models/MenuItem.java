@@ -5,28 +5,27 @@ import java.net.URISyntaxException;
 
 public class MenuItem {
 	public String name;
-	public URI url;
+	public URI uri;
 
-	public MenuItem(String url){
-		this("", url);
+	public MenuItem(String uri){
+		this("", uri);
 	}
 	
-	public MenuItem(String name, String url){
+	public MenuItem(String name, String uri){
 		this.name = name;
 
 		try{
-			this.url = new URI(url);
+			this.uri = new URI(uri);
 		}catch(URISyntaxException e){
-			this.url = null;
+			this.uri = URI.create("");
 		}
-
 	}
 
-	public boolean sameURL(String url){
+	public boolean sameURI(String uriString){
 
 		try{
-			URI target = new URI(url);
-			return this.url.equals(target);
+			URI uri = new URI(uriString);
+			return this.uri.equals(uri);
 		}catch(URISyntaxException e){
 			return false;
 		}
@@ -44,7 +43,7 @@ public class MenuItem {
 
 		if(other instanceof MenuItem){
   			MenuItem o = (MenuItem) other;
-  			return o.url.equals(this.url);
+  			return o.uri.equals(this.uri);
   		}
 
   		return false;
