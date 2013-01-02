@@ -1,8 +1,9 @@
 package controllers.helpers;
 
+import java.util.LinkedList;
 import java.util.List;
 
-import models.Menu;
+import models.MenuItem;
 
 import play.mvc.Result;
 import play.mvc.Action;
@@ -11,21 +12,52 @@ import play.mvc.Http;
 public class Menus extends Action.Simple {
 
 	public Result call(Http.Context ctx) throws Throwable {
-        ctx.args.put("mainNavi", Menu.createMainNavi(ctx.request().uri()));
-        ctx.args.put("subNavi", Menu.createSubNavi(ctx.request().uri()));
+        ctx.args.put("mainNavi", createMainNavi(ctx.request().uri()));
+        ctx.args.put("subNavi", createSubNavi(ctx.request().uri()));
         return delegate.call(ctx);
     }
+
+	public static List<MenuItem> createMainNavi(String url){
+		List<MenuItem> menu = new LinkedList<MenuItem>();
+		
+		menu.add(new MenuItem("Start", "/"));
+		menu.add(new MenuItem("How To", "/user_guide"));
+		menu.add(new MenuItem("Screenshots", "/screenshots"));
+		menu.add(new MenuItem("Team", "/about"));
+		menu.add(new MenuItem("Kontakt", "/contact"));
+		menu.add(new MenuItem("Web-App", "/boat_info"));
+		
+		return menu;
+		
+	}
 	
-	public static List<Menu> mainNavigation() {
-        return (List<Menu>)Http.Context.current().args.get("mainNavi");
+	public static List<MenuItem> createSubNavi(String url){
+		List<MenuItem> menu = new LinkedList<MenuItem>();
+		
+		menu.add(new MenuItem("Boat Info", "/boat_info"));
+		menu.add(new MenuItem("Trip List", "/trip_list"));
+		menu.add(new MenuItem("Trip Info", "/trip_info"));
+		menu.add(new MenuItem("Log Entry", "/log_entry"));
+		menu.add(new MenuItem("Seamap", "/seamap"));
+		
+		for(MenuItem item : menu){
+			if(url.endsWith(item.url))
+				return menu;
+		}
+		
+		return null;
+	}
+
+	public static List<MenuItem> mainNavigation() {
+        return (List<MenuItem>)Http.Context.current().args.get("mainNavi");
     }
 	
-	public static List<Menu> subNavigation() {
-        return (List<Menu>)Http.Context.current().args.get("subNavi");
+	public static List<MenuItem> subNavigation() {
+        return (List<MenuItem>)Http.Context.current().args.get("subNavi");
     }
 	
 	public static boolean hasSubNavigation(){
-		List<Menu> menu = (List<Menu>)Http.Context.current().args.get("subNavi");
+		List<MenuItem> menu = subNavigation();
 		
 		return (menu != null && !menu.isEmpty());
 	}
