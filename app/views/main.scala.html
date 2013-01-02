@@ -1,4 +1,4 @@
-@(title: String, moreScripts: Html = Html(""), bodyClass: String = "")(content: Html)
+@(title: String, moreScripts: Html = Html(""), bodyClass: String = "", contentClass: String = "content-wrapper")(content: Html)
 
 <!DOCTYPE HTML>
 <html>
@@ -26,7 +26,7 @@
 		<div class="header-wrapper">
 			@navbar()
 		</div>
-		<div class="content-wrapper">
+		<div class="@contentClass">
 			@content
 		</div>
 		<div class="footer-wrapper">
