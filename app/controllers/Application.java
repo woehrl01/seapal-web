@@ -29,4 +29,7 @@ public class Application extends Controller {
 		return ok(user_guide.render());
 	}
 	
+	public static Result seamap(){
+		return ok(seamap.render());
+	}
 }

@@ -27,7 +27,7 @@
 			},
 			markerOptions : {
 				image : new google.maps.MarkerImage(
-					"images/pin_marker.png",
+					"/assets/images/pin_marker.png",
 					new google.maps.Size(42, 42),
 					new google.maps.Point(0,0),
 					new google.maps.Point(21, 36))
@@ -42,7 +42,7 @@
 			},
 			markerOptions : {
 				image : new google.maps.MarkerImage(
-					"images/circle.png",
+					"/assets/images/circle.png",
 					new google.maps.Size(20, 20),
 					new google.maps.Point(0,0),
 					new google.maps.Point(10, 10))
@@ -57,7 +57,7 @@
 			},
 			markerOptions : {
 				image : new google.maps.MarkerImage(
-					"images/circle.png",
+					"/assets/images/circle.png",
 					new google.maps.Size(20, 20),
 					new google.maps.Point(0,0),
 					new google.maps.Point(10, 10))
@@ -71,7 +71,7 @@
 					type:'rect'
 				},
 				image : new google.maps.MarkerImage(
-					'images/boat.png', 
+					'/assets/images/boat.png', 
 					new google.maps.Size(32,32),	
 					new google.maps.Point(0,0),	
 					new google.maps.Point(16,16))	
@@ -299,7 +299,7 @@
 		function startBoatAnimation(){
 			$.ajax({
 				type: 'GET',
-				url : "../backend/boatposition.php",
+				url : "/boatposition",
 				dataType : 'json',
 				data: null,
 				success : function(response){
