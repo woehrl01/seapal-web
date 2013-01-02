@@ -1,5 +1,9 @@
 @import controllers.helpers.Menus
 
+@display(menu: models.Menu) = {
+	<li class="@if(request.uri.endsWith(menu.url)){active}"><a href="@menu.url">@menu.name</a></li>
+}
+
 <div class="navbar-fixed-top">
 	<div class="navbar">
 		<div class="navbar-inner">
@@ -13,8 +17,9 @@
 				<a class="brand" href="/">SEAPAL</a>
 				<div class="nav-collapse collapse">
 					<ul class="nav">
+					@****** if you get "null" here, your controller/method miss @With(Menus.class) annotation *****@
 					@for(menu <- Menus.mainNavigation()) {
-				      <li class="@if(request.uri.endsWith(menu.url)){active}"><a href="@menu.url">@menu.name</a></li>
+				    	@display(menu)
 				    }
 					</ul>
 				</div>
@@ -27,7 +32,7 @@
 			<div class="container">
 				<ul class="nav nav-pills">
 					@for(menu <- Menus.subNavigation()) {
-				      <li class="@if(request.uri.endsWith(menu.url)){active}"><a href="@menu.url">@menu.name</a></li>
+				    	@display(menu)
 				    }
 				</ul>
 			</div>
