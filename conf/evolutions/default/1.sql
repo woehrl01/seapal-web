@@ -7,7 +7,7 @@ create table boat (
   id                        bigint not null,
   boat_name                 varchar(255),
   boat_type                 varchar(255),
-  build_year                double,
+  build_year                integer,
   register_nr               varchar(255),
   constructor               varchar(255),
   engine                    varchar(255),

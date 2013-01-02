@@ -6,10 +6,11 @@
 	<script type="text/javascript" src="@routes.Assets.at("lib/jsrender.js")"></script>
 }
 
-@main("Boat Info", scripts) {
+@main("Boat Info", scripts, "withsubnavi") {
+<div class="content-wrapper">
 @helper.form(action = routes.BoatInfo.addBoat() , 'id -> "form") {
 			<input type="hidden" name="method" value="save"/>
-			<input type="hidden" id="idField" name="id" value="-1" disabled="disabled" />
+			<input type="hidden" id="idField" name="id" value="-1" />
 			<div class="content-wrapper">
 				<div class="container">
 					<div class="row">
@@ -192,6 +193,7 @@
 				</div>
 			</div>
 		}
+		</div>
 		<!-- Modals -->
 		<div id="addSuccessModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="addSuccessModalLabel" aria-hidden="true">
 		  <div class="modal-header">
@@ -219,4 +221,7 @@
     		<button class="btn btn-danger" id="deleteModalBtn" data-dismiss="modal">Löschen</button>
 		  </div>
 		</div>
+		
 }
+
+

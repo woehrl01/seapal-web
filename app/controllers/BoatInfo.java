@@ -41,15 +41,14 @@ public class BoatInfo extends Controller {
 			
 			return badRequest(response);
 		} else {
-			Field id = filledForm.field("id");
-			
 			response.put("success", true);
-			if(Integer.parseInt(id.valueOr("-1")) > 0){
-				filledForm.get().update();
+			if(Integer.parseInt(filledForm.field("id").value()) > 0){
+				Boat.update(filledForm.get());
+
 				return ok(response);
 			}else{
-				filledForm.data().remove("id");
 				Boat.create(filledForm.get());
+
 				return created(response);
 			}
 		}

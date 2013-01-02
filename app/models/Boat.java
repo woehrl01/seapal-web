@@ -16,7 +16,7 @@ public class Boat extends Model {
 
 	@Id
 	@Constraints.Min(0)
-	public Long id;
+	private Long id;
 	
 	@Constraints.Required
 	public String boat_name;
@@ -24,7 +24,7 @@ public class Boat extends Model {
 	public String boat_type;
 	
 	@Constraints.Min(1900)
-	public Double build_year;
+	public Integer build_year;
 	
 	public String register_nr;
 	
@@ -82,14 +82,26 @@ public class Boat extends Model {
 	
 	/* end of fields */
     
+	public Long getId(){
+		return id;
+	}
+
+	public void setId(Long id){
+		if(id > 0){
+			this.id = id;
+		}
+	}
+
+	/* end of getter/setter */
+
 	public static Finder<Long, Boat> find = new Finder<Long, Boat>(Long.class, Boat.class);
 
 	public static List<Boat> all() {
 		return find.all();
 	}
 	
-	public void update(){
-		this.update(id);
+	public static void update(Boat boat){
+		boat.update(boat.getId());
 	}
 
 	public static void create(Boat boat) {
