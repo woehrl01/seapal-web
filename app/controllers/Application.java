@@ -1,9 +1,12 @@
 package controllers;
 
+import controllers.helpers.Menus;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.With;
 import views.html.content.*;
 
+@With(Menus.class)
 public class Application extends Controller {
 	
 	public static Result index() {

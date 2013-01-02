@@ -1,4 +1,4 @@
-@import controllers.helpers.HeaderHelper
+@import controllers.helpers.Menus
 
 <div class="navbar-fixed-top">
 	<div class="navbar">
@@ -13,18 +13,22 @@
 				<a class="brand" href="/">SEAPAL</a>
 				<div class="nav-collapse collapse">
 					<ul class="nav">
-						@Html( HeaderHelper.renderNavigation() )
+					@for(menu <- Menus.mainNavigation()) {
+				      <li class="@if(request.uri.endsWith(menu.url)){active}"><a href="@menu.url">@menu.name</a></li>
+				    }
 					</ul>
 				</div>
 				<!--/.nav-collapse --> 
 			</div>
 		</div>
 	</div>
-	@if(HeaderHelper.hasSubNavigation()) {
+	@if(Menus.hasSubNavigation()) {
 		<div id="webapp-menu-pill">
 			<div class="container">
 				<ul class="nav nav-pills">
-					@HeaderHelper.renderSubNavigation()
+					@for(menu <- Menus.subNavigation()) {
+				      <li class="@if(request.uri.endsWith(menu.url)){active}"><a href="@menu.url">@menu.name</a></li>
+				    }
 				</ul>
 			</div>
 		</div>

@@ -2,18 +2,22 @@ package controllers;
 
 import org.codehaus.jackson.node.ObjectNode;
 
+import controllers.helpers.Menus;
+
 import models.Boat;
 import play.data.Form;
 import play.data.Form.Field;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.With;
 import views.html.content.*;
 
 public class BoatInfo extends Controller {
 
 	static Form<Boat> form = form(Boat.class);
 
+	@With(Menus.class)
 	public static Result index() {
 		return ok(boat_info.render(form));
 	}
