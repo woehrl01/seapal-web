@@ -40,12 +40,11 @@ public class Menus extends Action.Simple {
 		menu.add(new MenuItem("Log Entry", "/log_entry"));
 		menu.add(new MenuItem("Seamap", "/seamap"));
 		
-		for(MenuItem item : menu){
-			if(url.endsWith(item.url))
-				return menu;
+		if(menu.contains(new MenuItem(url))){
+			return menu;
+		} else {
+			return null;
 		}
-		
-		return null;
 	}
 
 	public static List<MenuItem> mainNavigation() {

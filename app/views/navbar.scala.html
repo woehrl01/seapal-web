@@ -1,7 +1,7 @@
 @import controllers.helpers.Menus
 
 @display(menuItem: models.MenuItem) = {
-	<li class="@if(request.uri.endsWith(menuItem.url)){active}"><a href="@menuItem.url">@menuItem.name</a></li>
+	<li class="@if(menuItem.sameURL(request.uri)){active}"><a href="@menuItem.url">@menuItem.name</a></li>
 }
 
 <div class="navbar-fixed-top">
