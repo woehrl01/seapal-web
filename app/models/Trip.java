@@ -10,6 +10,8 @@ import play.db.ebean.Model;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
 @Entity
 public class Trip extends Model {
 
@@ -31,10 +33,10 @@ public class Trip extends Model {
 	
 	public String crew;
 	
-	@Formats.DateTime(pattern="yyyy-mm-dd")
+	@JsonSerialize(using = CustomJsonDateSerializer.class)
 	public Date start_time;
 	
-	@Formats.DateTime(pattern="yyyy-mm-dd")
+	@JsonSerialize(using = CustomJsonDateSerializer.class)
 	public Date end_time;
 	
 	public Integer engine_runtime;

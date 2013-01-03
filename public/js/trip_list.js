@@ -52,13 +52,12 @@ $(document).ready(function() {
 	        }
     });
 
-    
 	function loadAllTrips() {
 		var id = $('#boatId').val();
 		var route = jsRoutes.controllers.TripAPI.alltripsAsJson();
 		if(id > 0)
 			route = jsRoutes.controllers.TripAPI.tripsAsJson(id);
-		
+
 		route.ajax({
 			dataType: "json",
 			success: function(data) {
