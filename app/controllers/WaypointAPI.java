@@ -2,7 +2,6 @@ package controllers;
 
 import org.codehaus.jackson.node.ObjectNode;
 
-import models.MediaType;
 import models.Waypoint;
 import play.data.Form;
 import play.libs.Json;
@@ -14,7 +13,7 @@ public class WaypointAPI extends Controller {
 	static Form<Waypoint> form = form(Waypoint.class);
 	
 	public static Result waypointsAsJson(Long tripId) {
-		return ok(Json.toJson(Waypoint.find.where().eq("trip_id", tripId).findList()).toString()).as(MediaType.JSON);
+		return ok(Json.toJson(Waypoint.find.where().eq("trip_id", tripId).findList()));
 	}
 
 	public static Result addWaypoint() {
@@ -31,7 +30,7 @@ public class WaypointAPI extends Controller {
 			response.put("success", true);
 			Waypoint.create(filledForm.get());
 
-			return created(response).as(MediaType.JSON);
+			return created(response);
 		}
 	}
 

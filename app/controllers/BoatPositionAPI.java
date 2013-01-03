@@ -3,7 +3,6 @@ package controllers;
 import java.util.concurrent.Callable;
 
 import models.BoatPosition;
-import models.MediaType;
 
 import static play.libs.Akka.future;
 import play.libs.F.*;
@@ -26,7 +25,7 @@ public class BoatPositionAPI extends Controller {
 			      }   
 			    }).map(new Function<BoatPosition, Result>() {
 					public Result apply(BoatPosition position){
-						return ok(Json.toJson(position).toString()).as(MediaType.JSON);
+						return ok(Json.toJson(position));
 					}
 			    })
 			  );

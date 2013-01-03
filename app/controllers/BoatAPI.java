@@ -3,7 +3,6 @@ package controllers;
 import org.codehaus.jackson.node.ObjectNode;
 
 import models.Boat;
-import models.MediaType;
 import play.data.Form;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -16,11 +15,11 @@ public class BoatAPI extends Controller {
 	public static Result boatsAsJson() {
 		
 		
-		return ok(Json.toJson(Boat.all()).toString()).as(MediaType.JSON);
+		return ok(Json.toJson(Boat.all()));
 	}
 	
 	public static Result boatAsJson(Long id) {
-		return ok(Json.toJson(Boat.findById(id)).toString()).as(MediaType.JSON);
+		return ok(Json.toJson(Boat.findById(id)));
 	}
 
 	public static Result addBoat() {
@@ -41,7 +40,7 @@ public class BoatAPI extends Controller {
 				return ok(response);
 			}else{
 				Boat.create(filledForm.get());
-				return created(response).as(MediaType.JSON);
+				return created(response);
 			}
 		}
 	}
@@ -51,7 +50,7 @@ public class BoatAPI extends Controller {
 		ObjectNode response = Json.newObject();
 		response.put("success", true);
 		
-		return ok(response).as(MediaType.JSON);
+		return ok(response);
 	}
 
 }

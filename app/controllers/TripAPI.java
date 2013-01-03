@@ -2,7 +2,6 @@ package controllers;
 
 import org.codehaus.jackson.node.ObjectNode;
 
-import models.MediaType;
 import models.Trip;
 import play.data.Form;
 import play.libs.Json;
@@ -14,15 +13,15 @@ public class TripAPI extends Controller {
 	static Form<Trip> form = form(Trip.class);
 	
 	public static Result tripsAsJson(Long boatId) {
-		return ok(Json.toJson(Trip.find.where().eq("boat_id", boatId).findList()).toString()).as(MediaType.JSON);
+		return ok(Json.toJson(Trip.find.where().eq("boat_id", boatId).findList()));
 	}
 	
 	public static Result tripAsJson(Long id) {
-		return ok(Json.toJson(Trip.findById(id)).toString()).as(MediaType.JSON);
+		return ok(Json.toJson(Trip.findById(id)));
 	}
 	
 	public static Result alltripsAsJson() {
-		return ok(Json.toJson(Trip.find.all()).toString()).as(MediaType.JSON);
+		return ok(Json.toJson(Trip.find.all()));
 	}
 
 	public static Result addTrip() {
@@ -44,7 +43,7 @@ public class TripAPI extends Controller {
 			}else{
 				Trip.create(filledForm.get());
 
-				return created(response).as(MediaType.JSON);
+				return created(response);
 			}
 		}
 	}
@@ -54,7 +53,7 @@ public class TripAPI extends Controller {
 		ObjectNode response = Json.newObject();
 		response.put("success", true);
 		
-		return ok(response).as(MediaType.JSON);
+		return ok(response);
 	}
 
 }
