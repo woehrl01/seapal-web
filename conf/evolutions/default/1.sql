@@ -48,9 +48,36 @@ create table trip (
   constraint pk_trip primary key (id))
 ;
 
+create table waypoint (
+  id                        bigint not null,
+  trip_id                   bigint,
+  entry_name                varchar(255),
+  north_degree              bigint,
+  north_minutes             bigint,
+  north_seconds             bigint,
+  east_degree               bigint,
+  east_minutes              bigint,
+  east_seconds              bigint,
+  cog                       bigint,
+  sog                       bigint,
+  datetime                  bigint,
+  btm                       bigint,
+  dtm                       bigint,
+  note                      varchar(255),
+  trip_to                   varchar(255),
+  maneuver_id               bigint,
+  headsail_id               bigint,
+  mainsail_id               bigint,
+  position_lon              double,
+  position_lat              double,
+  constraint pk_waypoint primary key (id))
+;
+
 create sequence boat_seq;
 
 create sequence trip_seq;
+
+create sequence waypoint_seq;
 
 
 
@@ -63,9 +90,13 @@ drop table if exists boat;
 
 drop table if exists trip;
 
+drop table if exists waypoint;
+
 SET REFERENTIAL_INTEGRITY TRUE;
 
 drop sequence if exists boat_seq;
 
 drop sequence if exists trip_seq;
+
+drop sequence if exists waypoint_seq;
 

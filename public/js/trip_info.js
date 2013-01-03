@@ -14,7 +14,7 @@ $(document).ready(function() {
 		event.preventDefault();
 		var boatId = $('#boat_id').val();
 
-		$.ajax({
+		jsRoutes.controllers.TripAPI.addTrip().ajax({
 			type: "POST",
 			url: $(this).attr('action'),
 			data: $(this).serialize(),
@@ -22,8 +22,9 @@ $(document).ready(function() {
 			success: function(data) {
 				if(data.success){
 					$('#addSuccessModal').modal('show');
-					
-					window.location.href = 'trip_list.php?boat=' + boatId;
+					window.setTimeout(function (){
+						window.location.href = jsRoutes.controllers.Application.trip_list(boatId).url;
+					}, 2000);
 				} else {
 					console.log(data.errors);
 					alert("Serverside error occured!");
