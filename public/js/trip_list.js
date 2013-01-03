@@ -50,15 +50,7 @@ $(document).ready(function() {
 
 	function loadAllTrips() {
 		var id = $('#boatId').val();
-		var sendData = null;
-		if(id > 0){
-			sendData = {boat_id: id};
-		}
-
-		$.ajax({
-			type: "GET",
-			url: '../backend/trip_service.php',
-			data: sendData,
+		jsRoutes.controllers.Trips.tripsAsJson(id).ajax({
 			dataType: "json",
 			success: function(data) {
 				$( "#tripListTable tbody" ).html(

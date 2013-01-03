@@ -19,7 +19,7 @@ $(document).ready(function() {
 			displayAsText(false);
 			updateAddSaveButton();
 		}else{
-			jsRoutes.controllers.BoatInfo.addBoat().ajax({
+			jsRoutes.controllers.BoatAPI.addBoat().ajax({
 				data: $(this).serialize(),
 				dataType: "json",
 				success: function(data) {
@@ -48,7 +48,7 @@ $(document).ready(function() {
 		event.preventDefault();
 		var boatId = $('#idField').val();
 
-		window.location.href = jsRoutes.controllers.Trips.listByBoatId(boatId).url;
+		window.location.href = jsRoutes.controllers.Application.trip_list(boatId).url;
 	});
 
 	function updateAddSaveButton(){
@@ -86,7 +86,7 @@ $(document).ready(function() {
 	});
 
 	function deleteBoat(boatId){
-		jsRoutes.controllers.BoatInfo.deleteBoat(boatId).ajax({
+		jsRoutes.controllers.BoatAPI.deleteBoat(boatId).ajax({
 			dataType: "json",
 			success: function(data) {
 				loadAllBoats();
@@ -104,7 +104,7 @@ $(document).ready(function() {
 	}
 
 	function loadBoat( boatId, displayOnly) {
-		jsRoutes.controllers.BoatInfo.boatAsJson(boatId).ajax({
+		jsRoutes.controllers.BoatAPI.boatAsJson(boatId).ajax({
 			dataType: "json",
 			success: function(boat) {
 				populateJSON('#form input', boat);
@@ -158,7 +158,7 @@ $(document).ready(function() {
 	}
 
 	function loadAllBoats() {
-		jsRoutes.controllers.BoatInfo.boatsAsJson().ajax({
+		jsRoutes.controllers.BoatAPI.boatsAsJson().ajax({
 			dataType: "json",
 			success: function(data) {
 				$( "#boatListTable tbody" ).html(

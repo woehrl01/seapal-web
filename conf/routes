@@ -7,19 +7,20 @@ GET     /about              		controllers.Application.about()
 GET     /contact            		controllers.Application.contact()
 GET     /user_guide         		controllers.Application.user_guide()
 GET		/seamap						controllers.Application.seamap()
-# to be continued ...
+GET		/boat_info					controllers.Application.boat_info()
+GET		/trip_list					controllers.Application.trip_list(id: Long = -1)
+GET		/trip_list/$id<[0-9]+>		controllers.Application.trip_list(id: Long)
+### API
 
-# Seapal web app
-GET		/boat_info					controllers.BoatInfo.index()
-GET		/boatservice/$id<[0-9]+>	controllers.BoatInfo.boatAsJson(id: Long)
-GET		/boatservice				controllers.BoatInfo.boatsAsJson()
-POST	/boatservice				controllers.BoatInfo.addBoat()
-DELETE	/boatservice/$id<[0-9]+> 	controllers.BoatInfo.deleteBoat(id: Long)
+GET		/boatservice/$id<[0-9]+>	controllers.BoatAPI.boatAsJson(id: Long)
+GET		/boatservice				controllers.BoatAPI.boatsAsJson()
+POST	/boatservice				controllers.BoatAPI.addBoat()
+DELETE	/boatservice/$id<[0-9]+> 	controllers.BoatAPI.deleteBoat(id: Long)
 
 GET		/boatposition				controllers.BoatPositionAPI.current()
 
-GET		/trip_list					controllers.Trips.listAll()
-GET		/trip_list/$id<[0-9]+>		controllers.Trips.listByBoatId(id: Long)
+
+GET		/tripservice/$id<[0-9]+>	controllers.TripAPI.tripsAsJson(id: Long)
 
 # Javascript routing
 GET    /assets/javascripts/routes   controllers.Application.javascriptRoutes()

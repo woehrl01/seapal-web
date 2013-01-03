@@ -34,16 +34,25 @@ public class Application extends Controller {
 		return ok(seamap.render());
 	}
 	
+	public static Result boat_info() {
+		return ok(boat_info.render());
+	}
+	
+	public static Result trip_list(Long boatId) {
+		return ok(trip_list.render(boatId));
+	}
+	
 	public static Result javascriptRoutes() {
 	    response().setContentType("text/javascript");
 	    return ok(
 	      Routes.javascriptRouter("jsRoutes",
 	        // Routes
-	        controllers.routes.javascript.BoatInfo.boatAsJson(),
-	        controllers.routes.javascript.BoatInfo.boatsAsJson(),
-	        controllers.routes.javascript.BoatInfo.deleteBoat(),
-	        controllers.routes.javascript.BoatInfo.addBoat(),
-	        controllers.routes.javascript.Trips.listByBoatId()
+	        controllers.routes.javascript.BoatAPI.boatAsJson(),
+	        controllers.routes.javascript.BoatAPI.boatsAsJson(),
+	        controllers.routes.javascript.BoatAPI.deleteBoat(),
+	        controllers.routes.javascript.BoatAPI.addBoat(),
+	        controllers.routes.javascript.Application.trip_list(),
+	        controllers.routes.javascript.TripAPI.tripsAsJson()
 	      )
 	    );
 	  }

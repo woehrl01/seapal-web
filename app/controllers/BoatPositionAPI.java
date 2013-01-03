@@ -20,9 +20,7 @@ public class BoatPositionAPI extends Controller {
 		return async(
 			    future(new Callable<BoatPosition>() {
 			      public BoatPosition call() {
-
 			    	position.move();
-			    	
 					return position;
 			      }   
 			    }).map(new Function<BoatPosition, Result>() {
