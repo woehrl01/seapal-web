@@ -48,7 +48,6 @@ public class BoatInfo extends Controller {
 				return ok(response);
 			}else{
 				Boat.create(filledForm.get());
-
 				return created(response);
 			}
 		}
@@ -56,7 +55,10 @@ public class BoatInfo extends Controller {
 
 	public static Result deleteBoat(Long id) {
 		Boat.delete(id);
-		return redirect(routes.BoatInfo.index());
+		ObjectNode response = Json.newObject();
+		response.put("success", true);
+		
+		return ok(response);
 	}
 
 }

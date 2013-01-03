@@ -32,7 +32,25 @@ create table boat (
   constraint pk_boat primary key (id))
 ;
 
+create table trip (
+  id                        bigint not null,
+  boat_id                   bigint,
+  trip_title                varchar(255),
+  trip_from                 varchar(255),
+  trip_to                   varchar(255),
+  crew                      varchar(255),
+  start_time                timestamp,
+  end_time                  timestamp,
+  engine_runtime            integer,
+  skipper                   varchar(255),
+  tank_filled               boolean,
+  note                      varchar(255),
+  constraint pk_trip primary key (id))
+;
+
 create sequence boat_seq;
+
+create sequence trip_seq;
 
 
 
@@ -43,7 +61,11 @@ SET REFERENTIAL_INTEGRITY FALSE;
 
 drop table if exists boat;
 
+drop table if exists trip;
+
 SET REFERENTIAL_INTEGRITY TRUE;
 
 drop sequence if exists boat_seq;
+
+drop sequence if exists trip_seq;
 

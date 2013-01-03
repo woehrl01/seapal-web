@@ -5,6 +5,7 @@ import org.codehaus.jackson.node.ObjectNode;
 import controllers.helpers.Menus;
 
 import models.Boat;
+import models.Trip;
 import play.data.Form;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -26,14 +27,8 @@ public class Trips extends Controller {
 		return ok(trip_list.render(new Long(-1)));
 	}
 	
-	
-/*
-	public static Result boatsAsJson() {
-		return ok(Json.toJson(Boat.all()).toString());
-	}
-	
-	public static Result boatAsJson(Long id) {
-		return ok(Json.toJson(Boat.findById(id)).toString());
+	public static Result tripsAsJson(Long boatId) {
+		return ok(Json.toJson(Trip.find.where().eq("boat_id", boatId)).toString());
 	}
 
 	public static Result addBoat() {
@@ -60,10 +55,12 @@ public class Trips extends Controller {
 		}
 	}
 
-	public static Result deleteBoat(Long id) {
-		Boat.delete(id);
-		return redirect(routes.BoatInfo.index());
+	public static Result deleteTrip(Long id) {
+		Trip.delete(id);
+		ObjectNode response = Json.newObject();
+		response.put("success", true);
+		
+		return ok(response);
 	}
-	*/
 
 }
