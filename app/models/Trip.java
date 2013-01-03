@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 
 import play.data.validation.Constraints;
-import play.data.format.Formats;
 import play.db.ebean.Model;
 
 import javax.persistence.Entity;
@@ -15,8 +14,8 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 @Entity
 public class Trip extends Model {
 
-	private static final long serialVersionUID = 2L;
-
+	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@Constraints.Min(0)
 	private Long id;

@@ -47,10 +47,13 @@ public class Menus extends Action.Simple {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public static List<MenuItem> mainNavigation() {
-        return (List<MenuItem>)Http.Context.current().args.get("mainNavi");
+        
+		return (List<MenuItem>)Http.Context.current().args.get("mainNavi");
     }
 	
+	@SuppressWarnings("unchecked")
 	public static List<MenuItem> subNavigation() {
         return (List<MenuItem>)Http.Context.current().args.get("subNavi");
     }
