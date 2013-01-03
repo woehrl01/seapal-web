@@ -16,8 +16,8 @@ public class TripAPI extends Controller {
 		return ok(Json.toJson(Trip.find.where().eq("boat_id", boatId).findList()).toString());
 	}
 
-	/*public static Result addBoat() {
-		Form<Boat> filledForm = form.bindFromRequest();
+	public static Result addTrip() {
+		Form<Trip> filledForm = form.bindFromRequest();
 		
 		ObjectNode response = Json.newObject();
 		
@@ -29,16 +29,16 @@ public class TripAPI extends Controller {
 		} else {
 			response.put("success", true);
 			if(Integer.parseInt(filledForm.field("id").value()) > 0){
-				Boat.update(filledForm.get());
+				Trip.update(filledForm.get());
 
 				return ok(response);
 			}else{
-				Boat.create(filledForm.get());
+				Trip.create(filledForm.get());
 
 				return created(response);
 			}
 		}
-	}*/
+	}
 	
 	public static Result deleteTrip(Long id) {
 		Trip.delete(id);

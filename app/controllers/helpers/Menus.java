@@ -35,12 +35,12 @@ public class Menus extends Action.Simple {
 		List<MenuItem> menu = new LinkedList<MenuItem>();
 		
 		menu.add(new MenuItem("Boat Info", "/boat_info"));
-		menu.add(new MenuItem("Trip List", "/trip_list"));
+		menu.add(new MenuItem("Trip List", "/trips"));
 		menu.add(new MenuItem("Trip Info", "/trip_info"));
 		menu.add(new MenuItem("Log Entry", "/log_entry"));
 		menu.add(new MenuItem("Seamap", "/seamap"));
 		
-		if(menu.contains(new MenuItem(url))){
+		if(menu.contains(new MenuItem(url)) || url.contains("/boat")){
 			return menu;
 		} else {
 			return null;

@@ -150,6 +150,17 @@ $(document).ready(function() {
 	        }
     });
 
+    $('body').on('click', 'a.selectBoatBtn', function(event) {
+	        event.preventDefault();
+
+	        var id = $(this).closest('tr').attr("data-boatid");
+	        if(id > 0){
+	        	window.location.href = jsRoutes.controllers.Application.trip_list(id).url;
+	        }
+    });
+
+    
+
 	function resetFormData() {
 		$('#form').get(0).reset();
 		$('#idField').val("-1");

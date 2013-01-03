@@ -42,6 +42,10 @@ public class Application extends Controller {
 		return ok(trip_list.render(boatId));
 	}
 	
+	public static Result trip_add(Long boatId) {
+		return ok(trip_list.render(boatId));
+	}
+	
 	public static Result javascriptRoutes() {
 	    response().setContentType("text/javascript");
 	    return ok(
