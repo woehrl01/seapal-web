@@ -136,6 +136,7 @@
 							</div>
 						</div>
 					</div>
+					@if(tripId > 0){
 					<div class="listview-wrapper">
 						<div class="listview">
 							<div class="row">
@@ -164,6 +165,7 @@
 								</div>
 							</div>
 						</div>
+						
 						<div class="row">
 							<div class="listview-buttons tablePager">
 								<div class="span6">
@@ -180,7 +182,15 @@
 								</div>
 							</div>
 						</div>
+						
 					</div>
+					}else{
+					<div class="alert alert-info">
+						  <button type="button" class="close" data-dismiss="alert">&times;</button>
+						  <h4>Hinweis:</h4>
+						  Sie müssen den Trip erst speichern, bevor Sie Wegpunkte hinzufügen können.
+					</div>
+					}
 				</div>
 		}
 		<!-- Modals -->
