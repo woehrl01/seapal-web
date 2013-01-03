@@ -12,15 +12,15 @@ GET		/trip_list					controllers.Application.trip_list(id: Long = -1)
 GET		/trip_list/$id<[0-9]+>		controllers.Application.trip_list(id: Long)
 ### API
 
-GET		/boatservice/$id<[0-9]+>	controllers.BoatAPI.boatAsJson(id: Long)
-GET		/boatservice				controllers.BoatAPI.boatsAsJson()
-POST	/boatservice				controllers.BoatAPI.addBoat()
-DELETE	/boatservice/$id<[0-9]+> 	controllers.BoatAPI.deleteBoat(id: Long)
+GET		/api/boat/$id<[0-9]+>			controllers.BoatAPI.boatAsJson(id: Long)
+GET		/api/boat						controllers.BoatAPI.boatsAsJson()
+POST	/api/boat						controllers.BoatAPI.addBoat()
+DELETE	/api/boat/$id<[0-9]+> 			controllers.BoatAPI.deleteBoat(id: Long)
 
-GET		/boatposition				controllers.BoatPositionAPI.current()
+GET		/api/boatposition				controllers.BoatPositionAPI.current()
 
-
-GET		/tripservice/$id<[0-9]+>	controllers.TripAPI.tripsAsJson(id: Long)
+GET		/api/tripservice/$id<[0-9]+>	controllers.TripAPI.tripsAsJson(id: Long)
+DELETE	/api/tripservice/$id<[0-9]+> 	controllers.TripAPI.deleteTrip(id: Long)
 
 # Javascript routing
 GET    /assets/javascripts/routes   controllers.Application.javascriptRoutes()

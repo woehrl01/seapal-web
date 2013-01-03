@@ -52,7 +52,8 @@ public class Application extends Controller {
 	        controllers.routes.javascript.BoatAPI.deleteBoat(),
 	        controllers.routes.javascript.BoatAPI.addBoat(),
 	        controllers.routes.javascript.Application.trip_list(),
-	        controllers.routes.javascript.TripAPI.tripsAsJson()
+	        controllers.routes.javascript.TripAPI.tripsAsJson(),
+	        controllers.routes.javascript.BoatPositionAPI.current()
 	      )
 	    );
 	  }

@@ -297,11 +297,8 @@
 		* *********************************************************************************
 		*/
 		function startBoatAnimation(){
-			$.ajax({
-				type: 'GET',
-				url : "/boatposition",
+			jsRoutes.controllers.BoatPositionAPI.current().ajax({
 				dataType : 'json',
-				data: null,
 				success : function(response){
 					position = new google.maps.LatLng(response.lat, response.lng);
 					handleBoatPosition(position);

@@ -13,13 +13,7 @@ $(document).ready(function() {
 	});
 
 	function deleteItem(itemId){
-		$.ajax({
-			type: "POST",
-			url: '../backend/trip_service.php',
-			data: {
-					method: "delete",
-					id: itemId
-				},
+		jsRoutes.controllers.TripAPI.deleteTrip(itemId).ajax({
 			dataType: "json",
 			success: function(data) {
 				loadAllTrips();
@@ -50,7 +44,7 @@ $(document).ready(function() {
 
 	function loadAllTrips() {
 		var id = $('#boatId').val();
-		jsRoutes.controllers.Trips.tripsAsJson(id).ajax({
+		jsRoutes.controllers.TripAPI.tripsAsJson(id).ajax({
 			dataType: "json",
 			success: function(data) {
 				$( "#tripListTable tbody" ).html(

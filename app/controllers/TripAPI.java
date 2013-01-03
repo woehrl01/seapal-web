@@ -13,7 +13,7 @@ public class TripAPI extends Controller {
 	static Form<Trip> form = form(Trip.class);
 	
 	public static Result tripsAsJson(Long boatId) {
-		return ok(Json.toJson(Trip.find.where().eq("boat_id", boatId)).toString());
+		return ok(Json.toJson(Trip.find.where().eq("boat_id", boatId).findList()).toString());
 	}
 
 	/*public static Result addBoat() {
