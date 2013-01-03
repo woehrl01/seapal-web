@@ -85,7 +85,7 @@
 					type:'rect'
 				},
 				image : new google.maps.MarkerImage(
-					'images/crosshair.png', 
+					'/assets/images/crosshair.png', 
 					new google.maps.Size(28,28),	
 					new google.maps.Point(0,0),	
 					new google.maps.Point(14,14))	
