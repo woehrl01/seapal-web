@@ -159,8 +159,6 @@ $(document).ready(function() {
 	        }
     });
 
-    
-
 	function resetFormData() {
 		$('#form').get(0).reset();
 		$('#idField').val("-1");

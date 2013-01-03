@@ -43,7 +43,7 @@ public class Application extends Controller {
 	}
 	
 	public static Result trip_add(Long boatId) {
-		return ok(trip_list.render(boatId));
+		return ok(trip_info.render(boatId, new Long(-1)));
 	}
 	
 	public static Result javascriptRoutes() {
@@ -57,6 +57,7 @@ public class Application extends Controller {
 	        controllers.routes.javascript.BoatAPI.addBoat(),
 	        controllers.routes.javascript.Application.trip_list(),
 	        controllers.routes.javascript.TripAPI.tripsAsJson(),
+	        controllers.routes.javascript.TripAPI.alltripsAsJson(),
 	        controllers.routes.javascript.BoatPositionAPI.current()
 	      )
 	    );

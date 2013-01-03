@@ -17,7 +17,7 @@
 						</div>
 						<div class="span4">
 							<div class="right buttons_top">
-								<a id="addButton" href="/trip_info/@boatId" class="btn btn-primary"><i class="icon-plus icon-white"></i> <span>Hinzufügen<span></a>
+								<a id="addButton" href="@routes.Application.trip_add(boatId)" class="btn btn-primary"><i class="icon-plus icon-white"></i> <span>Hinzufügen<span></a>
 							</div>
 						</div>
 					</div>
@@ -47,7 +47,7 @@
 											<td>{{>start_time}}</td>
 											<td class="actionCol">
 												<a href="#"  class="deleteItemBtn tooltipable" rel="tooltip" title="Löschen"><i class="icon-remove"></i></a>
-												<a href="/trip_info/{{>id}}" class="editItemBtn tooltipable" rel="tooltip" title="Auswählen"><i class="icon-chevron-right"></i></a>
+												<a href="#" class="editItemBtn tooltipable" rel="tooltip" title="Auswählen"><i class="icon-chevron-right"></i></a>
 											</td>
 										</tr>
 									</script>

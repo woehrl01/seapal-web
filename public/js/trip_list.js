@@ -42,9 +42,24 @@ $(document).ready(function() {
 	        }
     });
 
+    $('body').on('click', 'a.editItemBtn', function(event) {
+	        event.preventDefault();
+
+	        var id = $(this).closest('tr').attr("data-id");
+
+	        if(id > 0){
+	        	window.location.href = jsRoutes.controllers.Application.trip_edit(id).url;
+	        }
+    });
+
+    
 	function loadAllTrips() {
 		var id = $('#boatId').val();
-		jsRoutes.controllers.TripAPI.tripsAsJson(id).ajax({
+		var route = jsRoutes.controllers.TripAPI.alltripsAsJson();
+		if(id > 0)
+			route = jsRoutes.controllers.TripAPI.tripsAsJson(id);
+		
+		route.ajax({
 			dataType: "json",
 			success: function(data) {
 				$( "#tripListTable tbody" ).html(

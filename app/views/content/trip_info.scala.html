@@ -1,4 +1,4 @@
-@(boatId: Long)
+@(boatId: Long, tripId: Long)
 
 @scripts = {
 	<script type="text/javascript" src="@routes.Application.javascriptRoutes"></script>
@@ -14,7 +14,7 @@
 
 @main("SeaPal - Trip Info", scripts, "withsubnavi") {
 @helper.form(action = routes.TripAPI.addTrip() , 'id -> "form") {
-			<input type="hidden" id="trip_id" name="id" value="<?= (array_key_exists('trip', $_GET) ? $_GET['trip'] : -1) ?>" />
+			<input type="hidden" id="trip_id" name="id" value="@tripId" />
 				<input type="hidden" id="boat_id" name="boat_id" value="@boatId" />
 				<div class="container">
 					<div class="row">
@@ -129,7 +129,7 @@
 									<div class="photos">
 										<h4>Photos</h4>
 										<div class="gadget">
-											<img width="230" height="230" src="images/photo1.jpg"/>
+											<img width="230" height="230" src="@routes.Assets.at("images/photo1.jpg")"/>
 										</div>
 									</div>
 								</div>

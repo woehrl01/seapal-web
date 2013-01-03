@@ -20,6 +20,7 @@ DELETE	/api/boat/$id<[0-9]+> 				controllers.BoatAPI.deleteBoat(id: Long)
 
 GET		/api/boatposition					controllers.BoatPositionAPI.current()
 
+GET		/api/trip							controllers.TripAPI.alltripsAsJson()
 GET		/api/trip/$id<[0-9]+>				controllers.TripAPI.tripsAsJson(id: Long)
 DELETE	/api/trip/$id<[0-9]+> 				controllers.TripAPI.deleteTrip(id: Long)
 POST	/api/trip							controllers.TripAPI.addTrip()
