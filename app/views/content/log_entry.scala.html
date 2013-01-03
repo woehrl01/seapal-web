@@ -73,12 +73,13 @@
 							<div class="span4 offset2">
 								<label for="trip_to">Fahrt nach</label>
 								<select name="trip_to" size="1" style="width:100%;">
-									<?php
+									<option value="0">-</option>
+									@*<?php
 										$marks = MarkDAL::loadAll();
 										foreach ($marks as &$value) {
 											echo '<option value="'.$value->getId().'">'.$value->getName().'</option>';
 										}
-									?>
+									?>*@
 								</select>
 							</div>
 						</div>
@@ -86,34 +87,37 @@
 							<div class="span4">
 								<label for="maneuver_id">Manöver</label>
 								<select name="maneuver_id" size="1" style="width:100%;">
-									<?php
+									<option value="0">-</option>
+									@*<?php
 										$maneuver = ManeuverDAL::loadAll();
 										foreach ($maneuver as &$value) {
 											echo '<option value="'.$value->getId().'">'.$value->getName().'</option>';
 										}
-									?>
+									?>*@
 								</select>
 							</div>
 							<div class="span4">
 								<label for="headsail_id">Vorsegel</label>
 								<select name="headsail_id" size="1" style="width:100%;">
-									<?php
+									<option value="0">-</option>
+									@*<?php
 										$headsail = HeadsailDAL::loadAll();
 										foreach ($headsail as &$value) {
 											echo '<option value="'.$value->getId().'">'.$value->getName().'</option>';
 										}
-									?>
+									?>*@
 								</select>
 							</div>
 							<div class="span4">
 								<label for="mainsail_id">Großsegel</label>
 								<select name="mainsail_id" size="1" style="width:100%;">
-									<?php
+									<option value="0">-</option>
+									@*<?php
 										$mainsail = MainsailDAL::loadAll();
 										foreach ($mainsail as &$value) {
 											echo '<option value="'.$value->getId().'">'.$value->getName().'</option>';
 										}
-									?>
+									?>*@
 								</select>
 							</div>
 						</div>	

@@ -60,7 +60,7 @@ create table waypoint (
   east_seconds              bigint,
   cog                       bigint,
   sog                       bigint,
-  datetime                  bigint,
+  datetime                  timestamp,
   btm                       bigint,
   dtm                       bigint,
   note                      varchar(255),
@@ -68,8 +68,6 @@ create table waypoint (
   maneuver_id               bigint,
   headsail_id               bigint,
   mainsail_id               bigint,
-  position_lon              double,
-  position_lat              double,
   constraint pk_waypoint primary key (id))
 ;
 

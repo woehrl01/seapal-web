@@ -11,6 +11,7 @@ GET		/boat_info							controllers.Application.boat_info()
 GET		/trips								controllers.Application.trip_list(id: Long = -1)
 GET		/boat/$boatId<[0-9]+>/trips			controllers.Application.trip_list(boatId: Long)
 GET		/boat/$boatId<[0-9]+>/trip  		controllers.Application.trip_add(boatId: Long)
+GET		/trip/$tripId<[0-9]+>				controllers.Application.trip_edit(tripId: Long)
 GET		/trip/$tripId<[0-9]+>/waypoint		controllers.Application.waypoint_add(tripId: Long)
 
 # API
@@ -22,10 +23,13 @@ DELETE	/api/boat/$id<[0-9]+> 				controllers.BoatAPI.deleteBoat(id: Long)
 GET		/api/boatposition					controllers.BoatPositionAPI.current()
 
 GET		/api/trip							controllers.TripAPI.alltripsAsJson()
-GET		/api/trip/$id<[0-9]+>				controllers.TripAPI.tripsAsJson(id: Long)
+
+GET		/api/trip/$id<[0-9]+>				controllers.TripAPI.tripAsJson(id: Long)
+GET		/api/boat/$id<[0-9]+>/trips			controllers.TripAPI.tripsAsJson(id: Long)
 DELETE	/api/trip/$id<[0-9]+> 				controllers.TripAPI.deleteTrip(id: Long)
 POST	/api/trip							controllers.TripAPI.addTrip()
 
+GET		/api/trip/$id<[0-9]+>/waypoints		controllers.WaypointAPI.waypointsAsJson(id: Long)
 POST	/api/waypoint						controllers.WaypointAPI.addWaypoint()
 
 # Javascript routing

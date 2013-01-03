@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import play.data.validation.Constraints;
+import play.data.format.Formats;
 import play.db.ebean.Model;
 
 import javax.persistence.Entity;
@@ -30,8 +31,10 @@ public class Trip extends Model {
 	
 	public String crew;
 	
+	@Formats.DateTime(pattern="yyyy-mm-dd")
 	public Date start_time;
 	
+	@Formats.DateTime(pattern="yyyy-mm-dd")
 	public Date end_time;
 	
 	public Integer engine_runtime;

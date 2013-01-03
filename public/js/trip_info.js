@@ -49,7 +49,6 @@ $(document).ready(function() {
 
 	function initStaticSeamap(waypoints) {
 		jsonObj = [];
-		console.log(jsonObj);
 		for (var i = 0; i < waypoints.length; i++) {
 			console.log(waypoints[i].position_lat);
 			jsonObj.push({lat: waypoints[i].position_lat, lng : waypoints[i].position_lon});
@@ -69,7 +68,7 @@ $(document).ready(function() {
 		$("#mini_map").seamap(config);
 	}
 
-	function deleteBoat(waypointId){
+	function deleteWaypoint(waypointId){
 		$.ajax({
 			type: "POST",
 			url: $('#form').attr('action'),
@@ -96,11 +95,8 @@ $(document).ready(function() {
 		});
 	}
 
-	function loadTrip( tripInfo) {
-		$.ajax({
-			type: "GET",
-			url: $('#form').attr('action'),
-			data: {id: tripInfo},
+	function loadTrip( tripId) {
+		jsRoutes.controllers.TripAPI.tripAsJson(tripId).ajax({
 			dataType: "json",
 			success: function(boat) {
 				populateJSON('#form input', boat);
@@ -110,14 +106,6 @@ $(document).ready(function() {
 		});
 
 	}
-
-	$('body').on('click', 'a.editItemBtn', function(event) {
-	        event.preventDefault();
-	        var id = $(this).closest('tr').attr("data-id");
-	        if(id > 0){
-	        	window.location.href = 'log_entry.php?id=' + id;
-	        }
-    });
 
     $('body').on('click', 'a.deleteItemBtn', function(event) {
 	        event.preventDefault();
@@ -137,11 +125,8 @@ $(document).ready(function() {
 		updateAddSaveButton();
 	}
 
-	function loadAllWaypointsByTripId(tripInfo) {
-		$.ajax({
-			type: "GET",
-			url: '../backend/log_entry_service.php',
-			data: {trip_id: tripInfo},
+	function loadAllWaypointsByTripId(tripId) {
+		jsRoutes.controllers.WaypointAPI.waypointsAsJson(tripId).ajax({
 			dataType: "json",
 			success: function(data) {
 				$( "#waypointListTable tbody" ).html(

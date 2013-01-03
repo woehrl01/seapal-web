@@ -1,5 +1,6 @@
 package models;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -14,8 +15,7 @@ public class Waypoint extends Model {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Constraints.Min(0)
-	private Long id;
+	public Long id;
 	
 	@Constraints.Required
     public Long trip_id;
@@ -29,9 +29,11 @@ public class Waypoint extends Model {
 	public Long east_degree;
 	public Long east_minutes;
 	public Long east_seconds;
+	
 	public Long cog;
 	public Long sog;
-	public Long datetime;
+	
+	public Date datetime;
 	public Long btm;
 	public Long dtm;
 	public String note;
@@ -39,8 +41,6 @@ public class Waypoint extends Model {
 	public Long maneuver_id;
 	public Long headsail_id;
 	public Long mainsail_id;
-	private Double position_lon;
-	private Double position_lat;
 
 	/**
      * Calculates the lat/long value.
@@ -62,14 +62,14 @@ public class Waypoint extends Model {
         return res;
     }
     
-    Double getPosition_lon(){
+    public Double getPosition_lon(){
     	if(north_degree != null && north_minutes != null && north_seconds != null)
     		return toLatLong(north_degree, north_minutes, north_seconds);
     	else
     		return null;
     }
     
-    Double getPosition_lat(){
+    public Double getPosition_lat(){
     	if(east_degree != null && east_minutes != null && east_seconds != null)
     		return toLatLong(east_degree, east_minutes, east_seconds);
     	else

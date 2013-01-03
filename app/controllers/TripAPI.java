@@ -16,6 +16,10 @@ public class TripAPI extends Controller {
 		return ok(Json.toJson(Trip.find.where().eq("boat_id", boatId).findList()).toString());
 	}
 	
+	public static Result tripAsJson(Long id) {
+		return ok(Json.toJson(Trip.findById(id)).toString());
+	}
+	
 	public static Result alltripsAsJson() {
 		return ok(Json.toJson(Trip.find.all()).toString());
 	}

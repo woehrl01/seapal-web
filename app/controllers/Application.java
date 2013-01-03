@@ -46,6 +46,10 @@ public class Application extends Controller {
 		return ok(trip_info.render(boatId, new Long(-1)));
 	}
 	
+	public static Result trip_edit(Long tripId) {
+		return ok(trip_info.render(new Long(-1), tripId));
+	}
+	
 	public static Result waypoint_add(Long tripId){
 		return ok(log_entry.render(tripId));
 	}
@@ -55,14 +59,20 @@ public class Application extends Controller {
 	    return ok(
 	      Routes.javascriptRouter("jsRoutes",
 	        // Routes
+	    	// Application
+    		controllers.routes.javascript.Application.trip_list(),
+  	        controllers.routes.javascript.Application.trip_edit(),
+	    	// API  
 	        controllers.routes.javascript.BoatAPI.boatAsJson(),
 	        controllers.routes.javascript.BoatAPI.boatsAsJson(),
 	        controllers.routes.javascript.BoatAPI.deleteBoat(),
 	        controllers.routes.javascript.BoatAPI.addBoat(),
-	        controllers.routes.javascript.Application.trip_list(),
 	        controllers.routes.javascript.TripAPI.tripsAsJson(),
+	        controllers.routes.javascript.TripAPI.tripAsJson(),
 	        controllers.routes.javascript.TripAPI.alltripsAsJson(),
 	        controllers.routes.javascript.TripAPI.addTrip(),
+	        controllers.routes.javascript.WaypointAPI.addWaypoint(),
+	        controllers.routes.javascript.WaypointAPI.waypointsAsJson(),
 	        controllers.routes.javascript.BoatPositionAPI.current()
 	      )
 	    );

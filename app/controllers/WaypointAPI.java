@@ -28,15 +28,9 @@ public class WaypointAPI extends Controller {
 			return badRequest(response);
 		} else {
 			response.put("success", true);
-			if(Integer.parseInt(filledForm.field("id").value()) > 0){
-				Waypoint.update(filledForm.get());
+			Waypoint.create(filledForm.get());
 
-				return ok(response);
-			}else{
-				Waypoint.create(filledForm.get());
-
-				return created(response);
-			}
+			return created(response);
 		}
 	}
 

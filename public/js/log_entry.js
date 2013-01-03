@@ -6,15 +6,16 @@ $(document).ready(function() {
 		event.preventDefault();
 		var tripId = $('#trip_id').val();
 		console.log(tripId);
-		$.ajax({
-			type: "POST",
-			url: $(this).attr('action'),
+
+		jsRoutes.controllers.WaypointAPI.addWaypoint().ajax({
 			data: $(this).serialize(),
 			dataType: "json",
 			success: function(data) {
 				if(data.success){
 					$('#addSuccessModal').modal('show');
-					window.location.href = 'trip_info.php?trip=' + tripId;
+					window.setTimeout(function (){
+						window.location.href = jsRoutes.controllers.Application.trip_edit(tripId).url;
+					}, 2000);
 				}else{
 					console.log(data.errors);
 					alert("Serverside error occured!");
