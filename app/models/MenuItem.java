@@ -30,7 +30,6 @@ public class MenuItem {
 				return uriString.startsWith(path);
 			else
 				return path.equals(uriString);
-
 	}
 
 	@Override

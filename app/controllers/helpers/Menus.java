@@ -36,7 +36,7 @@ public class Menus extends Action.Simple {
 		
 		menu.add(new MenuItem("Boat Info", "/boat_info"));
 		menu.add(new MenuItem("Trip List", "/trips"));
-		menu.add(new MenuItem("Trip Info", "/trip"));
+		menu.add(new MenuItem("Trip Info", "/trip/1"));
 		menu.add(new MenuItem("Log Entry", "/trip/1/waypoint"));
 		menu.add(new MenuItem("Seamap", "/seamap"));
 		

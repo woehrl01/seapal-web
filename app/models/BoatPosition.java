@@ -1,11 +1,13 @@
 package models;
 
 public class BoatPosition {
+	/* configuration */
 	private static double LEFT_LNG_LIMIT = 9.195;
 	private static double RIGHT_LNG_LIMIT = 9.24;
 			
 	public double lat;
 	public double lng;
+	
 	private int direction;
 	
 	public BoatPosition(double lat, double lng){

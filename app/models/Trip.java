@@ -38,6 +38,7 @@ public class Trip extends Model {
 	@JsonSerialize(using = CustomJsonDateSerializer.class)
 	public Date end_time;
 	
+	@Constraints.Min(0)
 	public Integer engine_runtime;
 	
 	public String skipper;
