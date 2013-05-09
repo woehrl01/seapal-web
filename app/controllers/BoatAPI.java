@@ -10,9 +10,10 @@ import play.mvc.Result;
 
 public class BoatAPI extends Controller {
 
-	static Form<Boat> form = form(Boat.class);
+	static Form<Boat> form = Form.form(Boat.class);
 
 	public static Result boatsAsJson() {
+		
 		return ok(Json.toJson(Boat.all()));
 	}
 	

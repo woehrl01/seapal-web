@@ -10,7 +10,7 @@ import play.mvc.Result;
 
 public class WaypointAPI extends Controller {
 
-	static Form<Waypoint> form = form(Waypoint.class);
+	static Form<Waypoint> form = Form.form(Waypoint.class);
 	
 	public static Result waypointsAsJson(Long tripId) {
 		return ok(Json.toJson(Waypoint.find.where().eq("trip_id", tripId).findList()));

@@ -1,5 +1,6 @@
 @import controllers.helpers.Menus
 
+
 @display(menuItem: models.MenuItem) = {
 	<li class="@if(menuItem.sameURI(request.uri)){active}"><a href="@menuItem.uri">@menuItem.name</a></li>
 }
