@@ -1,39 +1,39 @@
 # Routes
 
 # Static pages
-GET     /           						controllers.Application.index()
-GET     /screenshots        				controllers.Application.screenshots()
-GET     /about              				controllers.Application.about()
-GET     /contact            				controllers.Application.contact()
-GET     /user_guide         				controllers.Application.user_guide()
-GET		/seamap								controllers.Application.seamap()
-GET		/boat_info							controllers.Application.boat_info()
-GET		/trips								controllers.Application.trip_list(id: Long = -1)
-GET		/boat/$boatId<[0-9]+>/trips			controllers.Application.trip_list(boatId: Long)
-GET		/boat/$boatId<[0-9]+>/trip  		controllers.Application.trip_add(boatId: Long)
-GET		/trip/$tripId<[0-9]+>				controllers.Application.trip_edit(tripId: Long)
-GET		/trip/$tripId<[0-9]+>/waypoint		controllers.Application.waypoint_add(tripId: Long)
+GET     /           						de.htwg.seapal.web.controllers.Application.index()
+GET     /screenshots        				de.htwg.seapal.web.controllers.Application.screenshots()
+GET     /about              				de.htwg.seapal.web.controllers.Application.about()
+GET     /contact            				de.htwg.seapal.web.controllers.Application.contact()
+GET     /user_guide         				de.htwg.seapal.web.controllers.Application.user_guide()
+GET		/seamap								de.htwg.seapal.web.controllers.Application.seamap()
+GET		/boat_info							de.htwg.seapal.web.controllers.Application.boat_info()
+GET		/trips								de.htwg.seapal.web.controllers.Application.trip_list(id: Long = -1)
+GET		/boat/$boatId<[0-9]+>/trips			de.htwg.seapal.web.controllers.Application.trip_list(boatId: Long)
+GET		/boat/$boatId<[0-9]+>/trip  		de.htwg.seapal.web.controllers.Application.trip_add(boatId: Long)
+GET		/trip/$tripId<[0-9]+>				de.htwg.seapal.web.controllers.Application.trip_edit(tripId: Long)
+GET		/trip/$tripId<[0-9]+>/waypoint		de.htwg.seapal.web.controllers.Application.waypoint_add(tripId: Long)
 
 # API
-GET		/api/boat/$id<[0-9]+>				controllers.BoatAPI.boatAsJson(id: Long)
-GET		/api/boat							controllers.BoatAPI.boatsAsJson()
-POST	/api/boat							controllers.BoatAPI.addBoat()
-DELETE	/api/boat/$id<[0-9]+> 				controllers.BoatAPI.deleteBoat(id: Long)
+GET		/api/boat/$id<[0-9]+>				de.htwg.seapal.web.controllers.BoatAPI.boatAsJson(id: Long)
+GET		/api/boat							de.htwg.seapal.web.controllers.BoatAPI.boatsAsJson()
+POST	/api/boat							de.htwg.seapal.web.controllers.BoatAPI.addBoat()
+DELETE	/api/boat/$id<[0-9]+> 				de.htwg.seapal.web.controllers.BoatAPI.deleteBoat(id: Long)
 
-GET		/api/boatposition					controllers.BoatPositionAPI.current()
+GET		/api/boatposition					de.htwg.seapal.web.controllers.BoatPositionAPI.current()
 
-GET		/api/trip							controllers.TripAPI.alltripsAsJson()
+GET		/api/trip							de.htwg.seapal.web.controllers.TripAPI.alltripsAsJson()
 
-GET		/api/trip/$id<[0-9]+>				controllers.TripAPI.tripAsJson(id: Long)
-GET		/api/boat/$id<[0-9]+>/trips			controllers.TripAPI.tripsAsJson(id: Long)
-DELETE	/api/trip/$id<[0-9]+> 				controllers.TripAPI.deleteTrip(id: Long)
-POST	/api/trip							controllers.TripAPI.addTrip()
+GET		/api/trip/$id<[0-9]+>				de.htwg.seapal.web.controllers.TripAPI.tripAsJson(id: Long)
+GET		/api/boat/$id<[0-9]+>/trips			de.htwg.seapal.web.controllers.TripAPI.tripsAsJson(id: Long)
+DELETE	/api/trip/$id<[0-9]+> 				de.htwg.seapal.web.controllers.TripAPI.deleteTrip(id: Long)
+POST	/api/trip							de.htwg.seapal.web.controllers.TripAPI.addTrip()
 
-GET		/api/trip/$id<[0-9]+>/waypoints		controllers.WaypointAPI.waypointsAsJson(id: Long)
-POST	/api/waypoint						controllers.WaypointAPI.addWaypoint()
+GET		/api/trip/$id<[0-9]+>/waypoints		de.htwg.seapal.web.controllers.WaypointAPI.waypointsAsJson(id: Long)
+POST	/api/waypoint						de.htwg.seapal.web.controllers.WaypointAPI.addWaypoint()
 
 # Javascript routing
-GET    /assets/javascripts/routes   		controllers.Application.javascriptRoutes()
+GET    /assets/javascripts/routes   		de.htwg.seapal.web.controllers.Application.javascriptRoutes()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file       				controllers.Assets.at(path="/public", file)

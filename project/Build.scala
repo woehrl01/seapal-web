@@ -26,7 +26,10 @@ object ApplicationBuild extends Build {
     	// disable parallel execution
 	    parallelExecution in jacoco.Config := false,
 	    
-	    templatesImport ++= Seq("play.mvc.Http.Context.Implicit._"),
+	    templatesImport ++= Seq(
+	    		"play.mvc.Http.Context.Implicit._",
+	    		"de.htwg.seapal.web.views.html._"
+	    ),
 	    
 		// known as group id...
 		organization := "de.htwg.seapal",

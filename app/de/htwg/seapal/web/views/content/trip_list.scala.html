@@ -1,7 +1,7 @@
 @(boatId: Long)
 
 @scripts = {
-	<script type="text/javascript" src="@routes.Application.javascriptRoutes"></script>
+	<script type="text/javascript" src="@de.htwg.seapal.web.controllers.routes.Application.javascriptRoutes"></script>
 	<script type="text/javascript" src="@routes.Assets.at("js/trip_list.js")"></script>
 	<script type="text/javascript" src="@routes.Assets.at("lib/jquery.paginatetable.js")"></script>
 	<script type="text/javascript" src="@routes.Assets.at("lib/jsrender.js")"></script>
@@ -18,7 +18,7 @@
 						<div class="span4">
 							@if(boatId > 0){
 								<div class="right buttons_top">
-									<a id="addButton" href="@routes.Application.trip_add(boatId)" class="btn btn-primary"><i class="icon-plus icon-white"></i> <span>Hinzufügen<span></a>
+									<a id="addButton" href="@de.htwg.seapal.web.controllers.routes.Application.trip_add(boatId)" class="btn btn-primary"><i class="icon-plus icon-white"></i> <span>Hinzufügen<span></a>
 								</div>
 							}
 						</div>

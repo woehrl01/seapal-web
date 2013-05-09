@@ -1,12 +1,12 @@
 @scripts = {
-	<script type="text/javascript" src="@routes.Application.javascriptRoutes"></script>
+	<script type="text/javascript" src="@de.htwg.seapal.web.controllers.routes.Application.javascriptRoutes"></script>
 	<script type="text/javascript" src="@routes.Assets.at("js/boat_info.js")"></script>
 	<script type="text/javascript" src="@routes.Assets.at("lib/jquery.paginatetable.js")"></script>
 	<script type="text/javascript" src="@routes.Assets.at("lib/jsrender.js")"></script>
 }
 
 @main("Boat Info", scripts, "withsubnavi") {
-@helper.form(action = routes.BoatAPI.addBoat() , 'id -> "form") {
+@helper.form(action = de.htwg.seapal.web.controllers.routes.BoatAPI.addBoat() , 'id -> "form") {
 			<input type="hidden" id="idField" name="id" value="-1" />
 			<div class="content-wrapper">
 				<div class="container">

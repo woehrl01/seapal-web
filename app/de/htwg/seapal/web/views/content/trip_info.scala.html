@@ -1,7 +1,7 @@
 @(boatId: Long, tripId: Long)
 
 @scripts = {
-	<script type="text/javascript" src="@routes.Application.javascriptRoutes"></script>
+	<script type="text/javascript" src="@de.htwg.seapal.web.controllers.routes.Application.javascriptRoutes"></script>
 	<link type="text/css" rel="stylesheet" href="@routes.Assets.at("lib/datepicker/css/datepicker.css")" />
 	<script type="text/javascript" src="@routes.Assets.at("lib/datepicker/js/bootstrap-datepicker.js")"></script>
 	<script type="text/javascript" src="@routes.Assets.at("js/trip_info.js")"></script>
@@ -13,7 +13,7 @@
 }
 
 @main("SeaPal - Trip Info", scripts, "withsubnavi") {
-@helper.form(action = routes.TripAPI.addTrip() , 'id -> "form") {
+@helper.form(action = de.htwg.seapal.web.controllers.routes.TripAPI.addTrip() , 'id -> "form") {
 				<input type="hidden" id="trip_id" name="id" value="@tripId" />
 				<input type="hidden" id="boat_id" name="boat_id" value="@boatId" />
 				<div class="container">
@@ -170,7 +170,7 @@
 							<div class="listview-buttons tablePager">
 								<div class="span6">
 									<div class="left">
-										<a href="@routes.Application.waypoint_add(tripId)" class="btn btn-primary"><i class="icon-plus icon-white"></i> Neuer Wegpunkt<a/>
+										<a href="@de.htwg.seapal.web.controllers.routes.Application.waypoint_add(tripId)" class="btn btn-primary"><i class="icon-plus icon-white"></i> Neuer Wegpunkt<a/>
 										
 										<input type="button" class="btn prevPage" value="Vorheriger"/>
 									</div>

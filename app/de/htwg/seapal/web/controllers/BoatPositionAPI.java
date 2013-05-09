@@ -1,4 +1,4 @@
-package controllers;
+package de.htwg.seapal.web.controllers;
 
 import java.util.concurrent.Callable;
 

@@ -1,4 +1,4 @@
-package controllers.helpers;
+package de.htwg.seapal.web.controllers.helpers;
 
 import java.util.LinkedList;
 import java.util.List;

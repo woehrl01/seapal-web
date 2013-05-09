@@ -1,11 +1,11 @@
-package controllers;
+package de.htwg.seapal.web.controllers;
 
-import controllers.helpers.Menus;
+import de.htwg.seapal.web.controllers.helpers.Menus;
+import de.htwg.seapal.web.views.html.content.*;
 import play.Routes;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.With;
-import views.html.content.*;
 
 @With(Menus.class)
 public class Application extends Controller {
@@ -60,20 +60,20 @@ public class Application extends Controller {
 	      Routes.javascriptRouter("jsRoutes",
 	        // Routes
 	    	// Application
-    		controllers.routes.javascript.Application.trip_list(),
-  	        controllers.routes.javascript.Application.trip_edit(),
+    		de.htwg.seapal.web.controllers.routes.javascript.Application.trip_list(),
+  	        de.htwg.seapal.web.controllers.routes.javascript.Application.trip_edit(),
 	    	// API  
-	        controllers.routes.javascript.BoatAPI.boatAsJson(),
-	        controllers.routes.javascript.BoatAPI.boatsAsJson(),
-	        controllers.routes.javascript.BoatAPI.deleteBoat(),
-	        controllers.routes.javascript.BoatAPI.addBoat(),
-	        controllers.routes.javascript.TripAPI.tripsAsJson(),
-	        controllers.routes.javascript.TripAPI.tripAsJson(),
-	        controllers.routes.javascript.TripAPI.alltripsAsJson(),
-	        controllers.routes.javascript.TripAPI.addTrip(),
-	        controllers.routes.javascript.WaypointAPI.addWaypoint(),
-	        controllers.routes.javascript.WaypointAPI.waypointsAsJson(),
-	        controllers.routes.javascript.BoatPositionAPI.current()
+	        de.htwg.seapal.web.controllers.routes.javascript.BoatAPI.boatAsJson(),
+	        de.htwg.seapal.web.controllers.routes.javascript.BoatAPI.boatsAsJson(),
+	        de.htwg.seapal.web.controllers.routes.javascript.BoatAPI.deleteBoat(),
+	        de.htwg.seapal.web.controllers.routes.javascript.BoatAPI.addBoat(),
+	        de.htwg.seapal.web.controllers.routes.javascript.TripAPI.tripsAsJson(),
+	        de.htwg.seapal.web.controllers.routes.javascript.TripAPI.tripAsJson(),
+	        de.htwg.seapal.web.controllers.routes.javascript.TripAPI.alltripsAsJson(),
+	        de.htwg.seapal.web.controllers.routes.javascript.TripAPI.addTrip(),
+	        de.htwg.seapal.web.controllers.routes.javascript.WaypointAPI.addWaypoint(),
+	        de.htwg.seapal.web.controllers.routes.javascript.WaypointAPI.waypointsAsJson(),
+	        de.htwg.seapal.web.controllers.routes.javascript.BoatPositionAPI.current()
 	      )
 	    );
 	  }

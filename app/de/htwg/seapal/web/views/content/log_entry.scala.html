@@ -1,7 +1,7 @@
 @(tripId: Long)
 
 @scripts = {
-	<script type="text/javascript" src="@routes.Application.javascriptRoutes"></script>
+	<script type="text/javascript" src="@de.htwg.seapal.web.controllers.routes.Application.javascriptRoutes"></script>
 	<link type="text/css" rel="stylesheet" href="@routes.Assets.at("lib/datepicker/css/datepicker.css")" />
 	<script type="text/javascript" src="@routes.Assets.at("lib/datepicker/js/bootstrap-datepicker.js")"></script>
 	<script type="text/javascript" src="@routes.Assets.at("js/log_entry.js")"></script>
@@ -11,7 +11,7 @@
 }
 
 @main("Waypoint", scripts, "withsubnavi") {
-@helper.form(action = routes.WaypointAPI.addWaypoint() , 'id -> "form") {
+@helper.form(action = de.htwg.seapal.web.controllers.routes.WaypointAPI.addWaypoint() , 'id -> "form") {
 			<input type="hidden" id="trip_id" name="trip_id" value="@tripId" />
 				<div class="container">
 					<div class="row">
