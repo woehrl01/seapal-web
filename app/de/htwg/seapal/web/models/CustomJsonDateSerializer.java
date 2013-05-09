@@ -1,4 +1,4 @@
-package models;
+package de.htwg.seapal.web.models;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;

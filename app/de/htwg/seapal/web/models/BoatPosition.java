@@ -1,4 +1,4 @@
-package models;
+package de.htwg.seapal.web.models;
 
 public class BoatPosition {
 	/* configuration */

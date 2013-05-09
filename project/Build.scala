@@ -28,7 +28,8 @@ object ApplicationBuild extends Build {
 	    
 	    templatesImport ++= Seq(
 	    		"play.mvc.Http.Context.Implicit._",
-	    		"de.htwg.seapal.web.views.html._"
+	    		"de.htwg.seapal.web.views.html._",
+	    		"de.htwg.seapal.web._"
 	    ),
 	    
 		// known as group id...

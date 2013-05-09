@@ -3,7 +3,8 @@ package de.htwg.seapal.web.controllers.helpers;
 import java.util.LinkedList;
 import java.util.List;
 
-import models.MenuItem;
+import de.htwg.seapal.web.models.MenuItem;
+
 
 import play.mvc.Result;
 import play.mvc.Action;

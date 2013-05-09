@@ -2,7 +2,8 @@ package de.htwg.seapal.web.controllers;
 
 import java.util.concurrent.Callable;
 
-import models.BoatPosition;
+import de.htwg.seapal.web.models.BoatPosition;
+
 
 import static play.libs.Akka.future;
 import play.libs.F.*;

@@ -2,7 +2,8 @@ package de.htwg.seapal.web.controllers;
 
 import org.codehaus.jackson.node.ObjectNode;
 
-import models.Waypoint;
+import de.htwg.seapal.web.models.Waypoint;
+
 import play.data.Form;
 import play.libs.Json;
 import play.mvc.Controller;
