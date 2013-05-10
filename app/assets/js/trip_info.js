@@ -3,7 +3,7 @@
 $(document).ready(function() {
 	
 	var tripId = $('#trip_id').val();
-	if(tripId > 0){
+	if(tripId != ""){
 		loadTrip(tripId);
 		loadAllWaypointsByTripId(tripId);
 	}
@@ -79,7 +79,7 @@ $(document).ready(function() {
 			dataType: "json",
 			success: function(data) {
 				var tripId = $('#trip_id').val();
-				if(tripId > 0) {
+				if(tripId != "") {
 					loadAllWaypointsByTripId(tripId);
 				}
 			}
@@ -112,7 +112,7 @@ $(document).ready(function() {
 
 	        var id = $(this).closest('tr').attr("data-id");
 
-	        if(id > 0){
+	        if(id != ""){
 	        	$('#deletePromptModal').attr("data-id", id);
 	        	$('#deletePromptModal .modal-body span').html(id);
 	        	$('#deletePromptModal').modal('show');
@@ -121,7 +121,7 @@ $(document).ready(function() {
 
 	function resetFormData() {
 		$('#form').get(0).reset();
-		$('#idField').val("-1");
+		$('#idField').val("");
 		updateAddSaveButton();
 	}
 

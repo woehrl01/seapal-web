@@ -35,7 +35,7 @@ $(document).ready(function() {
 
 	        var id = $(this).closest('tr').attr("data-id");
 
-	        if(id > 0){
+	        if(id != ""){
 	        	$('#deletePromptModal').attr("data-id", id);
 	        	$('#deletePromptModal .modal-body span').html(id);
 	        	$('#deletePromptModal').modal('show');
@@ -47,7 +47,7 @@ $(document).ready(function() {
 
 	        var id = $(this).closest('tr').attr("data-id");
 
-	        if(id > 0){
+	        if(id != ""){
 	        	window.location.href = jsRoutes.de.htwg.seapal.web.controllers.Application.trip_edit(id).url;
 	        }
     });
@@ -55,7 +55,7 @@ $(document).ready(function() {
 	function loadAllTrips() {
 		var id = $('#boatId').val();
 		var route = jsRoutes.de.htwg.seapal.web.controllers.TripAPI.alltripsAsJson();
-		if(id > 0)
+		if(id != "")
 			route = jsRoutes.de.htwg.seapal.web.controllers.TripAPI.tripsAsJson(id);
 
 		route.ajax({

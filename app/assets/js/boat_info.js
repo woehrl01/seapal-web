@@ -66,7 +66,7 @@ $(document).ready(function() {
 			$('#addButton span').html('Hinzufügen');
 		}
 
-		if($('#idField').val() > 0){
+		if($('#idField').val() != ""){
 			if(editingDisabled){
 				$('#submitBtn').val("Bearbeiten");
 			}else{
@@ -132,7 +132,7 @@ $(document).ready(function() {
 	$('body').on('click', 'a.editBoadBtn', function(event) {
 	        event.preventDefault();
 	        var id = $(this).closest('tr').attr("data-boatid");
-	        if(id > 0){
+	        if(id != ""){
 	        	loadBoat(id, false);
 	        	displayAsText(false);
 	        }
@@ -143,7 +143,7 @@ $(document).ready(function() {
 
 	        var id = $(this).closest('tr').attr("data-boatid");
 
-	        if(id > 0){
+	        if(id != ""){
 	        	$('#deletePromptModal').attr("data-boatid", id);
 	        	$('#deletePromptModal .modal-body span').html(id);
 	        	$('#deletePromptModal').modal('show');
@@ -154,14 +154,14 @@ $(document).ready(function() {
 	        event.preventDefault();
 
 	        var id = $(this).closest('tr').attr("data-boatid");
-	        if(id > 0){
+	        if(id != ""){
 	        	window.location.href = jsRoutes.de.htwg.seapal.web.controllers.Application.trip_list(id).url;
 	        }
     });
 
 	function resetFormData() {
 		$('#form').get(0).reset();
-		$('#idField').val("-1");
+		$('#idField').val("");
 		displayAsText(false);
 		updateAddSaveButton();
 	}
