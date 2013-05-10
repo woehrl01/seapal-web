@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import com.google.common.collect.ImmutableList;
+
 import de.htwg.seapal.database.IWaypointDatabase;
 import de.htwg.seapal.model.IWaypoint;
 import de.htwg.seapal.model.impl.Waypoint;
@@ -60,9 +62,7 @@ public class WaypointDatabase implements IWaypointDatabase {
 
 	@Override
 	public void delete(UUID id) {
-		if (db.containsKey(id)) {
-			db.remove(id);
-		}
+		db.remove(id);
 	}
 
 	@Override
@@ -71,9 +71,7 @@ public class WaypointDatabase implements IWaypointDatabase {
 	}
 
 	@Override
-	public List<IWaypoint> getAll() {
-		Collection<IWaypoint> collection = db.values();
-		List<IWaypoint> values = new ArrayList<IWaypoint>(collection);
-		return values;
+	public List<IWaypoint> loadAll() {
+		return ImmutableList.copyOf(db.values());
 	}
 }

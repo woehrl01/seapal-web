@@ -44,19 +44,17 @@ public class BoatAPI extends Controller {
 			return badRequest(response);
 		} else {
 			response.put("success", true);
-
-			if(Integer.parseInt(filledForm.field("id").value()) > 0){
-				//Boat.update(filledForm.get());
+			boolean created = controller.saveBoat(filledForm.get());
+			if(created){
 				return ok(response);
 			}else{
-				//Boat.create(filledForm.get());
 				return created(response);
 			}
 		}
 	}
 
 	public Result deleteBoat(UUID id) {
-		//Boat.delete(id);
+		controller.deleteBoat(id);
 		ObjectNode response = Json.newObject();
 		response.put("success", true);
 		

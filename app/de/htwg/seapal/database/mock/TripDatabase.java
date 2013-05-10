@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import com.google.common.collect.ImmutableList;
+
 import de.htwg.seapal.database.ITripDatabase;
 import de.htwg.seapal.model.IPerson;
 import de.htwg.seapal.model.ITrip;
@@ -56,9 +58,7 @@ public class TripDatabase implements ITripDatabase {
 
 	@Override
 	public void delete(UUID id) {
-		if (db.containsKey(id)) {
-			db.remove(id);
-		}
+		db.remove(id);
 	}
 
 	@Override
@@ -67,10 +67,8 @@ public class TripDatabase implements ITripDatabase {
 	}
 
 	@Override
-	public List<ITrip> getAll() {
-		Collection<ITrip> collection = db.values();
-		List<ITrip> values = new ArrayList<ITrip>(collection);
-		return values;
+	public List<ITrip> loadAll() {
+		return ImmutableList.copyOf(db.values());
 	}
 
 	@Override

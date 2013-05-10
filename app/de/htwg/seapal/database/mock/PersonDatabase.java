@@ -1,11 +1,11 @@
 package de.htwg.seapal.database.mock;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
+import com.google.common.collect.ImmutableList;
 
 import de.htwg.seapal.database.IPersonDatabase;
 import de.htwg.seapal.model.IPerson;
@@ -52,9 +52,7 @@ public class PersonDatabase implements IPersonDatabase {
 
 	@Override
 	public void delete(UUID id) {
-		if (db.containsKey(id)) {
-			db.remove(id);
-		}
+		db.remove(id);
 	}
 
 	@Override
@@ -63,10 +61,8 @@ public class PersonDatabase implements IPersonDatabase {
 	}
 
 	@Override
-	public List<IPerson> getAll() {
-		Collection<IPerson> collection = db.values();
-		List<IPerson> values = new ArrayList<IPerson>(collection);
-		return values;
+	public List<IPerson> loadAll() {
+		return ImmutableList.copyOf(db.values());
 	}
 
 	@Override

@@ -1,11 +1,11 @@
 package de.htwg.seapal.database.mock;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
+import com.google.common.collect.ImmutableList;
 
 import de.htwg.seapal.database.IRouteDatabase;
 import de.htwg.seapal.model.IRoute;
@@ -59,9 +59,7 @@ public class RouteDatabase implements IRouteDatabase {
 
 	@Override
 	public void delete(UUID id) {
-		if (db.containsKey(id)) {
-			db.remove(id);
-		}
+		db.remove(id);
 	}
 
 	@Override
@@ -70,9 +68,7 @@ public class RouteDatabase implements IRouteDatabase {
 	}
 
 	@Override
-	public List<IRoute> getAll() {
-		Collection<IRoute> collection = db.values();
-		List<IRoute> values = new ArrayList<IRoute>(collection);
-		return values;
+	public List<IRoute> loadAll() {
+		return ImmutableList.copyOf(db.values());
 	}
 }

@@ -1,11 +1,11 @@
 package de.htwg.seapal.database.mock;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
+import com.google.common.collect.ImmutableList;
 
 import de.htwg.seapal.database.IMarkDatabase;
 import de.htwg.seapal.model.IMark;
@@ -59,9 +59,7 @@ public class MarkDatabase implements IMarkDatabase {
 
 	@Override
 	public void delete(UUID id) {
-		if (db.containsKey(id)) {
-			db.remove(id);
-		}
+		db.remove(id);
 	}
 
 	@Override
@@ -70,9 +68,7 @@ public class MarkDatabase implements IMarkDatabase {
 	}
 
 	@Override
-	public List<IMark> getAll() {
-		Collection<IMark> collection = db.values();
-		List<IMark> values = new ArrayList<IMark>(collection);
-		return values;
+	public List<IMark> loadAll() {
+		return ImmutableList.copyOf(db.values());
 	}
 }

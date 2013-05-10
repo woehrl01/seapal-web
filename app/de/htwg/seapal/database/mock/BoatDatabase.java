@@ -1,11 +1,11 @@
 package de.htwg.seapal.database.mock;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
+import com.google.common.collect.ImmutableList;
 
 import de.htwg.seapal.database.IBoatDatabase;
 import de.htwg.seapal.model.IBoat;
@@ -73,9 +73,7 @@ public class BoatDatabase implements IBoatDatabase {
 	}
 
 	@Override
-	public List<IBoat> getAll() {
-		Collection<IBoat> collection = db.values();
-		List<IBoat> values = new ArrayList<IBoat>(collection);
-		return values;
+	public List<IBoat> loadAll() {
+		return ImmutableList.copyOf(db.values());
 	}
 }
