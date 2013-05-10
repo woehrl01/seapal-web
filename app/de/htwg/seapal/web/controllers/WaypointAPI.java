@@ -2,6 +2,9 @@ package de.htwg.seapal.web.controllers;
 
 import org.codehaus.jackson.node.ObjectNode;
 
+import com.google.inject.Inject;
+
+import de.htwg.seapal.controller.IWaypointController;
 import de.htwg.seapal.web.models.Waypoint;
 
 import play.data.Form;
@@ -13,11 +16,14 @@ public class WaypointAPI extends Controller {
 
 	static Form<Waypoint> form = Form.form(Waypoint.class);
 	
-	public static Result waypointsAsJson(Long tripId) {
+	@Inject
+	private IWaypointController controller;
+	
+	public Result waypointsAsJson(Long tripId) {
 		return ok(Json.toJson(Waypoint.find.where().eq("trip_id", tripId).findList()));
 	}
 
-	public static Result addWaypoint() {
+	public Result addWaypoint() {
 		Form<Waypoint> filledForm = form.bindFromRequest();
 		
 		ObjectNode response = Json.newObject();

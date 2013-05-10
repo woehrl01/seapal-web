@@ -2,6 +2,9 @@ package de.htwg.seapal.web.controllers;
 
 import org.codehaus.jackson.node.ObjectNode;
 
+import com.google.inject.Inject;
+
+import de.htwg.seapal.controller.ITripController;
 import de.htwg.seapal.web.models.Trip;
 
 import play.data.Form;
@@ -13,19 +16,22 @@ public class TripAPI extends Controller {
 
 	static Form<Trip> form = Form.form(Trip.class);
 	
-	public static Result tripsAsJson(Long boatId) {
+	@Inject
+	private ITripController controller;
+	
+	public Result tripsAsJson(Long boatId) {
 		return ok(Json.toJson(Trip.find.where().eq("boat_id", boatId).findList()));
 	}
 	
-	public static Result tripAsJson(Long id) {
+	public Result tripAsJson(Long id) {
 		return ok(Json.toJson(Trip.findById(id)));
 	}
 	
-	public static Result alltripsAsJson() {
+	public Result alltripsAsJson() {
 		return ok(Json.toJson(Trip.find.all()));
 	}
 
-	public static Result addTrip() {
+	public Result addTrip() {
 		Form<Trip> filledForm = form.bindFromRequest();
 		
 		ObjectNode response = Json.newObject();
@@ -49,7 +55,7 @@ public class TripAPI extends Controller {
 		}
 	}
 	
-	public static Result deleteTrip(Long id) {
+	public Result deleteTrip(Long id) {
 		Trip.delete(id);
 		ObjectNode response = Json.newObject();
 		response.put("success", true);

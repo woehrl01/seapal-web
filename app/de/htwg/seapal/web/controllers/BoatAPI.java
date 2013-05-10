@@ -2,6 +2,10 @@ package de.htwg.seapal.web.controllers;
 
 import org.codehaus.jackson.node.ObjectNode;
 
+import com.google.inject.Inject;
+
+import de.htwg.seapal.controller.IBoatController;
+//import de.htwg.seapal.model.impl.Boat;
 import de.htwg.seapal.web.models.Boat;
 
 import play.data.Form;
@@ -12,17 +16,19 @@ import play.mvc.Result;
 public class BoatAPI extends Controller {
 
 	static Form<Boat> form = Form.form(Boat.class);
+	
+	@Inject
+	private IBoatController controller;
 
-	public static Result boatsAsJson() {
-		
+	public Result boatsAsJson() {
 		return ok(Json.toJson(Boat.all()));
 	}
 	
-	public static Result boatAsJson(Long id) {
+	public Result boatAsJson(Long id) {
 		return ok(Json.toJson(Boat.findById(id)));
 	}
 
-	public static Result addBoat() {
+	public Result addBoat() {
 		Form<Boat> filledForm = form.bindFromRequest();
 		
 		ObjectNode response = Json.newObject();
@@ -45,7 +51,7 @@ public class BoatAPI extends Controller {
 		}
 	}
 
-	public static Result deleteBoat(Long id) {
+	public Result deleteBoat(Long id) {
 		Boat.delete(id);
 		ObjectNode response = Json.newObject();
 		response.put("success", true);

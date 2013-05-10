@@ -15,22 +15,22 @@ GET		/trip/$tripId<[0-9]+>				de.htwg.seapal.web.controllers.Application.trip_ed
 GET		/trip/$tripId<[0-9]+>/waypoint		de.htwg.seapal.web.controllers.Application.waypoint_add(tripId: Long)
 
 # API
-GET		/api/boat/$id<[0-9]+>				de.htwg.seapal.web.controllers.BoatAPI.boatAsJson(id: Long)
-GET		/api/boat							de.htwg.seapal.web.controllers.BoatAPI.boatsAsJson()
-POST	/api/boat							de.htwg.seapal.web.controllers.BoatAPI.addBoat()
-DELETE	/api/boat/$id<[0-9]+> 				de.htwg.seapal.web.controllers.BoatAPI.deleteBoat(id: Long)
+GET		/api/boat/$id<[0-9]+>				@de.htwg.seapal.web.controllers.BoatAPI.boatAsJson(id: Long)
+GET		/api/boat							@de.htwg.seapal.web.controllers.BoatAPI.boatsAsJson()
+POST	/api/boat							@de.htwg.seapal.web.controllers.BoatAPI.addBoat()
+DELETE	/api/boat/$id<[0-9]+> 				@de.htwg.seapal.web.controllers.BoatAPI.deleteBoat(id: Long)
 
 GET		/api/boatposition					de.htwg.seapal.web.controllers.BoatPositionAPI.current()
 
-GET		/api/trip							de.htwg.seapal.web.controllers.TripAPI.alltripsAsJson()
+GET		/api/trip							@de.htwg.seapal.web.controllers.TripAPI.alltripsAsJson()
 
-GET		/api/trip/$id<[0-9]+>				de.htwg.seapal.web.controllers.TripAPI.tripAsJson(id: Long)
-GET		/api/boat/$id<[0-9]+>/trips			de.htwg.seapal.web.controllers.TripAPI.tripsAsJson(id: Long)
-DELETE	/api/trip/$id<[0-9]+> 				de.htwg.seapal.web.controllers.TripAPI.deleteTrip(id: Long)
-POST	/api/trip							de.htwg.seapal.web.controllers.TripAPI.addTrip()
+GET		/api/trip/$id<[0-9]+>				@de.htwg.seapal.web.controllers.TripAPI.tripAsJson(id: Long)
+GET		/api/boat/$id<[0-9]+>/trips			@de.htwg.seapal.web.controllers.TripAPI.tripsAsJson(id: Long)
+DELETE	/api/trip/$id<[0-9]+> 				@de.htwg.seapal.web.controllers.TripAPI.deleteTrip(id: Long)
+POST	/api/trip							@de.htwg.seapal.web.controllers.TripAPI.addTrip()
 
-GET		/api/trip/$id<[0-9]+>/waypoints		de.htwg.seapal.web.controllers.WaypointAPI.waypointsAsJson(id: Long)
-POST	/api/waypoint						de.htwg.seapal.web.controllers.WaypointAPI.addWaypoint()
+GET		/api/trip/$id<[0-9]+>/waypoints		@de.htwg.seapal.web.controllers.WaypointAPI.waypointsAsJson(id: Long)
+POST	/api/waypoint						@de.htwg.seapal.web.controllers.WaypointAPI.addWaypoint()
 
 # Javascript routing
 GET    /assets/javascripts/routes   		de.htwg.seapal.web.controllers.Application.javascriptRoutes()
