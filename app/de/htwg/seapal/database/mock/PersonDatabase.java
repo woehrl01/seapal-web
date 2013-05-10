@@ -75,7 +75,7 @@ public class PersonDatabase implements IPersonDatabase {
 	}
 
 	@Override
-	public void save(IPerson person) {
-		db.put(person.getUUID(), person);
+	public boolean save(IPerson person) {
+		return (db.put(person.getUUID(), person) == null);
 	}
 }

@@ -48,14 +48,16 @@ public class BoatDatabase implements IBoatDatabase {
 
 	private UUID createNewBoatInDatabase() {
 		IBoat boat = new Boat();
+		boat.setRegisterNr("AB7737");
+		boat.setType("Yacht");
 		UUID id = boat.getUUID();
 		db.put(id, boat);
 		return id;
 	}
 
 	@Override
-	public void save(IBoat boat) {
-		db.put(boat.getUUID(), boat);
+	public boolean save(IBoat boat) {
+		return (db.put(boat.getUUID(), boat) == null);
 	}
 
 	@Override

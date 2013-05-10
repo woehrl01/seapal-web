@@ -1,10 +1,13 @@
 package de.htwg.seapal.web.controllers;
 
+import java.util.UUID;
+
 import org.codehaus.jackson.node.ObjectNode;
 
 import com.google.inject.Inject;
 
 import de.htwg.seapal.controller.IBoatController;
+import de.htwg.seapal.model.IBoat;
 //import de.htwg.seapal.model.impl.Boat;
 import de.htwg.seapal.web.models.Boat;
 
@@ -15,21 +18,22 @@ import play.mvc.Result;
 
 public class BoatAPI extends Controller {
 
-	static Form<Boat> form = Form.form(Boat.class);
+	static Form<IBoat> form = Form.form(IBoat.class);
 	
 	@Inject
 	private IBoatController controller;
 
 	public Result boatsAsJson() {
-		return ok(Json.toJson(Boat.all()));
+		
+		return ok(Json.toJson(controller.getAllBoats()));
 	}
 	
-	public Result boatAsJson(Long id) {
-		return ok(Json.toJson(Boat.findById(id)));
+	public Result boatAsJson(UUID id) {
+		return ok(); //Json.toJson(Boat.findById(id))
 	}
 
 	public Result addBoat() {
-		Form<Boat> filledForm = form.bindFromRequest();
+		Form<IBoat> filledForm = form.bindFromRequest();
 		
 		ObjectNode response = Json.newObject();
 		
@@ -40,19 +44,19 @@ public class BoatAPI extends Controller {
 			return badRequest(response);
 		} else {
 			response.put("success", true);
-			if(Integer.parseInt(filledForm.field("id").value()) > 0){
-				Boat.update(filledForm.get());
 
+			if(Integer.parseInt(filledForm.field("id").value()) > 0){
+				//Boat.update(filledForm.get());
 				return ok(response);
 			}else{
-				Boat.create(filledForm.get());
+				//Boat.create(filledForm.get());
 				return created(response);
 			}
 		}
 	}
 
-	public Result deleteBoat(Long id) {
-		Boat.delete(id);
+	public Result deleteBoat(UUID id) {
+		//Boat.delete(id);
 		ObjectNode response = Json.newObject();
 		response.put("success", true);
 		

@@ -26,11 +26,18 @@ object ApplicationBuild extends Build {
     	// disable parallel execution
 	    parallelExecution in jacoco.Config := false,
 	    
+	    routesImport ++= Seq(
+	    		"_root_.utils.Binders._",
+	    		"java.util.UUID"
+	    	),
+	    
+	    
+	    
 	    templatesImport ++= Seq(
 	    		"play.mvc.Http.Context.Implicit._",
 	    		"de.htwg.seapal.web.views.html._",
 	    		"de.htwg.seapal.web._"
-	    ),
+	    	),
 		
 		//javascriptEntryPoints <<= baseDirectory(base =>
 		//	base / "public" / "js" ** "*.js"

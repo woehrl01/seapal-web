@@ -74,7 +74,7 @@ public class TripDatabase implements ITripDatabase {
 	}
 
 	@Override
-	public void save(ITrip trip) {
-		db.put(trip.getUUID(), trip);
+	public boolean save(ITrip trip) {
+		return (db.put(trip.getUUID(), trip) == null);
 	}
 }

@@ -15,10 +15,10 @@ GET		/trip/$tripId<[0-9]+>				de.htwg.seapal.web.controllers.Application.trip_ed
 GET		/trip/$tripId<[0-9]+>/waypoint		de.htwg.seapal.web.controllers.Application.waypoint_add(tripId: Long)
 
 # API
-GET		/api/boat/$id<[0-9]+>				@de.htwg.seapal.web.controllers.BoatAPI.boatAsJson(id: Long)
+GET		/api/boat/$id<[0-9]+>				@de.htwg.seapal.web.controllers.BoatAPI.boatAsJson(id: UUID)
 GET		/api/boat							@de.htwg.seapal.web.controllers.BoatAPI.boatsAsJson()
 POST	/api/boat							@de.htwg.seapal.web.controllers.BoatAPI.addBoat()
-DELETE	/api/boat/$id<[0-9]+> 				@de.htwg.seapal.web.controllers.BoatAPI.deleteBoat(id: Long)
+DELETE	/api/boat/$id<[0-9]+> 				@de.htwg.seapal.web.controllers.BoatAPI.deleteBoat(id: UUID)
 
 GET		/api/boatposition					@de.htwg.seapal.web.controllers.BoatPositionAPI.current()
 

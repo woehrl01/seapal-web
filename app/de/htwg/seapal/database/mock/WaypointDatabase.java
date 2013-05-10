@@ -54,8 +54,8 @@ public class WaypointDatabase implements IWaypointDatabase {
 	}
 
 	@Override
-	public void save(IWaypoint waypoint) {
-		db.put(waypoint.getUUID(), waypoint);
+	public boolean save(IWaypoint waypoint) {
+		return (db.put(waypoint.getUUID(), waypoint) == null);
 	}
 
 	@Override
