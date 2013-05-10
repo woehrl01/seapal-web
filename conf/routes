@@ -20,7 +20,7 @@ GET		/api/boat							@de.htwg.seapal.web.controllers.BoatAPI.boatsAsJson()
 POST	/api/boat							@de.htwg.seapal.web.controllers.BoatAPI.addBoat()
 DELETE	/api/boat/$id<[0-9]+> 				@de.htwg.seapal.web.controllers.BoatAPI.deleteBoat(id: Long)
 
-GET		/api/boatposition					de.htwg.seapal.web.controllers.BoatPositionAPI.current()
+GET		/api/boatposition					@de.htwg.seapal.web.controllers.BoatPositionAPI.current()
 
 GET		/api/trip							@de.htwg.seapal.web.controllers.TripAPI.alltripsAsJson()
 
