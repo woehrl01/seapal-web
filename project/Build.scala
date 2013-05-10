@@ -31,6 +31,10 @@ object ApplicationBuild extends Build {
 	    		"de.htwg.seapal.web.views.html._",
 	    		"de.htwg.seapal.web._"
 	    ),
+		
+		//javascriptEntryPoints <<= baseDirectory(base =>
+		//	base / "public" / "js" ** "*.js"
+		//),
 	    
 		// known as group id...
 		organization := "de.htwg.seapal",

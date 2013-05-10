@@ -14,7 +14,7 @@ $(document).ready(function() {
 		event.preventDefault();
 		var boatId = $('#boat_id').val();
 
-		jsRoutes.controllers.TripAPI.addTrip().ajax({
+		jsRoutes.de.htwg.seapal.web.controllers.TripAPI.addTrip().ajax({
 			type: "POST",
 			url: $(this).attr('action'),
 			data: $(this).serialize(),
@@ -23,7 +23,7 @@ $(document).ready(function() {
 				if(data.success){
 					$('#addSuccessModal').modal('show');
 					window.setTimeout(function (){
-						window.location.href = jsRoutes.controllers.Application.trip_list(boatId).url;
+						window.location.href = jsRoutes.de.htwg.seapal.web.controllers.Application.trip_list(boatId).url;
 					}, 2000);
 				} else {
 					console.log(data.errors);
@@ -96,7 +96,7 @@ $(document).ready(function() {
 	}
 
 	function loadTrip( tripId) {
-		jsRoutes.controllers.TripAPI.tripAsJson(tripId).ajax({
+		jsRoutes.de.htwg.seapal.web.controllers.TripAPI.tripAsJson(tripId).ajax({
 			dataType: "json",
 			success: function(boat) {
 				populateJSON('#form input', boat);
@@ -126,7 +126,7 @@ $(document).ready(function() {
 	}
 
 	function loadAllWaypointsByTripId(tripId) {
-		jsRoutes.controllers.WaypointAPI.waypointsAsJson(tripId).ajax({
+		jsRoutes.de.htwg.seapal.web.controllers.WaypointAPI.waypointsAsJson(tripId).ajax({
 			dataType: "json",
 			success: function(data) {
 				$( "#waypointListTable tbody" ).html(

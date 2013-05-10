@@ -297,7 +297,7 @@
 		* *********************************************************************************
 		*/
 		function startBoatAnimation(){
-			jsRoutes.controllers.BoatPositionAPI.current().ajax({
+			jsRoutes.de.htwg.seapal.web.controllers.BoatPositionAPI.current().ajax({
 				dataType : 'json',
 				success : function(response){
 					position = new google.maps.LatLng(response.lat, response.lng);

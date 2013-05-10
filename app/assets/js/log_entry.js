@@ -7,14 +7,14 @@ $(document).ready(function() {
 		var tripId = $('#trip_id').val();
 		console.log(tripId);
 
-		jsRoutes.controllers.WaypointAPI.addWaypoint().ajax({
+		jsRoutes.de.htwg.seapal.web.controllers.WaypointAPI.addWaypoint().ajax({
 			data: $(this).serialize(),
 			dataType: "json",
 			success: function(data) {
 				if(data.success){
 					$('#addSuccessModal').modal('show');
 					window.setTimeout(function (){
-						window.location.href = jsRoutes.controllers.Application.trip_edit(tripId).url;
+						window.location.href = jsRoutes.de.htwg.seapal.web.controllers.Application.trip_edit(tripId).url;
 					}, 2000);
 				}else{
 					console.log(data.errors);

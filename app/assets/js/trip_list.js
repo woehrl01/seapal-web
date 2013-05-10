@@ -13,7 +13,7 @@ $(document).ready(function() {
 	});
 
 	function deleteItem(itemId){
-		jsRoutes.controllers.TripAPI.deleteTrip(itemId).ajax({
+		jsRoutes.de.htwg.seapal.web.controllers.TripAPI.deleteTrip(itemId).ajax({
 			dataType: "json",
 			success: function(data) {
 				loadAllTrips();
@@ -48,15 +48,15 @@ $(document).ready(function() {
 	        var id = $(this).closest('tr').attr("data-id");
 
 	        if(id > 0){
-	        	window.location.href = jsRoutes.controllers.Application.trip_edit(id).url;
+	        	window.location.href = jsRoutes.de.htwg.seapal.web.controllers.Application.trip_edit(id).url;
 	        }
     });
 
 	function loadAllTrips() {
 		var id = $('#boatId').val();
-		var route = jsRoutes.controllers.TripAPI.alltripsAsJson();
+		var route = jsRoutes.de.htwg.seapal.web.controllers.TripAPI.alltripsAsJson();
 		if(id > 0)
-			route = jsRoutes.controllers.TripAPI.tripsAsJson(id);
+			route = jsRoutes.de.htwg.seapal.web.controllers.TripAPI.tripsAsJson(id);
 
 		route.ajax({
 			dataType: "json",

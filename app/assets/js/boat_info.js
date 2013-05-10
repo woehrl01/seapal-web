@@ -19,7 +19,7 @@ $(document).ready(function() {
 			displayAsText(false);
 			updateAddSaveButton();
 		}else{
-			jsRoutes.controllers.BoatAPI.addBoat().ajax({
+			jsRoutes.de.htwg.seapal.web.controllers.BoatAPI.addBoat().ajax({
 				data: $(this).serialize(),
 				dataType: "json",
 				success: function(data) {
@@ -48,7 +48,7 @@ $(document).ready(function() {
 		event.preventDefault();
 		var boatId = $('#idField').val();
 
-		window.location.href = jsRoutes.controllers.Application.trip_list(boatId).url;
+		window.location.href = jsRoutes.de.htwg.seapal.web.controllers.Application.trip_list(boatId).url;
 	});
 
 	function updateAddSaveButton(){
@@ -86,7 +86,7 @@ $(document).ready(function() {
 	});
 
 	function deleteBoat(boatId){
-		jsRoutes.controllers.BoatAPI.deleteBoat(boatId).ajax({
+		jsRoutes.de.htwg.seapal.web.controllers.BoatAPI.deleteBoat(boatId).ajax({
 			dataType: "json",
 			success: function(data) {
 				loadAllBoats();
@@ -104,7 +104,7 @@ $(document).ready(function() {
 	}
 
 	function loadBoat( boatId, displayOnly) {
-		jsRoutes.controllers.BoatAPI.boatAsJson(boatId).ajax({
+		jsRoutes.de.htwg.seapal.web.controllers.BoatAPI.boatAsJson(boatId).ajax({
 			dataType: "json",
 			success: function(boat) {
 				populateJSON('#form input', boat);
@@ -155,7 +155,7 @@ $(document).ready(function() {
 
 	        var id = $(this).closest('tr').attr("data-boatid");
 	        if(id > 0){
-	        	window.location.href = jsRoutes.controllers.Application.trip_list(id).url;
+	        	window.location.href = jsRoutes.de.htwg.seapal.web.controllers.Application.trip_list(id).url;
 	        }
     });
 
@@ -167,7 +167,7 @@ $(document).ready(function() {
 	}
 
 	function loadAllBoats() {
-		jsRoutes.controllers.BoatAPI.boatsAsJson().ajax({
+		jsRoutes.de.htwg.seapal.web.controllers.BoatAPI.boatsAsJson().ajax({
 			dataType: "json",
 			success: function(data) {
 				$( "#boatListTable tbody" ).html(
