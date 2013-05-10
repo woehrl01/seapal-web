@@ -1,11 +1,13 @@
 package de.htwg.seapal.web.controllers;
 
+import java.util.UUID;
+
 import org.codehaus.jackson.node.ObjectNode;
 
 import com.google.inject.Inject;
 
 import de.htwg.seapal.controller.ITripController;
-import de.htwg.seapal.web.models.Trip;
+import de.htwg.seapal.model.ITrip;
 
 import play.data.Form;
 import play.libs.Json;
@@ -14,25 +16,25 @@ import play.mvc.Result;
 
 public class TripAPI extends Controller {
 
-	static Form<Trip> form = Form.form(Trip.class);
+	static Form<ITrip> form = Form.form(ITrip.class);
 	
 	@Inject
 	private ITripController controller;
 	
-	public Result tripsAsJson(Long boatId) {
-		return ok(Json.toJson(Trip.find.where().eq("boat_id", boatId).findList()));
+	public Result tripsAsJson(UUID boatId) {
+		return ok(Json.toJson(controller.getAllTrips(boatId)));
 	}
 	
-	public Result tripAsJson(Long id) {
-		return ok(Json.toJson(Trip.findById(id)));
+	public Result tripAsJson(UUID id) {
+		return ok(Json.toJson(controller.getTrip(id)));
 	}
 	
 	public Result alltripsAsJson() {
-		return ok(Json.toJson(Trip.find.all()));
+		return ok(Json.toJson(controller.getAllTrips()));
 	}
 
 	public Result addTrip() {
-		Form<Trip> filledForm = form.bindFromRequest();
+		Form<ITrip> filledForm = form.bindFromRequest();
 		
 		ObjectNode response = Json.newObject();
 		
@@ -43,20 +45,17 @@ public class TripAPI extends Controller {
 			return badRequest(response);
 		} else {
 			response.put("success", true);
-			if(Integer.parseInt(filledForm.field("id").value()) > 0){
-				Trip.update(filledForm.get());
-
-				return ok(response);
-			}else{
-				Trip.create(filledForm.get());
-
+			boolean created = controller.saveTrip(filledForm.get());
+			if(created){
 				return created(response);
+			}else{
+				return ok(response);
 			}
 		}
 	}
 	
-	public Result deleteTrip(Long id) {
-		Trip.delete(id);
+	public Result deleteTrip(UUID id) {
+		controller.deleteTrip(id);
 		ObjectNode response = Json.newObject();
 		response.put("success", true);
 		

@@ -1,5 +1,7 @@
 package de.htwg.seapal.web.controllers;
 
+import java.util.UUID;
+
 import de.htwg.seapal.web.controllers.helpers.Menus;
 import de.htwg.seapal.web.views.html.content.*;
 import play.Routes;
@@ -38,19 +40,19 @@ public class Application extends Controller {
 		return ok(boat_info.render());
 	}
 	
-	public static Result trip_list(Long boatId) {
+	public static Result trip_list(UUID boatId) {
 		return ok(trip_list.render(boatId));
 	}
 	
-	public static Result trip_add(Long boatId) {
-		return ok(trip_info.render(boatId, new Long(-1)));
+	public static Result trip_add(UUID boatId) {
+		return ok(trip_info.render(boatId, null));
 	}
 	
-	public static Result trip_edit(Long tripId) {
-		return ok(trip_info.render(new Long(-1), tripId));
+	public static Result trip_edit(UUID tripId) {
+		return ok(trip_info.render(null, tripId));
 	}
 	
-	public static Result waypoint_add(Long tripId){
+	public static Result waypoint_add(UUID tripId){
 		return ok(log_entry.render(tripId));
 	}
 	

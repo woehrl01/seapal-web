@@ -8,28 +8,28 @@ GET     /contact            				de.htwg.seapal.web.controllers.Application.conta
 GET     /user_guide         				de.htwg.seapal.web.controllers.Application.user_guide()
 GET		/seamap								de.htwg.seapal.web.controllers.Application.seamap()
 GET		/boat_info							de.htwg.seapal.web.controllers.Application.boat_info()
-GET		/trips								de.htwg.seapal.web.controllers.Application.trip_list(id: Long = -1)
-GET		/boat/$boatId<[0-9]+>/trips			de.htwg.seapal.web.controllers.Application.trip_list(boatId: Long)
-GET		/boat/$boatId<[0-9]+>/trip  		de.htwg.seapal.web.controllers.Application.trip_add(boatId: Long)
-GET		/trip/$tripId<[0-9]+>				de.htwg.seapal.web.controllers.Application.trip_edit(tripId: Long)
-GET		/trip/$tripId<[0-9]+>/waypoint		de.htwg.seapal.web.controllers.Application.waypoint_add(tripId: Long)
+GET		/trips								de.htwg.seapal.web.controllers.Application.trip_list(id: UUID = null)
+GET		/boat/$boatId<[0-9a-fA-F\-]+>/trips			de.htwg.seapal.web.controllers.Application.trip_list(boatId: UUID)
+GET		/boat/$boatId<[0-9a-fA-F\-]+>/trip  		de.htwg.seapal.web.controllers.Application.trip_add(boatId: UUID)
+GET		/trip/$tripId<[0-9a-fA-F\-]+>				de.htwg.seapal.web.controllers.Application.trip_edit(tripId: UUID)
+GET		/trip/$tripId<[0-9a-fA-F\-]+>/waypoint		de.htwg.seapal.web.controllers.Application.waypoint_add(tripId: UUID)
 
 # API
-GET		/api/boat/$id<[0-9]+>				@de.htwg.seapal.web.controllers.BoatAPI.boatAsJson(id: UUID)
+GET		/api/boat/$id<[0-9a-fA-F\-]+>				@de.htwg.seapal.web.controllers.BoatAPI.boatAsJson(id: UUID)
 GET		/api/boat							@de.htwg.seapal.web.controllers.BoatAPI.boatsAsJson()
 POST	/api/boat							@de.htwg.seapal.web.controllers.BoatAPI.addBoat()
-DELETE	/api/boat/$id<[0-9]+> 				@de.htwg.seapal.web.controllers.BoatAPI.deleteBoat(id: UUID)
+DELETE	/api/boat/$id<[0-9a-fA-F\-]+> 				@de.htwg.seapal.web.controllers.BoatAPI.deleteBoat(id: UUID)
 
 GET		/api/boatposition					@de.htwg.seapal.web.controllers.BoatPositionAPI.current()
 
 GET		/api/trip							@de.htwg.seapal.web.controllers.TripAPI.alltripsAsJson()
 
-GET		/api/trip/$id<[0-9]+>				@de.htwg.seapal.web.controllers.TripAPI.tripAsJson(id: Long)
-GET		/api/boat/$id<[0-9]+>/trips			@de.htwg.seapal.web.controllers.TripAPI.tripsAsJson(id: Long)
-DELETE	/api/trip/$id<[0-9]+> 				@de.htwg.seapal.web.controllers.TripAPI.deleteTrip(id: Long)
+GET		/api/trip/$id<[0-9a-fA-F\-]+>				@de.htwg.seapal.web.controllers.TripAPI.tripAsJson(id: UUID)
+GET		/api/boat/$id<[0-9a-fA-F\-]+>/trips			@de.htwg.seapal.web.controllers.TripAPI.tripsAsJson(id: UUID)
+DELETE	/api/trip/$id<[0-9a-fA-F\-]+> 				@de.htwg.seapal.web.controllers.TripAPI.deleteTrip(id: UUID)
 POST	/api/trip							@de.htwg.seapal.web.controllers.TripAPI.addTrip()
 
-GET		/api/trip/$id<[0-9]+>/waypoints		@de.htwg.seapal.web.controllers.WaypointAPI.waypointsAsJson(id: Long)
+GET		/api/trip/$id<[0-9a-fA-F\-]+>/waypoints		@de.htwg.seapal.web.controllers.WaypointAPI.waypointsAsJson(id: UUID)
 POST	/api/waypoint						@de.htwg.seapal.web.controllers.WaypointAPI.addWaypoint()
 
 # Javascript routing

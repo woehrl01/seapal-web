@@ -24,12 +24,11 @@ public class BoatAPI extends Controller {
 	private IBoatController controller;
 
 	public Result boatsAsJson() {
-		
 		return ok(Json.toJson(controller.getAllBoats()));
 	}
 	
 	public Result boatAsJson(UUID id) {
-		return ok(); //Json.toJson(Boat.findById(id))
+		return ok(Json.toJson(controller.getBoat(id)));
 	}
 
 	public Result addBoat() {
@@ -46,9 +45,9 @@ public class BoatAPI extends Controller {
 			response.put("success", true);
 			boolean created = controller.saveBoat(filledForm.get());
 			if(created){
-				return ok(response);
-			}else{
 				return created(response);
+			}else{
+				return ok(response);
 			}
 		}
 	}

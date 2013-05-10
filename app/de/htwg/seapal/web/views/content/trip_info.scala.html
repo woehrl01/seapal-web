@@ -1,4 +1,4 @@
-@(boatId: Long, tripId: Long)
+@(boatId: java.util.UUID, tripId: java.util.UUID)
 
 @scripts = {
 	<script type="text/javascript" src="@de.htwg.seapal.web.controllers.routes.Application.javascriptRoutes"></script>
@@ -136,7 +136,7 @@
 							</div>
 						</div>
 					</div>
-					@if(tripId > 0){
+					@if(tripId != null){
 					<div class="listview-wrapper">
 						<div class="listview">
 							<div class="row">

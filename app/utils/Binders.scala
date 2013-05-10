@@ -1,6 +1,6 @@
 package utils
 
-import play.api.mvc.{PathBindable, QueryStringBindable}
+import play.api.mvc.{PathBindable, QueryStringBindable, JavascriptLitteral}
 import java.util.UUID
 
 object Binders {
@@ -11,5 +11,18 @@ object Binders {
     override def unbind(key: String, id: UUID): String = {
       id.toString
     }
+
   }
+  
+  implicit def uuidJavascriptLitteral = new JavascriptLitteral[UUID]{
+  	override def to(value: UUID): String = {
+  		if(value == null){
+  			"null"
+  		}else{
+  			"\"" + value.toString + "\""
+  		}
+  	}
+  
+  }
+  
 }

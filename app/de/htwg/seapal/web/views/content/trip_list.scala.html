@@ -1,4 +1,4 @@
-@(boatId: Long)
+@(boatId: java.util.UUID)
 
 @scripts = {
 	<script type="text/javascript" src="@de.htwg.seapal.web.controllers.routes.Application.javascriptRoutes"></script>
@@ -12,11 +12,11 @@
 					<div class="row">
 						<div class="span8">
 							<div class="left">
-								<h1>Tripliste @if(boatId < 0){ aller Boote }</h1>
+								<h1>Tripliste @if(boatId == null){ aller Boote }</h1>
 							</div>
 						</div>
 						<div class="span4">
-							@if(boatId > 0){
+							@if(boatId != null){
 								<div class="right buttons_top">
 									<a id="addButton" href="@de.htwg.seapal.web.controllers.routes.Application.trip_add(boatId)" class="btn btn-primary"><i class="icon-plus icon-white"></i> <span>Hinzufügen<span></a>
 								</div>
