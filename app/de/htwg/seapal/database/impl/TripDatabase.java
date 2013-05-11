@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import org.ektorp.CouchDbConnector;
 import org.ektorp.support.CouchDbRepositorySupport;
+import org.ektorp.support.TypeDiscriminator;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
@@ -14,6 +15,7 @@ import de.htwg.seapal.database.ITripDatabase;
 import de.htwg.seapal.model.ITrip;
 import de.htwg.seapal.model.impl.Trip;
 import de.htwg.seapal.utils.logging.ILogger;
+
 
 public class TripDatabase extends CouchDbRepositorySupport<Trip> implements
 		ITripDatabase {
@@ -38,8 +40,8 @@ public class TripDatabase extends CouchDbRepositorySupport<Trip> implements
 	}
 
 	@Override
-	public boolean save(ITrip data) {
-		add((Trip) data);
+	public boolean save(ITrip data) {	
+		update((Trip) data);
 
 		return false;
 	}

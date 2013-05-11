@@ -14,8 +14,9 @@
 
 @main("SeaPal - Trip Info", scripts, "withsubnavi") {
 @helper.form(action = de.htwg.seapal.web.controllers.routes.TripAPI.addTrip() , 'id -> "form") {
-				<input type="hidden" id="trip_id" name="id" value="@tripId" />
-				<input type="hidden" id="boat_id" name="boat_id" value="@boatId" />
+				<input type="hidden" id="trip_id" name="_id" value="@tripId" />
+				<input type="hidden" id="trip_id" name="_rev" value="@tripId" />
+				<input type="hidden" id="boat_id" name="boat" value="@boatId" />
 				<div class="container">
 					<div class="row">
 						<div class="span8">
@@ -32,22 +33,22 @@
 					<div class="input-wrapper">
 						<div class="row">
 							<div class="span6">
-								<label for="trip_title">Trip Titel</label>
-								<input type="text" name="trip_title" tabindex="1" style="width: 100%;" required />
+								<label for="name">Trip Titel</label>
+								<input type="text" name="name" tabindex="1" style="width: 100%;" required />
 							</div>
 						</div>
 						<div class="row">
 							<div class="span3">
 								<div class="row">
 									<div class="span3">
-										<label for="trip_from">Von</label>
-										<input type="text" name="trip_from" tabindex="2" />
+										<label for="startLocation">Von</label>
+										<input type="text" name="startLocation" tabindex="2" />
 									</div>
 								</div>
 								<div class="row">
 									<div class="span3">
-										<label for="trip_to">Nach</label>
-										<input type="text" name="trip_to" tabindex="3" />
+										<label for="endLocation">Nach</label>
+										<input type="text" name="endLocation" tabindex="3" />
 									</div>
 								</div>
 								<div class="row">
@@ -58,8 +59,8 @@
 								</div>
 							</div>
 							<div class="span3">
-								<label for="crew">Crew</label>
-								<textarea name="crew" cols="20" rows="5" tabindex="9"></textarea>
+								<label for="crewMembers">Crew</label>
+								<textarea name="crewMembers" cols="20" rows="5" tabindex="9"></textarea>
 							</div>
 							<div class="span3">
 								<div class="row">
