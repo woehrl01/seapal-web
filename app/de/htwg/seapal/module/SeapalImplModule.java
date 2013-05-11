@@ -38,7 +38,7 @@ public class SeapalImplModule extends SeapalBaseModule {
 	private void configureDatabases() {
 		bind(String.class).annotatedWith(Names.named("databaseOfPerson")).toInstance("seapal_person_db");
 		bind(IPersonDatabase.class).to(PersonDatabase.class);
-		bind(String.class).annotatedWith(Names.named("databaseOfBoat")).toInstance("seapal_boat_db");
+		bind(String.class).annotatedWith(Names.named("databaseOfBoat")).toInstance("seapal_boats_db");
 		bind(IBoatDatabase.class).to(BoatDatabase.class);
 		bind(String.class).annotatedWith(Names.named("databaseOfTrip")).toInstance("seapal_trips_db");
 		bind(ITripDatabase.class).to(TripDatabase.class);
