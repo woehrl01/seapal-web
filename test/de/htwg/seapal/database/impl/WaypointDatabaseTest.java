@@ -13,7 +13,7 @@ import com.google.inject.Injector;
 import de.htwg.seapal.database.IWaypointDatabase;
 import de.htwg.seapal.model.IWaypoint;
 import de.htwg.seapal.model.impl.Waypoint;
-import de.htwg.seapal.module.WaypointCouchDbModule;
+import de.htwg.seapal.module.SeapalImplModule;
 
 public class WaypointDatabaseTest {
 
@@ -23,7 +23,7 @@ public class WaypointDatabaseTest {
 
 	@Before
 	public void setUp() throws Exception {
-		Injector injector = Guice.createInjector(new WaypointCouchDbModule());
+		Injector injector = Guice.createInjector(new SeapalImplModule());
 		this.waypointDatabase = injector.getInstance(IWaypointDatabase.class);
 	}
 

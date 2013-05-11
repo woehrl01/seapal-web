@@ -15,8 +15,7 @@ import com.google.inject.Injector;
 import de.htwg.seapal.database.ITripDatabase;
 import de.htwg.seapal.model.ITrip;
 import de.htwg.seapal.model.impl.Trip;
-import de.htwg.seapal.module.TripCouchDbModule;
-
+import de.htwg.seapal.module.SeapalImplModule;
 
 public class TripDatabaseTest {
 
@@ -26,7 +25,7 @@ public class TripDatabaseTest {
 
 	@Before
 	public void setUp() throws Exception {
-		Injector injector = Guice.createInjector(new TripCouchDbModule());
+		Injector injector = Guice.createInjector(new SeapalImplModule());
 		this.tripDatabase = injector.getInstance(ITripDatabase.class);
 	}
 
