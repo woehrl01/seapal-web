@@ -14,8 +14,14 @@ import de.htwg.seapal.database.IPersonDatabase;
 import de.htwg.seapal.database.IRouteDatabase;
 import de.htwg.seapal.database.ITripDatabase;
 import de.htwg.seapal.database.IWaypointDatabase;
+import de.htwg.seapal.database.impl.BoatDatabase;
+import de.htwg.seapal.database.impl.MarkDatabase;
+import de.htwg.seapal.database.impl.PersonDatabase;
+import de.htwg.seapal.database.impl.RouteDatabase;
 import de.htwg.seapal.database.impl.TripDatabase;
 import de.htwg.seapal.database.impl.WaypointDatabase;
+import de.htwg.seapal.utils.logger.iml.WebLogger;
+import de.htwg.seapal.utils.logging.ILogger;
 
 public class SeapalImplModule extends SeapalBaseModule {
 
@@ -23,17 +29,39 @@ public class SeapalImplModule extends SeapalBaseModule {
 	protected void configure() {
 		super.configure();
 		
-		bind(IBoatDatabase.class).to(de.htwg.seapal.database.mock.BoatDatabase.class);
-		bind(IPersonDatabase.class).to(de.htwg.seapal.database.mock.PersonDatabase.class);
-		bind(IMarkDatabase.class).to(de.htwg.seapal.database.mock.MarkDatabase.class);
-		bind(IRouteDatabase.class).to(de.htwg.seapal.database.mock.RouteDatabase.class);
+		// configure logger
+		bind(ILogger.class).to(WebLogger.class);
 		
-		bind(String.class).annotatedWith(Names.named("databaseOfWaypoint")).toInstance("seapal_waypoint_db");
-		bind(IWaypointDatabase.class).to(WaypointDatabase.class);
-		bind(String.class).annotatedWith(Names.named("databaseOfTrip")).toInstance("seapal_trips_db");
-		bind(ITripDatabase.class).to(TripDatabase.class);
+		configureDatabases();
 	}
 
+	private void configureDatabases() {
+		bind(String.class).annotatedWith(Names.named("databaseOfPerson")).toInstance("seapal_person_db");
+		bind(IPersonDatabase.class).to(PersonDatabase.class);
+		bind(String.class).annotatedWith(Names.named("databaseOfBoat")).toInstance("seapal_boat_db");
+		bind(IBoatDatabase.class).to(BoatDatabase.class);
+		bind(String.class).annotatedWith(Names.named("databaseOfTrip")).toInstance("seapal_trips_db");
+		bind(ITripDatabase.class).to(TripDatabase.class);
+		bind(String.class).annotatedWith(Names.named("databaseOfWaypoint")).toInstance("seapal_waypoint_db");
+		bind(IWaypointDatabase.class).to(WaypointDatabase.class);
+		bind(String.class).annotatedWith(Names.named("databaseOfRoute")).toInstance("seapal_route_db");
+		bind(IRouteDatabase.class).to(RouteDatabase.class);
+		bind(String.class).annotatedWith(Names.named("databaseOfMark")).toInstance("seapal_mark_db");
+		bind(IMarkDatabase.class).to(MarkDatabase.class);
+	}
+
+	@Provides
+	@Named("personCouchDbConnector")
+	CouchDbConnector getPersonStdCouchDbConnector(@Named("databaseOfPerson") String databaseName, CouchDbInstance couchDbInstance) {
+		return new StdCouchDbConnector(databaseName, couchDbInstance);
+	}
+	
+	@Provides
+	@Named("boatCouchDbConnector")
+	CouchDbConnector getBoatStdCouchDbConnector(@Named("databaseOfBoat") String databaseName, CouchDbInstance couchDbInstance) {
+		return new StdCouchDbConnector(databaseName, couchDbInstance);
+	}
+	
 	@Provides
 	@Named("tripCouchDbConnector")
 	CouchDbConnector getTripStdCouchDbConnector(@Named("databaseOfTrip") String databaseName, CouchDbInstance couchDbInstance) {
@@ -43,6 +71,18 @@ public class SeapalImplModule extends SeapalBaseModule {
 	@Provides
 	@Named("waypointCouchDbConnector")
 	CouchDbConnector getWaypointStdCouchDbConnector(@Named("databaseOfWaypoint") String databaseName, CouchDbInstance couchDbInstance) {
+		return new StdCouchDbConnector(databaseName, couchDbInstance);
+	}
+	
+	@Provides
+	@Named("routeCouchDbConnector")
+	CouchDbConnector getRouteStdCouchDbConnector(@Named("databaseOfRoute") String databaseName, CouchDbInstance couchDbInstance) {
+		return new StdCouchDbConnector(databaseName, couchDbInstance);
+	}
+	
+	@Provides
+	@Named("markCouchDbConnector")
+	CouchDbConnector getMarkStdCouchDbConnector(@Named("databaseOfMark") String databaseName, CouchDbInstance couchDbInstance) {
 		return new StdCouchDbConnector(databaseName, couchDbInstance);
 	}
 }

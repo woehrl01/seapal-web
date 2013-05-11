@@ -19,21 +19,23 @@ import de.htwg.seapal.controller.IWaypointController;
 import de.htwg.seapal.controller.impl.BoatController;
 import de.htwg.seapal.controller.impl.TripController;
 import de.htwg.seapal.controller.impl.WaypointController;
-import de.htwg.seapal.utils.logger.iml.WebLogger;
-import de.htwg.seapal.utils.logging.ILogger;
 
 public abstract class SeapalBaseModule extends AbstractModule {
 	
 	@Override
 	protected void configure() {
-		bind(ILogger.class).to(WebLogger.class);
-		bind(IBoatController.class).to(BoatController.class).in(Singleton.class);
-		bind(ITripController.class).to(TripController.class).in(Singleton.class);
-		bind(IWaypointController.class).to(WaypointController.class).in(Singleton.class);
+		configureControllers();
 		
+		// configure database configuration
 		bind(String.class).annotatedWith(Names.named("databaseHost")).toInstance("roroettg.iriscouch.com");
 	    bind(Integer.class).annotatedWith(Names.named("databasePort")).toInstance(80);
 	    bind(String.class).annotatedWith(Names.named("databaseURL")).toInstance("http://roroettg.iriscouch.com");
+	}
+
+	private void configureControllers() {
+		bind(IBoatController.class).to(BoatController.class).in(Singleton.class);
+		bind(ITripController.class).to(TripController.class).in(Singleton.class);
+		bind(IWaypointController.class).to(WaypointController.class).in(Singleton.class);
 	}
 	
 	@Provides

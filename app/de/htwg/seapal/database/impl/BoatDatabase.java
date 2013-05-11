@@ -10,25 +10,25 @@ import org.ektorp.support.CouchDbRepositorySupport;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
-import de.htwg.seapal.database.IWaypointDatabase;
-import de.htwg.seapal.model.IWaypoint;
-import de.htwg.seapal.model.impl.Waypoint;
+import de.htwg.seapal.database.IBoatDatabase;
+import de.htwg.seapal.model.IBoat;
+import de.htwg.seapal.model.impl.Boat;
 import de.htwg.seapal.utils.logging.ILogger;
 
-public class WaypointDatabase extends CouchDbRepositorySupport<Waypoint> implements
-		IWaypointDatabase {
+public class BoatDatabase extends CouchDbRepositorySupport<Boat> implements
+		IBoatDatabase {
 
 	private final ILogger logger;
 	
 	@Inject
-	protected WaypointDatabase(@Named("waypointCouchDbConnector") CouchDbConnector db, ILogger logger) {
-		super(Waypoint.class, db);
+	protected BoatDatabase(@Named("boatCouchDbConnector") CouchDbConnector db, ILogger logger) {
+		super(Boat.class, db);
 		this.logger = logger;
 	}
 
 	@Override
 	public boolean open() {
-		logger.info("WaypointDatabase", "Database connection opened");
+		logger.info("BoatDatabase", "Database connection opened");
 		return true;
 	}
 
@@ -38,25 +38,25 @@ public class WaypointDatabase extends CouchDbRepositorySupport<Waypoint> impleme
 	}
 
 	@Override
-	public boolean save(IWaypoint data) {
-		add((Waypoint) data);
+	public boolean save(IBoat data) {
+		add((Boat) data);
 
 		return false;
 	}
 
 	@Override
-	public Waypoint get(UUID id) {
+	public IBoat get(UUID id) {
 		return get(id.toString());
 	}
 
 	@Override
-	public List<IWaypoint> loadAll() {
-		return new LinkedList<IWaypoint>(getAll());
+	public List<IBoat> loadAll() {
+		return new LinkedList<IBoat>(getAll());
 	}
 
 	@Override
 	public void delete(UUID id) {
-		remove(get(id));
+		remove((Boat)get(id));
 	}
 
 	@Override

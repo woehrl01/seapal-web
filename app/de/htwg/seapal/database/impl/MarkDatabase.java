@@ -10,25 +10,25 @@ import org.ektorp.support.CouchDbRepositorySupport;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
-import de.htwg.seapal.database.IWaypointDatabase;
-import de.htwg.seapal.model.IWaypoint;
-import de.htwg.seapal.model.impl.Waypoint;
+import de.htwg.seapal.database.IMarkDatabase;
+import de.htwg.seapal.model.IMark;
+import de.htwg.seapal.model.impl.Mark;
 import de.htwg.seapal.utils.logging.ILogger;
 
-public class WaypointDatabase extends CouchDbRepositorySupport<Waypoint> implements
-		IWaypointDatabase {
+public class MarkDatabase extends CouchDbRepositorySupport<Mark> implements
+		IMarkDatabase {
 
 	private final ILogger logger;
 	
 	@Inject
-	protected WaypointDatabase(@Named("waypointCouchDbConnector") CouchDbConnector db, ILogger logger) {
-		super(Waypoint.class, db);
+	protected MarkDatabase(@Named("markCouchDbConnector") CouchDbConnector db, ILogger logger) {
+		super(Mark.class, db);
 		this.logger = logger;
 	}
 
 	@Override
 	public boolean open() {
-		logger.info("WaypointDatabase", "Database connection opened");
+		logger.info("MarkDatabase", "Database connection opened");
 		return true;
 	}
 
@@ -38,25 +38,25 @@ public class WaypointDatabase extends CouchDbRepositorySupport<Waypoint> impleme
 	}
 
 	@Override
-	public boolean save(IWaypoint data) {
-		add((Waypoint) data);
+	public boolean save(IMark data) {
+		add((Mark) data);
 
 		return false;
 	}
 
 	@Override
-	public Waypoint get(UUID id) {
+	public IMark get(UUID id) {
 		return get(id.toString());
 	}
 
 	@Override
-	public List<IWaypoint> loadAll() {
-		return new LinkedList<IWaypoint>(getAll());
+	public List<IMark> loadAll() {
+		return new LinkedList<IMark>(getAll());
 	}
 
 	@Override
 	public void delete(UUID id) {
-		remove(get(id));
+		remove((Mark)get(id));
 	}
 
 	@Override

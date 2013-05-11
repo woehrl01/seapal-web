@@ -3,7 +3,6 @@ package de.htwg.seapal.database.impl;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
-import java.util.logging.Logger;
 
 import org.ektorp.CouchDbConnector;
 import org.ektorp.support.CouchDbRepositorySupport;
@@ -14,21 +13,23 @@ import com.google.inject.name.Named;
 import de.htwg.seapal.database.ITripDatabase;
 import de.htwg.seapal.model.ITrip;
 import de.htwg.seapal.model.impl.Trip;
+import de.htwg.seapal.utils.logging.ILogger;
 
 public class TripDatabase extends CouchDbRepositorySupport<Trip> implements
 		ITripDatabase {
 
-	private final Logger logger;
+	private final ILogger logger;
 	
 	@Inject
-	protected TripDatabase(@Named("tripCouchDbConnector") CouchDbConnector db, Logger logger) {
+	protected TripDatabase(@Named("tripCouchDbConnector") CouchDbConnector db, ILogger logger) {
 		super(Trip.class, db);
 		this.logger = logger;
 	}
 
 	@Override
 	public boolean open() {
-		return false;
+		logger.info("TripDatabase", "Database connection opened");
+		return true;
 	}
 
 	@Override
@@ -60,7 +61,7 @@ public class TripDatabase extends CouchDbRepositorySupport<Trip> implements
 
 	@Override
 	public boolean close() {
-		return false;
+		return true;
 	}
 
 }

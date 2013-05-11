@@ -1,6 +1,8 @@
 package de.htwg.seapal.module;
 
 import de.htwg.seapal.database.*;
+import de.htwg.seapal.utils.logger.iml.WebLogger;
+import de.htwg.seapal.utils.logging.ILogger;
 
 public class SeapalMockModule extends SeapalBaseModule {
 	
@@ -8,10 +10,13 @@ public class SeapalMockModule extends SeapalBaseModule {
 	protected void configure() {
 		super.configure();
 		
-		configureDatabase();
+		// configure logger
+		bind(ILogger.class).to(WebLogger.class);
+		
+		configureDatabases();
 	}
 
-	private void configureDatabase() {
+	private void configureDatabases() {
 		bind(IBoatDatabase.class).to(de.htwg.seapal.database.mock.BoatDatabase.class);
 		bind(IPersonDatabase.class).to(de.htwg.seapal.database.mock.PersonDatabase.class);
 		bind(ITripDatabase.class).to(de.htwg.seapal.database.mock.TripDatabase.class);
