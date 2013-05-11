@@ -3,6 +3,7 @@ package de.htwg.seapal;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
+import de.htwg.seapal.module.SeapalImplModule;
 import de.htwg.seapal.module.SeapalMockModule;
 import de.htwg.seapal.utils.logging.ILogger;
 
@@ -23,7 +24,7 @@ public class SeapalGlobal extends GlobalSettings {
 	 */
 	public static Injector createInjector() {
 		return Guice.createInjector(
-				new SeapalMockModule());
+				new SeapalImplModule());
 	}
 	
 	@Override

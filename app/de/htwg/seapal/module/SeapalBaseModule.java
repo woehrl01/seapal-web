@@ -23,21 +23,6 @@ import de.htwg.seapal.utils.logger.iml.WebLogger;
 import de.htwg.seapal.utils.logging.ILogger;
 
 public abstract class SeapalBaseModule extends AbstractModule {
-
-	/**
-	 * The database URL.
-	 */
-	private final static String DB_URL = "http://roroettg.iriscouch.com";
-	
-	/**
-	 * The database host.
-	 */
-	private final static String DB_HOST = "roroettg.iriscouch.com";
-	
-	/**
-	 * The database Port.
-	 */
-	private final static int DB_PORT = 80;
 	
 	@Override
 	protected void configure() {
@@ -46,9 +31,9 @@ public abstract class SeapalBaseModule extends AbstractModule {
 		bind(ITripController.class).to(TripController.class).in(Singleton.class);
 		bind(IWaypointController.class).to(WaypointController.class).in(Singleton.class);
 		
-		bind(String.class).annotatedWith(Names.named("databaseHost")).toInstance(DB_HOST);
-	    bind(Integer.class).annotatedWith(Names.named("databasePort")).toInstance(DB_PORT);
-	    bind(String.class).annotatedWith(Names.named("databaseURL")).toInstance(DB_URL);
+		bind(String.class).annotatedWith(Names.named("databaseHost")).toInstance("roroettg.iriscouch.com");
+	    bind(Integer.class).annotatedWith(Names.named("databasePort")).toInstance(80);
+	    bind(String.class).annotatedWith(Names.named("databaseURL")).toInstance("http://roroettg.iriscouch.com");
 	}
 	
 	@Provides
@@ -60,13 +45,4 @@ public abstract class SeapalBaseModule extends AbstractModule {
     CouchDbInstance getStdCouchDbInstance(HttpClient httpClient) {
         return new StdCouchDbInstance(httpClient);
     }
-
-    @Provides
-	HttpClient getHttpClient(@Named("databaseURL") String databaseHost) {
-		try {
-			return new StdHttpClient.Builder().url(databaseHost).build();
-		} catch (MalformedURLException e) {
-			throw new RuntimeException(e);
-		}
-	}
 }
