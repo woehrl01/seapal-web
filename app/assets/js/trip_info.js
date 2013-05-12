@@ -118,6 +118,16 @@ $(document).ready(function() {
 	        	$('#deletePromptModal').modal('show');
 	        }
     });
+    
+    $('body').on('click', 'a.editItemBtn', function(event) {
+        event.preventDefault();
+
+        var id = $(this).closest('tr').attr("data-id");
+
+        if(id != ""){
+        	window.location.href = jsRoutes.de.htwg.seapal.web.controllers.Application.waypointShow(id).url;
+        }
+	});
 
 	function resetFormData() {
 		$('#form').get(0).reset();

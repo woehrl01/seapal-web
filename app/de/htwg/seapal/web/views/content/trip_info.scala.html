@@ -15,7 +15,7 @@
 @main("SeaPal - Trip Info", scripts, "withsubnavi") {
 @helper.form(action = de.htwg.seapal.web.controllers.routes.TripAPI.addTrip() , 'id -> "form") {
 				<input type="hidden" id="trip_id" name="_id" value="@tripId" />
-				<input type="hidden" id="trip_id" name="_rev" value="@tripId" />
+				<input type="hidden" id="rev_id" name="_rev" value="" />
 				<input type="hidden" id="boat_id" name="boat" value="@boatId" />
 				<div class="container">
 					<div class="row">
@@ -154,12 +154,12 @@
 									    </tbody>
 									</table>
 									<script id="waypointListTemplate" type="text/x-jsrender">
-										<tr data-id="{{>id}}">
-											<td>{{>entry_name}}</td>
-											<td>{{>position_lat}}, {{>position_lon}}</td>
+										<tr data-id="{{>_id}}">
+											<td>{{>name}}</td>
+											<td>{{>latitude}}, {{>longitude}}</td>
 											<td class="actionCol">
 												<a href="#" class="deleteItemBtn tooltipable" rel="tooltip" title="Löschen"><i class="icon-remove"></i></a>
-												<a href="#" class="editItemBtn tooltipable" rel="tooltip" title="Betrachten"><i class="icon-chevron-right"></i></a>
+												<!--<a href="#" class="editItemBtn tooltipable" rel="tooltip" title="Betrachten"><i class="icon-chevron-right"></i></a>-->
 											</td>
 										</tr>
 									</script>
