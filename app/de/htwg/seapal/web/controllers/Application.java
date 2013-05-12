@@ -73,6 +73,7 @@ public class Application extends Controller {
 	        de.htwg.seapal.web.controllers.routes.javascript.TripAPI.tripAsJson(),
 	        de.htwg.seapal.web.controllers.routes.javascript.TripAPI.alltripsAsJson(),
 	        de.htwg.seapal.web.controllers.routes.javascript.TripAPI.addTrip(),
+	        de.htwg.seapal.web.controllers.routes.javascript.TripAPI.deleteTrip(),
 	        de.htwg.seapal.web.controllers.routes.javascript.WaypointAPI.addWaypoint(),
 	        de.htwg.seapal.web.controllers.routes.javascript.WaypointAPI.waypointsAsJson(),
 	        de.htwg.seapal.web.controllers.routes.javascript.BoatPositionAPI.current()
