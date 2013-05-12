@@ -1,7 +1,12 @@
 package de.htwg.seapal.web.controllers;
 
+import java.util.List;
 import java.util.UUID;
 
+import com.google.inject.Inject;
+
+import de.htwg.seapal.controller.ITripController;
+import de.htwg.seapal.model.ITrip;
 import de.htwg.seapal.web.controllers.helpers.Menus;
 import de.htwg.seapal.web.views.html.content.*;
 import play.Routes;
@@ -11,6 +16,9 @@ import play.mvc.With;
 
 @With(Menus.class)
 public class Application extends Controller {
+	
+	@Inject
+	private ITripController tripController;
 	
 	public static Result index() {
 		return ok(index.render());
@@ -56,6 +64,10 @@ public class Application extends Controller {
 		return ok(log_entry.render(tripId));
 	}
 	
+	public Result regatta_view(){
+		return ok(regatta.render(tripController.getAllTrips()));
+	}
+	
 	public static Result javascriptRoutes() {
 	    response().setContentType("text/javascript");
 	    return ok(
@@ -75,7 +87,8 @@ public class Application extends Controller {
 	        de.htwg.seapal.web.controllers.routes.javascript.TripAPI.addTrip(),
 	        de.htwg.seapal.web.controllers.routes.javascript.WaypointAPI.addWaypoint(),
 	        de.htwg.seapal.web.controllers.routes.javascript.WaypointAPI.waypointsAsJson(),
-	        de.htwg.seapal.web.controllers.routes.javascript.BoatPositionAPI.current()
+	        de.htwg.seapal.web.controllers.routes.javascript.BoatPositionAPI.current(),
+	        de.htwg.seapal.web.controllers.routes.javascript.RegattaAPI.allTripsAsJson()
 	      )
 	    );
 	  }
