@@ -6,7 +6,6 @@ import java.util.UUID;
 
 import org.ektorp.CouchDbConnector;
 import org.ektorp.support.CouchDbRepositorySupport;
-import org.ektorp.support.TypeDiscriminator;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
@@ -17,8 +16,7 @@ import de.htwg.seapal.model.impl.Trip;
 import de.htwg.seapal.utils.logging.ILogger;
 
 
-public class TripDatabase extends CouchDbRepositorySupport<Trip> implements
-		ITripDatabase {
+public class TripDatabase extends CouchDbRepositorySupport<Trip> implements ITripDatabase {
 
 	private final ILogger logger;
 	
@@ -41,8 +39,16 @@ public class TripDatabase extends CouchDbRepositorySupport<Trip> implements
 
 	@Override
 	public boolean save(ITrip data) {	
-		update((Trip) data);
-
+		Trip entity = (Trip)data;
+		
+		if (entity.isNew()) {
+			logger.info("TripDatabase", "Saving entity");
+			add(entity);
+			return true;
+		}
+		
+		logger.info("TripDatabase", "Updating entity with UUID: " + entity.getId());
+		update(entity);
 		return false;
 	}
 
@@ -53,11 +59,14 @@ public class TripDatabase extends CouchDbRepositorySupport<Trip> implements
 
 	@Override
 	public List<ITrip> loadAll() {
-		return new LinkedList<ITrip>(getAll());
+		List<ITrip> trips = new LinkedList<ITrip>(getAll());
+		logger.info("TripDatabase", "Loaded entities. Count: " + trips.size());
+		return trips;
 	}
 
 	@Override
 	public void delete(UUID id) {
+		logger.info("TripDatabase", "Removing entity with UUID: " + id.toString());
 		remove((Trip)get(id));
 	}
 

@@ -15,8 +15,7 @@ import de.htwg.seapal.model.IWaypoint;
 import de.htwg.seapal.model.impl.Waypoint;
 import de.htwg.seapal.utils.logging.ILogger;
 
-public class WaypointDatabase extends CouchDbRepositorySupport<Waypoint> implements
-		IWaypointDatabase {
+public class WaypointDatabase extends CouchDbRepositorySupport<Waypoint> implements IWaypointDatabase {
 
 	private final ILogger logger;
 	
@@ -39,8 +38,16 @@ public class WaypointDatabase extends CouchDbRepositorySupport<Waypoint> impleme
 
 	@Override
 	public boolean save(IWaypoint data) {
-		add((Waypoint) data);
-
+		Waypoint entity = (Waypoint)data;
+		
+		if (entity.isNew()) {
+			logger.info("WaypointDatabase", "Saving entity");
+			add(entity);
+			return true;
+		}
+		
+		logger.info("WaypointDatabase", "Updating entity with UUID: " + entity.getId());
+		update(entity);
 		return false;
 	}
 
@@ -51,11 +58,14 @@ public class WaypointDatabase extends CouchDbRepositorySupport<Waypoint> impleme
 
 	@Override
 	public List<IWaypoint> loadAll() {
-		return new LinkedList<IWaypoint>(getAll());
+		List<IWaypoint> waypoints = new LinkedList<IWaypoint>(getAll());
+		logger.info("WaypointDatabase", "Loaded entities. Count: " + waypoints.size());
+		return waypoints;
 	}
 
 	@Override
 	public void delete(UUID id) {
+		logger.info("WaypointDatabase", "Removing entity with UUID: " + id.toString());
 		remove(get(id));
 	}
 

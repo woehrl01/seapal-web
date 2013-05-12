@@ -39,8 +39,16 @@ public class MarkDatabase extends CouchDbRepositorySupport<Mark> implements
 
 	@Override
 	public boolean save(IMark data) {
-		add((Mark) data);
-
+		Mark entity = (Mark)data;
+		
+		if (entity.isNew()) {
+			logger.info("MarkDatabase", "Saving entity");
+			add(entity);
+			return true;
+		}
+			
+		logger.info("MarkDatabase", "Updating entity with UUID: " + entity.getId());
+		update(entity);
 		return false;
 	}
 
@@ -51,11 +59,14 @@ public class MarkDatabase extends CouchDbRepositorySupport<Mark> implements
 
 	@Override
 	public List<IMark> loadAll() {
-		return new LinkedList<IMark>(getAll());
+		List<IMark> marks = new LinkedList<IMark>(getAll());
+		logger.info("MarkDatabase", "Loaded entities. Count: " + marks.size());
+		return marks;
 	}
 
 	@Override
 	public void delete(UUID id) {
+		logger.info("MarkDatabase", "Removing entity with UUID: " + id.toString());
 		remove((Mark)get(id));
 	}
 

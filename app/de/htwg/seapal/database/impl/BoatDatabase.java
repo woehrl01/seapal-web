@@ -39,8 +39,16 @@ public class BoatDatabase extends CouchDbRepositorySupport<Boat> implements
 
 	@Override
 	public boolean save(IBoat data) {
-		add((Boat) data);
-
+		Boat entity = (Boat)data;
+		
+		if (entity.isNew()) {
+			logger.info("BoatDatabase", "Saving entity");
+			add(entity);
+			return true;
+		}
+			
+		logger.info("BoatDatabase", "Updating entity with UUID: " + entity.getId());
+		update(entity);
 		return false;
 	}
 
@@ -51,11 +59,14 @@ public class BoatDatabase extends CouchDbRepositorySupport<Boat> implements
 
 	@Override
 	public List<IBoat> loadAll() {
-		return new LinkedList<IBoat>(getAll());
+		List<IBoat> boats = new LinkedList<IBoat>(getAll());
+		logger.info("BoatDatabase", "Loaded entities. Count: " + boats.size());
+		return boats;
 	}
 
 	@Override
 	public void delete(UUID id) {
+		logger.info("BoatDatabase", "Removing entity with UUID: " + id.toString());
 		remove((Boat)get(id));
 	}
 

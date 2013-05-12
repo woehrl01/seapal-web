@@ -39,8 +39,16 @@ public class PersonDatabase extends CouchDbRepositorySupport<Person> implements
 
 	@Override
 	public boolean save(IPerson data) {
-		add((Person) data);
-
+		Person entity = (Person)data;
+		
+		if (entity.isNew()) {
+			logger.info("PersonDatabase", "Saving entities");
+			add(entity);
+			return true;
+		}
+			
+		logger.info("PersonDatabase", "Updating entity with UUID: " + entity.getId());
+		update(entity);
 		return false;
 	}
 
@@ -51,11 +59,14 @@ public class PersonDatabase extends CouchDbRepositorySupport<Person> implements
 
 	@Override
 	public List<IPerson> loadAll() {
-		return new LinkedList<IPerson>(getAll());
+		List<IPerson> persons = new LinkedList<IPerson>(getAll());
+		logger.info("PersonDatabase", "Loaded entities. Count: " + persons.size());
+		return persons;
 	}
 
 	@Override
 	public void delete(UUID id) {
+		logger.info("PersonDatabase", "Removing entity with UUID: " + id.toString());
 		remove((Person)get(id));
 	}
 

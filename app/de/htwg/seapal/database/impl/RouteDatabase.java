@@ -39,8 +39,16 @@ public class RouteDatabase extends CouchDbRepositorySupport<Route> implements
 
 	@Override
 	public boolean save(IRoute data) {
-		add((Route) data);
-
+		Route entity = (Route)data;
+		
+		if (entity.isNew()) {
+			logger.info("RouteDatabase", "Saving entity");
+			add(entity);
+			return true;
+		}
+			
+		logger.info("RouteDatabase", "Updating entity with UUID: " + entity.getId());
+		update(entity);
 		return false;
 	}
 
@@ -51,11 +59,14 @@ public class RouteDatabase extends CouchDbRepositorySupport<Route> implements
 
 	@Override
 	public List<IRoute> loadAll() {
-		return new LinkedList<IRoute>(getAll());
+		List<IRoute> routes = new LinkedList<IRoute>(getAll());
+		logger.info("RouteDatabase", "Loaded entities. Count: " + routes.size());
+		return routes;
 	}
 
 	@Override
 	public void delete(UUID id) {
+		logger.info("RouteDatabase", "Removing entity with UUID: " + id.toString());
 		remove((Route)get(id));
 	}
 
