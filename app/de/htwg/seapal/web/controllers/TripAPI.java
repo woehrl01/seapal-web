@@ -1,15 +1,17 @@
 package de.htwg.seapal.web.controllers;
 
+import java.util.List;
 import java.util.UUID;
 
+import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.ObjectNode;
 
 import com.google.inject.Inject;
 
 import de.htwg.seapal.controller.ITripController;
-import de.htwg.seapal.model.IBoat;
 import de.htwg.seapal.model.ITrip;
 import de.htwg.seapal.model.impl.Trip;
+import de.htwg.seapal.utils.logging.ILogger;
 
 import play.data.Form;
 import play.libs.Json;
@@ -23,8 +25,12 @@ public class TripAPI extends Controller {
 	@Inject
 	private ITripController controller;
 	
+	@Inject
+	private ILogger logger;
+	
 	public Result tripsAsJson(UUID boatId) {
-		return ok(Json.toJson(controller.getAllTrips(boatId)));
+		List<ITrip> tripsOfBoat = controller.getAllTrips(boatId);
+		return ok(Json.toJson(tripsOfBoat));
 	}
 	
 	public Result tripAsJson(UUID id) {
@@ -41,11 +47,13 @@ public class TripAPI extends Controller {
 	}
 
 	public Result addTrip() {
+		logger.info("TripAPI", "--> addTrip");
 		Form<Trip> filledForm = form.bindFromRequest();
 		
 		ObjectNode response = Json.newObject();
 		
 		if (filledForm.hasErrors()) {
+			logger.warn("TripAPI", "FilledForm has errors: " + filledForm.errorsAsJson().toString());
 			response.put("success", false);
 			response.put("errors", filledForm.errorsAsJson());
 			
@@ -53,9 +61,11 @@ public class TripAPI extends Controller {
 		} else {
 			response.put("success", true);
 			boolean created = controller.saveTrip(filledForm.get());
-			if(created){
+			if(created) {
+				logger.info("TripAPI", "Trip created");
 				return created(response);
 			}else{
+				logger.info("TripAPI", "Trip updated");
 				return ok(response);
 			}
 		}

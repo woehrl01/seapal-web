@@ -5,10 +5,11 @@ import java.util.UUID;
 import org.codehaus.jackson.node.ObjectNode;
 
 import com.google.inject.Inject;
-import com.google.inject.name.Named;
 
 import de.htwg.seapal.controller.IBoatController;
 import de.htwg.seapal.model.IBoat;
+import de.htwg.seapal.model.impl.Boat;
+import de.htwg.seapal.utils.logging.ILogger;
 
 import play.data.Form;
 import play.libs.Json;
@@ -17,10 +18,13 @@ import play.mvc.Result;
 
 public class BoatAPI extends Controller {
 
-	static Form<IBoat> form = Form.form(IBoat.class);
+	static Form<Boat> form = Form.form(Boat.class);
 	
 	@Inject
 	private IBoatController controller;
+	
+	@Inject
+	private ILogger logger;
 
 	public Result boatsAsJson() {
 		return ok(Json.toJson(controller.getAllBoats()));
@@ -36,11 +40,13 @@ public class BoatAPI extends Controller {
 	}
 
 	public Result addBoat() {
-		Form<IBoat> filledForm = form.bindFromRequest();
+		logger.info("BoatAPI", "--> addBoat");
+		Form<Boat> filledForm = form.bindFromRequest();
 		
 		ObjectNode response = Json.newObject();
 		
 		if (filledForm.hasErrors()) {
+			logger.warn("BoatAPI", "FilledForm has errors: " + filledForm.errorsAsJson().toString());
 			response.put("success", false);
 			response.put("errors", filledForm.errorsAsJson());
 			
@@ -48,9 +54,11 @@ public class BoatAPI extends Controller {
 		} else {
 			response.put("success", true);
 			boolean created = controller.saveBoat(filledForm.get());
-			if(created){
+			if(created) {
+				logger.info("BoatAPI", "Boat created");
 				return created(response);
-			}else{
+			} else {
+				logger.info("BoatAPI", "Boat updated");
 				return ok(response);
 			}
 		}

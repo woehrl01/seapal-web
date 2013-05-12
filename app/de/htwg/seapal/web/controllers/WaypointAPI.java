@@ -1,5 +1,6 @@
 package de.htwg.seapal.web.controllers;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.codehaus.jackson.node.ObjectNode;
@@ -8,6 +9,7 @@ import com.google.inject.Inject;
 
 import de.htwg.seapal.controller.IWaypointController;
 import de.htwg.seapal.model.IWaypoint;
+import de.htwg.seapal.utils.logging.ILogger;
 
 import play.data.Form;
 import play.libs.Json;
@@ -21,16 +23,22 @@ public class WaypointAPI extends Controller {
 	@Inject
 	private IWaypointController controller;
 	
+	@Inject
+	private ILogger logger;
+	
 	public Result waypointsAsJson(UUID tripId) {
-		return ok(Json.toJson(controller.getAllWaypoints(tripId)));
+		List<IWaypoint> trips = controller.getAllWaypoints(tripId);
+		return ok(Json.toJson(trips));
 	}
 
 	public Result addWaypoint() {
+		logger.info("WaypointAPI", "--> addWaypoint");
 		Form<IWaypoint> filledForm = form.bindFromRequest();
 		
 		ObjectNode response = Json.newObject();
 		
 		if (filledForm.hasErrors()) {
+			logger.warn("WaypointAPI", "FilledForm has errors: " + filledForm.errorsAsJson().toString());
 			response.put("success", false);
 			response.put("errors", filledForm.errorsAsJson());
 			
@@ -39,6 +47,7 @@ public class WaypointAPI extends Controller {
 			response.put("success", true);
 			controller.saveWaypoint(filledForm.get());
 
+			logger.info("WaypointAPI", "Waypoint created");
 			return created(response);
 		}
 	}
