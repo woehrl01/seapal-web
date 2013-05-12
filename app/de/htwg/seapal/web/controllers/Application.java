@@ -1,13 +1,16 @@
 package de.htwg.seapal.web.controllers;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.UUID;
 
-import de.htwg.seapal.web.controllers.helpers.Menus;
-import de.htwg.seapal.web.views.html.content.*;
 import play.Routes;
+import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.With;
+import de.htwg.seapal.web.views.html.content.*;
+import de.htwg.seapal.web.controllers.helpers.Menus;
 
 @With(Menus.class)
 public class Application extends Controller {
@@ -54,6 +57,16 @@ public class Application extends Controller {
 	
 	public static Result waypoint_add(UUID tripId){
 		return ok(log_entry.render(tripId));
+	}
+	
+	public static class TripList {
+		public List<String> tripId = new LinkedList<String>();
+	}
+	
+	public static Result regatta_add() {
+		Form<TripList> form = Form.form(TripList.class);
+		
+		return ok( form.bindFromRequest().get().tripId.toString() );
 	}
 	
 	public static Result javascriptRoutes() {
