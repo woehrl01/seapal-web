@@ -1,6 +1,7 @@
 package de.htwg.seapal.web.controllers;
 
 import play.data.Form;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
@@ -27,4 +28,7 @@ public class RegattaAPI extends Controller {
 		return ok(form.bindFromRequest().get().tripId.toString());
 	}
 
+	public Result allTripsAsJson() {
+		return ok(Json.toJson(tripController.getAllTrips()));
+	}
 }

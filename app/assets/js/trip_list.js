@@ -54,9 +54,13 @@ $(document).ready(function() {
 
 	function loadAllTrips() {
 		var id = $('#boatId').val();
-		var route = jsRoutes.de.htwg.seapal.web.controllers.TripAPI.alltripsAsJson();
-		if(id != "")
+		
+		var route;
+		if(id == "") {
+			route = jsRoutes.de.htwg.seapal.web.controllers.TripAPI.alltripsAsJson();
+		} else {
 			route = jsRoutes.de.htwg.seapal.web.controllers.TripAPI.tripsAsJson(id);
+		}
 
 		route.ajax({
 			dataType: "json",
