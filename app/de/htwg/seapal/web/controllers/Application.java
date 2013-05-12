@@ -1,5 +1,6 @@
 package de.htwg.seapal.web.controllers;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
@@ -9,8 +10,10 @@ import com.google.inject.Inject;
 
 import de.htwg.seapal.controller.ITripController;
 import de.htwg.seapal.model.ITrip;
+import de.htwg.seapal.utils.logging.ILogger;
 import de.htwg.seapal.web.controllers.helpers.Menus;
 import de.htwg.seapal.web.views.html.content.*;
+import play.Logger;
 import play.Routes;
 import play.data.Form;
 import play.mvc.Controller;
@@ -22,6 +25,9 @@ public class Application extends Controller {
 	
 	@Inject
 	private ITripController tripController;
+	
+	@Inject
+	private ILogger logger;
 	
 	public static Result index() {
 		return ok(index.render());
@@ -69,16 +75,26 @@ public class Application extends Controller {
 	
 	public static class TripList {
 		public List<String> tripId = new LinkedList<String>();
+		
+		public List<UUID> toUUID() {
+			List<UUID> list = new ArrayList<UUID>(tripId.size());
+			
+			for (String id : tripId) {
+				list.add(UUID.fromString(id));
+			}
+			return list;
+		}
 	}
 	
-	public static Result regatta_add() {
+	public Result regatta_add() {
 		Form<TripList> form = Form.form(TripList.class);
-		
-		return ok( form.bindFromRequest().get().tripId.toString() );
+		logger.info("Application1", form.bindFromRequest().get().tripId.toString());
+		logger.info("Application2", form.bindFromRequest().get().toUUID().toString());
+		return ok(regatta.render(form.bindFromRequest().get().toUUID()));
 	}
 	
 	public Result regatta_view(){
-		return ok(regatta.render(tripController.getAllTrips()));
+		return ok(regatta.render(tripController.getTrips()));
 	}
 	
 	public static Result javascriptRoutes() {

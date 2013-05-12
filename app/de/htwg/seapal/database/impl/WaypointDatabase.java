@@ -4,9 +4,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
+import org.ektorp.ComplexKey;
 import org.ektorp.CouchDbConnector;
+import org.ektorp.ViewQuery;
 import org.ektorp.support.CouchDbRepositorySupport;
 
+import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
@@ -72,6 +75,20 @@ public class WaypointDatabase extends CouchDbRepositorySupport<Waypoint> impleme
 	@Override
 	public boolean close() {
 		return true;
+	}
+
+	@Override
+	public List<IWaypoint> loadAllByTripId(UUID tripId) {
+		//ViewQuery query = new ViewQuery().designDocId("_design/Waypoint").viewName("by_trip").key(tripId);
+		ViewQuery query = new ViewQuery()
+						.designDocId("_design/Waypoint")
+						.viewName("by_trip_sorted")
+						.startKey(ComplexKey.of(tripId, 0))
+						.endKey(ComplexKey.of(tripId, Long.MAX_VALUE));
+		
+		
+		logger.info("WaypointDatabase", "Load all by ID count:" + db.queryView(query, Waypoint.class).size());
+		return new LinkedList<IWaypoint>(db.queryView(query, Waypoint.class));
 	}
 
 }

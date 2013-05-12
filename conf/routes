@@ -15,7 +15,7 @@ GET		/trip/$tripId<[0-9a-fA-F\-]+>				de.htwg.seapal.web.controllers.Application
 GET		/trip/$tripId<[0-9a-fA-F\-]+>/waypoint		de.htwg.seapal.web.controllers.Application.waypoint_add(tripId: UUID)
 GET		/regatta						@de.htwg.seapal.web.controllers.Application.regatta_view()
 
-POST	/regatta/	de.htwg.seapal.web.controllers.Application.regatta_add
+POST	/regatta/	    @de.htwg.seapal.web.controllers.Application.regatta_add
 POST	/regatta/send	@de.htwg.seapal.web.controllers.RegattaAPI.send_to_SAP()
 
 # API

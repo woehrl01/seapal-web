@@ -25,7 +25,7 @@ public class RegattaAPI extends Controller {
 	
 	public Result send_to_SAP() {
 		Form<TripList> form = Form.form(TripList.class);
-		return ok(form.bindFromRequest().get().tripId.toString());
+		return ok(form.bindFromRequest().get().toUUID().toString());
 	}
 
 	public Result allTripsAsJson() {

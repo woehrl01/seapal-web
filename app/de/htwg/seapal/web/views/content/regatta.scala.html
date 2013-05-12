@@ -1,4 +1,4 @@
-@(trips: java.util.List[de.htwg.seapal.model.ITrip])
+@(trips: java.util.List[java.util.UUID])
 
 @scripts = {
 	<script type="text/javascript" src="@de.htwg.seapal.web.controllers.routes.Application.javascriptRoutes"></script>
@@ -8,6 +8,10 @@
 }
 
 @main("SeaPal - Regatta View", scripts, "withsubnavi") {
+	@for(trip <- trips){
+		<input type="hidden" name="tripId[]" value="@trip.toString()" />
+	}
+	
 	<div class="container">
 		<div class="row">
 			<div class="span8">
@@ -16,26 +20,26 @@
 				</div>
 			</div>
 			<div class="span4">
-				<div class="right buttons_top">
-					<input type="submit" id="submitBtn" class="btn btn-success" value="Speichern"/>
-				</div>
+
 			</div>
 		</div>
 		<div class="tabs-wrapper">
 			<div class="row">
 				<div class="span12">
 					<div class="tabbable tabs-left">
-						<ul class="nav nav-tabs">
-							@for(trip <- trips) {
-								<li><a class="tabButton" href="#tab-@trip.getId()" data-toggle="tab">@trip.getName()</a></li>
-							}
+						<ul class="nav nav-tabs tab-navigation">
 						</ul>
+						<script id="tripTabNavigationTemplate" type="text/x-jsrender">
+							<li><a class="tabButton" href="#tab-{{>_id}}" data-toggle="tab">{{>name}}</a></li>
+						</script>
 						<div class="tab-content">
 						</div>
 						<script id="tripTabContentTemplate" type="text/x-jsrender">
 							<div class="tab-pane" id="tab-{{>_id}}">
-								<p>waypoints here...</p>
 							</div>
+						</script>
+						<script id="tripWaypointTabContentTemplate" type="text/x-jsrender">
+							<p>Name: {{>name}}, Lat: {{>latitide}}, Long: {{>longitude}}, Timestamp: {{>date}}</p>
 						</script>
 					</div>
 				</div>
