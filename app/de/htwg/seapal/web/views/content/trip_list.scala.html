@@ -24,13 +24,17 @@
 						</div>
 					</div>
 					<input type="hidden" id="boatId" value="@boatId" />
+					<form action="@de.htwg.seapal.web.controllers.routes.Application.regatta_add" method="post">
+					
 					<div class="listview-wrapper">
 						<div class="listview">
 							<div class="row">
 								<div class="span12">
+									
 									<table id="tripListTable" class="table table-striped table-bordered table-hover">
 										<thead>
 									        <tr>
+									        	<th></th>
 									        	<th>Titel</th>
 									        	<th>Von</th>
 									        	<th>Nach</th>
@@ -43,6 +47,7 @@
 									</table>
 									<script id="tripListTemplate" type="text/x-jsrender">
 										<tr data-id="{{>_id}}">
+											<td><input type="checkbox" name="tripId[]" value="{{>_id}}"></td>
 											<td>{{>name}}</td>
 											<td>{{>startLocation}}</td>
 											<td>{{>endLocation}}</td>
@@ -53,6 +58,15 @@
 											</td>
 										</tr>
 									</script>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="listview-buttons tablePager">
+								<div class="span12">
+									<div class="left">
+										<input type="submit" class="btn" value="Trips > Regatta Ansicht"/>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -71,6 +85,7 @@
 							</div>
 						</div>
 					</div>
+					</form>
 				</div>
 		<!-- modals -->
 		<div id="deletePromptModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="deletePromptModalLabel" aria-hidden="true">

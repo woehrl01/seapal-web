@@ -3,8 +3,12 @@ package de.htwg.seapal.web.controllers;
 import java.util.List;
 import java.util.UUID;
 
-import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.ObjectNode;
+
+import play.data.Form;
+import play.libs.Json;
+import play.mvc.Controller;
+import play.mvc.Result;
 
 import com.google.inject.Inject;
 
@@ -12,11 +16,6 @@ import de.htwg.seapal.controller.ITripController;
 import de.htwg.seapal.model.ITrip;
 import de.htwg.seapal.model.impl.Trip;
 import de.htwg.seapal.utils.logging.ILogger;
-
-import play.data.Form;
-import play.libs.Json;
-import play.mvc.Controller;
-import play.mvc.Result;
 
 public class TripAPI extends Controller {
 
