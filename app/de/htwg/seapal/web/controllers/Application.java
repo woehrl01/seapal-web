@@ -1,8 +1,10 @@
 package de.htwg.seapal.web.controllers;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
+import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
 
 import de.htwg.seapal.controller.ITripController;
@@ -10,6 +12,7 @@ import de.htwg.seapal.model.ITrip;
 import de.htwg.seapal.web.controllers.helpers.Menus;
 import de.htwg.seapal.web.views.html.content.*;
 import play.Routes;
+import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.With;
@@ -62,6 +65,16 @@ public class Application extends Controller {
 	
 	public static Result waypoint_add(UUID tripId){
 		return ok(log_entry.render(tripId));
+	}
+	
+	public static class TripList {
+		public List<String> tripId = new LinkedList<String>();
+	}
+	
+	public static Result regatta_add() {
+		Form<TripList> form = Form.form(TripList.class);
+		
+		return ok( form.bindFromRequest().get().tripId.toString() );
 	}
 	
 	public Result regatta_view(){
