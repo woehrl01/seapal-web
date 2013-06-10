@@ -42,12 +42,17 @@ public class BoatDatabase extends CouchDbRepositorySupport<Boat> implements
 		Boat entity = (Boat)data;
 		
 		if (entity.isNew()) {
-			logger.info("BoatDatabase", "Saving entity");
+			logger.info("BoatDatabase", "Saving entity with UUID: " + entity.getId());
+			logger.info("BoatDatabase", "Saving entity with REV: " + entity.getRevision());
+			// ensure that the revision is null for saving a new entity
+			entity.setRevision(null);
 			add(entity);
 			return true;
 		}
 			
 		logger.info("BoatDatabase", "Updating entity with UUID: " + entity.getId());
+		logger.info("BoatDatabase", "Updating entity with REV: " + entity.getRevision());
+		
 		update(entity);
 		return false;
 	}

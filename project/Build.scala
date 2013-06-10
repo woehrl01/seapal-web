@@ -1,6 +1,6 @@
 import sbt._
 import Keys._
-import PlayProject._
+import play.Project._
 import de.johoop.jacoco4sbt._
 import JacocoPlugin._
 
@@ -30,8 +30,6 @@ object ApplicationBuild extends Build {
 	    		"_root_.utils.Binders._",
 	    		"java.util.UUID"
 	    	),
-	    
-	    
 	    
 	    templatesImport ++= Seq(
 	    		"play.mvc.Http.Context.Implicit._",
