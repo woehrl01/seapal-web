@@ -22,7 +22,7 @@ public class BoatDatabase extends CouchDbRepositorySupport<Boat> implements
 	
 	@Inject
 	protected BoatDatabase(@Named("boatCouchDbConnector") CouchDbConnector db, ILogger logger) {
-		super(Boat.class, db);
+		super(Boat.class, db, true);
 		this.logger = logger;
 	}
 
@@ -42,16 +42,12 @@ public class BoatDatabase extends CouchDbRepositorySupport<Boat> implements
 		Boat entity = (Boat)data;
 		
 		if (entity.isNew()) {
-			logger.info("BoatDatabase", "Saving entity with UUID: " + entity.getId());
-			logger.info("BoatDatabase", "Saving entity with REV: " + entity.getRevision());
-			// ensure that the revision is null for saving a new entity
+			// ensure that the id is generated and revision is null for saving a new entity
+			entity.setId(UUID.randomUUID().toString());
 			entity.setRevision(null);
 			add(entity);
 			return true;
 		}
-			
-		logger.info("BoatDatabase", "Updating entity with UUID: " + entity.getId());
-		logger.info("BoatDatabase", "Updating entity with REV: " + entity.getRevision());
 		
 		update(entity);
 		return false;

@@ -9,6 +9,7 @@ import com.google.inject.Inject;
 
 import de.htwg.seapal.controller.IWaypointController;
 import de.htwg.seapal.model.IWaypoint;
+import de.htwg.seapal.model.impl.Waypoint;
 import de.htwg.seapal.utils.logging.ILogger;
 
 import play.data.Form;
@@ -18,7 +19,7 @@ import play.mvc.Result;
 
 public class WaypointAPI extends Controller {
 
-	static Form<IWaypoint> form = Form.form(IWaypoint.class);
+	static Form<Waypoint> form = Form.form(Waypoint.class);
 	
 	@Inject
 	private IWaypointController controller;
@@ -33,7 +34,8 @@ public class WaypointAPI extends Controller {
 
 	public Result addWaypoint() {
 		logger.info("WaypointAPI", "--> addWaypoint");
-		Form<IWaypoint> filledForm = form.bindFromRequest();
+		Form<Waypoint> filledForm = form.bindFromRequest();
+		logger.info("Filled Form Data" , filledForm.toString());
 		
 		ObjectNode response = Json.newObject();
 		

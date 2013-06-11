@@ -22,7 +22,7 @@ public class TripDatabase extends CouchDbRepositorySupport<Trip> implements ITri
 	
 	@Inject
 	protected TripDatabase(@Named("tripCouchDbConnector") CouchDbConnector db, ILogger logger) {
-		super(Trip.class, db);
+		super(Trip.class, db, true);
 		this.logger = logger;
 	}
 
@@ -42,7 +42,9 @@ public class TripDatabase extends CouchDbRepositorySupport<Trip> implements ITri
 		Trip entity = (Trip)data;
 		
 		if (entity.isNew()) {
-			logger.info("TripDatabase", "Saving entity");
+			// ensure that the id is generated and revision is null for saving a new entity
+			entity.setId(UUID.randomUUID().toString());
+			entity.setRevision(null);
 			add(entity);
 			return true;
 		}

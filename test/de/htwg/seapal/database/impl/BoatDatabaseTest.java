@@ -2,6 +2,9 @@ package de.htwg.seapal.database.impl;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
+import java.util.UUID;
+
 import org.apache.log4j.Logger;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -63,4 +66,29 @@ public class BoatDatabaseTest {
 		assertFalse(loadedBoat.equals(anotherLoadedBoat));
 	}
 
+	@Test
+	public void testUpdateDocument_countShouldBeEqaualAsBefore() {
+		List<IBoat> boats = database.loadAll();
+		int countBeforeUpdate = boats.size();
+		UUID boatId = null;
+		
+		// insert a boat, if the db is empty
+		if (countBeforeUpdate == 0) {
+			IBoat newBoat = new Boat();
+			boatId = newBoat.getUUID();
+			newBoat.setBoatName("update-test-boat");
+			database.save(newBoat);
+			countBeforeUpdate++;
+		} else {
+			boatId = boats.get(0).getUUID();
+		}
+		
+		assertNotNull(boatId);
+		
+		IBoat loadedBoat = database.get(boatId);
+		loadedBoat.setBoatName("updated-test-boat" + (int)(Math.random() * 100));
+		database.save(loadedBoat);
+		
+		assertEquals(countBeforeUpdate, database.loadAll().size());
+	}
 }

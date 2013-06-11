@@ -22,7 +22,7 @@ public class RouteDatabase extends CouchDbRepositorySupport<Route> implements
 	
 	@Inject
 	protected RouteDatabase(@Named("routeCouchDbConnector") CouchDbConnector db, ILogger logger) {
-		super(Route.class, db);
+		super(Route.class, db, true);
 		this.logger = logger;
 	}
 
@@ -42,7 +42,9 @@ public class RouteDatabase extends CouchDbRepositorySupport<Route> implements
 		Route entity = (Route)data;
 		
 		if (entity.isNew()) {
-			logger.info("RouteDatabase", "Saving entity");
+			// ensure that the id is generated and revision is null for saving a new entity
+			entity.setId(UUID.randomUUID().toString());
+			entity.setRevision(null);
 			add(entity);
 			return true;
 		}

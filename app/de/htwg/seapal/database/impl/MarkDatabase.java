@@ -22,7 +22,7 @@ public class MarkDatabase extends CouchDbRepositorySupport<Mark> implements
 	
 	@Inject
 	protected MarkDatabase(@Named("markCouchDbConnector") CouchDbConnector db, ILogger logger) {
-		super(Mark.class, db);
+		super(Mark.class, db, true);
 		this.logger = logger;
 	}
 
@@ -42,7 +42,9 @@ public class MarkDatabase extends CouchDbRepositorySupport<Mark> implements
 		Mark entity = (Mark)data;
 		
 		if (entity.isNew()) {
-			logger.info("MarkDatabase", "Saving entity");
+			// ensure that the id is generated and revision is null for saving a new entity
+			entity.setId(UUID.randomUUID().toString());
+			entity.setRevision(null);
 			add(entity);
 			return true;
 		}

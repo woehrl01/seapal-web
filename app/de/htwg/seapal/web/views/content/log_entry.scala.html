@@ -1,4 +1,4 @@
-@(tripId: java.util.UUID)
+@(tripId: java.util.UUID, myForm: Form[de.htwg.seapal.model.impl.Waypoint])
 
 @scripts = {
 	<script type="text/javascript" src="@de.htwg.seapal.web.controllers.routes.Application.javascriptRoutes"></script>
@@ -10,14 +10,18 @@
 	<script type="text/javascript" src="@routes.Assets.at("lib/seamap/seamap-1.0.0.js")"></script>
 }
 
+@import de.htwg.seapal.web.views.content._
+
 @main("Waypoint", scripts, "withsubnavi") {
 @helper.form(action = de.htwg.seapal.web.controllers.routes.WaypointAPI.addWaypoint() , 'id -> "form") {
-			<input type="hidden" id="trip_id" name="trip_id" value="@tripId" />
+			<input type="hidden" id="waypoint_id" name="_id" value="" />
+			<input type="hidden" id="rev_id" name="_rev" value="" />
+			<input type="hidden" id="trip_id" name="trip" value="@tripId" />
 				<div class="container">
 					<div class="row">
 						<div class="span8">
 							<div class="left">
-							<h1>Wegpunkt</h1>
+							<h1>Waypoint</h1>
 							</div>
 						</div>
 						<div class="span4">
@@ -29,19 +33,18 @@
 					<div class="input-wrapper">
 						<div class="row">
 							<div class="span6">
-								<label for="entry_name">Name</label>
-								<input type="text" name="entry_name" style="width:100%;" tabindex="1" required />
+								<label for="name">Name</label>
+								<input type="text" name="name" style="width:100%;" tabindex="1" required />
 							</div>
 						</div>
 						<div class="row">
-							<div class="span6">
-								<label for="north_degree">Position</label>
-								<input type="number" class="compact" name="north_degree" size="3" tabindex="2" min="-89" max="89" required/>°
-								<input type="number" class="compact" name="north_minutes" size="2" tabindex="3" min="0" max="59" required/>'
-								<input type="number" class="compact" name="north_seconds" size="2" tabindex="4" min="0" max="59" required/>''N
-								<input type="number" class="compact shift" name="east_degree" size="3" tabindex="5" min="-179" max="179" required/>°
-								<input type="number" class="compact" name="east_minutes" size="2" tabindex="6" min="0" max="59" required/>'
-								<input type="number" class="compact" name="east_seconds" size="2" tabindex="7" min="0" max="59" required/>''E
+							<div class="span3">
+								<label for="latitude">Latitude</label>
+								<input type="number" name="latitude" tabindex="2" min="-90" max="90" step="0.01" required/>
+							</div>
+							<div class="span3">
+							<label for="longitude">Longitude</label>
+								<input type="number" name="longitude" tabindex="3" min="-180" max="180" step="0.01" required/>
 							</div>
 							<div class="span2">
 								<label for="cog">COG</label>
@@ -53,8 +56,8 @@
 							</div>
 							<div class="span2">
 								<div class="datepicker-small input-append date" data-date="2013-01-17" data-date-format="yyyy-mm-dd">
-									<label for="start_time">um</label>
-									<input class="span2" size="16" type="text" name="datetime" tabindex="18" value="2013-01-17"/>
+									<label for="date">Date</label>
+									<input class="span2" size="16" type="text" name="date" tabindex="18" value="2013-01-17"/>
 									<span class="add-on">
 										<i class="icon-th"></i>
 									</span>
@@ -71,54 +74,18 @@
 								<input type="number" name="dtm" tabindex="11" min="0" step="0.1" />
 							</div>
 							<div class="span4 offset2">
-								<label for="trip_to">Fahrt nach</label>
-								<select name="trip_to" size="1" style="width:100%;">
-									<option value="0">-</option>
-									@*<?php
-										$marks = MarkDAL::loadAll();
-										foreach ($marks as &$value) {
-											echo '<option value="'.$value->getId().'">'.$value->getName().'</option>';
-										}
-									?>*@
-								</select>
+								@helper.select(myForm("headedFor"), helper.options(DropdownContent.getHeadedForOptions))
 							</div>
 						</div>
 						<div class="row">
 							<div class="span4">
-								<label for="maneuver_id">Manöver</label>
-								<select name="maneuver_id" size="1" style="width:100%;">
-									<option value="0">-</option>
-									@*<?php
-										$maneuver = ManeuverDAL::loadAll();
-										foreach ($maneuver as &$value) {
-											echo '<option value="'.$value->getId().'">'.$value->getName().'</option>';
-										}
-									?>*@
-								</select>
+								@helper.select(myForm("Maneuver"), helper.options(DropdownContent.getManeuverOptions))
 							</div>
 							<div class="span4">
-								<label for="headsail_id">Vorsegel</label>
-								<select name="headsail_id" size="1" style="width:100%;">
-									<option value="0">-</option>
-									@*<?php
-										$headsail = HeadsailDAL::loadAll();
-										foreach ($headsail as &$value) {
-											echo '<option value="'.$value->getId().'">'.$value->getName().'</option>';
-										}
-									?>*@
-								</select>
+								@helper.select(myForm("Foresail"), helper.options(DropdownContent.getForeSailOptions))
 							</div>
 							<div class="span4">
-								<label for="mainsail_id">Großsegel</label>
-								<select name="mainsail_id" size="1" style="width:100%;">
-									<option value="0">-</option>
-									@*<?php
-										$mainsail = MainsailDAL::loadAll();
-										foreach ($mainsail as &$value) {
-											echo '<option value="'.$value->getId().'">'.$value->getName().'</option>';
-										}
-									?>*@
-								</select>
+								@helper.select(myForm("Mainsail"), helper.options(DropdownContent.getMainSailOptions))
 							</div>
 						</div>	
 					</div>

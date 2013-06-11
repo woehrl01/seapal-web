@@ -5,8 +5,13 @@ $(document).ready(function() {
 	$('#form').submit(function(event) {
 		event.preventDefault();
 		var tripId = $('#trip_id').val();
-		console.log(tripId);
 
+		// convert the date to unix timestamp
+		var $date = $(this.date)
+		$date.val(Date.parse($date.val())/1000);
+		var $waypointData = $(this);
+		$(this).date = $date.val();
+		
 		jsRoutes.de.htwg.seapal.web.controllers.WaypointAPI.addWaypoint().ajax({
 			data: $(this).serialize(),
 			dataType: "json",
@@ -23,6 +28,8 @@ $(document).ready(function() {
 			}
 		});
 	});
+	
+	
 
 	$('.datepicker-small').datepicker();
 

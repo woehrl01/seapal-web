@@ -8,6 +8,7 @@ import org.ektorp.ComplexKey;
 import org.ektorp.CouchDbConnector;
 import org.ektorp.ViewQuery;
 import org.ektorp.support.CouchDbRepositorySupport;
+import org.ektorp.support.GenerateView;
 
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
@@ -24,7 +25,8 @@ public class WaypointDatabase extends CouchDbRepositorySupport<Waypoint> impleme
 	
 	@Inject
 	protected WaypointDatabase(@Named("waypointCouchDbConnector") CouchDbConnector db, ILogger logger) {
-		super(Waypoint.class, db);
+		super(Waypoint.class, db, true);
+		super.initStandardDesignDocument();
 		this.logger = logger;
 	}
 
@@ -44,7 +46,9 @@ public class WaypointDatabase extends CouchDbRepositorySupport<Waypoint> impleme
 		Waypoint entity = (Waypoint)data;
 		
 		if (entity.isNew()) {
-			logger.info("WaypointDatabase", "Saving entity");
+			// ensure that the id is generated and revision is null for saving a new entity
+			entity.setId(UUID.randomUUID().toString());
+			entity.setRevision(null);
 			add(entity);
 			return true;
 		}
@@ -79,16 +83,20 @@ public class WaypointDatabase extends CouchDbRepositorySupport<Waypoint> impleme
 
 	@Override
 	public List<IWaypoint> loadAllByTripId(UUID tripId) {
-		//ViewQuery query = new ViewQuery().designDocId("_design/Waypoint").viewName("by_trip").key(tripId);
-		ViewQuery query = new ViewQuery()
+		/*ViewQuery query = new ViewQuery()
 						.designDocId("_design/Waypoint")
-						.viewName("by_trip_sorted")
-						.startKey(ComplexKey.of(tripId, 0))
-						.endKey(ComplexKey.of(tripId, Long.MAX_VALUE));
+						.viewName("by_trip_sortedxxx");*/
 		
 		
-		logger.info("WaypointDatabase", "Load all by ID count:" + db.queryView(query, Waypoint.class).size());
-		return new LinkedList<IWaypoint>(db.queryView(query, Waypoint.class));
+		//logger.info("WaypointDatabase", "Load all by ID count:" + db.queryView(query, Waypoint.class).size());
+		//return new LinkedList<IWaypoint>(db.queryView(query, Waypoint.class));
+		//return new LinkedList<IWaypoint>(queryView("by_trip", tripId.toString()));
+		return findByTrip(tripId);
+	}
+	
+	@GenerateView
+	public List<IWaypoint> findByTrip(UUID tripId) {
+		return new LinkedList<IWaypoint>(queryView("by_trip", tripId.toString()));
 	}
 
 }

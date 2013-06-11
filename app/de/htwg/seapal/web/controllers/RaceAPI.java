@@ -42,7 +42,7 @@ public class RaceAPI extends Controller {
 	public Result testRacesAsJson() {
 		ObjectNode racesWrapper = Json.newObject();
 		ArrayNode races = racesWrapper.putArray("races");
-		races.add(generateLinkedTestRace("", "KN Woche"));
+		races.add(generateLinkedTestRace("raceId1", "KN Woche"));
 		races.add(generateLinkedTestRace("raceId2", "Bodensee Woche"));
 		races.add(generateLinkedTestRace("raceId3", "FN Woche"));
 		
