@@ -1,5 +1,7 @@
 package de.htwg.seapal.web.controllers;
 
+import java.util.UUID;
+
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.ArrayNode;
 import org.codehaus.jackson.node.ObjectNode;
@@ -20,19 +22,29 @@ public class RaceAPI extends Controller {
 	//@Inject 
 	//private IRaceController raceController;
 
-	public Result raceAsJson() {
+	public Result testRaceAsJson() {
 		
-		ObjectNode race = generateTestRace("raceId1", "KN Woche");
+		ObjectNode race = generateTestRace("test", "KN Woche");
 		
 		return ok(race);
 	}
 	
-	public Result racesAsJson() {
+	public Result raceAsJson(UUID raceId) {
+		/*ObjectNode race = Json.newObject();
+		
+		TODO: generate race data here (and delete the last line)...
+		
+		return ok(race);*/
+		
+		return testRaceAsJson();
+	}
+	
+	public Result testRacesAsJson() {
 		ObjectNode racesWrapper = Json.newObject();
 		ArrayNode races = racesWrapper.putArray("races");
-		races.add(generateTestRace("raceId1", "KN Woche"));
-		races.add(generateTestRace("raceId2", "Bodensee Woche"));
-		races.add(generateTestRace("raceId3", "FN Woche"));
+		races.add(generateLinkedTestRace("", "KN Woche"));
+		races.add(generateLinkedTestRace("raceId2", "Bodensee Woche"));
+		races.add(generateLinkedTestRace("raceId3", "FN Woche"));
 		
 		return ok(races);
 	}
@@ -44,7 +56,7 @@ public class RaceAPI extends Controller {
 		race.put("name", name);
 		race.put("boatClass", "49ers");
 		
-		ArrayNode trips = race.putArray(id + "-trips");
+		ArrayNode trips = race.putArray("trips");
 		trips.add(generateTestTrip(trips, id + "-tripId1", "Test trip 1", 0));
 		trips.add(generateTestTrip(trips, id + "-tripId2", "Test trip 2", 0.0025));
 		
@@ -53,6 +65,22 @@ public class RaceAPI extends Controller {
 		controlPoints.add(generateTestControlPoint(id + "-controlPointId2", 41.9, 50.1));
 		controlPoints.add(generateTestControlPoint(id + "-controlPointId3", 42.1, 51.9));
 		controlPoints.add(generateTestControlPoint(id + "-controlPointId4", 43.9, 52.0, 44.1, 52.0)); // goal
+		
+		return race;
+	}
+	
+	private ObjectNode generateLinkedTestRace(String id, String name) {
+		ObjectNode race = Json.newObject();
+
+		race.put("id", id);
+		race.put("name", name);
+		race.put("boatClass", "49ers");
+		
+		ArrayNode links = race.putArray("links");
+		ObjectNode raceLink = Json.newObject();
+		raceLink.put("rel", "self");
+		raceLink.put("href", de.htwg.seapal.web.controllers.routes.RaceAPI.raceAsJson(UUID.randomUUID()).absoluteURL(request()));
+		links.add(raceLink);
 		
 		return race;
 	}

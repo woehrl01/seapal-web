@@ -1,48 +1,49 @@
 # Routes
 
 # Static pages
-GET     /           						de.htwg.seapal.web.controllers.Application.index()
-GET     /screenshots        				de.htwg.seapal.web.controllers.Application.screenshots()
-GET     /about              				de.htwg.seapal.web.controllers.Application.about()
-GET     /contact            				de.htwg.seapal.web.controllers.Application.contact()
-GET     /user_guide         				de.htwg.seapal.web.controllers.Application.user_guide()
-GET		/seamap								de.htwg.seapal.web.controllers.Application.seamap()
-GET		/boat_info							de.htwg.seapal.web.controllers.Application.boat_info()
-GET		/trips								de.htwg.seapal.web.controllers.Application.trip_list(id: UUID = null)
+GET     /           								de.htwg.seapal.web.controllers.Application.index()
+GET     /screenshots        						de.htwg.seapal.web.controllers.Application.screenshots()
+GET     /about              						de.htwg.seapal.web.controllers.Application.about()
+GET     /contact            						de.htwg.seapal.web.controllers.Application.contact()
+GET     /user_guide         						de.htwg.seapal.web.controllers.Application.user_guide()
+GET		/seamap										de.htwg.seapal.web.controllers.Application.seamap()
+GET		/boat_info									de.htwg.seapal.web.controllers.Application.boat_info()
+GET		/trips										de.htwg.seapal.web.controllers.Application.trip_list(id: UUID = null)
 GET		/boat/$boatId<[0-9a-fA-F\-]+>/trips			de.htwg.seapal.web.controllers.Application.trip_list(boatId: UUID)
 GET		/boat/$boatId<[0-9a-fA-F\-]+>/trip  		de.htwg.seapal.web.controllers.Application.trip_add(boatId: UUID)
 GET		/trip/$tripId<[0-9a-fA-F\-]+>				de.htwg.seapal.web.controllers.Application.trip_edit(tripId: UUID)
 GET		/trip/$tripId<[0-9a-fA-F\-]+>/waypoint		de.htwg.seapal.web.controllers.Application.waypoint_add(tripId: UUID)
-GET		/regatta						@de.htwg.seapal.web.controllers.Application.regatta_view()
+GET		/regatta									@de.htwg.seapal.web.controllers.Application.regatta_view()
 
-POST	/regatta/	    @de.htwg.seapal.web.controllers.Application.regatta_add
-POST	/regatta/send	@de.htwg.seapal.web.controllers.RegattaAPI.send_to_SAP()
+POST	/regatta/	    							@de.htwg.seapal.web.controllers.Application.regatta_add
+POST	/regatta/send								@de.htwg.seapal.web.controllers.RegattaAPI.send_to_SAP()
 
 # API
 GET		/api/boat/$id<[0-9a-fA-F\-]+>				@de.htwg.seapal.web.controllers.BoatAPI.boatAsJson(id: UUID)
-GET		/api/boat							@de.htwg.seapal.web.controllers.BoatAPI.boatsAsJson()
-POST	/api/boat							@de.htwg.seapal.web.controllers.BoatAPI.addBoat()
+GET		/api/boat									@de.htwg.seapal.web.controllers.BoatAPI.boatsAsJson()
+POST	/api/boat									@de.htwg.seapal.web.controllers.BoatAPI.addBoat()
 DELETE	/api/boat/$id<[0-9a-fA-F\-]+> 				@de.htwg.seapal.web.controllers.BoatAPI.deleteBoat(id: UUID)
 
-GET		/api/boatposition					@de.htwg.seapal.web.controllers.BoatPositionAPI.current()
+GET		/api/boatposition							@de.htwg.seapal.web.controllers.BoatPositionAPI.current()
 
-GET		/api/trip							@de.htwg.seapal.web.controllers.TripAPI.alltripsAsJson()
+GET		/api/trip									@de.htwg.seapal.web.controllers.TripAPI.alltripsAsJson()
 
 GET		/api/trip/$id<[0-9a-fA-F\-]+>				@de.htwg.seapal.web.controllers.TripAPI.tripAsJson(id: UUID)
 GET		/api/boat/$id<[0-9a-fA-F\-]+>/trips			@de.htwg.seapal.web.controllers.TripAPI.tripsAsJson(id: UUID)
 DELETE	/api/trip/$id<[0-9a-fA-F\-]+> 				@de.htwg.seapal.web.controllers.TripAPI.deleteTrip(id: UUID)
-POST	/api/trip							@de.htwg.seapal.web.controllers.TripAPI.addTrip()
+POST	/api/trip									@de.htwg.seapal.web.controllers.TripAPI.addTrip()
 
 GET		/api/trip/$id<[0-9a-fA-F\-]+>/waypoints		@de.htwg.seapal.web.controllers.WaypointAPI.waypointsAsJson(id: UUID)
-POST	/api/waypoint						@de.htwg.seapal.web.controllers.WaypointAPI.addWaypoint()
+POST	/api/waypoint								@de.htwg.seapal.web.controllers.WaypointAPI.addWaypoint()
 
-GET		/api/regatta							@de.htwg.seapal.web.controllers.RegattaAPI.allTripsAsJson()
+GET		/api/regatta								@de.htwg.seapal.web.controllers.RegattaAPI.allTripsAsJson()
 
-GET		/api/race							@de.htwg.seapal.web.controllers.RaceAPI.raceAsJson()
-GET		/api/races							@de.htwg.seapal.web.controllers.RaceAPI.racesAsJson()
+GET		/api/race/test								@de.htwg.seapal.web.controllers.RaceAPI.testRaceAsJson()
+GET		/api/race/$id<[0-9a-fA-F\-]+>				@de.htwg.seapal.web.controllers.RaceAPI.raceAsJson(id: UUID)
+GET		/api/races									@de.htwg.seapal.web.controllers.RaceAPI.testRacesAsJson()
 
 # Javascript routing
-GET    /assets/javascripts/routes   		de.htwg.seapal.web.controllers.Application.javascriptRoutes()
+GET    /assets/javascripts/routes   				de.htwg.seapal.web.controllers.Application.javascriptRoutes()
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file       				controllers.Assets.at(path="/public", file)
+GET     /assets/*file       						controllers.Assets.at(path="/public", file)
