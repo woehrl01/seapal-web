@@ -5,6 +5,7 @@ import com.google.inject.Injector;
 
 import de.htwg.seapal.module.SeapalImplModule;
 import de.htwg.seapal.module.SeapalMockModule;
+import de.htwg.seapal.module.SeapalTestModule;
 import de.htwg.seapal.utils.logging.ILogger;
 
 import play.Application;
@@ -24,7 +25,7 @@ public class SeapalGlobal extends GlobalSettings {
 	 */
 	public static Injector createInjector() {
 		return Guice.createInjector(
-				new SeapalImplModule());
+				new SeapalTestModule());
 	}
 	
 	@Override

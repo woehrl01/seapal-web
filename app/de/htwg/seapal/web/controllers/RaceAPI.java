@@ -22,27 +22,37 @@ public class RaceAPI extends Controller {
 
 	public Result raceAsJson() {
 		
-		JsonNode race = generateTestRace();
+		ObjectNode race = generateTestRace("raceId1", "KN Woche");
 		
 		return ok(race);
 	}
 	
-	private ObjectNode generateTestRace() {
+	public Result racesAsJson() {
+		ObjectNode racesWrapper = Json.newObject();
+		ArrayNode races = racesWrapper.putArray("races");
+		races.add(generateTestRace("raceId1", "KN Woche"));
+		races.add(generateTestRace("raceId2", "Bodensee Woche"));
+		races.add(generateTestRace("raceId3", "FN Woche"));
+		
+		return ok(races);
+	}
+	
+	private ObjectNode generateTestRace(String id, String name) {
 		ObjectNode race = Json.newObject();
 
-		race.put("id", "raceId1");
-		race.put("name", "Test race");
+		race.put("id", id);
+		race.put("name", name);
 		race.put("boatClass", "49ers");
 		
-		ArrayNode trips = race.putArray("trips");
-		trips.add(generateTestTrip(trips, "tripId1", "Test trip 1", 0));
-		trips.add(generateTestTrip(trips, "tripId2", "Test trip 2", 0.0025));
+		ArrayNode trips = race.putArray(id + "-trips");
+		trips.add(generateTestTrip(trips, id + "-tripId1", "Test trip 1", 0));
+		trips.add(generateTestTrip(trips, id + "-tripId2", "Test trip 2", 0.0025));
 		
 		ArrayNode controlPoints = race.putArray("controlPoints");
-		controlPoints.add(generateTestControlPoint("controlPointId1", 39.9, 50.0, 40.1, 50.0)); // start
-		controlPoints.add(generateTestControlPoint("controlPointId2", 41.9, 50.1));
-		controlPoints.add(generateTestControlPoint("controlPointId3", 42.1, 51.9));
-		controlPoints.add(generateTestControlPoint("controlPointId4", 43.9, 52.0, 44.1, 52.0)); // goal
+		controlPoints.add(generateTestControlPoint(id + "-controlPointId1", 39.9, 50.0, 40.1, 50.0)); // start
+		controlPoints.add(generateTestControlPoint(id + "-controlPointId2", 41.9, 50.1));
+		controlPoints.add(generateTestControlPoint(id + "-controlPointId3", 42.1, 51.9));
+		controlPoints.add(generateTestControlPoint(id + "-controlPointId4", 43.9, 52.0, 44.1, 52.0)); // goal
 		
 		return race;
 	}

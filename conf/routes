@@ -39,6 +39,7 @@ POST	/api/waypoint						@de.htwg.seapal.web.controllers.WaypointAPI.addWaypoint(
 GET		/api/regatta							@de.htwg.seapal.web.controllers.RegattaAPI.allTripsAsJson()
 
 GET		/api/race							@de.htwg.seapal.web.controllers.RaceAPI.raceAsJson()
+GET		/api/races							@de.htwg.seapal.web.controllers.RaceAPI.racesAsJson()
 
 # Javascript routing
 GET    /assets/javascripts/routes   		de.htwg.seapal.web.controllers.Application.javascriptRoutes()
