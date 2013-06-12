@@ -23,6 +23,7 @@ public class PersonDatabase extends CouchDbRepositorySupport<Person> implements
 	@Inject
 	protected PersonDatabase(@Named("personCouchDbConnector") CouchDbConnector db, ILogger logger) {
 		super(Person.class, db);
+		super.initStandardDesignDocument();
 		this.logger = logger;
 	}
 

@@ -23,6 +23,7 @@ public class BoatDatabase extends CouchDbRepositorySupport<Boat> implements
 	@Inject
 	protected BoatDatabase(@Named("boatCouchDbConnector") CouchDbConnector db, ILogger logger) {
 		super(Boat.class, db, true);
+		super.initStandardDesignDocument();
 		this.logger = logger;
 	}
 

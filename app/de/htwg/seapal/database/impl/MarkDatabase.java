@@ -23,6 +23,7 @@ public class MarkDatabase extends CouchDbRepositorySupport<Mark> implements
 	@Inject
 	protected MarkDatabase(@Named("markCouchDbConnector") CouchDbConnector db, ILogger logger) {
 		super(Mark.class, db, true);
+		super.initStandardDesignDocument();
 		this.logger = logger;
 	}
 

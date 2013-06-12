@@ -6,12 +6,14 @@ import java.util.UUID;
 
 import org.ektorp.CouchDbConnector;
 import org.ektorp.support.CouchDbRepositorySupport;
+import org.ektorp.support.GenerateView;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
 import de.htwg.seapal.database.ITripDatabase;
 import de.htwg.seapal.model.ITrip;
+import de.htwg.seapal.model.IWaypoint;
 import de.htwg.seapal.model.impl.Trip;
 import de.htwg.seapal.utils.logging.ILogger;
 
@@ -23,6 +25,7 @@ public class TripDatabase extends CouchDbRepositorySupport<Trip> implements ITri
 	@Inject
 	protected TripDatabase(@Named("tripCouchDbConnector") CouchDbConnector db, ILogger logger) {
 		super(Trip.class, db, true);
+		super.initStandardDesignDocument();
 		this.logger = logger;
 	}
 
@@ -75,6 +78,12 @@ public class TripDatabase extends CouchDbRepositorySupport<Trip> implements ITri
 	@Override
 	public boolean close() {
 		return true;
+	}
+
+	@Override
+	@GenerateView
+	public List<ITrip> findByBoat(UUID boatId) {
+		return new LinkedList<ITrip>(queryView("by_boat", boatId.toString()));
 	}
 
 }

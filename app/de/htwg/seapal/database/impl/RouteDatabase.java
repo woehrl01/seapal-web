@@ -23,6 +23,7 @@ public class RouteDatabase extends CouchDbRepositorySupport<Route> implements
 	@Inject
 	protected RouteDatabase(@Named("routeCouchDbConnector") CouchDbConnector db, ILogger logger) {
 		super(Route.class, db, true);
+		super.initStandardDesignDocument();
 		this.logger = logger;
 	}
 
