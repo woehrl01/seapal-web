@@ -138,22 +138,31 @@
 						</div>
 					</div>
 					@if(tripId != null){
-					<div class="listview-wrapper">
-						<div class="listview">
-							<div class="row">
-								<div class="span12">
-									<table id="waypointListTable" class="table table-striped table-bordered table-hover">
-										<thead>
-									        <tr>
-									        	<th>Log Entry</th>
-									        	<th>Position</th>
-									        	<th class="actionCol">Activities</th>
-									        </tr>
-									    </thead>
-									    <tbody>
-									    </tbody>
-									</table>
-									<script id="waypointListTemplate" type="text/x-jsrender">
+						<div class="row">
+							<div class="span12">
+								<div class="right">
+									<a href="@de.htwg.seapal.web.controllers.routes.Application.waypoint_add(tripId)" class="btn btn-primary" style="margin-top:-24px">
+										<i class="icon-plus icon-white"></i> Neuer Wegpunkt
+									<a/>
+								</div>
+							</div>
+						</div>
+						<div class="listview-wrapper">
+							<div class="listview">
+								<div class="row">
+									<div class="span12">
+										<table id="waypointListTable" class="table table-striped table-bordered table-hover">
+											<thead>
+										        <tr>
+										        	<th>Log Entry</th>
+										        	<th>Position</th>
+										        	<th class="actionCol">Activities</th>
+										        </tr>
+										    </thead>
+										    <tbody>
+										    </tbody>
+										</table>
+										<script id="waypointListTemplate" type="text/x-jsrender">
 										<tr data-id="{{>_id}}">
 											<td>{{>name}}</td>
 											<td>{{>latitude}}, {{>longitude}}</td>
@@ -163,34 +172,34 @@
 											</td>
 										</tr>
 									</script>
-								</div>
-							</div>
-						</div>
-						
-						<div class="row">
-							<div class="listview-buttons tablePager">
-								<div class="span6">
-									<div class="left">
-										<a href="@de.htwg.seapal.web.controllers.routes.Application.waypoint_add(tripId)" class="btn btn-primary"><i class="icon-plus icon-white"></i> Neuer Wegpunkt<a/>
-										
-										<input type="button" class="btn prevPage" value="Previous"/>
-									</div>
-								</div>
-								<div class="span6">
-									<div class="right ">
-										<input type="button" class="btn nextPage" value="Next"/>
 									</div>
 								</div>
 							</div>
+							
+							<div class="row">
+								<div class="listview-buttons tablePager">
+									<div class="span6">
+										<div class="left">
+											<input type="button" class="btn prevPage" style="display:none"/> <!-- needed that the bootstrap css rule applies  -->
+											<a class="btn prevPage" href="#"><i class="icon-arrow-left"></i></a>
+										</div>
+									</div>
+									<div class="span6">
+										<div class="right ">
+											<input type="button" class="btn nextPage" style="display:none"/> <!-- needed that the bootstrap css rule applies  -->
+											<a class="btn nextPage" href="#"><i class="icon-arrow-right"></i></a>
+										</div>
+									</div>
+								</div>
+							</div>
+							
 						</div>
-						
-					</div>
 					}else{
-					<div class="alert alert-info">
-						  <button type="button" class="close" data-dismiss="alert">&times;</button>
-						  <h4>Please note:</h4>
-						  You have to save the trip before you can add any log entry.
-					</div>
+						<div class="alert alert-info">
+							  <button type="button" class="close" data-dismiss="alert">&times;</button>
+							  <h4>Please note:</h4>
+							  You have to save the trip before you can add any log entry.
+						</div>
 					}
 				</div>
 		}

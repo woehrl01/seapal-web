@@ -26,7 +26,7 @@ public class Menus extends Action.Simple {
 		menu.add(new MenuItem("Screenshots", "/screenshots"));
 		menu.add(new MenuItem("Team", "/about"));
 		menu.add(new MenuItem("Kontakt", "/contact"));
-		menu.add(new MenuItem("Web-App", "/boat_info"));
+		//menu.add(new MenuItem("Logbook", "/boat_info"));
 		
 		return menu;
 		
@@ -36,10 +36,13 @@ public class Menus extends Action.Simple {
 		List<MenuItem> menu = new LinkedList<MenuItem>();
 		
 		menu.add(new MenuItem("Boat Info", "/boat_info"));
-		menu.add(new MenuItem("Trip List", "/trips"));
-		menu.add(new MenuItem("Trip Info", "/trip/1"));
-		menu.add(new MenuItem("Log Entry", "/trip/1/waypoint"));
-		menu.add(new MenuItem("Seamap", "/seamap"));
+		//menu.add(new MenuItem("Trip List", "/trips"));
+		//menu.add(new MenuItem("Trip Info", "/trip/1"));
+		//menu.add(new MenuItem("Log Entry", "/trip/1/waypoint"));
+		menu.add(new MenuItem("Trip List", ""));
+		menu.add(new MenuItem("Trip Info", ""));
+		menu.add(new MenuItem("Log Entry", ""));
+		//menu.add(new MenuItem("Seamap", "/seamap"));
 		
 		if(menu.contains(new MenuItem(url)) || url.contains("/boat")){
 			return menu;

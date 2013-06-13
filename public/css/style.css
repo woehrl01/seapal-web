@@ -93,14 +93,14 @@ h3
 	width:143px;
 }
 .header-wrapper {
-	margin-bottom:100px;
+	margin-bottom:90px;
 }
 body.index .header-wrapper {
 	margin-bottom:59px;
 }
-body.withsubnavi .header-wrapper {
-	margin-bottom:144px;
-}
+/*body.withsubnavi .header-wrapper {
+	margin-bottom:100px;
+}*/
 @media (max-width: 767px) {
 	body.index .header-wrapper {
 		margin:0;
@@ -108,6 +108,10 @@ body.withsubnavi .header-wrapper {
 	
 	#map_canvas {
 		margin:0 !important;
+	}
+	
+	.header-wrapper {
+		margin-bottom:10px;
 	}
 }
 

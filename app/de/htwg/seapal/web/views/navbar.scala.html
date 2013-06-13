@@ -23,12 +23,29 @@
 				    	@display(menuItem)
 				    }
 					</ul>
+					<ul class="nav">
+					  <li class="dropdown">
+					    <a class="dropdown-toggle"
+					       data-toggle="dropdown"
+					       href="#">
+					        <strong>Web App</strong>
+					        <b class="caret"></b>
+					      </a>
+					    <ul class="dropdown-menu">
+					      <li>
+					      	<a href="/boat_info">Logbook</a>
+					      	<a href="/seamap">Seamap</a>
+					      	<a href="/boat_info">Regatta</a>
+					      </li>
+					    </ul>
+					  </li>
+					</ul>
 				</div>
 				<!--/.nav-collapse --> 
 			</div>
 		</div>
 	</div>
-	@if(Menus.hasSubNavigation()) {
+	@*@if(Menus.hasSubNavigation()) {
 		<div id="webapp-menu-pill">
 			<div class="container">
 				<ul class="nav nav-pills">
@@ -38,5 +55,5 @@
 				</ul>
 			</div>
 		</div>
-	}
+	}*@
 </div>
