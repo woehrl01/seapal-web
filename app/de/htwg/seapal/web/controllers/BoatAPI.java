@@ -1,5 +1,6 @@
 package de.htwg.seapal.web.controllers;
 
+import java.util.Map;
 import java.util.UUID;
 
 import org.codehaus.jackson.node.ObjectNode;
@@ -42,6 +43,8 @@ public class BoatAPI extends Controller {
 	public Result addBoat() {
 		logger.info("BoatAPI", "--> addBoat");
 		Form<Boat> filledForm = form.bindFromRequest();
+		Map<String, String> data = form.data();
+		logger.info("Filled Form Data" , filledForm.toString());
 		
 		ObjectNode response = Json.newObject();
 		

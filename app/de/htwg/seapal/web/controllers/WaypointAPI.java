@@ -1,6 +1,7 @@
 package de.htwg.seapal.web.controllers;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.codehaus.jackson.node.ObjectNode;
@@ -35,7 +36,9 @@ public class WaypointAPI extends Controller {
 	public Result addWaypoint() {
 		logger.info("WaypointAPI", "--> addWaypoint");
 		Form<Waypoint> filledForm = form.bindFromRequest();
+		Map<String, String> data = form.data();
 		logger.info("Filled Form Data" , filledForm.toString());
+		logger.info("Data: " , data.get("_id"));
 		
 		ObjectNode response = Json.newObject();
 		

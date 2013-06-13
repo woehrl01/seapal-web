@@ -12,7 +12,7 @@
 
 @import de.htwg.seapal.web.views.content._
 
-@main("Waypoint", scripts, "withsubnavi") {
+@main("SeaPal - Log Entry", scripts, "withsubnavi") {
 @helper.form(action = de.htwg.seapal.web.controllers.routes.WaypointAPI.addWaypoint() , 'id -> "form") {
 			<input type="hidden" id="waypoint_id" name="_id" value="" />
 			<input type="hidden" id="rev_id" name="_rev" value="" />
@@ -21,12 +21,12 @@
 					<div class="row">
 						<div class="span8">
 							<div class="left">
-							<h1>Waypoint</h1>
+							<h1>Log Entry</h1>
 							</div>
 						</div>
 						<div class="span4">
 							<div class="right buttons_top">
-								<input type="submit" id="submitBtn" class="btn btn-success" value="Speichern"/>
+								<input type="submit" id="submitBtn" class="btn btn-success" value="Save"/>
 							</div>
 						</div>
 					</div>
@@ -79,13 +79,13 @@
 						</div>
 						<div class="row">
 							<div class="span4">
-								@helper.select(myForm("Maneuver"), helper.options(DropdownContent.getManeuverOptions))
+								@helper.select(myForm("maneuver"), helper.options(DropdownContent.getManeuverOptions))
 							</div>
 							<div class="span4">
-								@helper.select(myForm("Foresail"), helper.options(DropdownContent.getForeSailOptions))
+								@helper.select(myForm("foresail"), helper.options(DropdownContent.getForeSailOptions))
 							</div>
 							<div class="span4">
-								@helper.select(myForm("Mainsail"), helper.options(DropdownContent.getMainSailOptions))
+								@helper.select(myForm("mainsail"), helper.options(DropdownContent.getMainSailOptions))
 							</div>
 						</div>	
 					</div>
@@ -124,10 +124,10 @@
 		<div id="addSuccessModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="addSuccessModalLabel" aria-hidden="true">
 		  <div class="modal-header">
 		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		    <h3 id="addSuccessModalLabel">Erfolgreich!</h3>
+		    <h3 id="addSuccessModalLabel">Successful!</h3>
 		  </div>
 		  <div class="modal-body">
-		    <p>Die Daten wurden erfolgreich übermittelt!</p>
+		    <p>Data has been transmitted successfully!</p>
 		  </div>
 		  <div class="modal-footer">
 		    <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">OK</button>

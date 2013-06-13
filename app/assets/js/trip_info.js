@@ -100,7 +100,7 @@ $(document).ready(function() {
 			dataType: "json",
 			success: function(boat) {
 				populateJSON('#form input', boat);
-				$('#submitBtn').val("Aktualisieren");
+				$('#submitBtn').val("Update");
 				$('html, body').animate({ scrollTop: 0 }, 600);
 			}
 		});

@@ -26,14 +26,14 @@
 						</div>
 						<div class="span4">
 							<div class="right buttons_top">
-								<input type="submit" id="submitBtn" class="btn btn-success" value="Speichern"/>
+								<input type="submit" id="submitBtn" class="btn btn-success" value="Save"/>
 							</div>
 						</div>
 					</div>
 					<div class="input-wrapper">
 						<div class="row">
 							<div class="span6">
-								<label for="name">Trip Titel</label>
+								<label for="name">Trip Name</label>
 								<input type="text" name="name" tabindex="1" style="width: 100%;" required />
 							</div>
 						</div>
@@ -41,13 +41,13 @@
 							<div class="span3">
 								<div class="row">
 									<div class="span3">
-										<label for="startLocation">Von</label>
+										<label for="startLocation">Start Location</label>
 										<input type="text" name="startLocation" tabindex="2" />
 									</div>
 								</div>
 								<div class="row">
 									<div class="span3">
-										<label for="endLocation">Nach</label>
+										<label for="endLocation">End Location</label>
 										<input type="text" name="endLocation" tabindex="3" />
 									</div>
 								</div>
@@ -66,7 +66,7 @@
 								<div class="row">
 									<div class="span3">
 										<div class="datepicker input-append date" data-date="2013-01-17" data-date-format="yyyy-mm-dd">
-  											<label for="start_time">Start</label>
+  											<label for="start_time">Start Time</label>
   											<input class="span2" size="16" type="text" name="start_time" tabindex="6" value="2013-01-17"/>
   											<span class="add-on">
   												<i class="icon-th"></i>
@@ -77,7 +77,7 @@
 								<div class="row">
 									<div class="span3">
 										<div class="datepicker input-append date" data-date="2013-01-17" data-date-format="yyyy-mm-dd">
-  											<label for="start_time">Ende</label>
+  											<label for="start_time">End Time</label>
   											<input class="span2" size="16" type="text" name="end_time" tabindex="7" value="2013-01-17"/>
   											<span class="add-on">
   												<i class="icon-th"></i>
@@ -87,7 +87,7 @@
 								</div>
 								<div class="row">
 									<div class="span3">
-										<label for="timespan">Dauer (min)</label>
+										<label for="timespan">Timespan (min)</label>
 										<input type="number" name="timespan" tabindex="8" min="1"/>
 									</div>
 								</div>
@@ -95,13 +95,13 @@
 							<div class="span3">
 								<div class="row">
 									<div class="span3">
-										<label for="engine_runtime">Motor (min)</label>
+										<label for="engine_runtime">Engine Runtime (min)</label>
 										<input type="number" name="engine_runtime" tabindex="9" min="0" />
 									</div>
 								</div>
 								<div class="row">
 									<div class="span3">
-										<label for="tank_filled">Tank gefüllt</label>
+										<label for="tank_filled">Tank filled</label>
 										<input type="checkbox" name="tank_filled" tabindex="10" />
 									</div>
 								</div>
@@ -145,9 +145,9 @@
 									<table id="waypointListTable" class="table table-striped table-bordered table-hover">
 										<thead>
 									        <tr>
-									        	<th>Wegpunkt</th>
+									        	<th>Log Entry</th>
 									        	<th>Position</th>
-									        	<th class="actionCol">Aktionen</th>
+									        	<th class="actionCol">Activities</th>
 									        </tr>
 									    </thead>
 									    <tbody>
@@ -158,8 +158,8 @@
 											<td>{{>name}}</td>
 											<td>{{>latitude}}, {{>longitude}}</td>
 											<td class="actionCol">
-												<a href="#" class="deleteItemBtn tooltipable" rel="tooltip" title="Löschen"><i class="icon-remove"></i></a>
-												<!--<a href="#" class="editItemBtn tooltipable" rel="tooltip" title="Betrachten"><i class="icon-chevron-right"></i></a>-->
+												<a href="#" class="deleteItemBtn tooltipable" rel="tooltip" title="Delete"><i class="icon-remove"></i></a>
+												<!--<a href="#" class="editItemBtn tooltipable" rel="tooltip" title="Show"><i class="icon-chevron-right"></i></a>-->
 											</td>
 										</tr>
 									</script>
@@ -173,12 +173,12 @@
 									<div class="left">
 										<a href="@de.htwg.seapal.web.controllers.routes.Application.waypoint_add(tripId)" class="btn btn-primary"><i class="icon-plus icon-white"></i> Neuer Wegpunkt<a/>
 										
-										<input type="button" class="btn prevPage" value="Vorheriger"/>
+										<input type="button" class="btn prevPage" value="Previous"/>
 									</div>
 								</div>
 								<div class="span6">
 									<div class="right ">
-										<input type="button" class="btn nextPage" value="Nächster"/>
+										<input type="button" class="btn nextPage" value="Next"/>
 									</div>
 								</div>
 							</div>
@@ -188,8 +188,8 @@
 					}else{
 					<div class="alert alert-info">
 						  <button type="button" class="close" data-dismiss="alert">&times;</button>
-						  <h4>Hinweis:</h4>
-						  Sie müssen den Trip erst speichern, bevor Sie Wegpunkte hinzufügen können.
+						  <h4>Please note:</h4>
+						  You have to save the trip before you can add any log entry.
 					</div>
 					}
 				</div>
@@ -198,10 +198,10 @@
 		<div id="addSuccessModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="addSuccessModalLabel" aria-hidden="true">
 		  <div class="modal-header">
 		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		    <h3 id="addSuccessModalLabel">Erfolgreich!</h3>
+		    <h3 id="addSuccessModalLabel">Successful!</h3>
 		  </div>
 		  <div class="modal-body">
-		    <p>Die Daten wurden erfolgreich übermittelt!</p>
+		    <p>Data has been transmitted successfully!</p>
 		  </div>
 		  <div class="modal-footer">
 		    <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">OK</button>
@@ -211,14 +211,14 @@
 		<div id="deletePromptModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="deletePromptModalLabel" aria-hidden="true">
 		  <div class="modal-header">
 		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		    <h3 id="deletePromptModalLabel">Löschen</h3>
+		    <h3 id="deletePromptModalLabel">Delete</h3>
 		  </div>
 		  <div class="modal-body">
-		    <p>Möchten Sie wirklich den Wegpunkt (ID: <span></span>) löschen?</p>
+		    <p>Are you sure you want to delete the log entry (ID: <span></span>)?</p>
 		  </div>
 		  <div class="modal-footer">
-		  	<button class="btn" data-dismiss="modal" aria-hidden="true">Abbrechen</button>
-    		<button class="btn btn-danger" id="deleteModalBtn" data-dismiss="modal">Löschen</button>
+		  	<button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+    		<button class="btn btn-danger" id="deleteModalBtn" data-dismiss="modal">Delete</button>
 		  </div>
 		</div>
 		

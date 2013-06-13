@@ -58,23 +58,23 @@ $(document).ready(function() {
 			icon.removeClass('icon-plus');
 			icon.addClass('icon-minus');
 			$('#submitBtn').removeAttr("disabled");
-			$('#addButton span').html('Abbrechen');
+			$('#addButton span').html('Cancel');
 		}else{
 			icon.removeClass('icon-minus');
 			icon.addClass('icon-plus');
 			$('#submitBtn').attr("disabled", "disabled");
-			$('#addButton span').html('Hinzufügen');
+			$('#addButton span').html('Add');
 		}
 
 		if($('#idField').val() != ""){
 			if(editingDisabled){
-				$('#submitBtn').val("Bearbeiten");
+				$('#submitBtn').val("Edit");
 			}else{
-				$('#submitBtn').val("Aktualisieren");
+				$('#submitBtn').val("Update");
 			}
 			$('#onwardButton').show();
 		}else{
-			$('#submitBtn').val("Speichern");
+			$('#submitBtn').val("Save");
 			$('#onwardButton').hide();
 		}
 	}
