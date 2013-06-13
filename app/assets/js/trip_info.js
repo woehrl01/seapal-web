@@ -50,8 +50,7 @@ $(document).ready(function() {
 	function initStaticSeamap(waypoints) {
 		jsonObj = [];
 		for (var i = 0; i < waypoints.length; i++) {
-			console.log(waypoints[i].position_lat);
-			jsonObj.push({lat: waypoints[i].position_lat, lng : waypoints[i].position_lon});
+			jsonObj.push({lat: waypoints[i].latitude, lng : waypoints[i].longitude});
 		}
 
 		var config = {

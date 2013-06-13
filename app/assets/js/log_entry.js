@@ -39,13 +39,12 @@ $(document).ready(function() {
 
 	$('.datepicker-small').datepicker();
 
-	function initStaticSeamap(waypoints) {
+	function initStaticSeamap(waypoint) {
 		jsonObj = [];
+		
+		jsonObj.push({lat: waypoint.latitude, lng : waypoint.longitude});
+		
 		console.log(jsonObj);
-		for (var i = 0; i < waypoints.length; i++) {
-			console.log(waypoints[i].position_lat);
-			jsonObj.push({lat: waypoints[i].position_lat, lng : waypoints[i].position_lon});
-		}
 
 		var config = {
 			defaultRoute 	: jsonObj,
@@ -73,8 +72,9 @@ $(document).ready(function() {
 	function loadWaypoint(waypointId) {
 		jsRoutes.de.htwg.seapal.web.controllers.WaypointAPI.waypointAsJson(waypointId).ajax({
 			dataType: "json",
-			success: function(boat) {
-				populateJSON('#form input', boat);
+			success: function(waypoint) {
+				populateJSON('#form input', waypoint);
+				initStaticSeamap(waypoint);
 			}
 		});
 	}

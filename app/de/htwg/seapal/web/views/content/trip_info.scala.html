@@ -102,7 +102,7 @@
 								<div class="row">
 									<div class="span3">
 										<label for="tank_filled">Tank filled</label>
-										<input type="checkbox" name="tank_filled" tabindex="10" />
+										<input type="checkbox" name="tank_filled" tabindex="10" style="width:50px" />
 									</div>
 								</div>
 							</div>
@@ -121,9 +121,17 @@
 								</div>
 							</div>
 							<div class="span6">
+								@if(tripId != null){
 								<div class="round">
 									<div id="mini_map"></div>
 								</div>
+								} else {
+									<div class="alert alert-info">
+										  <button type="button" class="close" data-dismiss="alert">&times;</button>
+										  <h4>Please note:</h4>
+										  You have to save the trip before you can see the appropriate route on the map.
+									</div>
+								}
 							</div>
 							<div class="span3">
 								<div class="round">
@@ -142,7 +150,7 @@
 							<div class="span12">
 								<div class="right">
 									<a href="@de.htwg.seapal.web.controllers.routes.Application.waypoint_add(tripId)" class="btn btn-primary" style="margin-top:-24px">
-										<i class="icon-plus icon-white"></i> Neuer Wegpunkt
+										<i class="icon-plus icon-white"></i> Add log entry
 									<a/>
 								</div>
 							</div>
@@ -192,13 +200,6 @@
 									</div>
 								</div>
 							</div>
-							
-						</div>
-					}else{
-						<div class="alert alert-info">
-							  <button type="button" class="close" data-dismiss="alert">&times;</button>
-							  <h4>Please note:</h4>
-							  You have to save the trip before you can add any log entry.
 						</div>
 					}
 				</div>
