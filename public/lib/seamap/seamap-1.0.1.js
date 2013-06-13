@@ -1,5 +1,6 @@
 /**
 * Seamap JQuery Plugin
+* @version ENGLISH
 */
 (function( $, window ){
 	/**
@@ -401,7 +402,6 @@
 					var lng = crosshairMarker.getPosition().lng();
 
 					return '<span><b>Lat</b> ' + toGeoString(lat, "N", "S", 2) + ' <b>Lon</b> ' + toGeoString(lng, "E", "W", 3) + '</span>';
-						 //+ '<span><b>BTM</b> XXX° <b>DTM</b> X.XXXnm</span>';
 				},
 				html : true,
 				content: getContextMenuContent,
@@ -454,24 +454,24 @@
 			var ctx = '<div id="contextmenu">'
 			switch(contextMenuType) {
 				case ContextMenuTypes.DEFAULT:
-					ctx += '<button id="addMarker" type="button" class="btn"><i class="icon-map-marker"></i> Markierung setzen</button>';
+					ctx += '<button id="addMarker" type="button" class="btn"><i class="icon-map-marker"></i> Set Mark</button>';
 					if (state != States.ROUTE) {
-						ctx += '<button id="addNewRoute" type="button" class="btn"><i class="icon-flag"></i> Route beginnen</button>';
+						ctx += '<button id="addNewRoute" type="button" class="btn"><i class="icon-flag"></i> Start new Route</button>';
 					} else {
-						ctx += '<button id="exitRouteCreation" type="button" class="btn"><i class="icon-flag"></i> Routenaufzeichnung beenden</button>';
+						ctx += '<button id="exitRouteCreation" type="button" class="btn"><i class="icon-flag"></i> Finish Route Recording</button>';
 					}
-					ctx += '<button id="addNewDistanceRoute" type="button" class="btn"><i class="icon-resize-full"></i> Abstand von hier</button>'
-						+ '<button id="setAsDestination" type="button" class="btn"><i class="icon-star"></i> Zum Ziel machen</button>'
-						+ '<button id="hideContextMenu" type="button" class="btn"><i class="icon-remove"></i> Schließen</button>'; 
+					ctx += '<button id="addNewDistanceRoute" type="button" class="btn"><i class="icon-resize-full"></i> Distance from here</button>'
+						+ '<button id="setAsDestination" type="button" class="btn"><i class="icon-star"></i> Set as Target</button>'
+						+ '<button id="hideContextMenu" type="button" class="btn"><i class="icon-remove"></i> Close</button>'; 
 					break;
 				case ContextMenuTypes.DELETE_MARKER:
-					ctx += '<button id="deleteMarker" type="button" class="btn"><i class="icon-map-marker"></i> Markierung löschen</button>';
+					ctx += '<button id="deleteMarker" type="button" class="btn"><i class="icon-map-marker"></i> Delete Mark</button>';
 					break;
 				case ContextMenuTypes.DELETE_ROUTEMARKER:
-					ctx += '<button id="deleteRouteMarker" type="button" class="btn"><i class="icon-map-marker"></i> Routenpunkt löschen</button>';
+					ctx += '<button id="deleteRouteMarker" type="button" class="btn"><i class="icon-map-marker"></i> Delete Route-Marker</button>';
 					break;
 				case ContextMenuTypes.DELETE_DISTANCEMARKER:
-					ctx += '<button id="deleteDistanceMarker" type="button" class="btn"><i class="icon-map-marker"></i> Distanzpunkt löschen</button>';
+					ctx += '<button id="deleteDistanceMarker" type="button" class="btn"><i class="icon-map-marker"></i> Delete Distance-Marker</button>';
 					break;
 			}
 			ctx += '</div>'
@@ -498,7 +498,7 @@
 		function showSidebarWithRoute(route) {
 			showSidebar('Route <span class="badge" style="background-color:' + route.color + ';">#' + route.id + '</span>');
 			appendContentIntoSidebar('<ul class="nav nav-tabs nav-stacked"></ul>');
-			appendContentIntoSidebar('<div class="buttons_bottom"><div><a class="closeIt btn btn-block" href="#close">Routenaufzeichnung beenden</a></div></div>');
+			appendContentIntoSidebar('<div class="buttons_bottom"><div><a class="closeIt btn btn-block" href="#close"> Finish Route Recording</a></div></div>');
 
 			$.each(route.markers, function() {
 				appendMarkerIntoSidebar(this);
