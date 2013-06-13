@@ -317,6 +317,11 @@ td.actionCol a:first-child i {
 	color: white;
 }
 
+a.boldlink {
+	color: white;
+	font-weight: bold;
+}
+
 /**
  * Footer
  */
