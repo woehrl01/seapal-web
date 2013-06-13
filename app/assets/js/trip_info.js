@@ -104,7 +104,6 @@ $(document).ready(function() {
 				$('html, body').animate({ scrollTop: 0 }, 600);
 			}
 		});
-
 	}
 
     $('body').on('click', 'a.deleteItemBtn', function(event) {
@@ -123,9 +122,9 @@ $(document).ready(function() {
         event.preventDefault();
 
         var id = $(this).closest('tr').attr("data-id");
-
+        console.log("id:" + id);
         if(id != ""){
-        	window.location.href = jsRoutes.de.htwg.seapal.web.controllers.Application.waypointShow(id).url;
+        	window.location.href = jsRoutes.de.htwg.seapal.web.controllers.Application.waypoint_show(id).url;
         }
 	});
 

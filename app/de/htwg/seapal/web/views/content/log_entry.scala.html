@@ -1,4 +1,4 @@
-@(tripId: java.util.UUID, myForm: Form[de.htwg.seapal.model.impl.Waypoint])
+@(tripId: java.util.UUID, waypointId: java.util.UUID, myForm: Form[de.htwg.seapal.model.impl.Waypoint])
 
 @scripts = {
 	<script type="text/javascript" src="@de.htwg.seapal.web.controllers.routes.Application.javascriptRoutes"></script>
@@ -14,7 +14,7 @@
 
 @main("SeaPal - Log Entry", scripts, "withsubnavi") {
 @helper.form(action = de.htwg.seapal.web.controllers.routes.WaypointAPI.addWaypoint() , 'id -> "form") {
-			<input type="hidden" id="waypoint_id" name="_id" value="" />
+			<input type="hidden" id="waypoint_id" name="_id" value="@waypointId" />
 			<input type="hidden" id="rev_id" name="_rev" value="" />
 			<input type="hidden" id="trip_id" name="trip" value="@tripId" />
 				<div class="container">
@@ -26,7 +26,9 @@
 						</div>
 						<div class="span4">
 							<div class="right buttons_top">
-								<input type="submit" id="submitBtn" class="btn btn-success" value="Save"/>
+								@if(waypointId == null) {
+									<input type="submit" id="submitBtn" class="btn btn-success" value="Save"/>
+								}
 							</div>
 						</div>
 					</div>
@@ -56,7 +58,7 @@
 							</div>
 							<div class="span2">
 								<div class="datepicker-small input-append date" data-date="2013-01-17" data-date-format="yyyy-mm-dd">
-									<label for="date">Date</label>
+									<label for="date">Timestamp</label>
 									<input class="span2" size="16" type="text" name="date" tabindex="18" value="2013-01-17"/>
 									<span class="add-on">
 										<i class="icon-th"></i>
@@ -79,13 +81,13 @@
 						</div>
 						<div class="row">
 							<div class="span4">
-								@helper.select(myForm("maneuver"), helper.options(DropdownContent.getManeuverOptions))
+								@helper.select(myForm("Maneuver"), helper.options(DropdownContent.getManeuverOptions))
 							</div>
 							<div class="span4">
-								@helper.select(myForm("foresail"), helper.options(DropdownContent.getForeSailOptions))
+								@helper.select(myForm("Foresail"), helper.options(DropdownContent.getForeSailOptions))
 							</div>
 							<div class="span4">
-								@helper.select(myForm("mainsail"), helper.options(DropdownContent.getMainSailOptions))
+								@helper.select(myForm("Mainsail"), helper.options(DropdownContent.getMainSailOptions))
 							</div>
 						</div>	
 					</div>

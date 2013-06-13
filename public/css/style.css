@@ -192,6 +192,10 @@ body.withsubnavi .header-wrapper {
 {
 	background: url(../images/compass.png) top right no-repeat;
 }
+.round h2.regatta
+{
+	background: url(../images/regatta.png) top right no-repeat;
+}
 .round h2.tools
 {
 	background: url(../images/tools.png) top right no-repeat;

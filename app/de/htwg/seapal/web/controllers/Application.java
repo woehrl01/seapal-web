@@ -9,6 +9,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
 
 import de.htwg.seapal.controller.ITripController;
+import de.htwg.seapal.controller.IWaypointController;
 import de.htwg.seapal.model.ITrip;
 import de.htwg.seapal.model.impl.Waypoint;
 import de.htwg.seapal.utils.logging.ILogger;
@@ -26,6 +27,9 @@ public class Application extends Controller {
 	
 	@Inject
 	private ITripController tripController;
+	
+	@Inject
+	private IWaypointController waypointController;
 	
 	@Inject
 	private ILogger logger;
@@ -72,7 +76,12 @@ public class Application extends Controller {
 	
 	public static Result waypoint_add(UUID tripId){
 		Form<Waypoint> form = Form.form(Waypoint.class);
-		return ok(log_entry.render(tripId, form));
+		return ok(log_entry.render(tripId, null, form));
+	}
+	
+	public Result waypoint_show(UUID waypointId) {
+		Form<Waypoint> form = Form.form(Waypoint.class);
+		return ok(log_entry.render(null, waypointId, form.fill((Waypoint)waypointController.getWaypoint(waypointId))));
 	}
 	
 	public static class TripList {
@@ -107,6 +116,7 @@ public class Application extends Controller {
 	    	// Application
     		de.htwg.seapal.web.controllers.routes.javascript.Application.trip_list(),
   	        de.htwg.seapal.web.controllers.routes.javascript.Application.trip_edit(),
+  	        de.htwg.seapal.web.controllers.routes.javascript.Application.waypoint_show(),
 	    	// API  
 	        de.htwg.seapal.web.controllers.routes.javascript.BoatAPI.boatAsJson(),
 	        de.htwg.seapal.web.controllers.routes.javascript.BoatAPI.boatsAsJson(),
@@ -117,6 +127,7 @@ public class Application extends Controller {
 	        de.htwg.seapal.web.controllers.routes.javascript.TripAPI.alltripsAsJson(),
 	        de.htwg.seapal.web.controllers.routes.javascript.TripAPI.addTrip(),
 	        de.htwg.seapal.web.controllers.routes.javascript.WaypointAPI.addWaypoint(),
+	        de.htwg.seapal.web.controllers.routes.javascript.WaypointAPI.waypointAsJson(),
 	        de.htwg.seapal.web.controllers.routes.javascript.WaypointAPI.waypointsAsJson(),
 	        de.htwg.seapal.web.controllers.routes.javascript.BoatPositionAPI.current(),
 	        de.htwg.seapal.web.controllers.routes.javascript.RegattaAPI.allTripsAsJson()

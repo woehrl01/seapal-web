@@ -28,9 +28,14 @@ public class WaypointAPI extends Controller {
 	@Inject
 	private ILogger logger;
 	
+	public Result waypointAsJson(UUID waypointId) {
+		IWaypoint waypoint = controller.getWaypoint(waypointId);
+		return ok(Json.toJson(waypoint));
+	}
+	
 	public Result waypointsAsJson(UUID tripId) {
-		List<IWaypoint> trips = controller.getAllWaypoints(tripId);
-		return ok(Json.toJson(trips));
+		List<IWaypoint> waypoints = controller.getAllWaypoints(tripId);
+		return ok(Json.toJson(waypoints));
 	}
 
 	public Result addWaypoint() {
@@ -38,7 +43,6 @@ public class WaypointAPI extends Controller {
 		Form<Waypoint> filledForm = form.bindFromRequest();
 		Map<String, String> data = form.data();
 		logger.info("Filled Form Data" , filledForm.toString());
-		logger.info("Data: " , data.get("_id"));
 		
 		ObjectNode response = Json.newObject();
 		

@@ -13,6 +13,7 @@ GET		/boat/$boatId<[0-9a-fA-F\-]+>/trips			de.htwg.seapal.web.controllers.Applic
 GET		/boat/$boatId<[0-9a-fA-F\-]+>/trip  		de.htwg.seapal.web.controllers.Application.trip_add(boatId: UUID)
 GET		/trip/$tripId<[0-9a-fA-F\-]+>				de.htwg.seapal.web.controllers.Application.trip_edit(tripId: UUID)
 GET		/trip/$tripId<[0-9a-fA-F\-]+>/waypoint		de.htwg.seapal.web.controllers.Application.waypoint_add(tripId: UUID)
+GET		/waypoint/$waypointId<[0-9a-fA-F\-]+>		@de.htwg.seapal.web.controllers.Application.waypoint_show(waypointId: UUID)
 GET		/regatta									@de.htwg.seapal.web.controllers.Application.regatta_view()
 
 POST	/regatta/	    							@de.htwg.seapal.web.controllers.Application.regatta_add
@@ -34,6 +35,7 @@ DELETE	/api/trip/$id<[0-9a-fA-F\-]+> 				@de.htwg.seapal.web.controllers.TripAPI
 POST	/api/trip									@de.htwg.seapal.web.controllers.TripAPI.addTrip()
 
 GET		/api/trip/$id<[0-9a-fA-F\-]+>/waypoints		@de.htwg.seapal.web.controllers.WaypointAPI.waypointsAsJson(id: UUID)
+GET		/api/waypoint/$waypointId<[0-9a-fA-F\-]+>	@de.htwg.seapal.web.controllers.WaypointAPI.waypointAsJson(waypointId: UUID)
 POST	/api/waypoint								@de.htwg.seapal.web.controllers.WaypointAPI.addWaypoint()
 
 GET		/api/regatta								@de.htwg.seapal.web.controllers.RegattaAPI.allTripsAsJson()

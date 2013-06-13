@@ -1,7 +1,13 @@
 /* boat_info.js */
 
 $(document).ready(function() {
-
+	
+	var waypointId = $('#waypoint_id').val();
+	
+	if (waypointId != "") {
+		loadWaypoint(waypointId);
+	}
+	
 	$('#form').submit(function(event) {
 		event.preventDefault();
 		var tripId = $('#trip_id').val();
@@ -64,17 +70,11 @@ $(document).ready(function() {
 		});
 	}
 
-	function loadWaypoint( itemId) {
-		$.ajax({
-			type: "GET",
-			url: $('#form').attr('action'),
-			data: {id: itemId},
+	function loadWaypoint(waypointId) {
+		jsRoutes.de.htwg.seapal.web.controllers.WaypointAPI.waypointAsJson(waypointId).ajax({
 			dataType: "json",
-			success: function(item) {
-				populateJSON('#form input', item);
-				$('html, body').animate({ scrollTop: 0 }, 600);
-
-				initStaticSeamap(item);
+			success: function(boat) {
+				populateJSON('#form input', boat);
 			}
 		});
 	}
