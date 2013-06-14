@@ -34,7 +34,7 @@ $(document).ready(function() {
 	        event.preventDefault();
 
 	        var id = $(this).closest('tr').attr("data-id");
-
+	        
 	        if(id != ""){
 	        	$('#deletePromptModal').attr("data-id", id);
 	        	$('#deletePromptModal .modal-body span').html(id);
@@ -61,7 +61,7 @@ $(document).ready(function() {
 				$( "#raceListTable tbody" ).html(
 					$( "#raceListTemplate" ).render(data)
 				);
-
+				
 				$('.tooltipable').tooltip();
 				$('#raceListTable').paginateTable({ rowsPerPage: 10, pager: ".tablePager", autoHidePager: false });
 				$("#raceListTable tbody").show('slow');

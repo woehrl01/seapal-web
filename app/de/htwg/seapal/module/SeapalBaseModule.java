@@ -14,9 +14,11 @@ import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 
 import de.htwg.seapal.controller.IBoatController;
+import de.htwg.seapal.controller.IRaceController;
 import de.htwg.seapal.controller.ITripController;
 import de.htwg.seapal.controller.IWaypointController;
 import de.htwg.seapal.controller.impl.BoatController;
+import de.htwg.seapal.controller.impl.RaceController;
 import de.htwg.seapal.controller.impl.TripController;
 import de.htwg.seapal.controller.impl.WaypointController;
 
@@ -36,6 +38,7 @@ public abstract class SeapalBaseModule extends AbstractModule {
 		bind(IBoatController.class).to(BoatController.class).in(Singleton.class);
 		bind(ITripController.class).to(TripController.class).in(Singleton.class);
 		bind(IWaypointController.class).to(WaypointController.class).in(Singleton.class);
+		bind(IRaceController.class).to(RaceController.class).in(Singleton.class);
 	}
 	
 	@Provides

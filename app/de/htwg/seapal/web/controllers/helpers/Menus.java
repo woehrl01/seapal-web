@@ -25,7 +25,7 @@ public class Menus extends Action.Simple {
 		menu.add(new MenuItem("How To", "/user_guide"));
 		menu.add(new MenuItem("Screenshots", "/screenshots"));
 		menu.add(new MenuItem("Team", "/about"));
-		menu.add(new MenuItem("Contakt", "/contact"));
+		menu.add(new MenuItem("Contact", "/contact"));
 		//menu.add(new MenuItem("Logbook", "/boat_info"));
 		
 		return menu;

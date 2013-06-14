@@ -29,28 +29,6 @@ $(document).ready(function() {
 		  }).val(value);
 		});
 	}
-
-    $('body').on('click', 'a.deleteItemBtn', function(event) {
-	        event.preventDefault();
-
-	        var id = $(this).closest('tr').attr("data-id");
-
-	        if(id != ""){
-	        	$('#deletePromptModal').attr("data-id", id);
-	        	$('#deletePromptModal .modal-body span').html(id);
-	        	$('#deletePromptModal').modal('show');
-	        }
-    });
-
-    $('body').on('click', 'a.editItemBtn', function(event) {
-	        event.preventDefault();
-
-	        var id = $(this).closest('tr').attr("data-id");
-
-	        if(id != ""){
-	        	window.location.href = jsRoutes.de.htwg.seapal.web.controllers.Application.trip_edit(id).url;
-	        }
-    });
     
     $('body').on('click', '#continueButton', function(event) {
         event.preventDefault();

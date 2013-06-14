@@ -23,5 +23,6 @@ public class SeapalMockModule extends SeapalBaseModule {
 		bind(IMarkDatabase.class).to(de.htwg.seapal.database.mock.MarkDatabase.class);
 		bind(IWaypointDatabase.class).to(de.htwg.seapal.database.mock.WaypointDatabase.class);
 		bind(IRouteDatabase.class).to(de.htwg.seapal.database.mock.RouteDatabase.class);
+		bind(IRaceDatabase.class).to(de.htwg.seapal.database.mock.RaceDatabase.class);
 	}
 }

@@ -1,5 +1,7 @@
 package de.htwg.seapal.web.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.codehaus.jackson.JsonNode;
@@ -12,6 +14,8 @@ import play.mvc.Result;
 
 import com.google.inject.Inject;
 
+import de.htwg.seapal.controller.IRaceController;
+import de.htwg.seapal.model.IRace;
 import de.htwg.seapal.utils.logging.ILogger;
 
 public class RaceAPI extends Controller {
@@ -19,11 +23,18 @@ public class RaceAPI extends Controller {
 	@Inject
 	private ILogger logger;
 
-	//@Inject 
-	//private IRaceController raceController;
+	@Inject 
+	private IRaceController raceController;
 	
 	public Result raceAsJson(UUID raceId) {
-		return testRaceAsJson();
+		IRace race = raceController.getRace(raceId);
+		
+		if (race == null) {
+			return badRequest("race not found");
+		}
+		logger.info("RaceAPI", "Loaded race name: " + race.getName());
+		
+		return ok(Json.toJson(race));
 	}
 	
 	public Result testRaceAsJson() {
@@ -33,26 +44,43 @@ public class RaceAPI extends Controller {
 	}
 	
 	public Result allRacesAsJson() {
-		return testRacesAsJson();
-	}
-	
-	public Result testRacesAsJson() {
-		ObjectNode racesWrapper = Json.newObject();
-		ArrayNode races = racesWrapper.putArray("races");
-		races.add(generateLinkedTestRace("raceId1", "KN Woche"));
-		races.add(generateLinkedTestRace("raceId2", "Bodensee Woche"));
-		races.add(generateLinkedTestRace("raceId3", "FN Woche"));
+		List<IRace> races = raceController.getAllRaces();
+		if (races == null) {
+			return badRequest("race not found");
+		}
+		logger.info("RaceAPI", "Loaded races count: " + races.size());
 		
-		return ok(races);
+		List<JsonNode> raceNodes = new ArrayList<JsonNode>();
+		
+		for (IRace race : races) {
+			raceNodes.add(generateLinkedRace(race));
+		}
+		
+		return ok(Json.toJson(raceNodes));
 	}
 	
-	public Result deleteRace(UUID raceId) {
-		//controller.deleteTrip(id);
+	private ObjectNode generateLinkedRace(IRace race) {
+		ObjectNode raceNode = Json.newObject();
+
+		raceNode.put("id", race.getId());
+		raceNode.put("name", race.getName());
+		raceNode.put("boatClass", race.getBoatClass());
+		
+		ArrayNode links = raceNode.putArray("links");
+		ObjectNode raceLink = Json.newObject();
+		raceLink.put("rel", "self");
+		raceLink.put("href", de.htwg.seapal.web.controllers.routes.RaceAPI.raceAsJson(race.getUUID()).absoluteURL(request()));
+		links.add(raceLink);
+		
+		return raceNode;
+	}
+	
+	public Result deleteRace(UUID id) {
+		raceController.deleteRace(id);
 		ObjectNode response = Json.newObject();
 		response.put("success", true);
-		response.put("message", "not implemented yet");
 		
-		return badRequest(response);
+		return ok(response);
 	}
 	
 	private ObjectNode generateTestRace(String id, String name) {
@@ -71,22 +99,6 @@ public class RaceAPI extends Controller {
 		controlPoints.add(generateTestControlPoint(id + "-controlPointId2", 41.9, 50.1));
 		controlPoints.add(generateTestControlPoint(id + "-controlPointId3", 42.1, 51.9));
 		controlPoints.add(generateTestControlPoint(id + "-controlPointId4", 43.9, 52.0, 44.1, 52.0)); // goal
-		
-		return race;
-	}
-	
-	private ObjectNode generateLinkedTestRace(String id, String name) {
-		ObjectNode race = Json.newObject();
-
-		race.put("id", id);
-		race.put("name", name);
-		race.put("boatClass", "49ers");
-		
-		ArrayNode links = race.putArray("links");
-		ObjectNode raceLink = Json.newObject();
-		raceLink.put("rel", "self");
-		raceLink.put("href", de.htwg.seapal.web.controllers.routes.RaceAPI.raceAsJson(UUID.randomUUID()).absoluteURL(request()));
-		links.add(raceLink);
 		
 		return race;
 	}
