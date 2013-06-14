@@ -1,10 +1,10 @@
-/* trip_info.js */
+/* race_info.js */
 
 $(document).ready(function() {
 
-	loadAllTrips();
+	loadAllRaces();
 
-	$("#tripListTable tbody").hide();
+	$("#raceListTable tbody").hide();
 
 	$('#deleteModalBtn').click(function(event) {
 		event.preventDefault();
@@ -13,10 +13,10 @@ $(document).ready(function() {
 	});
 
 	function deleteItem(itemId){
-		jsRoutes.de.htwg.seapal.web.controllers.TripAPI.deleteTrip(itemId).ajax({
+		jsRoutes.de.htwg.seapal.web.controllers.RaceAPI.deleteRace(itemId).ajax({
 			dataType: "json",
 			success: function(data) {
-				loadAllTrips();
+				loadAllRaces();
 			}
 		});
 	}
@@ -48,24 +48,23 @@ $(document).ready(function() {
 	        var id = $(this).closest('tr').attr("data-id");
 
 	        if(id != ""){
-	        	window.location.href = jsRoutes.de.htwg.seapal.web.controllers.Application.trip_edit(id).url;
+	        	//window.location.href = jsRoutes.de.htwg.seapal.web.controllers.Application.race_edit(id).url;
 	        }
     });
 
-	function loadAllTrips() {
-		var id = $('#boatId').val();
-		var route = jsRoutes.de.htwg.seapal.web.controllers.TripAPI.tripsAsJson(id);
+	function loadAllRaces() {
+		var route = jsRoutes.de.htwg.seapal.web.controllers.RaceAPI.allRacesAsJson();
 
 		route.ajax({
 			dataType: "json",
 			success: function(data) {
-				$( "#tripListTable tbody" ).html(
-					$( "#tripListTemplate" ).render(data)
+				$( "#raceListTable tbody" ).html(
+					$( "#raceListTemplate" ).render(data)
 				);
 
 				$('.tooltipable').tooltip();
-				$('#tripListTable').paginateTable({ rowsPerPage: 10, pager: ".tablePager", autoHidePager: false });
-				$("#tripListTable tbody").show('slow');
+				$('#raceListTable').paginateTable({ rowsPerPage: 10, pager: ".tablePager", autoHidePager: false });
+				$("#raceListTable tbody").show('slow');
 			}
 		});
 	}

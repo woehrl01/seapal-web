@@ -1,0 +1,103 @@
+@scripts = {
+	<script type="text/javascript" src="@de.htwg.seapal.web.controllers.routes.Application.javascriptRoutes"></script>
+	<script type="text/javascript" src="@routes.Assets.at("js/race_info.min.js")"></script>
+	<script type="text/javascript" src="@routes.Assets.at("lib/jquery.paginatetable.js")"></script>
+	<script type="text/javascript" src="@routes.Assets.at("lib/jsrender.js")"></script>
+}
+
+@main("Seapal - Race Info", scripts, "withsubnavi") {
+@helper.form(action = de.htwg.seapal.web.controllers.routes.Application.racemap_add() , 'id -> "form") {
+		<div class="container">
+				<div class="row">
+					<div class="span8">
+						<div class="left">
+							<h1>Race Info</h1>
+						</div>
+					</div>
+					<div class="span4">
+						<div class="right buttons_top">
+							<button type="submit" class="btn btn-primary"><i class="icon-play icon-white"></i> <span>Continue</span></button>
+						</div>
+					</div>
+				</div>
+				<div class="input-wrapper" id="boat_input">
+					<div class="row">
+						<div class="span6">
+							<label for="name">Name</label> 
+							<input type="text" name="name" tabindex="1" required />
+						</div>
+						<div class="span6">
+							<label for="boatClass">Boat Class</label>
+							<input type="text" name="boatClass" tabindex="2" required/>
+						</div>
+					</div>
+				</div>
+				<div class="listview-wrapper">
+					<div class="listview">
+						<div class="row">
+							<div class="span12">
+								<table id="tripListTable" class="table table-striped table-bordered table-hover">
+									<thead>
+								        <tr>
+								        	<th></th>
+								        	<th>Title</th>
+								        	<th>Start Location</th>
+								        	<th>End Location</th>
+								        	<th>Date</th>
+								        	<th class="actionCol">Activities</th>
+								        </tr>
+								    </thead>
+								    <tbody>
+								    </tbody>
+								</table>
+								<script id="tripListTemplate" type="text/x-jsrender">
+										<tr data-id="{{>_id}}">
+											<td><input type="checkbox" name="tripId[]" value="{{>_id}}"></td>
+											<td>{{>name}}</td>
+											<td>{{>startLocation}}</td>
+											<td>{{>endLocation}}</td>
+											<td>{{>startTime}}</td>
+											<td class="actionCol">
+												<a href="#"  class="deleteItemBtn tooltipable" rel="tooltip" title="Delete"><i class="icon-remove"></i></a>
+												<a href="#" class="editItemBtn tooltipable" rel="tooltip" title="Select"><i class="icon-chevron-right"></i></a>
+											</td>
+										</tr>
+									</script>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="listview-buttons tablePager">
+							<div class="span6">
+								<div class="left">
+									<input type="button" class="btn prevPage" style="display:none"/> <!-- needed that the bootstrap css rule applies  -->
+									<a class="btn prevPage" href="#"><i class="icon-arrow-left"></i></a>
+								</div>
+							</div>
+							<div class="span6">
+								<div class="right ">
+									<input type="button" class="btn nextPage" style="display:none"/> <!-- needed that the bootstrap css rule applies  -->
+									<a class="btn nextPage" href="#"><i class="icon-arrow-right"></i></a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				</form>
+			</div>
+		}
+		<!-- modals -->
+		<div id="deletePromptModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="deletePromptModalLabel" aria-hidden="true">
+		  <div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		    <h3 id="deletePromptModalLabel">Delete</h3>
+		  </div>
+		  <div class="modal-body">
+		    <p>Are you sure you want to delete the trip (ID: <span></span>)?</p>
+		  </div>
+		  <div class="modal-footer">
+		  	<button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+    		<button class="btn btn-danger" id="deleteModalBtn" data-dismiss="modal">Delete</button>
+		  </div>
+		</div>
+}

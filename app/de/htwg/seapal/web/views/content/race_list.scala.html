@@ -1,0 +1,88 @@
+@scripts = {
+	<script type="text/javascript" src="@de.htwg.seapal.web.controllers.routes.Application.javascriptRoutes"></script>
+	<script type="text/javascript" src="@routes.Assets.at("js/race_list.min.js")"></script>
+	<script type="text/javascript" src="@routes.Assets.at("lib/jquery.paginatetable.js")"></script>
+	<script type="text/javascript" src="@routes.Assets.at("lib/jsrender.js")"></script>
+}
+
+@main("Seapal - Race List", scripts, "withsubnavi") {
+	<div class="container">
+		<div class="row">
+			<div class="span8">
+				<div class="left">
+					<h1>Race List</h1>
+				</div>
+			</div>
+			<div class="span4">
+				<div class="right buttons_top">
+					<a id="addButton" href="@de.htwg.seapal.web.controllers.routes.Application.race_add()" class="btn btn-primary"><i class="icon-plus icon-white"></i> <span>Add<span></a>
+				</div>
+			</div>
+		</div>
+		
+		<div class="listview-wrapper">
+			<div class="listview">
+				<div class="row">
+					<div class="span12">
+						<table id="raceListTable" class="table table-striped table-bordered table-hover">
+							<thead>
+						        <tr>
+						        	<th>Name</th>
+						        	<th>Boat Class</th>
+						        	<th>SAP Analytics Import Link</th>
+						        	<th class="actionCol">Activities</th>
+						        </tr>
+						    </thead>
+						    <tbody>
+						    </tbody>
+						</table>
+						<script id="raceListTemplate" type="text/x-jsrender">
+							<tr data-id="{{>_id}}">
+								<td>{{>name}}</td>
+								<td>{{>boatClass}}</td>
+								<td>{{>links[0].href}}</td>
+								<td class="actionCol">
+									<a href="#" class="deleteItemBtn tooltipable" rel="tooltip" title="Delete"><i class="icon-remove"></i></a>
+									<a href="#" class="editItemBtn tooltipable" rel="tooltip" title="Select"><i class="icon-chevron-right"></i></a>
+								</td>
+							</tr>
+						</script>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="listview-buttons tablePager">
+					<div class="span6">
+						<div class="left">
+							<input type="button" class="btn prevPage" style="display:none"/> <!-- needed that the bootstrap css rule applies  -->
+							<a class="btn prevPage" href="#"><i class="icon-arrow-left"></i></a>
+						</div>
+					</div>
+					<div class="span6">
+						<div class="right ">
+							<input type="button" class="btn nextPage" style="display:none"/> <!-- needed that the bootstrap css rule applies  -->
+							<a class="btn nextPage" href="#"><i class="icon-arrow-right"></i></a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		</form>
+	</div>
+	<!-- modals -->
+	<div id="deletePromptModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="deletePromptModalLabel" aria-hidden="true">
+	  <div class="modal-header">
+	    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	    <h3 id="deletePromptModalLabel">Delete</h3>
+	  </div>
+	  <div class="modal-body">
+	    <p>Are you sure you want to delete the race (ID: <span></span>)?</p>
+	  </div>
+	  <div class="modal-footer">
+	  	<button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+   		<button class="btn btn-danger" id="deleteModalBtn" data-dismiss="modal">Delete</button>
+	  </div>
+	</div>
+}
+
+

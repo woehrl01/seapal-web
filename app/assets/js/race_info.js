@@ -51,10 +51,16 @@ $(document).ready(function() {
 	        	window.location.href = jsRoutes.de.htwg.seapal.web.controllers.Application.trip_edit(id).url;
 	        }
     });
+    
+    $('body').on('click', '#continueButton', function(event) {
+        event.preventDefault();
+        console.log($('#form'));
+        $('#form').validate();
+        //$('#form').submit();
+    });
 
 	function loadAllTrips() {
-		var id = $('#boatId').val();
-		var route = jsRoutes.de.htwg.seapal.web.controllers.TripAPI.tripsAsJson(id);
+		var route = jsRoutes.de.htwg.seapal.web.controllers.TripAPI.allTripsAsJson();
 
 		route.ajax({
 			dataType: "json",

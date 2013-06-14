@@ -84,8 +84,31 @@ public class Application extends Controller {
 		return ok(log_entry.render(null, waypointId, form.fill((Waypoint)waypointController.getWaypoint(waypointId))));
 	}
 	
+	public static Result race_list() {
+		return ok(race_list.render());
+	}
+	
+	/*public static Result race_edit(UUID raceId) {
+		return ok(race_info.render(raceId));
+	}*/
+	
+	public static Result race_add() {
+		return ok(race_info.render());
+	}
+	
+	public Result racemap_add() {
+		Form<TripList> form = Form.form(TripList.class);
+		logger.info("Application1", form.bindFromRequest().get().tripId.toString());
+		logger.info("Application2", form.bindFromRequest().get().toUUID().toString());
+		TripList trips = form.bindFromRequest().get();
+		
+		return ok(racemap.render(trips.toUUID(), trips.name, trips.boatClass));
+	}
+	
 	public static class TripList {
 		public List<String> tripId = new LinkedList<String>();
+		public String name;
+		public String boatClass;
 		
 		public List<UUID> toUUID() {
 			List<UUID> list = new ArrayList<UUID>(tripId.size());
@@ -97,26 +120,20 @@ public class Application extends Controller {
 		}
 	}
 	
-	public Result regatta_add() {
-		Form<TripList> form = Form.form(TripList.class);
-		logger.info("Application1", form.bindFromRequest().get().tripId.toString());
-		logger.info("Application2", form.bindFromRequest().get().toUUID().toString());
-		return ok(regatta.render(form.bindFromRequest().get().toUUID()));
-	}
-	
-	public Result regatta_view(){
-		return ok(regatta.render(tripController.getTrips()));
-	}
-	
 	public static Result javascriptRoutes() {
 	    response().setContentType("text/javascript");
 	    return ok(
 	      Routes.javascriptRouter("jsRoutes",
 	        // Routes
 	    	// Application
+	    	de.htwg.seapal.web.controllers.routes.javascript.Application.boat_info(),
     		de.htwg.seapal.web.controllers.routes.javascript.Application.trip_list(),
   	        de.htwg.seapal.web.controllers.routes.javascript.Application.trip_edit(),
   	        de.htwg.seapal.web.controllers.routes.javascript.Application.waypoint_show(),
+  	     	de.htwg.seapal.web.controllers.routes.javascript.Application.seamap(),
+  	        de.htwg.seapal.web.controllers.routes.javascript.Application.race_list(),
+  	        //de.htwg.seapal.web.controllers.routes.javascript.Application.race_edit(),
+  	        de.htwg.seapal.web.controllers.routes.javascript.Application.race_add(),
 	    	// API  
 	        de.htwg.seapal.web.controllers.routes.javascript.BoatAPI.boatAsJson(),
 	        de.htwg.seapal.web.controllers.routes.javascript.BoatAPI.boatsAsJson(),
@@ -124,13 +141,13 @@ public class Application extends Controller {
 	        de.htwg.seapal.web.controllers.routes.javascript.BoatAPI.addBoat(),
 	        de.htwg.seapal.web.controllers.routes.javascript.TripAPI.tripsAsJson(),
 	        de.htwg.seapal.web.controllers.routes.javascript.TripAPI.tripAsJson(),
-	        de.htwg.seapal.web.controllers.routes.javascript.TripAPI.alltripsAsJson(),
+	        de.htwg.seapal.web.controllers.routes.javascript.TripAPI.allTripsAsJson(),
 	        de.htwg.seapal.web.controllers.routes.javascript.TripAPI.addTrip(),
 	        de.htwg.seapal.web.controllers.routes.javascript.WaypointAPI.addWaypoint(),
 	        de.htwg.seapal.web.controllers.routes.javascript.WaypointAPI.waypointAsJson(),
 	        de.htwg.seapal.web.controllers.routes.javascript.WaypointAPI.waypointsAsJson(),
 	        de.htwg.seapal.web.controllers.routes.javascript.BoatPositionAPI.current(),
-	        de.htwg.seapal.web.controllers.routes.javascript.RegattaAPI.allTripsAsJson()
+	        de.htwg.seapal.web.controllers.routes.javascript.RaceAPI.allRacesAsJson()
 	      )
 	    );
 	  }

@@ -21,22 +21,19 @@ public class RaceAPI extends Controller {
 
 	//@Inject 
 	//private IRaceController raceController;
-
+	
+	public Result raceAsJson(UUID raceId) {
+		return testRaceAsJson();
+	}
+	
 	public Result testRaceAsJson() {
-		
 		ObjectNode race = generateTestRace("test", "KN Woche");
 		
 		return ok(race);
 	}
 	
-	public Result raceAsJson(UUID raceId) {
-		/*ObjectNode race = Json.newObject();
-		
-		TODO: generate race data here (and delete the last line)...
-		
-		return ok(race);*/
-		
-		return testRaceAsJson();
+	public Result allRacesAsJson() {
+		return testRacesAsJson();
 	}
 	
 	public Result testRacesAsJson() {
@@ -47,6 +44,15 @@ public class RaceAPI extends Controller {
 		races.add(generateLinkedTestRace("raceId3", "FN Woche"));
 		
 		return ok(races);
+	}
+	
+	public Result deleteRace(UUID raceId) {
+		//controller.deleteTrip(id);
+		ObjectNode response = Json.newObject();
+		response.put("success", true);
+		response.put("message", "not implemented yet");
+		
+		return badRequest(response);
 	}
 	
 	private ObjectNode generateTestRace(String id, String name) {

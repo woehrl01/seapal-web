@@ -14,10 +14,10 @@ GET		/boat/$boatId<[0-9a-fA-F\-]+>/trip  		de.htwg.seapal.web.controllers.Applic
 GET		/trip/$tripId<[0-9a-fA-F\-]+>				de.htwg.seapal.web.controllers.Application.trip_edit(tripId: UUID)
 GET		/trip/$tripId<[0-9a-fA-F\-]+>/waypoint		de.htwg.seapal.web.controllers.Application.waypoint_add(tripId: UUID)
 GET		/waypoint/$waypointId<[0-9a-fA-F\-]+>		@de.htwg.seapal.web.controllers.Application.waypoint_show(waypointId: UUID)
-GET		/regatta									@de.htwg.seapal.web.controllers.Application.regatta_view()
-
-POST	/regatta/	    							@de.htwg.seapal.web.controllers.Application.regatta_add
-POST	/regatta/send								@de.htwg.seapal.web.controllers.RegattaAPI.send_to_SAP()
+GET		/races										de.htwg.seapal.web.controllers.Application.race_list()
+GET		/race/add									de.htwg.seapal.web.controllers.Application.race_add()
+# GET	/race/$raceId<[0-9a-fA-F\-]+>				de.htwg.seapal.web.controllers.Application.race_edit(raceId: UUID)
+POST	/racemap	    							@de.htwg.seapal.web.controllers.Application.racemap_add()
 
 # API
 GET		/api/boat/$id<[0-9a-fA-F\-]+>				@de.htwg.seapal.web.controllers.BoatAPI.boatAsJson(id: UUID)
@@ -27,7 +27,7 @@ DELETE	/api/boat/$id<[0-9a-fA-F\-]+> 				@de.htwg.seapal.web.controllers.BoatAPI
 
 GET		/api/boatposition							@de.htwg.seapal.web.controllers.BoatPositionAPI.current()
 
-GET		/api/trip									@de.htwg.seapal.web.controllers.TripAPI.alltripsAsJson()
+GET		/api/trip									@de.htwg.seapal.web.controllers.TripAPI.allTripsAsJson()
 
 GET		/api/trip/$id<[0-9a-fA-F\-]+>				@de.htwg.seapal.web.controllers.TripAPI.tripAsJson(id: UUID)
 GET		/api/boat/$id<[0-9a-fA-F\-]+>/trips			@de.htwg.seapal.web.controllers.TripAPI.tripsAsJson(id: UUID)
@@ -38,11 +38,9 @@ GET		/api/trip/$id<[0-9a-fA-F\-]+>/waypoints		@de.htwg.seapal.web.controllers.Wa
 GET		/api/waypoint/$waypointId<[0-9a-fA-F\-]+>	@de.htwg.seapal.web.controllers.WaypointAPI.waypointAsJson(waypointId: UUID)
 POST	/api/waypoint								@de.htwg.seapal.web.controllers.WaypointAPI.addWaypoint()
 
-GET		/api/regatta								@de.htwg.seapal.web.controllers.RegattaAPI.allTripsAsJson()
-
 GET		/api/race/test								@de.htwg.seapal.web.controllers.RaceAPI.testRaceAsJson()
 GET		/api/race/$id<[0-9a-fA-F\-]+>				@de.htwg.seapal.web.controllers.RaceAPI.raceAsJson(id: UUID)
-GET		/api/races									@de.htwg.seapal.web.controllers.RaceAPI.testRacesAsJson()
+GET		/api/races									@de.htwg.seapal.web.controllers.RaceAPI.allRacesAsJson()
 
 # Javascript routing
 GET    /assets/javascripts/routes   				de.htwg.seapal.web.controllers.Application.javascriptRoutes()

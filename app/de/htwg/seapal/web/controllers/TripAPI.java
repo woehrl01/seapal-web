@@ -41,7 +41,7 @@ public class TripAPI extends Controller {
 		}
 	}
 	
-	public Result alltripsAsJson() {
+	public Result allTripsAsJson() {
 		return ok(Json.toJson(controller.getAllTrips()));
 	}
 
