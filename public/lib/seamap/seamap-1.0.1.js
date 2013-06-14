@@ -1,6 +1,7 @@
 /**
 * Seamap JQuery Plugin
 * @version ENGLISH
+* @author Julian Mueller
 */
 (function( $, window ){
 	/**
@@ -16,10 +17,12 @@
 		zoom 			: 15,
 		
 		height : function() {
-			return $(window).height() - $(".header-wrapper .navbar-fixed-top").height() - 20
+			return
 		},	
-		strokeColors : ['grey','red','blue','green','yellow','black'],
+		// Stroke colors: [0] is used for the distance tool, [1..] are used for the routes
+		strokeColors : ['grey','red','blue','green','yellow','blueviolet','darkorange','magenta','black'],
 		
+		// Default options for the marker
 		defaultOptions : {
 			polyOptions : {
 				strokeColor: '#000000',
@@ -35,6 +38,7 @@
 			}
 		},
 		
+		// Default options for the routing tool
 		routeOptions : {
 			polyOptions : {
 				strokeColor: '#000000',
@@ -50,6 +54,7 @@
 			}
 		},
 		
+		// Default options for the distance tool
 		distanceOptions : {
 			polyOptions : {
 				strokeColor: '#550000',
@@ -65,6 +70,7 @@
 			}
 		},
 		
+		// Default options for the tracked boat
 		boatOptions : {
 			markerOptions : {
 				crosshairShape : {
@@ -79,6 +85,7 @@
 			}
 		},
 		
+		// Default options for the crosshair.
 		crosshairOptions : {
 			markerOptions : {
 				crosshairShape : {
@@ -96,17 +103,19 @@
 	
 	/**
 	* *************************************************************************************
-	* Seamap class
+	* The seamap object class
 	* *************************************************************************************
 	*/
 	$.seamap = function(element){	
 		var options = $.seamap.options;
 	
+		// The states of the plugin
 		var States = {
 			"NORMAL" : 0, 
 			"ROUTE" : 1, 
 			"DISTANCE" : 2
 		},
+		// The context menu types
 		ContextMenuTypes = {
 			"DEFAULT" : 0, 
 			"DELETE_MARKER" : 1, 
@@ -151,7 +160,8 @@
 
 		/**
 		* *********************************************************************************
-		* 
+		* Initializes the GoogleMaps with OpenSeaMaps overlay, the context menu, the
+		* boat animation and the default route.
 		* *********************************************************************************
 		*/
 		function init() {
@@ -169,7 +179,7 @@
 
 		/**
 		* *********************************************************************************
-		* 
+		* Initialized the GoogleMaps (zoom level, center position, ...)
 		* *********************************************************************************
 		*/
 		function initMap() {
@@ -194,7 +204,7 @@
 
 		/**
 		* *********************************************************************************
-		* 
+		* Initializes the OpenSeamaps overlay.
 		* *********************************************************************************
 		*/
 		function initOpenSeaMaps() {
@@ -210,7 +220,7 @@
 
 		/**
 		* *********************************************************************************
-		* 
+		* Initializes the context menus.
 		* *********************************************************************************
 		*/
 		function initContextMenu() {
@@ -227,16 +237,18 @@
 				
 		/**
 		* *********************************************************************************
-		* 
+		* Initializes the GoogleMaps listeners (left/right click, move, ...) and defines
+		* the actions in each state of the plugin.
 		* *********************************************************************************
 		*/
 		function initGoogleMapsListeners() {
+			// move
 			google.maps.event.addListener(map, 'bounds_changed', function() {
 				if (crosshairMarker != null && contextMenuVisible) {
 					updateContextMenuPosition(crosshairMarker.getPosition());
 				}
 			});
-	
+			// right-click
 			google.maps.event.addListener(map, 'rightclick', function(event) {
 				switch(state) {
 					case States.NORMAL: 
@@ -255,7 +267,7 @@
 						break;
 				}
 			});
-	
+			// left click
 			google.maps.event.addListener(map, 'click', function(event) {
 				switch(state) {
 					case States.NORMAL: 
@@ -276,7 +288,7 @@
 		
 		/**
 		* *********************************************************************************
-		* 
+		* Initializes the default route of the map, if options.defaultRoute was set.
 		* *********************************************************************************
 		*/
 		function initDefaultRoute() {
@@ -294,7 +306,7 @@
 				
 		/**
 		* *********************************************************************************
-		* 
+		* Starts the AJAX calls using long polling to animate the boat on the maps.
 		* *********************************************************************************
 		*/
 		function startBoatAnimation(){
@@ -318,7 +330,7 @@
 
 		/**
 		* *********************************************************************************
-		* 
+		* Handles the boat position update.
 		* *********************************************************************************
 		*/
 		function handleBoatPosition(position){
@@ -337,7 +349,8 @@
 
 		/**
 		* *********************************************************************************
-		* 
+		* Sets the crosshair marker to the given position.
+		* Note: Only one crosshair can be displayed at the same time.
 		* *********************************************************************************
 		*/
 		function setCrosshairMarker(position) {
@@ -353,6 +366,7 @@
 				});
 			}		
 			
+			// init left-click context menu listener
 			google.maps.event.addListener(crosshairMarker, 'click', function(event) {
 				showContextMenu(event.latLng, ContextMenuTypes.DEFAULT, crosshairMarker);
 			});	
@@ -360,7 +374,7 @@
 		
 		/**
 		* *********************************************************************************
-		* 
+		* Hides the crosshair marker.
 		* *********************************************************************************
 		*/
 		function hideCrosshairMarker() {
@@ -371,19 +385,19 @@
 
 		/**
 		* *********************************************************************************
-		* 
+		* Display the contxt menu at the given position, with the given type for the
+		* selected marker.
 		* *********************************************************************************
 		*/
 		function showContextMenu(latLng, type, marker) {
 			contextMenuVisible = true;
-			contextMenuType = type;
 			selectedMarker = marker;
-			showContextMenuInternal(latLng);
+			showContextMenuInternal(latLng, type);
 		}
 		
 		/**
 		* *********************************************************************************
-		* 
+		* Hides the context menu.
 		* *********************************************************************************
 		*/
 		function hideContextMenu() {
@@ -393,10 +407,11 @@
 
 		/**
 		* *********************************************************************************
-		* 
+		* Shows the context menu at the given position.
 		* *********************************************************************************
 		*/
-		function showContextMenuInternal(latLng) {
+		function showContextMenuInternal(latLng, ctxMenuType) {
+			contextMenuType = ctxMenuType;
 			$('#tooltip_helper').popover({title: function() {
 					var lat = crosshairMarker.getPosition().lat();
 					var lng = crosshairMarker.getPosition().lng();
@@ -422,7 +437,7 @@
 
 		/**
 		* *********************************************************************************
-		* 
+		* Updates the context menu position.
 		* *********************************************************************************
 		*/
 		function updateContextMenuPosition(latLng){
@@ -447,7 +462,7 @@
 
 		/**
 		* *********************************************************************************
-		* 
+		* Gets the context menu content buttons, considering the global context menu type
 		* *********************************************************************************
 		*/
 		function getContextMenuContent() {
@@ -480,7 +495,7 @@
 				
 		/**
 		* *********************************************************************************
-		* 
+		* Display the sidebar with the given heading.
 		* *********************************************************************************
 		*/	
 		function showSidebar(heading) {
@@ -492,7 +507,7 @@
 		
 		/**
 		* *********************************************************************************
-		* 
+		* Shows the sidevar of the given route.
 		* *********************************************************************************
 		*/	
 		function showSidebarWithRoute(route) {
@@ -516,7 +531,7 @@
 		
 		/**
 		* *********************************************************************************
-		* 
+		* Hides the sidebar.
 		* *********************************************************************************
 		*/	
 		function hideSidebar() {
@@ -527,7 +542,7 @@
 		
 		/**
 		* *********************************************************************************
-		* 
+		* Appends content into the sidebar.
 		* *********************************************************************************
 		*/	
 		function appendContentIntoSidebar(content) {			
@@ -536,7 +551,7 @@
 		
 		/**
 		* *********************************************************************************
-		* 
+		* Appends content into the sidebar element with the given selector.
 		* *********************************************************************************
 		*/	
 		function appendContentIntoSidebarElement(content, selector) {	
@@ -545,7 +560,7 @@
 		
 		/**
 		* *********************************************************************************
-		* 
+		* Deletes the sidebar element with the given selector.
 		* *********************************************************************************
 		*/	
 		function clearSidebarElement(selector) {	
@@ -554,7 +569,7 @@
 		
 		/**
 		* *********************************************************************************
-		* 
+		* Appends a info notificaion into the sidebar.
 		* *********************************************************************************
 		*/	
 		function appendInfoIntoSidebar(content, type) {	
@@ -564,7 +579,7 @@
 		
 		/**
 		* *********************************************************************************
-		* 
+		* Appends a marker into the sidebar.
 		* *********************************************************************************
 		*/	
 		function appendMarkerIntoSidebar(marker) {	
@@ -577,7 +592,7 @@
 
 		/**
 		* *********************************************************************************
-		* 
+		* Hides the context menu and the crosshair.
 		* *********************************************************************************
 		*/		
 		function handleHideContextMenu() {
@@ -587,7 +602,7 @@
 		
 		/**
 		* *********************************************************************************
-		* 
+		* Starts the distance tool and hides the context menu and crosshair.
 		* *********************************************************************************
 		*/
 		function handleAddNewDistanceRoute() {
@@ -602,7 +617,7 @@
 		
 		/**
 		* *********************************************************************************
-		* 
+		* Stops the distance tool and hides the context menu and crosshair.
 		* *********************************************************************************
 		*/
 		function handleExitDistanceRouteCreation() {
@@ -616,7 +631,7 @@
 		
 		/**
 		* *********************************************************************************
-		* 
+		* Removes the distance route from the map.
 		* *********************************************************************************
 		*/
 		function removeDistanceRoute() {
@@ -626,7 +641,8 @@
 		
 		/**
 		* *********************************************************************************
-		* 
+		* Handles the creation of a new route, activates it and bind the mouse-events.
+		* Also hides the context menu and the marker.
 		* *********************************************************************************
 		*/
 		function handleAddNewRoute() {
@@ -651,7 +667,7 @@
 				
 		/**
 		* *********************************************************************************
-		* 
+		* Activates the route, so that it is also visible in the sidebar.
 		* *********************************************************************************
 		*/
 		function activateRoute(route) {
@@ -662,7 +678,8 @@
 		
 		/**
 		* *********************************************************************************
-		* 
+		* Handles the quit of the route creation.
+		* Also closes the context menu, sidebar the hides the crosshair.
 		* *********************************************************************************
 		*/
 		function handleExitRouteCreation() {
@@ -675,7 +692,7 @@
 		
 		/**
 		* *********************************************************************************
-		* 
+		* Adds a new route marker to the active route.
 		* *********************************************************************************
 		*/
 		function addRouteMarker(latLng) {
@@ -692,7 +709,8 @@
 		
 		/**
 		* *********************************************************************************
-		* 
+		* Handler function for adding a new marker to the map.
+		* Also hides the context menu and the crosshair.
 		* *********************************************************************************
 		*/
 		function handleAddMarker() {
@@ -703,7 +721,7 @@
 
 		/**
 		* *********************************************************************************
-		* 
+		* Handler function for deleting a marker. Also hides the context menu.
 		* *********************************************************************************
 		*/
 		function handleDeleteMarker() {
@@ -713,7 +731,8 @@
 		
 		/**
 		* *********************************************************************************
-		* 
+		* Handler function for setting a target.
+		* Also closes the context menu and hides the crosshair.
 		* *********************************************************************************
 		*/
 		function handleSetAsDestination() {
@@ -726,7 +745,8 @@
 		
 		/**
 		* *********************************************************************************
-		* 
+		* Adds a simple marker to the given position and
+		* bind the click-events to open its context menu.
 		* *********************************************************************************
 		*/
 		function addDefaultMarker(position) {
@@ -746,7 +766,7 @@
 
 		/**
 		* *********************************************************************************
-		* 
+		* Deletes the selected marker.
 		* *********************************************************************************
 		*/
 		function deleteSelectedMarker() {
@@ -757,7 +777,7 @@
 
 		/**
 		* *********************************************************************************
-		* 
+		* Converts the position to a GEO-String in the Format: XX.XX°XX.XXN/S'
 		* *********************************************************************************
 		*/
 		function toGeoString(value, posChar, negChar, degLength) {
@@ -779,7 +799,7 @@
 
 		/**
 		* *********************************************************************************
-		* 
+		* Converts the number to a string with leading zero.
 		* *********************************************************************************
 		*/
 		function leadingZero(num, size) {
@@ -794,7 +814,7 @@
 
 		/**
 		* *********************************************************************************
-		* 
+		* Converts the lat/lng-cooridnate to the x/y-value of the canvas.
 		* *********************************************************************************
 		*/
 		function getCanvasXY(currentLatLng){
@@ -814,7 +834,7 @@
 		
 		/**
 		* *********************************************************************************
-		* 
+		* Gets the hash-parameters. If there is no param, an empty string will be returned.
 		* *********************************************************************************
 		*/
 		function getParmFromHash(url, parm) {
@@ -826,7 +846,7 @@
 	
 	/**
 	* *************************************************************************************
-	* Route class 
+	* The route object class 
 	* *************************************************************************************
 	*/
 	$.seamap.route = function(newrouteid, newgooglemaps, type){
@@ -861,7 +881,7 @@
 		
 		/**
 		* *********************************************************************************
-		* 
+		* Sets the route as not interactive.
 		* *********************************************************************************
 		*/		
 		this.setNotInteractive = function() {
@@ -870,12 +890,13 @@
 		
 		/**
 		* *********************************************************************************
-		* 
+		* Adds a new route marker to the given position.
 		* *********************************************************************************
 		*/
 		this.addMarker = function(position) {
 			var $this = this;
 
+			// create marker
 			var marker = new google.maps.Marker({
 				map: this.googlemaps,
 				position: position,
@@ -885,15 +906,18 @@
 				draggable: !this.notinteractive,
 				id: this.markers.length 
 			});
-			
 			this.markers[this.markers.length] = marker;
 			
+			// adds or updates the label
 			if(this.label == null) {
-				this.addLabel();	
+				if (!this.notinteractive) {
+					this.addLabel();
+				}
 			} else {
 				this.updateLabel();
 			}
 
+			// Add event listeners for the interactive mode
 			if(!this.notinteractive) {
 				google.maps.event.addListener(marker, 'dragend', function() {
 					$this.drawPath();
@@ -918,7 +942,7 @@
 		
 		/**
 		* *********************************************************************************
-		* 
+		* Removes a marker from the route.
 		* *********************************************************************************
 		*/
 		this.removeMarker = function($marker) {
@@ -939,7 +963,7 @@
 		
 		/**
 		* *********************************************************************************
-		* 
+		* Adds a label to the last marker.
 		* *********************************************************************************
 		*/
 		this.addLabel = function() {		
@@ -951,7 +975,7 @@
 		
 		/**
 		* *********************************************************************************
-		* 
+		* Updates the the label (removes the old and adds a new one).
 		* *********************************************************************************
 		*/
 		this.updateLabel = function() {
@@ -961,7 +985,7 @@
 		
 		/**
 		* *********************************************************************************
-		* 
+		* Removes a whole route from the map (with its paths, labels and markers).
 		* *********************************************************************************
 		*/
 		this.removeFromMap = function() {
@@ -974,7 +998,7 @@
 
 		/**
 		* *********************************************************************************
-		* 
+		* Draws a route by conntecting all route markers in the given order.
 		* *********************************************************************************
 		*/
 		this.drawPath = function() {
@@ -988,7 +1012,7 @@
 		
 		/**
 		* *********************************************************************************
-		* 
+		* Gets the total distance text of the route. Format example: 1234m
 		* *********************************************************************************
 		*/
 		this.getTotalDistanceText = function() {
@@ -1008,7 +1032,7 @@
 
 		/**
 		* *********************************************************************************
-		* 
+		* Calculates the distance in meters between two GEO-coordinates (lat/lng).
 		* *********************************************************************************
 		*/
 		this.distance = function(lat1,lon1,lat2,lon2) {
@@ -1025,7 +1049,7 @@
 		
 		/**
 		* *********************************************************************************
-		* 
+		* Adds an event listener with the given type and function.
 		* *********************************************************************************
 		*/
 		this.addEventListener = function(type, fn) {
@@ -1034,7 +1058,7 @@
 				
 		/**
 		* *********************************************************************************
-		* 
+		* Calls the event listener functions, to notify the observers.
 		* *********************************************************************************
 		*/
 		this.notify = function(type) {

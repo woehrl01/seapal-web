@@ -2,7 +2,9 @@ $(document).ready(function() {
 	// lets initialize our fancy seamap on the #map_canvas container.
 	
 	// interactive:
-	$("#map_canvas").seamap();
+	$("#map_canvas").seamap({
+		height: $(window).height() - $(".header-wrapper .navbar-fixed-top").height() + 21
+	});
 	
 	/*$("#map_canvas").seamap({
 		defaultRoute : [

@@ -130,8 +130,9 @@ public class RaceAPI extends Controller {
 	private JsonNode generateTestWaypoint(String id, double lat, double lng, long timestamp, String markPassingId) {
 		ObjectNode waypoint = Json.newObject();
 		waypoint.put("id", id);
-		waypoint.put("lat", lat);
-		waypoint.put("lng", lng);
+		ObjectNode coord = waypoint.putObject("coord");
+		coord.put("lat", lat);
+		coord.put("lng", lng);
 		waypoint.put("timestamp", timestamp);
 		waypoint.put("sog", 10.0);
 		waypoint.put("markPassing", markPassingId);
