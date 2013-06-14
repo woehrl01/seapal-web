@@ -118,8 +118,7 @@
 		// The context menu types
 		ContextMenuTypes = {
 			"DEFAULT" : 0, 
-			"DELETE_MARKER" : 1, 
-			"DELETE_ROUTEMARKER" : 2
+			"DELETE_MARKER" : 1
 		};
 		
 		// maps
@@ -283,7 +282,7 @@
 						addRouteMarker(event.latLng);
 						break;
 				}
-			});	
+			});
 		}
 		
 		/**
@@ -357,19 +356,18 @@
 			if(crosshairMarker != null) {
 				crosshairMarker.setPosition(position);
 				crosshairMarker.setMap(map);
-			}else {
+			} else {
 				crosshairMarker = new google.maps.Marker({
 					position: position,
 					map: map,
 					title:"crosshair",
 					icon: options.crosshairOptions.markerOptions.image
 				});
+				
+				google.maps.event.addListener(crosshairMarker, 'click', function(event) {
+					showContextMenu(event.latLng, ContextMenuTypes.DEFAULT, crosshairMarker);
+				});	
 			}		
-			
-			// init left-click context menu listener
-			google.maps.event.addListener(crosshairMarker, 'click', function(event) {
-				showContextMenu(event.latLng, ContextMenuTypes.DEFAULT, crosshairMarker);
-			});	
 		}
 		
 		/**
@@ -400,8 +398,10 @@
 		* Hides the context menu.
 		* *********************************************************************************
 		*/
-		function hideContextMenu() {
-			$('#tooltip_helper').popover('hide');
+		function hideContextMenu() { 
+			//$('#tooltip_helper').popover('hide'); <-- REMARK: this does cause problems!
+			
+			$('.popover').css({'display':'none'});
 			contextMenuVisible = false;
 		}
 
@@ -412,6 +412,7 @@
 		*/
 		function showContextMenuInternal(latLng, ctxMenuType) {
 			contextMenuType = ctxMenuType;
+
 			$('#tooltip_helper').popover({title: function() {
 					var lat = crosshairMarker.getPosition().lat();
 					var lng = crosshairMarker.getPosition().lng();
@@ -481,12 +482,6 @@
 					break;
 				case ContextMenuTypes.DELETE_MARKER:
 					ctx += '<button id="deleteMarker" type="button" class="btn"><i class="icon-map-marker"></i> Delete Mark</button>';
-					break;
-				case ContextMenuTypes.DELETE_ROUTEMARKER:
-					ctx += '<button id="deleteRouteMarker" type="button" class="btn"><i class="icon-map-marker"></i> Delete Route-Marker</button>';
-					break;
-				case ContextMenuTypes.DELETE_DISTANCEMARKER:
-					ctx += '<button id="deleteDistanceMarker" type="button" class="btn"><i class="icon-map-marker"></i> Delete Distance-Marker</button>';
 					break;
 			}
 			ctx += '</div>'

@@ -10,8 +10,7 @@
 	* *************************************************************************************
 	*/
 	var options = {
-		trips 	: null,
-		mode 			: "INTERACTIVE",
+		raceData 	: null,
 		startLat 		: 47.655,
 		startLong 		: 9.205,
 		zoom 			: 15,
@@ -118,8 +117,8 @@
 		// The context menu types
 		ContextMenuTypes = {
 			"DEFAULT" : 0, 
-			"DELETE_MARKER" : 1, 
-			"DELETE_ROUTEMARKER" : 2
+			"CONTROL_POINT" : 1, 
+			"ROUTE_POINTMARKER" : 2
 		};
 		
 		// maps
@@ -168,13 +167,10 @@
 			initMap();
 			initOpenSeaMaps();
 			
-			if ( options.mode !== "NOTINTERACTIVE" ) {
-				initContextMenu();	
-				initGoogleMapsListeners();	
-				startBoatAnimation();
-			} 
+			initContextMenu();	
+			initGoogleMapsListeners();
 			
-			initDefaultRoute();
+			initRace();
 		}
 
 		/**
@@ -226,11 +222,10 @@
 		function initContextMenu() {
 			$this.append('<div id="tooltip_helper"></div>');
 
-			$this.on("click", "#addMarker", handleAddMarker);
+			$this.on("click", "#addStart", handleAddMarker);
+			$this.on("click", "#addGoal", handleAddMarker);
+			$this.on("click", "#addControlPoint", handleAddMarker);
 			$this.on("click", "#deleteMarker", handleDeleteMarker);
-			$this.on("click", "#addNewRoute", handleAddNewRoute);
-			$this.on("click", "#exitRouteCreation", handleExitRouteCreation);
-			$this.on("click", "#setAsDestination", handleSetAsDestination);
 			$this.on("click", "#addNewDistanceRoute", handleAddNewDistanceRoute);
 			$this.on("click", "#hideContextMenu", handleHideContextMenu);
 		}
@@ -270,7 +265,7 @@
 			// left click
 			google.maps.event.addListener(map, 'click', function(event) {
 				switch(state) {
-					case States.NORMAL: 
+					case States.NORMAL:
 						hideCrosshairMarker(crosshairMarker);
 						hideContextMenu();
 						break;
@@ -288,62 +283,22 @@
 		
 		/**
 		* *********************************************************************************
-		* Initializes the default route of the map, if options.trips was set.
+		* Initializes the race with the given trips and waypoints of the race.
 		* *********************************************************************************
 		*/
-		function initDefaultRoute() {
-			if(options.trips == null) return;
-			
-			routeId = routeCounter++;
-			
-			activeRoute = routes[routeId] = new $.racemap.route(routeId, map, "ROUTE");	
-			activeRoute.setNotInteractive();
-			
-			$.each(options.trips, function() {	
-				addRouteMarker(new google.maps.LatLng(this.lat, this.lng));	
-			});
-		}
+		function initRace() {
+			if(options.raceData == null
+			   || options.raceData.trips.length == 0) {
+				return;
+			}
+			for (var i = 0; i < options.raceData.trips.length; ++i) {
+				routeId = routeCounter++;
 				
-		/**
-		* *********************************************************************************
-		* Starts the AJAX calls using long polling to animate the boat on the maps.
-		* *********************************************************************************
-		*/
-		function startBoatAnimation(){
-			jsRoutes.de.htwg.seapal.web.controllers.BoatPositionAPI.current().ajax({
-				dataType : 'json',
-				success : function(response){
-					position = new google.maps.LatLng(response.lat, response.lng);
-					handleBoatPosition(position);
-					noerror = true;
-				},
-				complete: function(response){
-					if(!self.noerror){
-						setTimeout(function(){startBoatAnimation();},5000);
-					}else{
-						startBoatAnimation();
-					}
-					noerror = false;
-				}
-			});
-		}
-
-		/**
-		* *********************************************************************************
-		* Handles the boat position update.
-		* *********************************************************************************
-		*/
-		function handleBoatPosition(position){
-			if(boatMarker == null){
-				boatMarker = new google.maps.Marker({
-					position: position,
-					map: map,
-					title:"boat",
-					shape: options.boatOptions.markerOptions.crosshairShape,
-					icon:  options.boatOptions.markerOptions.image
+				activeRoute = routes[routeId] = new $.racemap.route(routeId, map, "ROUTE");	
+				activeRoute.setNotInteractive();
+				$.each(options.raceData.trips[i].waypoints, function() {	
+					addRouteMarker(new google.maps.LatLng(this.coord.lat, this.coord.lng));	
 				});
-			}else{
-				boatMarker.setPosition(position);
 			}
 		}
 
@@ -357,19 +312,19 @@
 			if(crosshairMarker != null) {
 				crosshairMarker.setPosition(position);
 				crosshairMarker.setMap(map);
-			}else {
+			} else {
 				crosshairMarker = new google.maps.Marker({
 					position: position,
 					map: map,
 					title:"crosshair",
 					icon: options.crosshairOptions.markerOptions.image
 				});
-			}		
-			
-			// init left-click context menu listener
-			google.maps.event.addListener(crosshairMarker, 'click', function(event) {
-				showContextMenu(event.latLng, ContextMenuTypes.DEFAULT, crosshairMarker);
-			});	
+				
+				// init left-click context menu listener
+				google.maps.event.addListener(crosshairMarker, 'click', function(event) {
+					showContextMenu(event.latLng, ContextMenuTypes.DEFAULT, crosshairMarker);
+				});
+			}			
 		}
 		
 		/**
@@ -401,7 +356,9 @@
 		* *********************************************************************************
 		*/
 		function hideContextMenu() {
-			$('#tooltip_helper').popover('hide');
+			//$('#tooltip_helper').popover('hide'); <-- REMARK: this does cause problems!
+			
+			$('.popover').css({'display':'none'});
 			contextMenuVisible = false;
 		}
 
@@ -427,7 +384,7 @@
 					return (leftDist > width / 2 ? "left" : "right");
 				}
 			});
-			
+
 			$('#tooltip_helper').popover('show');
 			
 			$this.css("overflow","visible"); // bugfix > menu overlaps!
@@ -469,24 +426,22 @@
 			var ctx = '<div id="contextmenu">'
 			switch(contextMenuType) {
 				case ContextMenuTypes.DEFAULT:
-					ctx += '<button id="addMarker" type="button" class="btn"><i class="icon-map-marker"></i> Set Mark</button>';
-					if (state != States.ROUTE) {
+					ctx += '<button id="addStart" type="button" class="btn"><i class="icon-map-marker"></i> Define Start</button>';
+					ctx += '<button id="addGoal" type="button" class="btn"><i class="icon-star"></i> Define Goal</button>';
+					ctx += '<button id="addControlPoint" type="button" class="btn"><i class="icon-star"></i> Set Control Point</button>';
+					/*if (state != States.ROUTE) {
 						ctx += '<button id="addNewRoute" type="button" class="btn"><i class="icon-flag"></i> Start new Route</button>';
 					} else {
 						ctx += '<button id="exitRouteCreation" type="button" class="btn"><i class="icon-flag"></i> Finish Route Recording</button>';
-					}
+					}*/
 					ctx += '<button id="addNewDistanceRoute" type="button" class="btn"><i class="icon-resize-full"></i> Distance from here</button>'
-						+ '<button id="setAsDestination" type="button" class="btn"><i class="icon-star"></i> Set as Target</button>'
 						+ '<button id="hideContextMenu" type="button" class="btn"><i class="icon-remove"></i> Close</button>'; 
 					break;
-				case ContextMenuTypes.DELETE_MARKER:
-					ctx += '<button id="deleteMarker" type="button" class="btn"><i class="icon-map-marker"></i> Delete Mark</button>';
+				case ContextMenuTypes.CONTROL_POINT:
+					ctx += '<button id="deleteMarker" type="button" class="btn"><i class="icon-map-marker"></i> Delete Control Point</button>';
 					break;
-				case ContextMenuTypes.DELETE_ROUTEMARKER:
-					ctx += '<button id="deleteRouteMarker" type="button" class="btn"><i class="icon-map-marker"></i> Delete Route-Marker</button>';
-					break;
-				case ContextMenuTypes.DELETE_DISTANCEMARKER:
-					ctx += '<button id="deleteDistanceMarker" type="button" class="btn"><i class="icon-map-marker"></i> Delete Distance-Marker</button>';
+				case ContextMenuTypes.ROUTE_POINTMARKER:
+					ctx += '<button id="deleteRouteMarker" type="button" class="btn"><i class="icon-map-marker"></i> Delete Route Point</button>';
 					break;
 			}
 			ctx += '</div>'
@@ -758,7 +713,7 @@
 			});
 
 			google.maps.event.addListener(newMarker, 'rightclick', function(event) {
-				showContextMenu(event.latLng, ContextMenuTypes.DELETE_MARKER, newMarker);
+				showContextMenu(event.latLng, ContextMenuTypes.CONTROL_POINT, newMarker);
 			});
 			
 			markers[markers.length] = newMarker;

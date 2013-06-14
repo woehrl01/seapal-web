@@ -21,7 +21,7 @@ import de.htwg.seapal.database.impl.PersonDatabase;
 import de.htwg.seapal.database.impl.RouteDatabase;
 import de.htwg.seapal.database.impl.TripDatabase;
 import de.htwg.seapal.database.impl.WaypointDatabase;
-import de.htwg.seapal.database.mock.RaceDatabase;
+import de.htwg.seapal.database.impl.RaceDatabase;
 import de.htwg.seapal.utils.logger.iml.WebLogger;
 import de.htwg.seapal.utils.logging.ILogger;
 

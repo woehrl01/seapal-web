@@ -13,6 +13,7 @@ import play.data.Form;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.With;
 
 import com.google.inject.Inject;
 
@@ -30,8 +31,10 @@ import de.htwg.seapal.model.ITrip;
 import de.htwg.seapal.model.IWaypoint;
 import de.htwg.seapal.model.impl.Race;
 import de.htwg.seapal.utils.logging.ILogger;
+import de.htwg.seapal.web.controllers.helpers.Menus;
 import de.htwg.seapal.web.views.html.content.racemap;
 
+@With(Menus.class)
 public class RaceAPI extends Controller {
 
 	@Inject
@@ -111,7 +114,7 @@ public class RaceAPI extends Controller {
 		RaceList race = form.bindFromRequest().get();
 		
 		IRace raceWithoutControlPoints = generateRaceWithoutControlPoints(race.name, race.boatClass, race.tripsAsUUID());
-		
+		logger.info("RaceAPI", "Race generated with trips count: " + raceWithoutControlPoints.getTrips().size());
 		return ok(racemap.render(Json.toJson(raceWithoutControlPoints).toString()));
 	}
 	
@@ -144,7 +147,7 @@ public class RaceAPI extends Controller {
 		List<RaceTrip> trips = new ArrayList<RaceTrip>();
 		for (UUID tripId : tripIds) {
 			ITrip trip = tripController.getTrip(tripId);
-			
+			logger.info("RaceAPI", "Generate Trip: " + trip.getName());
 			trips.add(
 					new RaceTrip(
 							trip.getId(),
