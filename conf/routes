@@ -17,7 +17,6 @@ GET		/waypoint/$waypointId<[0-9a-fA-F\-]+>		@de.htwg.seapal.web.controllers.Appl
 GET		/races										de.htwg.seapal.web.controllers.Application.race_list()
 GET		/race/add									de.htwg.seapal.web.controllers.Application.race_add()
 # GET	/race/$raceId<[0-9a-fA-F\-]+>				de.htwg.seapal.web.controllers.Application.race_edit(raceId: UUID)
-POST	/racemap	    							@de.htwg.seapal.web.controllers.Application.racemap_add()
 
 # API
 GET		/api/boat/$id<[0-9a-fA-F\-]+>				@de.htwg.seapal.web.controllers.BoatAPI.boatAsJson(id: UUID)
@@ -42,6 +41,7 @@ GET		/api/race/test								@de.htwg.seapal.web.controllers.RaceAPI.testRaceAsJso
 GET		/api/race/$id<[0-9a-fA-F\-]+>				@de.htwg.seapal.web.controllers.RaceAPI.raceAsJson(id: UUID)
 GET		/api/races									@de.htwg.seapal.web.controllers.RaceAPI.allRacesAsJson()
 DELETE	/api/race/$id<[0-9a-fA-F\-]+> 				@de.htwg.seapal.web.controllers.RaceAPI.deleteRace(id: UUID)
+POST	/racemap	    							@de.htwg.seapal.web.controllers.RaceAPI.raceDataByTripIds()
 
 # Javascript routing
 GET    /assets/javascripts/routes   				de.htwg.seapal.web.controllers.Application.javascriptRoutes()

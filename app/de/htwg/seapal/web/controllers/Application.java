@@ -93,30 +93,6 @@ public class Application extends Controller {
 		return ok(race_info.render());
 	}
 	
-	public Result racemap_add() {
-		Form<TripList> form = Form.form(TripList.class);
-		logger.info("Application1", form.bindFromRequest().get().tripId.toString());
-		logger.info("Application2", form.bindFromRequest().get().toUUID().toString());
-		TripList trips = form.bindFromRequest().get();
-		
-		return ok(racemap.render(trips.toUUID(), trips.name, trips.boatClass));
-	}
-	
-	public static class TripList {
-		public List<String> tripId = new LinkedList<String>();
-		public String name;
-		public String boatClass;
-		
-		public List<UUID> toUUID() {
-			List<UUID> list = new ArrayList<UUID>(tripId.size());
-			
-			for (String id : tripId) {
-				list.add(UUID.fromString(id));
-			}
-			return list;
-		}
-	}
-	
 	public static Result javascriptRoutes() {
 	    response().setContentType("text/javascript");
 	    return ok(

@@ -1,4 +1,4 @@
-@(trips: java.util.List[java.util.UUID], raceName: String, boatClass: String)
+@(raceDataAsJson: String)
 
 @scripts = {
 	<script type="text/javascript" src="@de.htwg.seapal.web.controllers.routes.Application.javascriptRoutes"></script>
@@ -10,11 +10,8 @@
 }
 
 @main("SeaPal - Racemap", scripts, bodyClass = "withsubnavi googlemaps", contentClass = "container-fluid") {
-	@for(trip <- trips){
-		<input type="hidden" name="tripId[]" value="@trip.toString()" />
-	}
-	<input type="hidden" name="name" value="@raceName" />
-	<input type="hidden" name="boatClass" value="@boatClass" />
+	<input type="hidden" name="raceData" value="@raceDataAsJson" />
+
 	<div class="row-fluid" style="width:100%;">
 		<div class="span12" style="width:100%;">
 			<div id="map_canvas" class="span12" style="width:100%;"></div>

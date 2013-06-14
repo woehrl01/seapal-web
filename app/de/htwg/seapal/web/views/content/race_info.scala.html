@@ -6,7 +6,7 @@
 }
 
 @main("Seapal - Race Info", scripts, "withsubnavi") {
-	@helper.form(action = de.htwg.seapal.web.controllers.routes.Application.racemap_add() , 'id -> "form") {
+	@helper.form(action = de.htwg.seapal.web.controllers.routes.RaceAPI.raceDataByTripIds() , 'id -> "form") {
 		<div class="container">
 			<div class="row">
 				<div class="span8">

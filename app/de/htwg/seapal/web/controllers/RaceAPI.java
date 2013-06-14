@@ -1,6 +1,7 @@
 package de.htwg.seapal.web.controllers;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
@@ -8,15 +9,28 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.ArrayNode;
 import org.codehaus.jackson.node.ObjectNode;
 
+import play.data.Form;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
 import com.google.inject.Inject;
 
+import de.htwg.seapal.controller.IBoatController;
 import de.htwg.seapal.controller.IRaceController;
+import de.htwg.seapal.controller.ITripController;
+import de.htwg.seapal.controller.IWaypointController;
+import de.htwg.seapal.model.IBoat;
 import de.htwg.seapal.model.IRace;
+import de.htwg.seapal.model.IRace.RaceBoat;
+import de.htwg.seapal.model.IRace.RaceCoordinate;
+import de.htwg.seapal.model.IRace.RaceTrip;
+import de.htwg.seapal.model.IRace.RaceWaypoint;
+import de.htwg.seapal.model.ITrip;
+import de.htwg.seapal.model.IWaypoint;
+import de.htwg.seapal.model.impl.Race;
 import de.htwg.seapal.utils.logging.ILogger;
+import de.htwg.seapal.web.views.html.content.racemap;
 
 public class RaceAPI extends Controller {
 
@@ -25,6 +39,15 @@ public class RaceAPI extends Controller {
 
 	@Inject 
 	private IRaceController raceController;
+	
+	@Inject 
+	private ITripController tripController;
+	
+	@Inject 
+	private IBoatController boatController;
+	
+	@Inject 
+	private IWaypointController waypointController;
 	
 	public Result raceAsJson(UUID raceId) {
 		IRace race = raceController.getRace(raceId);
@@ -83,10 +106,90 @@ public class RaceAPI extends Controller {
 		return ok(response);
 	}
 	
+	public Result raceDataByTripIds() {
+		Form<RaceList> form = Form.form(RaceList.class);
+		RaceList race = form.bindFromRequest().get();
+		
+		IRace raceWithoutControlPoints = generateRaceWithoutControlPoints(race.name, race.boatClass, race.tripsAsUUID());
+		
+		return ok(racemap.render(Json.toJson(raceWithoutControlPoints).toString()));
+	}
+	
+	public static class RaceList {
+		public List<String> tripIds = new LinkedList<String>();
+		public String name;
+		public String boatClass;
+		
+		public List<UUID> tripsAsUUID() {
+			List<UUID> list = new ArrayList<UUID>(tripIds.size());
+			
+			for (String id : tripIds) {
+				list.add(UUID.fromString(id));
+			}
+			return list;
+		}
+	}
+	
+	private IRace generateRaceWithoutControlPoints(String name, String boatClass, List<UUID> tripIds) {
+		IRace race = new Race();
+		race.setName(name);
+		race.setBoatClass(boatClass);
+		race.setTrips(generateTrips(tripIds));
+		// Note: no control points should be generated here ;)
+		
+		return race;
+	}
+
+	private List<RaceTrip> generateTrips(List<UUID> tripIds) {
+		List<RaceTrip> trips = new ArrayList<RaceTrip>();
+		for (UUID tripId : tripIds) {
+			ITrip trip = tripController.getTrip(tripId);
+			
+			trips.add(
+					new RaceTrip(
+							trip.getId(),
+							trip.getName(),
+							generateBoat(UUID.fromString(trip.getBoat())),
+							generateWaypointsOfTrip(UUID.fromString(trip.getId()))));
+		}
+		return trips;
+	}
+
+	private List<RaceWaypoint> generateWaypointsOfTrip(UUID tripId) {
+		List<IWaypoint> waypoints = waypointController.getAllWaypoints(tripId);
+		List<RaceWaypoint> raceWaypoints = new ArrayList<RaceWaypoint>();
+		
+		for (IWaypoint waypoint : waypoints) {
+			raceWaypoints.add(
+					new RaceWaypoint(
+							waypoint.getId(), 
+							new RaceCoordinate(
+									waypoint.getLatitude(),
+									waypoint.getLongitude()),
+							waypoint.getDate(),
+							waypoint.getSOG(),
+							waypoint.getCOG(),
+							waypoint.getBTM(),
+							waypoint.getDTM(),
+							null));
+		}
+		
+		return raceWaypoints;
+	}
+
+	private RaceBoat generateBoat(UUID boatId) {
+		IBoat boat = boatController.getBoat(boatId);
+		
+		return new RaceBoat(
+				boat.getId(),
+				boat.getBoatName(),
+				"GER"); // TODO: implement real ioc-code
+	}
+	
 	private ObjectNode generateTestRace(String id, String name) {
 		ObjectNode race = Json.newObject();
 
-		race.put("id", id);
+		race.put("_id", id);
 		race.put("name", name);
 		race.put("boatClass", "49ers");
 		
