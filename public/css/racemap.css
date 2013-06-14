@@ -1,0 +1,103 @@
+/**
+ * Google Maps
+ */
+body.googlemaps
+{
+	overflow:hidden;
+}
+@media (max-width: 767px)
+
+#map_canvas
+{
+	height:100%;
+	margin: 0px;
+}
+
+.container-fluid {
+	margin-left: -20px;
+	margin-right: -20px;
+	margin-top: -21px;
+	margin-bottom: -20px;
+}
+
+/**
+ * Context Menu
+ */
+#contextmenu button {
+	width:100%;
+	margin-bottom:5px;
+	text-align:left;
+}
+#tooltip_helper {
+	width:1px; 
+	height:1px; 
+	position:absolute; 
+	margin-top: -10px; 
+	margin-left: 10px; 
+	z-index:1; 
+	display: block;
+}
+.popover {
+	z-index:9999;
+}
+.popover.left {
+	margin-left:-25px;
+}
+.popover h3.popover-title {
+	background:#026899;
+	line-height:1.25em;
+	color:#FFF;
+}
+.popover h3 span {
+	display:block;
+}
+.popover .input-mini {
+    width: 50px;
+	background:#FFF;
+	font-size:9px;
+}
+.popover .input-append .add-on, .popover .input-prepend .add-on {
+	line-height:18px;
+}
+
+.modal{
+	color: #000;
+}
+
+.racemapsidebar {
+	background:#fff;
+}
+
+.racemapsidebar .racemapsidebar_inner {
+	padding:5px;
+	color:#333;
+	position:relative;
+	height:90%;
+	overflow-y:auto;
+	margin:10px;
+}
+
+.racemapsidebar .racemapsidebar_inner li a {
+	line-height:1.5em;
+}
+
+.racemapsidebar .racemapsidebar_inner li {
+	margin-bottom:4px;
+}
+
+.racemapsidebar .racemapsidebar_inner li.well:hover {
+	background-color:#CCC;
+}
+
+.racemapsidebar span.badge {
+	padding:6px;
+	margin-top:-2px;
+	vertical-align: middle;
+}
+
+.racemapsidebar div.buttons_bottom {
+	width:100%;
+}
+.racemapsidebar div.buttons_bottom div {
+	padding:10px;
+}
