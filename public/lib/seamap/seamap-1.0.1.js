@@ -251,6 +251,7 @@
 			google.maps.event.addListener(map, 'rightclick', function(event) {
 				switch(state) {
 					case States.NORMAL: 
+						hideContextMenu();
 						hideCrosshairMarker(crosshairMarker);
 						setCrosshairMarker(event.latLng);
 						break;
@@ -365,8 +366,9 @@
 				});
 				
 				google.maps.event.addListener(crosshairMarker, 'click', function(event) {
+					console.log(event.latLng);
 					showContextMenu(event.latLng, ContextMenuTypes.DEFAULT, crosshairMarker);
-				});	
+				});
 			}		
 		}
 		
@@ -390,7 +392,7 @@
 		function showContextMenu(latLng, type, marker) {
 			contextMenuVisible = true;
 			selectedMarker = marker;
-			showContextMenuInternal(latLng, type);
+			showContextMenuInternal(latLng, type, marker);
 		}
 		
 		/**
@@ -410,12 +412,14 @@
 		* Shows the context menu at the given position.
 		* *********************************************************************************
 		*/
-		function showContextMenuInternal(latLng, ctxMenuType) {
+		function showContextMenuInternal(latLng, ctxMenuType, markerToShowOn) {
 			contextMenuType = ctxMenuType;
 
+			marker = markerToShowOn;
 			$('#tooltip_helper').popover({title: function() {
-					var lat = crosshairMarker.getPosition().lat();
-					var lng = crosshairMarker.getPosition().lng();
+					console.log(marker);
+					var lat = marker.getPosition().lat();
+					var lng = marker.getPosition().lng();
 
 					return '<span><b>Lat</b> ' + toGeoString(lat, "N", "S", 2) + ' <b>Lon</b> ' + toGeoString(lng, "E", "W", 3) + '</span>';
 				},

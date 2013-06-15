@@ -235,6 +235,7 @@
 			google.maps.event.addListener(map, 'rightclick', function(event) {
 				switch(state) {
 					case States.NORMAL: 
+						hideContextMenu();
 						hideCrosshairMarker(crosshairMarker);
 						setCrosshairMarker(event.latLng);
 						break;
@@ -286,10 +287,19 @@
 					activateRoute(this);
 				}
 				
+				rightClicked = function(clickedRaceDataEntity) {
+					console.log(clickedRaceDataEntity);
+					showContextMenu(
+						clickedRaceDataEntity.marker.getPosition(),
+						ContextMenuTypes.ROUTE_POINTMARKER,
+						clickedRaceDataEntity.marker);
+				}
+				
 				activeRoute.addEventListener("click", activate);
+				activeRoute.addEventListener("rightclick", rightClicked);
 				
 				$.each(options.raceData.trips[i].waypoints, function() {	
-					addRouteMarker(new google.maps.LatLng(this.coord.lat, this.coord.lng));	
+					addRouteMarker(this);	
 				});
 			}
 		}
@@ -350,7 +360,7 @@
 		function showContextMenu(latLng, type, marker) {
 			contextMenuVisible = true;
 			selectedMarker = marker;
-			showContextMenuInternal(latLng, type);
+			showContextMenuInternal(latLng, type, marker);
 		}
 		
 		/**
@@ -370,11 +380,14 @@
 		* Shows the context menu at the given position.
 		* *********************************************************************************
 		*/
-		function showContextMenuInternal(latLng, ctxMenuType) {
+		function showContextMenuInternal(latLng, ctxMenuType, markerToShowOn) {
 			contextMenuType = ctxMenuType;
+			
+			marker = markerToShowOn;
 			$('#tooltip_helper').popover({title: function() {
-					var lat = crosshairMarker.getPosition().lat();
-					var lng = crosshairMarker.getPosition().lng();
+					console.log(marker);
+					var lat = marker.getPosition().lat();
+					var lng = marker.getPosition().lng();
 
 					return '<span><b>Lat</b> ' + toGeoString(lat, "N", "S", 2) + ' <b>Lon</b> ' + toGeoString(lng, "E", "W", 3) + '</span>';
 				},
@@ -387,7 +400,7 @@
 					return (leftDist > width / 2 ? "left" : "right");
 				}
 			});
-
+			
 			$('#tooltip_helper').popover('show');
 			
 			$this.css("overflow","visible"); // bugfix > menu overlaps!
@@ -479,7 +492,7 @@
 			appendContentIntoSidebar('<ul class="nav nav-tabs nav-stacked"></ul>');
 			appendContentIntoSidebar('<div class="buttons_bottom"><div><a class="closeIt btn btn-block" href="#close"> Close</a></div></div>');
 
-			$.each(route.markers, function() {
+			$.each(route.routeData, function() {
 				appendMarkerIntoSidebar(this);
 			});
 			
@@ -543,11 +556,11 @@
 		* Appends a marker into the sidebar.
 		* *********************************************************************************
 		*/	
-		function appendMarkerIntoSidebar(marker) {	
+		function appendMarkerIntoSidebar(routeDataEntity) {	
 			var content = $('<li class="well well-small"><div class="btn-toolbar pull-right" style="margin:0"> \
 					<div class="btn-group"></div></div> \
-					<b>#' + marker.id + '</b> <small>- Lat ' + toGeoString(marker.getPosition().lat(), "N", "S", 2) + ' Lon ' + 
-					toGeoString(marker.getPosition().lng(), "E", "W", 3) + '</small></li>');
+					<b>#' + routeDataEntity.marker.id + '</b> <small>- Lat ' + toGeoString(routeDataEntity.marker.getPosition().lat(), "N", "S", 2) + ' Lon ' + 
+					toGeoString(routeDataEntity.marker.getPosition().lng(), "E", "W", 3) + '</small></li>');
 			appendContentIntoSidebarElement(content, '.nav');
 		}
 		
@@ -577,7 +590,7 @@
 			hideCrosshairMarker();
 			
 			activeRoute = distanceroute = new $.racemap.route(-1, map, "DISTANCE");			
-			activeRoute.addMarker(crosshairMarker.getPosition());
+			activeRoute.addDistanceMarker(crosshairMarker.getPosition());
 
 			state = States.DISTANCE;
 		}
@@ -613,11 +626,11 @@
 		* Adds a new route marker to the active route.
 		* *********************************************************************************
 		*/
-		function addRouteMarker(latLng) {
+		function addRouteMarker(waypoint) {
 			hideContextMenu();
 			hideCrosshairMarker();
 			
-			var newmarker = activeRoute.addMarker(latLng);
+			var newmarker = activeRoute.addWaypoint(waypoint);
 			activeRoute.drawPath();
 		}
 		
@@ -630,7 +643,7 @@
 		function handleAddMarker() {
 			hideContextMenu();
 			hideCrosshairMarker();
-			addDefaultMarker(crosshairMarker.getPosition());
+			addControlPoint(crosshairMarker.getPosition());
 		}
 
 		/**
@@ -649,7 +662,7 @@
 		* bind the click-events to open its context menu.
 		* *********************************************************************************
 		*/
-		function addDefaultMarker(position) {
+		function addControlPoint(position) {
 			var newMarker = new google.maps.Marker({
 				map: map,
 				position: position,
@@ -787,7 +800,7 @@
 		this.color = $.racemap.options.strokeColors[this.id % ($.racemap.options.strokeColors.length-1)];
 		
 		this.path = null;
-		this.markers = [];
+		this.routeData = []; // array of object types: {marker: ..., waypoint: ...}
 		this.label = null;
 		this.notinteractive = false;
 		
@@ -796,7 +809,8 @@
 			add : [],
 			remove : [],
 			dragend : [],
-			click : []
+			click : [],
+			rightclick: [],
 		};
 		
 		if(type === "DISTANCE") {
@@ -825,20 +839,24 @@
 		* Adds a new route marker to the given position.
 		* *********************************************************************************
 		*/
-		this.addMarker = function(position) {
+		this.addWaypoint = function(waypoint) {
 			var $this = this;
 
 			// create marker
 			var marker = new google.maps.Marker({
 				map: this.googlemaps,
-				position: position,
+				position: new google.maps.LatLng(waypoint.coord.lat, waypoint.coord.lng),
 				icon: options.markerOptions.image,
 				shadow: options.markerOptions.shadow,
 				animation: google.maps.Animation.DROP,
 				draggable: !this.notinteractive,
-				id: this.markers.length 
+				id: this.routeData.length 
 			});
-			this.markers[this.markers.length] = marker;
+			
+			var entity = this.routeData[this.routeData.length] = {
+				marker: marker,
+				waypoint: waypoint
+			}
 			
 			// adds or updates the label
 			if(this.label == null) {
@@ -848,9 +866,7 @@
 			}
 
 			google.maps.event.addListener(marker, 'rightclick', function(event) {
-				console.log("route-class: here was the remove action...")
-				//$this.removeMarker(marker);
-				//$this.notify("remove");
+				$this.notify("rightclick", entity);
 			});
 			
 			google.maps.event.addListener(marker, 'click', function(event) {
@@ -864,23 +880,54 @@
 		
 		/**
 		* *********************************************************************************
-		* Removes a marker from the route.
+		* Adds a new distance marker to the given position.
 		* *********************************************************************************
 		*/
-		this.removeMarker = function($marker) {
-			$marker.setMap(null);
-			this.markers = $.grep(this.markers, function(mark) {
-				return mark != $marker;
+		this.addDistanceMarker = function(position) {
+			var $this = this;
+
+			// create marker
+			var marker = new google.maps.Marker({
+				map: this.googlemaps,
+				position: position,
+				icon: options.markerOptions.image,
+				shadow: options.markerOptions.shadow,
+				animation: google.maps.Animation.DROP,
+				draggable: !this.notinteractive,
+				id: this.routeData.length 
+			});
+			this.routeData[this.routeData.length] = {
+				marker: marker,
+				waypoint: waypoint
+			}
+			
+			// adds or updates the label
+			if(this.label == null) {
+				if (!this.notinteractive) {
+					this.addLabel();
+				}
+			} else {
+				this.updateLabel();
+			}
+
+			google.maps.event.addListener(marker, 'dragend', function() {
+				$this.drawPath();
+				$this.updateLabel();
+				$this.notify("dragend");
+			});
+
+			google.maps.event.addListener(marker, 'rightclick', function(event) {
+				$this.removeMarker(marker);
+				$this.notify("remove");
 			});
 			
-			var i = 0;
-			$.each(this.markers, function(){
-				this.id = i++;
+			google.maps.event.addListener(marker, 'click', function(event) {
+				$this.notify("click");
 			});
-			this.drawPath();
-			this.updateLabel();
 			
-			this.notify("remove");
+			this.notify("add");
+			
+			return marker;
 		}
 		
 		/**
@@ -890,7 +937,7 @@
 		*/
 		this.addLabel = function() {		
 			this.label = new Label({map: this.googlemaps });
-			this.label.bindTo('position', this.markers[this.markers.length-1], 'position');
+			this.label.bindTo('position', this.routeData[this.routeData.length-1].marker, 'position');
 			$(this.label.span_).css({"margin-left":"15px","padding":"7px","box-shadow":"0px 0px 3px #666","z-index":99999,"color":this.color});
 			this.label.set('text', this.getTotalDistanceText());
 		}
@@ -901,20 +948,22 @@
 		* *********************************************************************************
 		*/
 		this.updateLabel = function() {
-			if(this.label != null) this.label.setMap(null);
-			if(this.markers.length != 0) this.addLabel();
+			if(this.label != null)
+				this.label.setMap(null);
+			if(this.routeData.length != 0)
+				this.addLabel();
 		}
 		
 		/**
 		* *********************************************************************************
-		* Removes a whole route from the map (with its paths, labels and markers).
+		* Removes a whole route from the map (with its paths, labels and routeData).
 		* *********************************************************************************
 		*/
 		this.removeFromMap = function() {
 			this.path.setMap(null);
 			this.label.setMap(null);
-			$.each(this.markers, function() {
-				this.setMap(null);
+			$.each(this.routeData, function() {
+				this.marker.setMap(null);
 			});
 		}
 
@@ -925,8 +974,8 @@
 		*/
 		this.drawPath = function() {
 			var newPath = new Array();
-			for (var i = 0; i < this.markers.length; ++i) {
-				newPath[i] = this.markers[i].getPosition();
+			for (var i = 0; i < this.routeData.length; ++i) {
+				newPath[i] = this.routeData[i].marker.getPosition();
 			}
 
 			this.path.setPath(newPath);
@@ -940,12 +989,12 @@
 		this.getTotalDistanceText = function() {
 			var dist = 0;
 
-			if( this.markers.length > 1 ) {
-				for( var i = 0; i < this.markers.length - 1; ++i ) {
-					dist += this.distance(	this.markers[i].getPosition().lat(),
-									 		this.markers[i].getPosition().lng(),
-									 		this.markers[i + 1].getPosition().lat(),
-									 		this.markers[i + 1].getPosition().lng())
+			if( this.routeData.length > 1 ) {
+				for( var i = 0; i < this.routeData.length - 1; ++i ) {
+					dist += this.distance(	this.routeData[i].marker.getPosition().lat(),
+									 		this.routeData[i].marker.getPosition().lng(),
+									 		this.routeData[i + 1].marker.getPosition().lat(),
+									 		this.routeData[i + 1].marker.getPosition().lng())
 				}
 			}
 
@@ -983,10 +1032,14 @@
 		* Calls the event listener functions, to notify the observers.
 		* *********************************************************************************
 		*/
-		this.notify = function(type) {
+		this.notify = function(type, args) {
 			var that = this;
 			$.each(eventListener[type], function(){
-				this.call(that, 0);
+				if (args) {
+					this.call(that, args);
+				} else {
+					this.call(that, 0);
+				}
 			});
 		}
 	};
@@ -1016,7 +1069,6 @@
 				$.error("Another initialization of the racemap plugin is not possible!");
 			}
 		});
-  
 	};
 
 })( jQuery, window );
