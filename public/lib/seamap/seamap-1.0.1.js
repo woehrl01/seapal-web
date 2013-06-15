@@ -666,6 +666,10 @@
 		* *********************************************************************************
 		*/
 		function activateRoute(route) {
+			if (state == States.ROUTE || state == States.DISTANCE) {
+				handleExitDistanceRouteCreation();
+			}
+			
 			showSidebarWithRoute(route);
 			activeRoute = route;
 			state = States.ROUTE;	
