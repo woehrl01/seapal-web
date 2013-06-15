@@ -1,5 +1,7 @@
 package de.htwg.seapal.web.controllers;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -10,6 +12,7 @@ import com.google.inject.Inject;
 
 import de.htwg.seapal.controller.IWaypointController;
 import de.htwg.seapal.model.IWaypoint;
+import de.htwg.seapal.model.IRace.RaceWaypoint;
 import de.htwg.seapal.model.impl.Waypoint;
 import de.htwg.seapal.utils.logging.ILogger;
 
@@ -35,6 +38,17 @@ public class WaypointAPI extends Controller {
 	
 	public Result waypointsAsJson(UUID tripId) {
 		List<IWaypoint> waypoints = controller.getAllWaypoints(tripId);
+		
+		Collections.sort(waypoints, new Comparator<IWaypoint>(){
+
+	            @Override
+	            public int compare(IWaypoint arg0, IWaypoint arg1) {
+	                return arg0.getDate().compareTo(arg1.getDate());
+	            }
+	            
+	        });
+	      
+		
 		return ok(Json.toJson(waypoints));
 	}
 

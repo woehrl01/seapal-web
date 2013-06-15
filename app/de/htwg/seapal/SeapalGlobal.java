@@ -25,7 +25,7 @@ public class SeapalGlobal extends GlobalSettings {
 	 */
 	public static Injector createInjector() {
 		return Guice.createInjector(
-				new SeapalTestModule());
+				new SeapalImplModule());
 	}
 	
 	@Override

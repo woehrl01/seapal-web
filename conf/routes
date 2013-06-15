@@ -38,6 +38,7 @@ GET		/api/waypoint/$waypointId<[0-9a-fA-F\-]+>	@de.htwg.seapal.web.controllers.W
 POST	/api/waypoint								@de.htwg.seapal.web.controllers.WaypointAPI.addWaypoint()
 
 GET		/api/race/test								@de.htwg.seapal.web.controllers.RaceAPI.testRaceAsJson()
+GET 	/api/race/database							@de.htwg.seapal.web.controllers.RaceAPI.databaseEktorpRace()
 GET		/api/race/$id<[0-9a-fA-F\-]+>				@de.htwg.seapal.web.controllers.RaceAPI.raceAsJson(id: UUID)
 GET		/api/races									@de.htwg.seapal.web.controllers.RaceAPI.allRacesAsJson()
 DELETE	/api/race/$id<[0-9a-fA-F\-]+> 				@de.htwg.seapal.web.controllers.RaceAPI.deleteRace(id: UUID)
