@@ -630,8 +630,10 @@
 		* *********************************************************************************
 		*/
 		function removeDistanceRoute() {
-			distanceroute.removeFromMap();
-			distanceroute = null;
+			if (distanceroute != null) {
+				distanceroute.removeFromMap();
+				distanceroute = null;
+			}
 		}
 		
 		/**
@@ -649,6 +651,7 @@
 			activeRoute = routes[routeId] = new $.seamap.route(routeId, map, "ROUTE");		
 			
 			activate = function() {
+				removeDistanceRoute();
 				activateRoute(this);
 			}
 			
@@ -666,13 +669,10 @@
 		* *********************************************************************************
 		*/
 		function activateRoute(route) {
-			if (state == States.ROUTE || state == States.DISTANCE) {
-				handleExitDistanceRouteCreation();
-			}
-			
+			state = States.ROUTE;
 			showSidebarWithRoute(route);
 			activeRoute = route;
-			state = States.ROUTE;	
+				
 		}
 		
 		/**
