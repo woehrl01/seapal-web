@@ -118,8 +118,7 @@
 		// The context menu types
 		ContextMenuTypes = {
 			"DEFAULT" : 0, 
-			"DELETE_MARKER" : 1, 
-			"DELETE_ROUTEMARKER" : 2
+			"DELETE_MARKER" : 1
 		};
 		
 		// maps
@@ -252,6 +251,7 @@
 			google.maps.event.addListener(map, 'rightclick', function(event) {
 				switch(state) {
 					case States.NORMAL: 
+						hideContextMenu();
 						hideCrosshairMarker(crosshairMarker);
 						setCrosshairMarker(event.latLng);
 						break;
@@ -283,7 +283,7 @@
 						addRouteMarker(event.latLng);
 						break;
 				}
-			});	
+			});
 		}
 		
 		/**
@@ -357,19 +357,19 @@
 			if(crosshairMarker != null) {
 				crosshairMarker.setPosition(position);
 				crosshairMarker.setMap(map);
-			}else {
+			} else {
 				crosshairMarker = new google.maps.Marker({
 					position: position,
 					map: map,
 					title:"crosshair",
 					icon: options.crosshairOptions.markerOptions.image
 				});
+				
+				google.maps.event.addListener(crosshairMarker, 'click', function(event) {
+					console.log(event.latLng);
+					showContextMenu(event.latLng, ContextMenuTypes.DEFAULT, crosshairMarker);
+				});
 			}		
-			
-			// init left-click context menu listener
-			google.maps.event.addListener(crosshairMarker, 'click', function(event) {
-				showContextMenu(event.latLng, ContextMenuTypes.DEFAULT, crosshairMarker);
-			});	
 		}
 		
 		/**
@@ -392,7 +392,7 @@
 		function showContextMenu(latLng, type, marker) {
 			contextMenuVisible = true;
 			selectedMarker = marker;
-			showContextMenuInternal(latLng, type);
+			showContextMenuInternal(latLng, type, marker);
 		}
 		
 		/**
@@ -400,8 +400,10 @@
 		* Hides the context menu.
 		* *********************************************************************************
 		*/
-		function hideContextMenu() {
-			$('#tooltip_helper').popover('hide');
+		function hideContextMenu() { 
+			//$('#tooltip_helper').popover('hide'); <-- REMARK: this does cause problems!
+			
+			$('.popover').css({'display':'none'});
 			contextMenuVisible = false;
 		}
 
@@ -410,11 +412,14 @@
 		* Shows the context menu at the given position.
 		* *********************************************************************************
 		*/
-		function showContextMenuInternal(latLng, ctxMenuType) {
+		function showContextMenuInternal(latLng, ctxMenuType, markerToShowOn) {
 			contextMenuType = ctxMenuType;
+
+			marker = markerToShowOn;
 			$('#tooltip_helper').popover({title: function() {
-					var lat = crosshairMarker.getPosition().lat();
-					var lng = crosshairMarker.getPosition().lng();
+					console.log(marker);
+					var lat = marker.getPosition().lat();
+					var lng = marker.getPosition().lng();
 
 					return '<span><b>Lat</b> ' + toGeoString(lat, "N", "S", 2) + ' <b>Lon</b> ' + toGeoString(lng, "E", "W", 3) + '</span>';
 				},
@@ -481,12 +486,6 @@
 					break;
 				case ContextMenuTypes.DELETE_MARKER:
 					ctx += '<button id="deleteMarker" type="button" class="btn"><i class="icon-map-marker"></i> Delete Mark</button>';
-					break;
-				case ContextMenuTypes.DELETE_ROUTEMARKER:
-					ctx += '<button id="deleteRouteMarker" type="button" class="btn"><i class="icon-map-marker"></i> Delete Route-Marker</button>';
-					break;
-				case ContextMenuTypes.DELETE_DISTANCEMARKER:
-					ctx += '<button id="deleteDistanceMarker" type="button" class="btn"><i class="icon-map-marker"></i> Delete Distance-Marker</button>';
 					break;
 			}
 			ctx += '</div>'
@@ -635,8 +634,10 @@
 		* *********************************************************************************
 		*/
 		function removeDistanceRoute() {
-			distanceroute.removeFromMap();
-			distanceroute = null;
+			if (distanceroute != null) {
+				distanceroute.removeFromMap();
+				distanceroute = null;
+			}
 		}
 		
 		/**
@@ -654,6 +655,7 @@
 			activeRoute = routes[routeId] = new $.seamap.route(routeId, map, "ROUTE");		
 			
 			activate = function() {
+				removeDistanceRoute();
 				activateRoute(this);
 			}
 			
@@ -671,9 +673,10 @@
 		* *********************************************************************************
 		*/
 		function activateRoute(route) {
+			state = States.ROUTE;
 			showSidebarWithRoute(route);
 			activeRoute = route;
-			state = States.ROUTE;	
+				
 		}
 		
 		/**

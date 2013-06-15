@@ -14,7 +14,7 @@ $(document).ready(function() {
 
 		// convert the date to unix timestamp
 		var $date = $(this.date)
-		$date.val(Date.parse($date.val())/1000);
+		$date.val(Date.parse($date.val()));
 		var $waypointData = $(this);
 		$(this).date = $date.val();
 		

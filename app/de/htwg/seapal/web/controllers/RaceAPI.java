@@ -18,6 +18,7 @@ import play.data.Form;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.With;
 
 import com.google.inject.Inject;
 
@@ -36,8 +37,10 @@ import de.htwg.seapal.model.ITrip;
 import de.htwg.seapal.model.IWaypoint;
 import de.htwg.seapal.model.impl.Race;
 import de.htwg.seapal.utils.logging.ILogger;
+import de.htwg.seapal.web.controllers.helpers.Menus;
 import de.htwg.seapal.web.views.html.content.racemap;
 
+@With(Menus.class)
 public class RaceAPI extends Controller {
 
     @Inject
