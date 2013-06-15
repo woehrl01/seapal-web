@@ -93,6 +93,7 @@ body.googlemaps
 	padding:6px;
 	margin-top:-2px;
 	vertical-align: middle;
+	overflow: hidden;
 }
 
 .racemapsidebar div.buttons_bottom {

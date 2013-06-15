@@ -269,10 +269,12 @@
 			});
 			// left click
 			google.maps.event.addListener(map, 'click', function(event) {
+				hideCrosshairMarker(crosshairMarker);
+				hideContextMenu();
+				
 				switch(state) {
-					case States.NORMAL: 
-						hideCrosshairMarker(crosshairMarker);
-						hideContextMenu();
+					case States.NORMAL:
+						// nothing special
 						break;
 						
 					case States.ROUTE:
@@ -366,7 +368,6 @@
 				});
 				
 				google.maps.event.addListener(crosshairMarker, 'click', function(event) {
-					console.log(event.latLng);
 					showContextMenu(event.latLng, ContextMenuTypes.DEFAULT, crosshairMarker);
 				});
 			}		
@@ -417,7 +418,6 @@
 
 			marker = markerToShowOn;
 			$('#tooltip_helper').popover({title: function() {
-					console.log(marker);
 					var lat = marker.getPosition().lat();
 					var lng = marker.getPosition().lng();
 
@@ -660,7 +660,7 @@
 			}
 			
 			activeRoute.addEventListener("remove", activate);	
-			activeRoute.addEventListener("dragend", activate);	
+			activeRoute.addEventListener("drag", activate);	
 			activeRoute.addEventListener("click", activate);
 		
 			addRouteMarker(crosshairMarker.getPosition());
@@ -673,6 +673,9 @@
 		* *********************************************************************************
 		*/
 		function activateRoute(route) {
+			hideCrosshairMarker(crosshairMarker);
+			hideContextMenu();
+			
 			state = States.ROUTE;
 			showSidebarWithRoute(route);
 			activeRoute = route;
@@ -866,7 +869,7 @@
 		var eventListener = {
 			add : [],
 			remove : [],
-			dragend : [],
+			drag : [],
 			click : []
 		};
 		
@@ -922,10 +925,10 @@
 
 			// Add event listeners for the interactive mode
 			if(!this.notinteractive) {
-				google.maps.event.addListener(marker, 'dragend', function() {
+				google.maps.event.addListener(marker, 'drag', function() {
 					$this.drawPath();
 					$this.updateLabel();
-					$this.notify("dragend");
+					$this.notify("drag");
 				});
 	
 				google.maps.event.addListener(marker, 'rightclick', function(event) {
