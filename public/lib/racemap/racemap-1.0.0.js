@@ -170,6 +170,8 @@
 			
 			initStartPath();
 			initGoalPath();
+			
+			initCrosshairMarker();
 		}
 
 		/**
@@ -251,7 +253,7 @@
 					case States.NORMAL: 
 						hideContextMenu();
 						hideCrosshairMarker(crosshairMarker);
-						setCrosshairMarker(event.latLng);
+						showCrosshairMarker(event.latLng);
 						break;
 						
 					case States.DISTANCE:
@@ -280,7 +282,7 @@
 						break;
 						
 					case States.DISTANCE:
-						addRouteMarker(event.latLng);
+						addDistanceRouteMarker(event.latLng);
 						break;
 						
 					case States.START:
@@ -352,6 +354,28 @@
 			goalPath = new google.maps.Polyline(options.defaultOptions.polyOptions);
 			goalPath.setMap(map);
 		}
+		
+		/**
+		* *********************************************************************************
+		* Inits the crosshair marker (as invisible)
+		* Note: Only one crosshair can be displayed at the same time.
+		* *********************************************************************************
+		*/
+		function initCrosshairMarker() {
+			crosshairMarker = new google.maps.Marker({
+				map: map,
+				position: null,
+				title:"crosshair",
+				icon: options.crosshairOptions.markerOptions.image
+			});
+			
+			// init left-click context menu listener
+			google.maps.event.addListener(crosshairMarker, 'click', function(event) {
+				showContextMenu(event.latLng, ContextMenuTypes.DEFAULT, crosshairMarker);
+			});
+			
+			hideCrosshairMarker();
+		}
 				
 		/**
 		* *********************************************************************************
@@ -362,32 +386,18 @@
 			hideCrosshairMarker(crosshairMarker);
 			hideContextMenu();
 			showSidebarWithRoute(route);
-			activeRoute = route;	
+			activeRoute = route;
+			state = States.NORMAL;
 		}
-
+		
 		/**
 		* *********************************************************************************
-		* Sets the crosshair marker to the given position.
-		* Note: Only one crosshair can be displayed at the same time.
+		* Hides the crosshair marker.
 		* *********************************************************************************
 		*/
-		function setCrosshairMarker(position) {
-			if(crosshairMarker != null) {
-				crosshairMarker.setPosition(position);
-				crosshairMarker.setMap(map);
-			} else {
-				crosshairMarker = new google.maps.Marker({
-					position: position,
-					map: map,
-					title:"crosshair",
-					icon: options.crosshairOptions.markerOptions.image
-				});
-				
-				// init left-click context menu listener
-				google.maps.event.addListener(crosshairMarker, 'click', function(event) {
-					showContextMenu(event.latLng, ContextMenuTypes.DEFAULT, crosshairMarker);
-				});
-			}			
+		function showCrosshairMarker(position) {
+			crosshairMarker.setMap(map);
+			crosshairMarker.setPosition(position);
 		}
 		
 		/**
@@ -697,6 +707,7 @@
 		* *********************************************************************************
 		*/
 		function handleShowRouteMarkerInfo() {
+			hideContextMenu();
 			showSidebarWithWaypoint(activeRoute, activeWaypoint);
 		}
 		
@@ -706,6 +717,7 @@
 		* *********************************************************************************
 		*/
 		function handleAssignMarkPassing() {
+			hideContextMenu();
 			alert('not implemented');
 		}
 		
@@ -731,6 +743,19 @@
 			hideCrosshairMarker();
 			
 			var newmarker = activeRoute.addWaypoint(waypoint);
+			activeRoute.drawPath();
+		}
+		
+		/**
+		* *********************************************************************************
+		* Adds a new distance route marker to the active route.
+		* *********************************************************************************
+		*/
+		function addDistanceRouteMarker(waypoint) {
+			hideContextMenu();
+			hideCrosshairMarker();
+			
+			var newmarker = activeRoute.addDistanceMarker(waypoint);
 			activeRoute.drawPath();
 		}
 		
@@ -1167,7 +1192,7 @@
 			});
 			this.routeData[this.routeData.length] = {
 				marker: marker,
-				waypoint: waypoint
+				waypoint: null
 			}
 			
 			// adds or updates the label
@@ -1208,7 +1233,13 @@
 			this.label = new Label({map: this.googlemaps });
 			this.label.bindTo('position', this.routeData[this.routeData.length-1].marker, 'position');
 			$(this.label.span_).css({"margin-left":"15px","padding":"7px","box-shadow":"0px 0px 3px #666","z-index":99999,"color":this.color});
-			this.label.set('text', $.racemap.options.raceData.trips[this.id - 1].boat.name);
+			
+			// distance routes have no waypoint and should show the distance, not the boat name
+			if (this.routeData[this.routeData.length-1].waypoint != null) {
+				this.label.set('text', $.racemap.options.raceData.trips[this.id - 1].boat.name);
+			} else {
+				this.label.set('text', this.getTotalDistanceText());
+			}
 		}
 		
 		/**

@@ -174,6 +174,8 @@
 			} 
 			
 			initDefaultRoute();
+			
+			initCrosshairMarker();
 		}
 
 		/**
@@ -253,12 +255,12 @@
 					case States.NORMAL: 
 						hideContextMenu();
 						hideCrosshairMarker(crosshairMarker);
-						setCrosshairMarker(event.latLng);
+						showCrosshairMarker(event.latLng);
 						break;
 						
 					case States.ROUTE:
 						hideCrosshairMarker(crosshairMarker);
-						setCrosshairMarker(event.latLng);
+						showCrosshairMarker(event.latLng);
 						showContextMenu(event.latLng, ContextMenuTypes.DEFAULT, crosshairMarker);
 						break;
 						
@@ -305,6 +307,28 @@
 				addRouteMarker(new google.maps.LatLng(this.lat, this.lng));	
 			});
 		}
+		
+		/**
+		* *********************************************************************************
+		* Inits the crosshair marker (as invisible)
+		* Note: Only one crosshair can be displayed at the same time.
+		* *********************************************************************************
+		*/
+		function initCrosshairMarker() {
+			crosshairMarker = new google.maps.Marker({
+				map: map,
+				position: null,
+				title:"crosshair",
+				icon: options.crosshairOptions.markerOptions.image
+			});
+			
+			// init left-click context menu listener
+			google.maps.event.addListener(crosshairMarker, 'click', function(event) {
+				showContextMenu(event.latLng, ContextMenuTypes.DEFAULT, crosshairMarker);
+			});
+			
+			hideCrosshairMarker();
+		}
 				
 		/**
 		* *********************************************************************************
@@ -348,29 +372,15 @@
 				boatMarker.setPosition(position);
 			}
 		}
-
+		
 		/**
 		* *********************************************************************************
-		* Sets the crosshair marker to the given position.
-		* Note: Only one crosshair can be displayed at the same time.
+		* Hides the crosshair marker.
 		* *********************************************************************************
 		*/
-		function setCrosshairMarker(position) {
-			if(crosshairMarker != null) {
-				crosshairMarker.setPosition(position);
-				crosshairMarker.setMap(map);
-			} else {
-				crosshairMarker = new google.maps.Marker({
-					position: position,
-					map: map,
-					title:"crosshair",
-					icon: options.crosshairOptions.markerOptions.image
-				});
-				
-				google.maps.event.addListener(crosshairMarker, 'click', function(event) {
-					showContextMenu(event.latLng, ContextMenuTypes.DEFAULT, crosshairMarker);
-				});
-			}		
+		function showCrosshairMarker(position) {
+			crosshairMarker.setMap(map);
+			crosshairMarker.setPosition(position);
 		}
 		
 		/**
