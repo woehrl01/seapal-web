@@ -104,8 +104,9 @@
 		// controlPoints (before called markers)
 		var controlPoints = [];
 		
-		// TODO: check array size xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-		var assignedMarkPassings = {}; // array type: [routeDataEntry][controlPoint] = [{marker:..., waypoint:...}][controlPoint]
+		var assignedMarkPassings = []; // Note: can contain NULL values (because of the deleted entities)
+		var activeAssignMarkPassingMarker = null;
+		var activeAssignMarkPassingPath = null;
 		
 		var startMarkers = [];
 		var startPath = null;
@@ -174,6 +175,8 @@
 			
 			initStartPath();
 			initGoalPath();
+			
+			initActiveAssignMarkPassingPath();
 			
 			initCrosshairMarker();
 		}
@@ -261,6 +264,10 @@
 					case States.GOAL:
 						updateGoalLine(event.latLng);
 						break;
+						
+					case States.MARKPASSING:
+						updateActiveMarkPassingPath(event.latLng, activeAssignMarkPassingMarker, activeAssignMarkPassingPath);
+						break;
 				}
 			});
 			// right-click
@@ -287,6 +294,7 @@
 						break;
 						
 					case States.MARKPASSING:
+						removeActiveMarkPassingPathFromMap();
 						state = States.NORMAL;
 						break;
 				}
@@ -314,6 +322,7 @@
 						break;
 						
 					case States.MARKPASSING:
+						removeActiveMarkPassingPathFromMap();
 						state = States.NORMAL;
 						break;
 				}
@@ -342,6 +351,8 @@
 				}
 				
 				rightClicked = function(clickedRaceDataEntity) {
+					removeActiveMarkPassingPathFromMap();
+					state = States.NORMAL;
 					showContextMenu(
 						clickedRaceDataEntity.marker.getPosition(),
 						ContextMenuTypes.ROUTE_POINTMARKER,
@@ -381,6 +392,27 @@
 		
 		/**
 		* *********************************************************************************
+		* Initializes the given mark passing path.
+		* *********************************************************************************
+		*/
+		function initActiveAssignMarkPassingPath() {
+			activeAssignMarkPassingPath = new google.maps.Polyline(options.defaultOptions.polyOptions);
+			activeAssignMarkPassingPath.setMap(map);
+		}
+		
+		/**
+		* *********************************************************************************
+		* Initializes the given mark passing path.
+		* *********************************************************************************
+		*/
+		function initMarkPassingPath(path) {
+			path = new google.maps.Polyline(options.defaultOptions.polyOptions);
+			path.setMap(map);
+			return path;
+		}
+		
+		/**
+		* *********************************************************************************
 		* Inits the crosshair marker (as invisible)
 		* Note: Only one crosshair can be displayed at the same time.
 		* *********************************************************************************
@@ -409,11 +441,21 @@
 		function activateRoute(route) {
 			hideCrosshairMarker(crosshairMarker);
 			hideContextMenu();
-			if (state == States.START){
+			
+			switch(state) {
+			case States.START:
 				removeStartFromMap();
-			} else if (state == States.GOAL) {
+				break;
+				
+			case States.GOAL:
 				removeGoalFromMap();
+				break;
+				
+			case States.MARKPASSING:
+				removeActiveMarkPassingPathFromMap();
+				break;
 			}
+			
 			showSidebarWithRoute(route);
 			activeRoute = route;
 			state = States.NORMAL;
@@ -756,6 +798,11 @@
 		* *********************************************************************************
 		*/
 		function assignMarkPassing(routeData) {
+			if (hasAssignedMarkPassing(routeData)) {
+				removeMarkPassingPathOfRouteData(routeData)
+			}
+			
+			activeAssignMarkPassingMarker = routeData.marker;
 			state = States.MARKPASSING;
 		}
 		
@@ -765,9 +812,165 @@
 		* *********************************************************************************
 		*/
 		function assignMarkPassingWithControlPoint(routeData, controlPoint) {
-			assignedMarkPassings[routeData] = controlPoint;
-			console.log(assignedMarkPassings[routeData]);
+			assignedMarkPassings.push({
+				routeData: routeData,
+				controlPoint: controlPoint,
+				path: initMarkPassingPath()
+			});
+			removeActiveMarkPassingPathFromMap();
+			updateMarkPassingPathOfControlPoint(controlPoint);
+			
 			state = States.NORMAL;
+		}
+		
+		/**
+		* *********************************************************************************
+		* Deletes the the mark passings of the given control point.
+		* *********************************************************************************
+		*/
+		function deleteMarkPassingsOfControlPoint(controlPointToDelete) {
+			removeMarkPassingPathOfControlPoint(controlPointToDelete);
+			
+			for (var i = 0; i < assignedMarkPassings.length; ++i) {
+				if (assignedMarkPassings[i] == null)
+					continue;
+				
+				var controlPoint = assignedMarkPassings[i].controlPoint;
+				
+				if (controlPoint == controlPointToDelete) {
+					assignedMarkPassings[i] = null;
+				}
+			}
+		}
+		
+		/**
+		* *********************************************************************************
+		* Updates the active assign mark passing path to the given mouse position.
+		* *********************************************************************************
+		*/
+		function updateActiveMarkPassingPath(position, controlPoint) {
+			var newPath = new Array();
+			if (position && controlPoint) {
+				activeAssignMarkPassingPath.setMap(null);
+				activeAssignMarkPassingPath = null;
+				initActiveAssignMarkPassingPath();
+				newPath[0] = controlPoint.getPosition();
+				newPath[1] = position;
+				activeAssignMarkPassingPath.setPath(newPath);
+			}
+		}
+		
+		/**
+		* *********************************************************************************
+		* Updates all assigned mark passing paths
+		* *********************************************************************************
+		*/
+		/*function updateMarkPassingPath() {
+			
+			for (var i = 0; i < assignedMarkPassings.length; ++i) {
+				if (assignedMarkPassings[i] == null)
+					continue;
+					
+				var controlPoint = assignedMarkPassings[i].controlPoint;
+				var routeData = assignedMarkPassings[i].routeData;
+				
+				var markPassingPath = initMarkPassingPath();
+				var newPath = new Array();
+				newPath[0] = controlPoint.getPosition();
+				newPath[1] = routeData.marker.getPosition();
+
+				markPassingPath.setPath(newPath);
+			}
+		}*/
+		
+		/**
+		* *********************************************************************************
+		* Updates the assigned mark passing paths of the given control point.
+		* *********************************************************************************
+		*/
+		function updateMarkPassingPathOfControlPoint(controlPointToUpdate) {
+			
+			for (var i = 0; i < assignedMarkPassings.length; ++i) {
+				if (assignedMarkPassings[i] == null)
+					continue;
+				
+				var controlPoint = assignedMarkPassings[i].controlPoint;
+				var routeData = assignedMarkPassings[i].routeData;
+				var path = assignedMarkPassings[i].path;
+				
+				if (controlPoint == controlPointToUpdate) {
+					//var markPassingPath = initMarkPassingPath();
+					var newPath = new Array();
+					newPath[0] = controlPoint.getPosition();
+					newPath[1] = routeData.marker.getPosition();
+
+					path.setPath(newPath);
+				}
+			}
+		}
+		
+		/**
+		* *********************************************************************************
+		* Removes the assigned mark passing paths of the given control point.
+		* *********************************************************************************
+		*/
+		function removeMarkPassingPathOfControlPoint(controlPointToRemove) {
+			
+			for (var i = 0; i < assignedMarkPassings.length; ++i) {
+				if (assignedMarkPassings[i] == null)
+					continue;
+				
+				var controlPoint = assignedMarkPassings[i].controlPoint;
+				var path = assignedMarkPassings[i].path;
+				
+				if (controlPoint == controlPointToRemove) {
+					path.setMap(null);
+				}
+			}
+		}
+		
+		/**
+		* *********************************************************************************
+		* Removes the assigned mark passing paths of the given control point.
+		* *********************************************************************************
+		*/
+		function removeMarkPassingPathOfRouteData(routeDataToRemove) {
+			
+			for (var i = 0; i < assignedMarkPassings.length; ++i) {
+				if (assignedMarkPassings[i] == null)
+					continue;
+
+				var routeData = assignedMarkPassings[i].routeData;
+				var path = assignedMarkPassings[i].path;
+				
+				if (routeData == routeDataToRemove) {
+					path.setMap(null);
+				}
+			}
+		}
+		
+		function hasAssignedMarkPassing(routeDataToFind) {
+			for (var i = 0; i < assignedMarkPassings.length; ++i) {
+				if (assignedMarkPassings[i] == null)
+					continue;
+				
+				var routeData = assignedMarkPassings[i].routeData;
+				
+				if (routeData == routeDataToFind) {
+					return true;
+				}
+			}
+			
+			return false;
+		}
+		
+		/**
+		* *********************************************************************************
+		* Removes the active assign mark passing path from the map.
+		* *********************************************************************************
+		*/
+		function removeActiveMarkPassingPathFromMap() {
+			activeAssignMarkPassingPath.setMap(null);			
 		}
 		
 		/**
@@ -826,7 +1029,7 @@
 		* *********************************************************************************
 		*/
 		function handleDeleteControlPoint() {
-			deleteSelectedMarker();
+			deleteSelectedControlPoint();
 			hideContextMenu();
 		}
 		
@@ -844,6 +1047,10 @@
 				draggable: true
 			});
 			
+			google.maps.event.addListener(newMarker, 'drag', function() {
+				updateMarkPassingPathOfControlPoint(newMarker);
+			});
+			
 			google.maps.event.addListener(newMarker, 'click', function() {
 				hideCrosshairMarker(crosshairMarker);
 				hideContextMenu();
@@ -854,6 +1061,8 @@
 			});
 
 			google.maps.event.addListener(newMarker, 'rightclick', function(event) {
+				removeActiveMarkPassingPathFromMap();
+				state = States.NORMAL;
 				showContextMenu(event.latLng, ContextMenuTypes.CONTROL_POINT, newMarker);
 			});
 			
@@ -862,12 +1071,13 @@
 
 		/**
 		* *********************************************************************************
-		* Deletes the selected marker.
+		* Deletes the selected control point and its connected mark passings.
 		* *********************************************************************************
 		*/
-		function deleteSelectedMarker() {
+		function deleteSelectedControlPoint() {
 			if(selectedMarker != null) {
 				selectedMarker.setMap(null);
+				deleteMarkPassingsOfControlPoint(selectedMarker);
 			}
 		}
 		
