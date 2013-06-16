@@ -109,6 +109,7 @@
 		var goalMarkers = [];
 		var goalPath = null;	
 		
+		var activeWaypoint = null;
 		
 		// The states of the plugin
 		var States = {
@@ -319,6 +320,8 @@
 						clickedRaceDataEntity.marker.getPosition(),
 						ContextMenuTypes.ROUTE_POINTMARKER,
 						clickedRaceDataEntity.marker);
+					activeWaypoint = clickedRaceDataEntity.waypoint;
+					activeRoute = this;
 				}
 				
 				activeRoute.addEventListener("click", activate);
@@ -520,29 +523,60 @@
 		* *********************************************************************************
 		*/
 		function showSidebar(heading, subheading) {
-			$(".racemapsidebar").siblings("div:not(#tooltip_helper,.popover)").animate({'margin-left':'20%',width:'80%'});
-			$(".racemapsidebar", $this).animate({width:'20%'});
+			var sidebarWidth = 275;
+			$(".racemapsidebar").siblings("div:not(#tooltip_helper,.popover)").animate({'margin-left':sidebarWidth,width:$(window).width() - sidebarWidth});
+			$(".racemapsidebar", $this).animate({width:sidebarWidth});
 			
 			$(".racemapsidebar .racemapsidebar_inner", $this).html('<h4>' + heading + '</h4><h5>' + subheading + '</h5><div class="racemapalerts"></div>');
 		}
 		
 		/**
 		* *********************************************************************************
-		* Shows the sidevar of the given route.
+		* Shows the sidebar of the given route.
 		* *********************************************************************************
 		*/	
 		function showSidebarWithRoute(route) {
 			var currentTrip = options.raceData.trips[route.id - 1];
 			
 			showSidebar(
-					'Boat: <span class="badge" style="background-color:' + route.color + ';font-size: 14px">' + currentTrip.boat.name + '</span>',
-					'IOC Code: ' + 'CODE here...' + '</span></br>Tracked Distance: ' + route.getTotalDistanceText() + '</span>');
+					'Trip: <span class="badge" style="background-color:' + route.color + ';font-size: 14px">' + currentTrip.name + '</span>',
+					'Boat: ' + currentTrip.boat.name + '</span></br>' +
+					'IOC Code: ' + '###CODE###' + '</span></br>' +
+					'Tracked Distance: ' + route.getTotalDistanceText() + '</span>');
 			appendContentIntoSidebar('<ul class="nav nav-tabs nav-stacked"></ul>');
 			appendContentIntoSidebar('<div class="buttons_bottom"><div><a class="closeIt btn btn-block" href="#close"> Close</a></div></div>');
 			
 			$.each(route.routeData, function() {
 				appendMarkerIntoSidebar(this);
 			});
+			
+			$this.unbind('click.sidebar');
+			
+			$this.on("click.sidebar", ".racemapsidebar a.closeIt", function(){
+				hideSidebar();
+			});
+		}
+		
+		/**
+		* *********************************************************************************
+		* Shows the sidebar of the given waypoint.
+		* *********************************************************************************
+		*/	
+		function showSidebarWithWaypoint(route, waypoint) {
+			var currentTrip = options.raceData.trips[route.id - 1];
+
+			showSidebar(
+					'Waypoint Info <span class="badge" style="background-color:' + route.color + ';font-size: 14px">' + '#123' + '</span>',
+					'Lat: ' + waypoint.coord.lat + '</span></br>' +
+					'Lng: ' + waypoint.coord.lng + '</span></br>' +
+					'SOG: ' + waypoint.sog + '</span></br>' +
+					'COG: ' + waypoint.cog + '</span></br>' +
+					'DTM: ' + waypoint.dtm + '</span></br>' +
+					'BTM: ' + waypoint.btm + '</span></br>' +
+					'Timestamp: ' + waypoint.timestamp + '</span></br>' +
+					'Mark passing: ' + ((waypoint.passingMark == null)? 'NO' : 'YES') + '</span>');
+			appendContentIntoSidebar('<ul class="nav nav-tabs nav-stacked"></ul>');
+			appendContentIntoSidebar('<div class="buttons_bottom"><div><a class="closeIt btn btn-block" href="#close"> Close</a></div></div>');
 			
 			$this.unbind('click.sidebar');
 			
@@ -663,7 +697,7 @@
 		* *********************************************************************************
 		*/
 		function handleShowRouteMarkerInfo() {
-			alert('not implemented');
+			showSidebarWithWaypoint(activeRoute, activeWaypoint);
 		}
 		
 		/**

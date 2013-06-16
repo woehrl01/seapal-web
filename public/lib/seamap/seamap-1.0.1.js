@@ -498,8 +498,9 @@
 		* *********************************************************************************
 		*/	
 		function showSidebar(heading) {
-			$(".seamapsidebar").siblings("div:not(#tooltip_helper,.popover)").animate({'margin-left':'20%',width:'80%'});
-			$(".seamapsidebar", $this).animate({width:'20%'});
+			var sidebarWidth = 275;
+			$(".seamapsidebar").siblings("div:not(#tooltip_helper,.popover)").animate({'margin-left':sidebarWidth,width:$(window).width() - sidebarWidth});
+			$(".seamapsidebar", $this).animate({width:sidebarWidth});
 			
 			$(".seamapsidebar .seamapsidebar_inner", $this).html('<h4>' + heading + '</h4><div class="seamapalerts"></div>');
 		}
