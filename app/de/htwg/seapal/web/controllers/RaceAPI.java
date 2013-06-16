@@ -101,6 +101,17 @@ public class RaceAPI extends Controller {
         }
         logger.info("RaceAPI", "Loaded race name: " + race.getName());
 
+      //Recalculate SOG and COG
+        
+        for(RaceTrip trip : race.getTrips()){
+            RaceWaypoint prev = trip.waypoints.get(0);
+            for(RaceWaypoint curr : trip.waypoints){
+                curr.sog = (int) Math.ceil(gps2m(prev.coord.lat, prev.coord.lng, curr.coord.lat, curr.coord.lng) / ((double)(curr.timestamp-prev.timestamp)/1000.0));
+                curr.cog = (int) bearing(prev.coord.lat, prev.coord.lng, curr.coord.lat, curr.coord.lng);
+                prev = curr;
+            }
+        }
+        
         return ok(Json.toJson(race));
     }
 
