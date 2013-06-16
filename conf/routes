@@ -43,6 +43,7 @@ GET		/api/race/$id<[0-9a-fA-F\-]+>				@de.htwg.seapal.web.controllers.RaceAPI.ra
 GET		/api/races									@de.htwg.seapal.web.controllers.RaceAPI.allRacesAsJson()
 DELETE	/api/race/$id<[0-9a-fA-F\-]+> 				@de.htwg.seapal.web.controllers.RaceAPI.deleteRace(id: UUID)
 POST	/racemap	    							@de.htwg.seapal.web.controllers.RaceAPI.raceDataByTripIds()
+POST	/api/race	    							@de.htwg.seapal.web.controllers.RaceAPI.addRace()
 
 # Javascript routing
 GET    /assets/javascripts/routes   				de.htwg.seapal.web.controllers.Application.javascriptRoutes()

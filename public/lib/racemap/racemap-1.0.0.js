@@ -10,13 +10,14 @@
 	* *************************************************************************************
 	*/
 	var options = {
-		raceData 	: null,
-		startLat 		: 47.655,
-		startLong 		: 9.205,
-		zoom 			: 15,
+		raceData  : null,
+		startLat  : 47.655,
+		startLong : 9.205,
+		zoom      : 15,
+		saveRace  : null,
 		
-		height : function() {
-			return
+		height    : function() {
+			return;
 		},	
 		// Stroke colors: [0] is used for the distance tool, [1..] are used for the routes
 		strokeColors : ['grey','red','blue','green','yellow','blueviolet','darkorange','magenta','black'],
@@ -230,6 +231,8 @@
 		function initContextMenu() {
 			$this.append('<div id="tooltip_helper"></div>');
 
+			$this.on("click", "#saveRace", handleSaveRace);
+			
 			$this.on("click", "#addStart", handleAddStart);
 			$this.on("click", "#addGoal", handleAddGoal);
 			$this.on("click", "#addControlPoint", handleAddControlPoint);
@@ -239,6 +242,7 @@
 			
 			$this.on("click", "#showRouteMarkerInfo", handleShowRouteMarkerInfo);
 			$this.on("click", "#assignMarkPassing", handleAssignMarkPassing);
+			$this.on("click", "#clearMarkPassings", handleClearMarkPassing);
 		}
 				
 		/**
@@ -574,6 +578,7 @@
 			var ctx = '<div id="contextmenu">'
 			switch(contextMenuType) {
 				case ContextMenuTypes.DEFAULT:
+					ctx += '<button id="saveRace" type="button" class="btn btn-primary"><i class="icon-map-marker"></i> Save Race</button>';
 					ctx += '<button id="addStart" type="button" class="btn"><i class="icon-map-marker"></i> Define Start</button>';
 					ctx += '<button id="addGoal" type="button" class="btn"><i class="icon-star"></i> Define Goal</button>';
 					ctx += '<button id="addControlPoint" type="button" class="btn"><i class="icon-star"></i> Set Control Point</button>';
@@ -582,6 +587,9 @@
 					break;
 				case ContextMenuTypes.CONTROL_POINT:
 					ctx += '<button id="deleteMarker" type="button" class="btn"><i class="icon-map-marker"></i> Delete Control Point</button>';
+					if (hasControlPointAssignedMarkPassing(selectedMarker)) {
+						ctx += '<button id="clearMarkPassings" type="button" class="btn"><i class="icon-map-marker"></i> Clear assigned Mark Passings</button>';
+					}
 					break;
 				case ContextMenuTypes.ROUTE_POINTMARKER:
 					ctx += '<button id="showRouteMarkerInfo" type="button" class="btn"><i class="icon-map-marker"></i> Show Route Point Info</button>';
@@ -640,10 +648,11 @@
 		
 		/**
 		* *********************************************************************************
-		* Shows the sidebar of the given waypoint.
+		* Shows the sidebar of the given route data.
 		* *********************************************************************************
 		*/	
-		function showSidebarWithWaypoint(route, waypoint) {
+		function showSidebarWithRouteData(route, routeData) {
+			var waypoint = routeData.waypoint;
 			var currentTrip = options.raceData.trips[route.id - 1];
 
 			showSidebar(
@@ -655,7 +664,7 @@
 					'DTM: ' + waypoint.dtm + '</span></br>' +
 					'BTM: ' + waypoint.btm + '</span></br>' +
 					'Timestamp: ' + waypoint.timestamp + '</span></br>' +
-					'Mark passing: ' + ((waypoint.passingMark == null)? 'NO' : 'YES') + '</span>');
+					'Mark passing: ' + ((hasAssignedMarkPassing(routeData))? 'YES' : 'NO') + '</span>');
 			appendContentIntoSidebar('<ul class="nav nav-tabs nav-stacked"></ul>');
 			appendContentIntoSidebar('<div class="buttons_bottom"><div><a class="closeIt btn btn-block" href="#close"> Close</a></div></div>');
 			
@@ -732,6 +741,26 @@
 		 * #############################   HANDLER FUNCTIONS   ################################################
 		 * ####################################################################################################
 		 */
+		
+		/**
+		* *********************************************************************************
+		* Saves the race.
+		* *********************************************************************************
+		*/		
+		function handleSaveRace() {
+			hideContextMenu();
+			hideCrosshairMarker();
+			console.log(saveRace);
+			options.saveRace.ajax({
+				type     : 'POST',
+				contentType: "application/json; charset=utf-8",
+			    dataType: "json",
+				data     : JSON.stringify(getAggregatedRaceDataAsJson()),
+				success  : function(response){
+					alert('success');
+				}
+			});
+		}
 
 		/**
 		* *********************************************************************************
@@ -779,7 +808,7 @@
 		*/
 		function handleShowRouteMarkerInfo() {
 			hideContextMenu();
-			showSidebarWithWaypoint(activeRoute, activeRouteData.waypoint);
+			showSidebarWithRouteData(activeRoute, activeRouteData);
 		}
 		
 		/**
@@ -821,6 +850,16 @@
 			updateMarkPassingPathOfControlPoint(controlPoint);
 			
 			state = States.NORMAL;
+		}
+		
+		/**
+		* *********************************************************************************
+		* Deleted all connected mark passings of the selected control Point.
+		* *********************************************************************************
+		*/
+		function handleClearMarkPassing() {
+			hideContextMenu();
+			deleteMarkPassingsOfControlPoint(selectedMarker);
 		}
 		
 		/**
@@ -957,6 +996,21 @@
 				var routeData = assignedMarkPassings[i].routeData;
 				
 				if (routeData == routeDataToFind) {
+					return true;
+				}
+			}
+			
+			return false;
+		}
+		
+		function hasControlPointAssignedMarkPassing(controlPointToFind) {
+			for (var i = 0; i < assignedMarkPassings.length; ++i) {
+				if (assignedMarkPassings[i] == null)
+					continue;
+				
+				var controlPoint = assignedMarkPassings[i].controlPoint;
+				
+				if (controlPoint == controlPointToFind) {
 					return true;
 				}
 			}
@@ -1257,6 +1311,66 @@
 				}
 				goalPath.setPath(newPath);
 			}
+		}
+		
+		/**
+		* *********************************************************************************
+		* Gets the aggregated race data.
+		* *********************************************************************************
+		*/
+		function getAggregatedRaceDataAsJson() {
+			// Deep copy of the race data
+			//var resultRace = jQuery.extend(true, {}, options.raceData);
+			var resultRace = options.raceData; // TODO: check deep copy neccessary?
+			resultRace.controlPoints = [];
+			
+			// start
+			resultRace.controlPoints.push({
+				id: createUUID(),
+				name: "Start",
+				coords: [{
+					lat: startMarkers[0].getPosition().lat(),
+					lng: startMarkers[0].getPosition().lng()
+				}, {
+					lat: startMarkers[1].getPosition().lat(),
+					lng: startMarkers[1].getPosition().lng()
+				}]
+			});
+			
+			// control points / mark passings
+			for (var i = 0; i < assignedMarkPassings.length; ++i) {
+				var controlPoint = assignedMarkPassings[i].controlPoint;
+				var routeData = assignedMarkPassings[i].routeData;
+				
+				// create controlPoint
+				var newControlPointUUID = createUUID();
+				resultRace.controlPoints.push({
+					id: newControlPointUUID,
+					name: "Moored Buoy",
+					coords: {
+						lat: controlPoint.getPosition().lat(),
+						lng: controlPoint.getPosition().lng()
+					}
+				});
+				
+				// set mark passings
+				routeData.waypoint.markPassing = newControlPointUUID;
+			}
+			
+			// goal
+			resultRace.controlPoints.push({
+				id: createUUID(),
+				name: "Goal",
+				coords: [{
+					lat: goalMarkers[0].getPosition().lat(),
+					lng: goalMarkers[0].getPosition().lng()
+				}, {
+					lat: goalMarkers[1].getPosition().lat(),
+					lng: goalMarkers[1].getPosition().lng()
+				}]
+			});
+			
+			return resultRace;
 		}
 		
 		/**

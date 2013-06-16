@@ -1,15 +1,18 @@
 package de.htwg.seapal.web.controllers;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
 import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.node.ArrayNode;
 import org.codehaus.jackson.node.ObjectNode;
 
@@ -57,6 +60,38 @@ public class RaceAPI extends Controller {
 
     @Inject
     private IWaypointController waypointController;
+    
+    public Result addRace() {
+
+    	ObjectNode response = Json.newObject();
+    	ObjectMapper mapper = new ObjectMapper();
+    	mapper.configure(org.codehaus.jackson.map.DeserializationConfig.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
+    	
+    	try {
+    		Race raceToSave = mapper.readValue(request().body().asJson(), Race.class);
+			response.put("success", true);
+			boolean created = raceController.saveRace(raceToSave);
+			if(created) {
+				logger.info("RaceAPI", "Race created");
+				return created(response);
+			} else {
+				logger.info("BoatAPI", "Race updated");
+				return ok(response);
+			}
+		} catch (JsonParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		response.put("success", false);
+    	return badRequest(response);
+    }
 
     public Result raceAsJson(UUID raceId) {
         IRace race = raceController.getRace(raceId);
@@ -91,17 +126,17 @@ public class RaceAPI extends Controller {
         List<RaceControlPoint> controlPoints = new LinkedList<RaceControlPoint>();
         
         
-        controlPoints.add(new RaceControlPoint("controlPoints1", coords(47.66260549, 9.16618109, 47.6620202, 9.16602015)));
+        controlPoints.add(new RaceControlPoint("controlPoints1", "Start", coords(47.66260549, 9.16618109, 47.6620202, 9.16602015)));
 
-        controlPoints.add(new RaceControlPoint("controlPoints2", coords(47.66244652, 9.16642785)));
+        controlPoints.add(new RaceControlPoint("controlPoints2", "Buoy", coords(47.66244652, 9.16642785)));
         
-        controlPoints.add(new RaceControlPoint("controlPoints3", coords(47.66467926, 9.1654408)));
+        controlPoints.add(new RaceControlPoint("controlPoints3", "Buoy", coords(47.66467926, 9.1654408)));
 
-        controlPoints.add(new RaceControlPoint("controlPoints4", coords(47.6645492, 9.16800499)));
+        controlPoints.add(new RaceControlPoint("controlPoints4", "Buoy", coords(47.6645492, 9.16800499)));
 
-        controlPoints.add(new RaceControlPoint("controlPoints5", coords(47.66558967, 9.16870236)));
+        controlPoints.add(new RaceControlPoint("controlPoints5", "Buoy", coords(47.66558967, 9.16870236)));
         
-        controlPoints.add(new RaceControlPoint("controlPoints6", coords(47.66532233, 9.17297244, 47.66486712, 9.17275786)));
+        controlPoints.add(new RaceControlPoint("controlPoints6", "Goal", coords(47.66532233, 9.17297244, 47.66486712, 9.17275786)));
         
         raceWithoutControlPoints.setControlPoints(controlPoints);
         
@@ -188,7 +223,7 @@ public class RaceAPI extends Controller {
         ArrayNode links = raceNode.putArray("links");
         ObjectNode raceLink = Json.newObject();
         raceLink.put("rel", "self");
-        raceLink.put("href", "http://192.168.178.68:9000/api/race/database");
+        raceLink.put("href", de.htwg.seapal.web.controllers.routes.RaceAPI.raceAsJson(race.getUUID()).absoluteURL(request()));
         links.add(raceLink);
 
         return raceNode;

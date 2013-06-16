@@ -8,6 +8,7 @@ $(document).ready(function() {
 		height: $(window).height() - $(".header-wrapper .navbar-fixed-top").height() + 21,
 		raceData  : $raceData,
 		startLat  : $raceData.trips[0].waypoints[0].coord.lat,
-		startLong : $raceData.trips[0].waypoints[0].coord.lng
+		startLong : $raceData.trips[0].waypoints[0].coord.lng,
+		saveRace   : jsRoutes.de.htwg.seapal.web.controllers.RaceAPI.addRace()
 	});
 });
