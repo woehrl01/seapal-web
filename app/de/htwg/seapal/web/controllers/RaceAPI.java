@@ -110,7 +110,13 @@ public class RaceAPI extends Controller {
                 curr.cog = (int) bearing(prev.coord.lat, prev.coord.lng, curr.coord.lat, curr.coord.lng);
                 prev = curr;
             }
+            
+            
+            //fake start and goal passing :)
+            //trip.waypoints.get(3).markPassing = race.getControlPoints().get(0).id;
+            //trip.waypoints.get(trip.waypoints.size()-3).markPassing = race.getControlPoints().get(race.getControlPoints().size()-1).id;
         }
+
         
         return ok(Json.toJson(race));
     }
