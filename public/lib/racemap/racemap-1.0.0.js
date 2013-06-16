@@ -26,7 +26,8 @@
 			polyOptions : {
 				strokeColor: '#000000',
 				strokeOpacity: 0.5,
-				strokeWeight: 3
+				strokeWeight: 3,
+				clickable: false
 			},
 			markerOptions : {
 				image : new google.maps.MarkerImage(
@@ -103,13 +104,16 @@
 		// controlPoints (before called markers)
 		var controlPoints = [];
 		
+		// TODO: check array size xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+		var assignedMarkPassings = {}; // array type: [routeDataEntry][controlPoint] = [{marker:..., waypoint:...}][controlPoint]
+		
 		var startMarkers = [];
 		var startPath = null;
 
 		var goalMarkers = [];
 		var goalPath = null;	
 		
-		var activeWaypoint = null;
+		var activeRouteData = null;
 		
 		// The states of the plugin
 		var States = {
@@ -241,10 +245,22 @@
 		* *********************************************************************************
 		*/
 		function initGoogleMapsListeners() {
-			// move
-			google.maps.event.addListener(map, 'bounds_changed', function() {
+			// bounds change
+			google.maps.event.addListener(map, 'bounds_changed', function(event) {
 				if (crosshairMarker != null && contextMenuVisible) {
 					updateContextMenuPosition(crosshairMarker.getPosition());
+				}
+			});
+			// mouse move
+			google.maps.event.addListener(map, 'mousemove', function(event) {
+				switch(state) {
+					case States.START:
+						updateStartLine(event.latLng);
+						break;
+						
+					case States.GOAL:
+						updateGoalLine(event.latLng);
+						break;
 				}
 			});
 			// right-click
@@ -269,6 +285,10 @@
 						removeGoalFromMap();
 						state = States.NORMAL;
 						break;
+						
+					case States.MARKPASSING:
+						state = States.NORMAL;
+						break;
 				}
 			});
 			// left click
@@ -291,6 +311,10 @@
 						
 					case States.GOAL:
 						addGoalMarker(event.latLng);
+						break;
+						
+					case States.MARKPASSING:
+						state = States.NORMAL;
 						break;
 				}
 			});	
@@ -322,7 +346,7 @@
 						clickedRaceDataEntity.marker.getPosition(),
 						ContextMenuTypes.ROUTE_POINTMARKER,
 						clickedRaceDataEntity.marker);
-					activeWaypoint = clickedRaceDataEntity.waypoint;
+					activeRouteData = clickedRaceDataEntity;
 					activeRoute = this;
 				}
 				
@@ -385,6 +409,11 @@
 		function activateRoute(route) {
 			hideCrosshairMarker(crosshairMarker);
 			hideContextMenu();
+			if (state == States.START){
+				removeStartFromMap();
+			} else if (state == States.GOAL) {
+				removeGoalFromMap();
+			}
 			showSidebarWithRoute(route);
 			activeRoute = route;
 			state = States.NORMAL;
@@ -708,7 +737,7 @@
 		*/
 		function handleShowRouteMarkerInfo() {
 			hideContextMenu();
-			showSidebarWithWaypoint(activeRoute, activeWaypoint);
+			showSidebarWithWaypoint(activeRoute, activeRouteData.waypoint);
 		}
 		
 		/**
@@ -718,7 +747,27 @@
 		*/
 		function handleAssignMarkPassing() {
 			hideContextMenu();
-			alert('not implemented');
+			assignMarkPassing(activeRouteData);
+		}
+		
+		/**
+		* *********************************************************************************
+		* Starts assining a mark passing to the selected waypoint data entity.
+		* *********************************************************************************
+		*/
+		function assignMarkPassing(routeData) {
+			state = States.MARKPASSING;
+		}
+		
+		/**
+		* *********************************************************************************
+		* Assigns the waypoint to the control point to define a mark passing.
+		* *********************************************************************************
+		*/
+		function assignMarkPassingWithControlPoint(routeData, controlPoint) {
+			assignedMarkPassings[routeData] = controlPoint;
+			console.log(assignedMarkPassings[routeData]);
+			state = States.NORMAL;
 		}
 		
 		/**
@@ -798,6 +847,10 @@
 			google.maps.event.addListener(newMarker, 'click', function() {
 				hideCrosshairMarker(crosshairMarker);
 				hideContextMenu();
+
+				if (state == States.MARKPASSING) {
+					assignMarkPassingWithControlPoint(activeRouteData, newMarker);
+				}
 			});
 
 			google.maps.event.addListener(newMarker, 'rightclick', function(event) {
@@ -890,7 +943,14 @@
 		*/
 		function updateStartLine(position) {
 			var newPath = new Array();
-			if (startMarkers.length == 2) {
+
+			if (position && startMarkers.length == 1) {
+				startPath.setMap(null);
+				initStartPath();
+				newPath[0] = startMarkers[0].getPosition();
+				newPath[1] = position;
+				startPath.setPath(newPath);
+			} else if (startMarkers.length == 2) {
 				startPath.setMap(null);
 				initStartPath();
 				for (var i = 0; i < startMarkers.length; ++i) {
@@ -972,7 +1032,14 @@
 		*/
 		function updateGoalLine(position) {
 			var newPath = new Array();
-			if (goalMarkers.length == 2) {
+			
+			if (position && goalMarkers.length == 1) {
+				goalPath.setMap(null);
+				initGoalPath();
+				newPath[0] = goalMarkers[0].getPosition();
+				newPath[1] = position;		
+				goalPath.setPath(newPath);
+			}else if (goalMarkers.length == 2) {
 				goalPath.setMap(null);
 				initGoalPath();
 				for (var i = 0; i < goalMarkers.length; ++i) {
@@ -1055,27 +1122,44 @@
 			var match = url.match(re);
 			return(match ? match[1] : "");
 		}
-		
-		/**
-		 * *********************************************************************************
-		 * Creates a random and unique UUID.
-		 * *********************************************************************************
-		 */
-		function createUUID() {
-		    // http://www.ietf.org/rfc/rfc4122.txt
-		    var s = [];
-		    var hexDigits = "0123456789abcdef";
-		    for (var i = 0; i < 36; i++) {
-		        s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
-		    }
-		    s[14] = "4";  // bits 12-15 of the time_hi_and_version field to 0010
-		    s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1);  // bits 6-7 of the clock_seq_hi_and_reserved to 01
-		    s[8] = s[13] = s[18] = s[23] = "-";
-
-		    var uuid = s.join("");
-		    return uuid;
-		}
 	};
+	
+	/**
+	 * *********************************************************************************
+	 * Creates a random and unique UUID.
+	 * *********************************************************************************
+	 */
+	function createUUID() {
+	    // http://www.ietf.org/rfc/rfc4122.txt
+	    var s = [];
+	    var hexDigits = "0123456789abcdef";
+	    for (var i = 0; i < 36; i++) {
+	        s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
+	    }
+	    s[14] = "4";  // bits 12-15 of the time_hi_and_version field to 0010
+	    s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1);  // bits 6-7 of the clock_seq_hi_and_reserved to 01
+	    s[8] = s[13] = s[18] = s[23] = "-";
+
+	    var uuid = s.join("");
+	    return uuid;
+	}
+	
+	/**
+	* *********************************************************************************
+	* Calculates the distance in meters between two GEO-coordinates (lat/lng).
+	* *********************************************************************************
+	*/
+	function distance(lat1,lon1,lat2,lon2) {
+		var R = 6371; // km (change this constant to get miles)
+		var dLat = (lat2-lat1) * Math.PI / 180;
+		var dLon = (lon2-lon1) * Math.PI / 180; 
+		var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+			Math.cos(lat1 * Math.PI / 180 ) * Math.cos(lat2 * Math.PI / 180 ) * 
+			Math.sin(dLon/2) * Math.sin(dLon/2); 
+		var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+		var d = R * c;
+		return Math.round(d*1000); // in meters
+	}
 	
 	/**
 	 * ########################################################################################################
@@ -1291,31 +1375,14 @@
 
 			if( this.routeData.length > 1 ) {
 				for( var i = 0; i < this.routeData.length - 1; ++i ) {
-					dist += this.distance(	this.routeData[i].marker.getPosition().lat(),
+					dist += distance(	this.routeData[i].marker.getPosition().lat(),
 									 		this.routeData[i].marker.getPosition().lng(),
 									 		this.routeData[i + 1].marker.getPosition().lat(),
-									 		this.routeData[i + 1].marker.getPosition().lng())
+									 		this.routeData[i + 1].marker.getPosition().lng());
 				}
 			}
 
 			return dist + "m";
-		}
-
-		/**
-		* *********************************************************************************
-		* Calculates the distance in meters between two GEO-coordinates (lat/lng).
-		* *********************************************************************************
-		*/
-		this.distance = function(lat1,lon1,lat2,lon2) {
-			var R = 6371; // km (change this constant to get miles)
-			var dLat = (lat2-lat1) * Math.PI / 180;
-			var dLon = (lon2-lon1) * Math.PI / 180; 
-			var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-				Math.cos(lat1 * Math.PI / 180 ) * Math.cos(lat2 * Math.PI / 180 ) * 
-				Math.sin(dLon/2) * Math.sin(dLon/2); 
-			var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-			var d = R * c;
-			return Math.round(d*1000); // in meters
 		}
 		
 		/**
