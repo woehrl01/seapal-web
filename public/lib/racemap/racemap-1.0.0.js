@@ -1573,7 +1573,7 @@
 						var newControlPointUUID = createUUID();
 						storedControlPoints.push({
 							controlPoint: controlPoint,
-							id = newControlPointUUID
+							id : newControlPointUUID
 						});
 						
 						// create controlPoint
