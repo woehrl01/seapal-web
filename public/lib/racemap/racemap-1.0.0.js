@@ -1554,29 +1554,33 @@
 			
 			// set start passing for every route
 			for (var i = 0; i < startPassings.length; ++i) {
-				var routeData = startPassings[i].routeData;
+				if (startPassings[i] != null) {
+					var routeData = startPassings[i].routeData;
 				
-				routeData.waypoint.markPassing = startUUID;
+					routeData.waypoint.markPassing = startUUID;
+				}
 			}
 			
 			// CONTROL POINTS / MARK PASSINGS
 			for (var i = 0; i < assignedMarkPassings.length; ++i) {
-				var controlPoint = assignedMarkPassings[i].controlPoint;
-				var routeData = assignedMarkPassings[i].routeData;
-				
-				// create controlPoint
-				var newControlPointUUID = createUUID();
-				resultRace.controlPoints.push({
-					id: newControlPointUUID,
-					name: "Moored Buoy",
-					coords: {
-						lat: controlPoint.getPosition().lat(),
-						lng: controlPoint.getPosition().lng()
-					}
-				});
-				
-				// set mark passings
-				routeData.waypoint.markPassing = newControlPointUUID;
+				if (assignedMarkPassings[i] != null) {
+					var controlPoint = assignedMarkPassings[i].controlPoint;
+					var routeData = assignedMarkPassings[i].routeData;
+					
+					// create controlPoint
+					var newControlPointUUID = createUUID();
+					resultRace.controlPoints.push({
+						id: newControlPointUUID,
+						name: "Moored Buoy",
+						coords: {
+							lat: controlPoint.getPosition().lat(),
+							lng: controlPoint.getPosition().lng()
+						}
+					});
+					
+					// set mark passings
+					routeData.waypoint.markPassing = newControlPointUUID;
+				}
 			}
 			
 			// GOAL
@@ -1595,9 +1599,11 @@
 			
 			// set goal passing for every route
 			for (var i = 0; i < goalPassings.length; ++i) {
-				var routeData = goalPassings[i].routeData;
+				if (goalPassings[i] != null) {
+					var routeData = goalPassings[i].routeData;
 				
-				routeData.waypoint.markPassing = goalUUID;
+					routeData.waypoint.markPassing = goalUUID;
+				}
 			}
 			
 			return resultRace;
