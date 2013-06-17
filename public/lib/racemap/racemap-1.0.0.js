@@ -1561,25 +1561,36 @@
 				}
 			}
 			
+			var storedControlPoints = [];
+			
 			// CONTROL POINTS / MARK PASSINGS
 			for (var i = 0; i < assignedMarkPassings.length; ++i) {
 				if (assignedMarkPassings[i] != null) {
 					var controlPoint = assignedMarkPassings[i].controlPoint;
 					var routeData = assignedMarkPassings[i].routeData;
 					
-					// create controlPoint
-					var newControlPointUUID = createUUID();
-					resultRace.controlPoints.push({
-						id: newControlPointUUID,
-						name: "Moored Buoy",
-						coords: {
-							lat: controlPoint.getPosition().lat(),
-							lng: controlPoint.getPosition().lng()
-						}
-					});
+					if (!arrayContainsControlPoint(storedControlPoints, controlPoint)) {
+						var newControlPointUUID = createUUID();
+						storedControlPoints.push({
+							controlPoint: controlPoint,
+							id = newControlPointUUID
+						});
+						
+						// create controlPoint
+						resultRace.controlPoints.push({
+							id: newControlPointUUID,
+							name: "Moored Buoy",
+							coords: {
+								lat: controlPoint.getPosition().lat(),
+								lng: controlPoint.getPosition().lng()
+							}
+						});
+					}
 					
 					// set mark passings
-					routeData.waypoint.markPassing = newControlPointUUID;
+					var controlPointUUID = getIdOfStoredControlPoint(storedControlPoints, controlPoint);
+					
+					routeData.waypoint.markPassing = controlPointUUID;
 				}
 			}
 			
@@ -1607,6 +1618,25 @@
 			}
 			
 			return resultRace;
+		}
+		
+		function arrayContainsControlPoint(objArray, controlPoint) {
+			for (var i = 0; i < objArray.length; ++i) {
+				if (objArray[i].controlPoint == controlPoint) {
+					return true;
+				}
+			}
+			return false;
+		}
+		
+		function getIdOfStoredControlPoint(objArray, controlPoint) {
+			for (var i = 0; i < objArray.length; ++i) {
+				if (objArray[i].controlPoint == controlPoint) {
+					return objArray[i].id;
+				}
+			}
+			console.log("controlPoint not stored... :(");
+			return createUUID(); // should not occure!!!
 		}
 		
 		/**
