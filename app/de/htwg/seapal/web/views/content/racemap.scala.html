@@ -17,4 +17,32 @@
 			<div id="map_canvas" class="span12" style="width:100%;"></div>
 		</div>
 	</div>
+	
+	<!-- Modals -->
+	<div id="addSuccessModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="addSuccessModalLabel" aria-hidden="true">
+	  <div class="modal-header">
+	    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	    <h3 id="addSuccessModalLabel">Successful!</h3>
+	  </div>
+	  <div class="modal-body">
+	    <p>Race has been saved!</p>
+	  </div>
+	  <div class="modal-footer">
+	    <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">OK</button>
+	  </div>
+	</div>
+	
+	<div id="errorPromptModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="errorPromptModalLabel" aria-hidden="true">
+		  <div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		    <h3 id="errorPromptModalLabel">Error</h3>
+		  </div>
+		  <div class="modal-body">
+		    <p>An error occurred while saving the race. Please try again later! </p>
+		  </div>
+		  <div class="modal-footer">
+		  	<button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+    		<button class="btn btn-danger" data-dismiss="modal" aria-hidden="true">OK</button>
+		  </div>
+		</div>
 }

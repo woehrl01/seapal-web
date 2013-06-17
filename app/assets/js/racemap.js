@@ -9,6 +9,17 @@ $(document).ready(function() {
 		raceData  : $raceData,
 		startLat  : $raceData.trips[0].waypoints[0].coord.lat,
 		startLong : $raceData.trips[0].waypoints[0].coord.lng,
-		saveRace   : jsRoutes.de.htwg.seapal.web.controllers.RaceAPI.addRace()
+		saveRace   : jsRoutes.de.htwg.seapal.web.controllers.RaceAPI.addRace(),
+		saveSuccess: showSuccessModal,
+		saveError  : showErrorModal
 	});
+
 });
+
+function showSuccessModal() {
+	$('#addSuccessModal').modal('show');
+}
+
+function showErrorModal() {
+	$('#addErrorModal').modal('show');
+}

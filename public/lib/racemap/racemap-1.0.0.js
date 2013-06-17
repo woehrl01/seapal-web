@@ -10,11 +10,12 @@
 	* *************************************************************************************
 	*/
 	var options = {
-		raceData  : null,
-		startLat  : 47.655,
-		startLong : 9.205,
-		zoom      : 15,
-		saveRace  : null,
+		raceData   : null,
+		startLat   : 47.655,
+		startLong  : 9.205,
+		zoom       : 15,
+		saveRace   : null,
+		saveSuccess: null,
 		
 		height    : function() {
 			return;
@@ -32,10 +33,10 @@
 			},
 			markerOptions : {
 				image : new google.maps.MarkerImage(
-					"/assets/images/pin_marker.png",
-					new google.maps.Size(42, 42),
+					"/assets/images/pin_small.png",
+					new google.maps.Size(32, 32),
 					new google.maps.Point(0,0),
-					new google.maps.Point(21, 36))
+					new google.maps.Point(16, 29))
 			}
 		},
 		
@@ -49,9 +50,9 @@
 			markerOptions : {
 				image : new google.maps.MarkerImage(
 					"/assets/images/circle.png",
-					new google.maps.Size(20, 20),
+					new google.maps.Size(16, 16),
 					new google.maps.Point(0,0),
-					new google.maps.Point(10, 10))
+					new google.maps.Point(8, 8))
 			}
 		},
 		
@@ -60,14 +61,76 @@
 			polyOptions : {
 				strokeColor: '#550000',
 				strokeOpacity: 0.5,
-				strokeWeight: 2
+				strokeWeight: 2,
+				clickable: false
 			},
 			markerOptions : {
 				image : new google.maps.MarkerImage(
 					"/assets/images/circle.png",
-					new google.maps.Size(20, 20),
+					new google.maps.Size(16, 16),
 					new google.maps.Point(0,0),
-					new google.maps.Point(10, 10))
+					new google.maps.Point(8, 8))
+			}
+		},
+		
+		// Start options for the distance tool
+		startOptions : {
+			polyOptions : {
+				strokeColor: '#006600',
+				strokeOpacity: 0.75,
+				strokeWeight: 1,
+				clickable: false
+			},
+			markerOptions : {
+				image : new google.maps.MarkerImage(
+					"/assets/images/pin_small.png",
+					new google.maps.Size(32, 32),
+					new google.maps.Point(0,0),
+					new google.maps.Point(16, 29))
+			}
+		},
+		
+		// Goal options for the distance tool
+		goalOptions : {
+			polyOptions : {
+				strokeColor: '#006600',
+				strokeOpacity: 0.75,
+				strokeWeight: 1,
+				clickable: false
+			},
+			markerOptions : {
+				image : new google.maps.MarkerImage(
+					"/assets/images/goal.png",
+					new google.maps.Size(42, 42),
+					new google.maps.Point(0,0),
+					new google.maps.Point(21, 42))
+			}
+		},
+		
+		// Control point options for the distance tool
+		controlPointOptions : {
+			polyOptions : {
+				strokeColor: '#000000',
+				strokeOpacity: 0.2,
+				strokeWeight: 1,
+				clickable: false,
+				icons: [{
+				    icon: {
+				    	path: 'M 0,-0.5 0,0.5',
+				        strokeWeight: 2,
+				        strokeOpacity: 0.66,
+				        scale: 3
+				    },
+				    offset: '0',
+				    repeat: '10px'
+				}]
+			},
+			markerOptions : {
+				image : new google.maps.MarkerImage(
+					"/assets/images/buoy.png",
+					new google.maps.Size(42, 42),
+					new google.maps.Point(0,0),
+					new google.maps.Point(21, 42))
 			}
 		},
 		
@@ -111,9 +174,11 @@
 		
 		var startMarkers = [];
 		var startPath = null;
+		var startPassings = [];
 
 		var goalMarkers = [];
-		var goalPath = null;	
+		var goalPath = null;
+		var goalPassings = [];
 		
 		var activeRouteData = null;
 		
@@ -363,6 +428,7 @@
 						clickedRaceDataEntity.marker);
 					activeRouteData = clickedRaceDataEntity;
 					activeRoute = this;
+					hideCrosshairMarker(crosshairMarker);
 				}
 				
 				activeRoute.addEventListener("click", activate);
@@ -380,7 +446,7 @@
 		* *********************************************************************************
 		*/
 		function initStartPath() {
-			startPath = new google.maps.Polyline(options.defaultOptions.polyOptions);
+			startPath = new google.maps.Polyline(options.startOptions.polyOptions);
 			startPath.setMap(map);
 		}
 		
@@ -390,7 +456,7 @@
 		* *********************************************************************************
 		*/
 		function initGoalPath() {
-			goalPath = new google.maps.Polyline(options.defaultOptions.polyOptions);
+			goalPath = new google.maps.Polyline(options.goalOptions.polyOptions);
 			goalPath.setMap(map);
 		}
 		
@@ -400,7 +466,7 @@
 		* *********************************************************************************
 		*/
 		function initActiveAssignMarkPassingPath() {
-			activeAssignMarkPassingPath = new google.maps.Polyline(options.defaultOptions.polyOptions);
+			activeAssignMarkPassingPath = new google.maps.Polyline(options.controlPointOptions.polyOptions);
 			activeAssignMarkPassingPath.setMap(map);
 		}
 		
@@ -410,7 +476,7 @@
 		* *********************************************************************************
 		*/
 		function initMarkPassingPath(path) {
-			path = new google.maps.Polyline(options.defaultOptions.polyOptions);
+			path = new google.maps.Polyline(options.controlPointOptions.polyOptions);
 			path.setMap(map);
 			return path;
 		}
@@ -578,22 +644,26 @@
 			var ctx = '<div id="contextmenu">'
 			switch(contextMenuType) {
 				case ContextMenuTypes.DEFAULT:
-					ctx += '<button id="saveRace" type="button" class="btn btn-primary"><i class="icon-map-marker"></i> Save Race</button>';
+					if (canSaveRace()) {
+						ctx += '<button id="saveRace" type="button" class="btn btn-success"><i class="icon-check"></i> Save Race</button>';
+					} else {
+						ctx += '<button id="saveRace" type="button" class="btn btn-success disabled"><i class="icon-check"></i> Save Race</button>';
+					}
 					ctx += '<button id="addStart" type="button" class="btn"><i class="icon-map-marker"></i> Define Start</button>';
-					ctx += '<button id="addGoal" type="button" class="btn"><i class="icon-star"></i> Define Goal</button>';
-					ctx += '<button id="addControlPoint" type="button" class="btn"><i class="icon-star"></i> Set Control Point</button>';
+					ctx += '<button id="addGoal" type="button" class="btn"><i class="icon-flag"></i> Define Goal</button>';
+					ctx += '<button id="addControlPoint" type="button" class="btn"><i class="icon-download-alt"></i> Set Control Point</button>';
 					ctx += '<button id="addNewDistanceRoute" type="button" class="btn"><i class="icon-resize-full"></i> Distance from here</button>'
 						+ '<button id="hideContextMenu" type="button" class="btn"><i class="icon-remove"></i> Close</button>'; 
 					break;
 				case ContextMenuTypes.CONTROL_POINT:
-					ctx += '<button id="deleteMarker" type="button" class="btn"><i class="icon-map-marker"></i> Delete Control Point</button>';
+					ctx += '<button id="deleteMarker" type="button" class="btn"><i class="icon-remove-circle"></i> Delete Control Point</button>';
 					if (hasControlPointAssignedMarkPassing(selectedMarker)) {
-						ctx += '<button id="clearMarkPassings" type="button" class="btn"><i class="icon-map-marker"></i> Clear assigned Mark Passings</button>';
+						ctx += '<button id="clearMarkPassings" type="button" class="btn"><i class="icon-remove"></i> Clear assigned Mark Passings</button>';
 					}
 					break;
 				case ContextMenuTypes.ROUTE_POINTMARKER:
-					ctx += '<button id="showRouteMarkerInfo" type="button" class="btn"><i class="icon-map-marker"></i> Show Route Point Info</button>';
-					ctx += '<button id="assignMarkPassing" type="button" class="btn"><i class="icon-map-marker"></i> Assign Mark Passing</button>';
+					ctx += '<button id="showRouteMarkerInfo" type="button" class="btn"><i class="icon-question-sign"></i> Show Route Point Info</button>';
+					ctx += '<button id="assignMarkPassing" type="button" class="btn"><i class="icon-random"></i> Assign Mark Passing</button>';
 					break;
 			}
 			ctx += '</div>'
@@ -629,9 +699,8 @@
 			
 			showSidebar(
 					'Trip: <span class="badge" style="background-color:' + route.color + ';font-size: 14px">' + currentTrip.name + '</span>',
-					'Boat: ' + currentTrip.boat.name + '</span></br>' +
-					'IOC Code: ' + '###CODE###' + '</span></br>' +
-					'Tracked Distance: ' + route.getTotalDistanceText() + '</span>');
+					'<span class="entrytitle">Boat:</span>' + currentTrip.boat.name + '</br>' +
+					'<span class="entrytitle">Tracked Distance:</span>' + route.getTotalDistanceText());
 			appendContentIntoSidebar('<ul class="nav nav-tabs nav-stacked"></ul>');
 			appendContentIntoSidebar('<div class="buttons_bottom"><div><a class="closeIt btn btn-block" href="#close"> Close</a></div></div>');
 			
@@ -654,17 +723,19 @@
 		function showSidebarWithRouteData(route, routeData) {
 			var waypoint = routeData.waypoint;
 			var currentTrip = options.raceData.trips[route.id - 1];
+			console.log(waypoint);
+			console.log(currentTrip)
 
 			showSidebar(
-					'Waypoint Info <span class="badge" style="background-color:' + route.color + ';font-size: 14px">' + '#123' + '</span>',
-					'Lat: ' + waypoint.coord.lat + '</span></br>' +
-					'Lng: ' + waypoint.coord.lng + '</span></br>' +
-					'SOG: ' + waypoint.sog + '</span></br>' +
-					'COG: ' + waypoint.cog + '</span></br>' +
-					'DTM: ' + waypoint.dtm + '</span></br>' +
-					'BTM: ' + waypoint.btm + '</span></br>' +
-					'Timestamp: ' + waypoint.timestamp + '</span></br>' +
-					'Mark passing: ' + ((hasAssignedMarkPassing(routeData))? 'YES' : 'NO') + '</span>');
+					'Waypoint Info <span class="badge" style="background-color:' + route.color + ';font-size: 14px">#' + getWaypointIdNumber(currentTrip, waypoint) + '</span>',
+					'<span class="entrytitle">Lat:</span>' + waypoint.coord.lat + '</br>' +
+					'<span class="entrytitle">Lng:</span>' + waypoint.coord.lng + '</br>' +
+					'<span class="entrytitle">SOG:</span>' + waypoint.sog + '</br>' +
+					'<span class="entrytitle">COG:</span>' + waypoint.cog + '</br>' +
+					'<span class="entrytitle">DTM:</span>' + waypoint.dtm + '</br>' +
+					'<span class="entrytitle">BTM:</span>' + waypoint.btm + '</br>' +
+					'<span class="entrytitle">Timestamp:</span>' + waypoint.timestamp + '</span></br>' +
+					'<span class="entrytitle">Mark passing:</span>' + ((hasAssignedMarkPassing(routeData))? 'YES' : 'NO'));
 			appendContentIntoSidebar('<ul class="nav nav-tabs nav-stacked"></ul>');
 			appendContentIntoSidebar('<div class="buttons_bottom"><div><a class="closeIt btn btn-block" href="#close"> Close</a></div></div>');
 			
@@ -673,6 +744,20 @@
 			$this.on("click.sidebar", ".racemapsidebar a.closeIt", function(){
 				hideSidebar();
 			});
+		}
+		
+		/**
+		* *********************************************************************************
+		* Gets the index number of the given waypoint in the triplist.
+		* *********************************************************************************
+		*/	
+		function getWaypointIdNumber(trip, waypoint) {
+			for (var i = 0; i < trip.waypoints.length; ++i) {
+				if (trip.waypoints[i] == waypoint)
+					return i;
+			}
+			
+			return 0;
 		}
 		
 		/**
@@ -756,10 +841,26 @@
 				contentType: "application/json; charset=utf-8",
 			    dataType: "json",
 				data     : JSON.stringify(getAggregatedRaceDataAsJson()),
-				success  : function(response){
-					alert('success');
+				success  : function(response) {
+					if (options.saveSuccess) {
+						options.saveSuccess();
+					}
+				},
+				error    : function(response) {
+					if (options.saveError) {
+						options.saveError();
+					}
 				}
 			});
+		}
+		
+		/**
+		* *********************************************************************************
+		* Verfifies whether the race can be saved.
+		* *********************************************************************************
+		*/		
+		function canSaveRace() {
+			return startMarkers.length == 2 && goalMarkers.length == 2;
 		}
 
 		/**
@@ -901,29 +1002,6 @@
 		
 		/**
 		* *********************************************************************************
-		* Updates all assigned mark passing paths
-		* *********************************************************************************
-		*/
-		/*function updateMarkPassingPath() {
-			
-			for (var i = 0; i < assignedMarkPassings.length; ++i) {
-				if (assignedMarkPassings[i] == null)
-					continue;
-					
-				var controlPoint = assignedMarkPassings[i].controlPoint;
-				var routeData = assignedMarkPassings[i].routeData;
-				
-				var markPassingPath = initMarkPassingPath();
-				var newPath = new Array();
-				newPath[0] = controlPoint.getPosition();
-				newPath[1] = routeData.marker.getPosition();
-
-				markPassingPath.setPath(newPath);
-			}
-		}*/
-		
-		/**
-		* *********************************************************************************
 		* Updates the assigned mark passing paths of the given control point.
 		* *********************************************************************************
 		*/
@@ -938,7 +1016,6 @@
 				var path = assignedMarkPassings[i].path;
 				
 				if (controlPoint == controlPointToUpdate) {
-					//var markPassingPath = initMarkPassingPath();
 					var newPath = new Array();
 					newPath[0] = controlPoint.getPosition();
 					newPath[1] = routeData.marker.getPosition();
@@ -974,7 +1051,25 @@
 		* *********************************************************************************
 		*/
 		function removeMarkPassingPathOfRouteData(routeDataToRemove) {
+			// start
+			for (var i = 0; i < startPassings.length; ++i) {
+				if (startPassings[i] != null && startPassings[i].routeData == routeDataToRemove) {
+					startPassings[i].paths[0].setMap(null);
+					startPassings[i].paths[1].setMap(null);
+					startPassings[i] = null;
+				}
+			}
 			
+			// goal
+			for (var i = 0; i < goalPassings.length; ++i) {
+				if (goalPassings[0] != null && goalPassings[0].routeData == routeDataToRemove) {
+					goalPassings[0].paths[0].setMap(null);
+					goalPassings[0].paths[1].setMap(null);
+					goalPassings[0] = null;
+				}
+			}
+			
+			// control points
 			for (var i = 0; i < assignedMarkPassings.length; ++i) {
 				if (assignedMarkPassings[i] == null)
 					continue;
@@ -989,6 +1084,20 @@
 		}
 		
 		function hasAssignedMarkPassing(routeDataToFind) {
+			// start
+			for (var i = 0; i < startPassings.length; ++i) {
+				if (startPassings[i] != null && startPassings[i].routeData == routeDataToFind) {
+					return true;
+				}
+			}
+			
+			// goal
+			for (var i = 0; i < goalPassings.length; ++i) {
+				if (goalPassings[i] != null && goalPassings[i].routeData == routeDataToFind) {
+					return true;
+				}
+			}
+			
 			for (var i = 0; i < assignedMarkPassings.length; ++i) {
 				if (assignedMarkPassings[i] == null)
 					continue;
@@ -1097,7 +1206,7 @@
 			var newMarker = new google.maps.Marker({
 				map: map,
 				position: position,
-				icon: options.defaultOptions.markerOptions.image,
+				icon: options.controlPointOptions.markerOptions.image,
 				draggable: true
 			});
 			
@@ -1118,6 +1227,7 @@
 				removeActiveMarkPassingPathFromMap();
 				state = States.NORMAL;
 				showContextMenu(event.latLng, ContextMenuTypes.CONTROL_POINT, newMarker);
+				hideCrosshairMarker(crosshairMarker);
 			});
 			
 			controlPoints[controlPoints.length] = newMarker;
@@ -1168,10 +1278,15 @@
 			google.maps.event.addListener(newMarker, 'click', function() {
 				hideCrosshairMarker(crosshairMarker);
 				hideContextMenu();
+				
+				if (state == States.MARKPASSING) {
+					assignMarkPassingToStart(activeRouteData, newMarker);
+				}
 			});
 			
 			google.maps.event.addListener(newMarker, 'drag', function() {
 				updateStartLine();
+				updateMarkPassingPathOfStart();
 			});
 			
 			startMarkers[startMarkers.length] = newMarker;
@@ -1196,6 +1311,14 @@
 				this.setMap(null);
 			});
 			startMarkers = [];
+			
+			for (var i = 0; i < startPassings.length; ++i) {
+				if (startPassings[i] != null) {
+					startPassings[i].paths[0].setMap(null);
+					startPassings[i].paths[1].setMap(null);
+					startPassings[i] = null;
+				}
+			}
 			
 			updateStartLine();
 		}
@@ -1226,6 +1349,45 @@
 		
 		/**
 		* *********************************************************************************
+		* Assigns the waypoint to the control point to define a mark passing.
+		* *********************************************************************************
+		*/
+		function assignMarkPassingToStart(routeData) {
+			startPassings.push({
+				routeData: routeData,
+				paths: [
+				    initMarkPassingPath(),
+				    initMarkPassingPath()
+				]
+			});
+			removeActiveMarkPassingPathFromMap();
+			updateMarkPassingPathOfStart();
+			
+			state = States.NORMAL;
+		}
+		
+		/**
+		* *********************************************************************************
+		* Updates the assigned mark passing paths of the start line.
+		* *********************************************************************************
+		*/
+		function updateMarkPassingPathOfStart() {
+			for (var i = 0; i < startPassings.length; ++i) {
+				if (startPassings[i] == null || startMarkers.length != 2)
+					continue;
+
+				for (var j = 0; j < startMarkers.length; ++j) {
+					var path = startPassings[i].paths[j];
+					var newPath = new Array();
+					newPath[0] = startMarkers[j].getPosition();
+					newPath[1] = startPassings[i].routeData.marker.getPosition();
+					path.setPath(newPath);
+				}
+			}
+		}
+		
+		/**
+		* *********************************************************************************
 		* Handler function for defining a new goal to the map.
 		* Also hides the context menu and the crosshair.
 		* *********************************************************************************
@@ -1250,17 +1412,22 @@
 			var newMarker = new google.maps.Marker({
 				map: map,
 				position: position,
-				icon: options.defaultOptions.markerOptions.image,
+				icon: options.goalOptions.markerOptions.image,
 				draggable: true
 			});
 			
 			google.maps.event.addListener(newMarker, 'click', function() {
 				hideCrosshairMarker(crosshairMarker);
 				hideContextMenu();
+				
+				if (state == States.MARKPASSING) {
+					assignMarkPassingToGoal(activeRouteData, newMarker);
+				}
 			});
 			
 			google.maps.event.addListener(newMarker, 'drag', function() {
 				updateGoalLine();
+				updateMarkPassingPathOfGoal();
 			});
 			
 			goalMarkers[goalMarkers.length] = newMarker;
@@ -1286,6 +1453,14 @@
 			});
 			goalMarkers = [];
 			
+			for (var i = 0; i < startPassings.length; ++i) {
+				if (goalPassings[i] != null) {
+					goalPassings[i].paths[0].setMap(null);
+					goalPassings[i].paths[1].setMap(null);
+					goalPassings[i] = null;
+				}
+			}
+			
 			updateGoalLine();
 		}
 		
@@ -1303,13 +1478,52 @@
 				newPath[0] = goalMarkers[0].getPosition();
 				newPath[1] = position;		
 				goalPath.setPath(newPath);
-			}else if (goalMarkers.length == 2) {
+			} else if (goalMarkers.length == 2) {
 				goalPath.setMap(null);
 				initGoalPath();
 				for (var i = 0; i < goalMarkers.length; ++i) {
 					newPath[i] = goalMarkers[i].getPosition();
 				}
 				goalPath.setPath(newPath);
+			}
+		}
+		
+		/**
+		* *********************************************************************************
+		* Assigns the waypoint to the control point to the goal.
+		* *********************************************************************************
+		*/
+		function assignMarkPassingToGoal(routeData) {
+			goalPassings.push({
+				routeData: routeData,
+				paths: [
+				    initMarkPassingPath(),
+				    initMarkPassingPath()
+				]
+			});
+			removeActiveMarkPassingPathFromMap();
+			updateMarkPassingPathOfGoal();
+			
+			state = States.NORMAL;
+		}
+		
+		/**
+		* *********************************************************************************
+		* Updates the assigned mark passing paths of the goal line.
+		* *********************************************************************************
+		*/
+		function updateMarkPassingPathOfGoal() {
+			for (var i = 0; i < goalPassings.length; ++i) {
+				if (goalPassings[i] == null || goalMarkers.length != 2)
+					continue;
+
+				for (var j = 0; j < goalMarkers.length; ++j) {
+					var path = goalPassings[i].paths[j];
+					var newPath = new Array();
+					newPath[0] = goalMarkers[j].getPosition();
+					newPath[1] = goalPassings[i].routeData.marker.getPosition();
+					path.setPath(newPath);
+				}
 			}
 		}
 		
@@ -1324,9 +1538,10 @@
 			var resultRace = options.raceData; // TODO: check deep copy neccessary?
 			resultRace.controlPoints = [];
 			
-			// start
+			// START
+			var startUUID = createUUID();
 			resultRace.controlPoints.push({
-				id: createUUID(),
+				id: startUUID,
 				name: "Start",
 				coords: [{
 					lat: startMarkers[0].getPosition().lat(),
@@ -1337,7 +1552,14 @@
 				}]
 			});
 			
-			// control points / mark passings
+			// set start passing for every route
+			for (var i = 0; i < startPassings.length; ++i) {
+				var routeData = startPassings[i].routeData;
+				
+				routeData.waypoint.markPassing = startUUID;
+			}
+			
+			// CONTROL POINTS / MARK PASSINGS
 			for (var i = 0; i < assignedMarkPassings.length; ++i) {
 				var controlPoint = assignedMarkPassings[i].controlPoint;
 				var routeData = assignedMarkPassings[i].routeData;
@@ -1357,9 +1579,10 @@
 				routeData.waypoint.markPassing = newControlPointUUID;
 			}
 			
-			// goal
+			// GOAL
+			var goalUUID = createUUID();
 			resultRace.controlPoints.push({
-				id: createUUID(),
+				id: goalUUID,
 				name: "Goal",
 				coords: [{
 					lat: goalMarkers[0].getPosition().lat(),
@@ -1369,6 +1592,13 @@
 					lng: goalMarkers[1].getPosition().lng()
 				}]
 			});
+			
+			// set goal passing for every route
+			for (var i = 0; i < goalPassings.length; ++i) {
+				var routeData = goalPassings[i].routeData;
+				
+				routeData.waypoint.markPassing = goalUUID;
+			}
 			
 			return resultRace;
 		}

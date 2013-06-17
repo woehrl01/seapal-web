@@ -96,6 +96,11 @@ body.googlemaps
 	overflow: hidden;
 }
 
+.racemapsidebar span.entrytitle {
+	width: 110px;
+	display: inline-table;
+}
+
 .racemapsidebar div.buttons_bottom {
 	width:100%;
 }
